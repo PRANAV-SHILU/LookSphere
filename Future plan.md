@@ -3,6 +3,7 @@
 > **Note:** Before implementing these changes, migrate API to MockAPI.com
 
 Google OAuth
+Enter to go to new inout field or form.submit() to trigger login flow
 
 ---
 

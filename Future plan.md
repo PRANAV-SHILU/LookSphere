@@ -4,6 +4,9 @@
 
 Google OAuth
 Enter to go to new inout field or form.submit() to trigger login flow
+image to do: https://prnt.sc/_M1kcgNbD0KP , https://prnt.sc/mi-pAyBT1lPs
+in secureauth in our design with removing toast only for success not for failure, add model for login and register success
+back on login
 
 ---
 

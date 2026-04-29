@@ -19,7 +19,7 @@ export async function editAction({ request }) {
   const users = await res.json();
 
   const mobileExists = users.some(
-    (u) => u.mobile === mobile && u.id !== currentUserID
+    (u) => u.mobile === mobile && u.id !== currentUserID,
   );
 
   if (mobileExists) {

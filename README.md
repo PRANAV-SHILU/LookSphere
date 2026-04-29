@@ -26,27 +26,27 @@ SecureAuth is A lightweight authentication system built with React and React Rou
 
 ## 🚀 Features
 
-* User Registration
-* User Login
-* Logout Handling
-* Edit User Details
-* Protected Dashboard Routes
-* Query String Handling
-* Schema-based Form Validation
-* Toast Notifications for User Feedback
-* Loading Indicators with Spinners
-* Multi-user handling via API state
+- User Registration
+- User Login
+- Logout Handling
+- Edit User Details
+- Protected Dashboard Routes
+- Query String Handling
+- Schema-based Form Validation
+- Toast Notifications for User Feedback
+- Loading Indicators with Spinners
+- Multi-user handling via API state
 
 ---
 
 ## 🛠 Tech Stack
 
-* **Frontend:** React JS
-* **Routing:** React Router DOM
-* **Forms:** React Hook Form
-* **Validation:** Yup
-* **API Layer:** JSON Server (Self-made REST API)
-* **UI Feedback:** React Toastify, React Spinners
+- **Frontend:** React JS
+- **Routing:** React Router DOM
+- **Forms:** React Hook Form
+- **Validation:** Yup
+- **API Layer:** JSON Server (Self-made REST API)
+- **UI Feedback:** React Toastify, React Spinners
 
 ---
 
@@ -60,7 +60,7 @@ yup
 @hookform/resolvers
 react-toastify
 react-spinners
-````
+```
 
 ---
 

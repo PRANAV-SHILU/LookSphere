@@ -15,6 +15,6 @@ export const registerSchema = yup.object({
 
   confirmPassword: commonSchema.oneOf(
     [yup.ref("password")],
-    "Passwords must match"
+    "Passwords must match",
   ),
 });

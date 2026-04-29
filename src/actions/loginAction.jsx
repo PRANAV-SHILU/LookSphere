@@ -17,7 +17,7 @@ export async function loginAction({ request }) {
 
   //checking whether user exists or not
   const user = users.find(
-    (u) => u.mobile === mobile && u.password === password
+    (u) => u.mobile === mobile && u.password === password,
   );
 
   // return error if user not exists

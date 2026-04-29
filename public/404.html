@@ -1,21 +1,19 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-
-<head>
+  <head>
     <meta charset="utf-8" />
     <title>Redirecting…</title>
     <script>
-        const repo = "/SecureAuth";
-        const path = location.pathname;
+      const repo = "/SecureAuth";
+      const path = location.pathname;
 
-        if (!path.startsWith(repo)) {
-            location.replace(repo + path);
-        } else {
-            location.replace(repo + "/");
-        }
+      if (!path.startsWith(repo)) {
+        location.replace(repo + path);
+      } else {
+        location.replace(repo + "/");
+      }
     </script>
-</head>
+  </head>
 
-<body></body>
-
+  <body></body>
 </html>

@@ -35,7 +35,10 @@
   background: linear-gradient(180deg, #121821, #181f2b);
   padding: 28px 32px;
   border-radius: 14px;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
   border: 1px solid transparent;
 }
 
@@ -98,7 +101,9 @@
   border: 1px solid rgba(77, 163, 255, 0.1);
   border-radius: 10px;
   padding: 16px 18px;
-  transition: border-color 0.2s ease, background 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
 }
 
 .future-card:hover {

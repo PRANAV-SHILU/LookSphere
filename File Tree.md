@@ -1,6 +1,5 @@
 # File Tree: SecureAuth
 
-
 ```
 ├── 📁 public
 │   └── 🌐 404.html

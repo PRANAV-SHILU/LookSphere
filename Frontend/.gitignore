@@ -24,6 +24,8 @@ dist-ssr
 *.sw?
 
 
-# personal - delete later
+# sensitive files
+.env
 
+# personal - delete later
 improvement.md

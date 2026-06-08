@@ -1,24 +1,17 @@
 import { redirect } from "react-router-dom";
-import { fetchAllUsers } from "../services/userService";
+import { fetchCurrentUser } from "../services/userService";
 
 export async function userLoader() {
-  const currentUserID = localStorage.getItem("currentUserID");
-
-  if (!currentUserID) {
-    return redirect("/login");
-  }
-
   try {
-    const users = await fetchAllUsers();
-    const user = users.find((u) => u.id === currentUserID);
+    // TODO: Fetch user profile using JWT token
+    const user = await fetchCurrentUser();
 
-    if (!user || !user.isLoggedIn) {
+    if (!user) {
       return redirect("/login");
     }
 
     return user;
   } catch (err) {
-    // Throw so React Router's errorElement (ErrorBoundary) displays the message.
     throw new Error(err.message || "Failed to load user data. Please refresh.");
   }
 }

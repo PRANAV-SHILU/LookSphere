@@ -5,18 +5,12 @@ export async function logoutAction() {
   const confirmed = confirm("Are you sure you want to logout?");
   if (!confirmed) return;
 
-  const currentUserID = localStorage.getItem("currentUserID");
-
   try {
-    if (currentUserID) {
-      await logoutUser(currentUserID);
-    }
+    await logoutUser();
   } catch (err) {
-    // Even if the API call fails, clear the local session and redirect.
-    // The user should never be stuck logged in due to a network error.
     console.error("Logout API error:", err.message);
   } finally {
-    localStorage.removeItem("currentUserID");
+    // TODO: Clear real JWT tokens here
   }
 
   return redirect("/login?logout=success");

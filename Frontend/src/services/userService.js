@@ -1,20 +1,13 @@
 import { getAllUsers, getUserById, updateUser } from "../network/userApi";
 
 export async function fetchAllUsers() {
-  return getAllUsers();
+  throw new Error("Backend integration pending");
 }
 
 export async function fetchCurrentUser(userId) {
-  try {
-    return await getUserById(userId);
-  } catch (err) {
-    if (err.response?.status === 404) {
-      return null;
-    }
-    throw err;
-  }
+  throw new Error("Backend integration pending");
 }
 
 export async function updateUserProfile(userId, data) {
-  return updateUser(userId, data);
+  throw new Error("Backend integration pending");
 }

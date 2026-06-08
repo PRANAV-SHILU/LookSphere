@@ -8,12 +8,7 @@ export async function registerAction({ request }) {
   const password = formData.get("password");
 
   try {
-    const result = await registerUser(name, mobile, password);
-
-    if (!result.success) {
-      return { error: result.error };
-    }
-
+    await registerUser(name, mobile, password);
     return redirect("/login?registered=success");
   } catch (err) {
     return { error: err.message || "Registration failed. Please try again." };

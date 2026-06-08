@@ -21,13 +21,7 @@ export const registerValidation = [
     .notEmpty()
     .withMessage("email is required")
     .isEmail()
-    .withMessage("email is invalid")
-    .custom((value) => {
-      if (value.includes(" ")) {
-        throw new Error("email cannot contain spaces");
-      }
-      return true;
-    }),
+    .withMessage("email is invalid"),
 
   check("password")
     .trim()
@@ -61,13 +55,7 @@ export const loginValidation = [
     .notEmpty()
     .withMessage("email is required")
     .isEmail()
-    .withMessage("email is invalid")
-    .custom((value) => {
-      if (value.includes(" ")) {
-        throw new Error("email cannot contain spaces");
-      }
-      return true;
-    }),
+    .withMessage("email is invalid"),
 
   check("password")
     .trim()

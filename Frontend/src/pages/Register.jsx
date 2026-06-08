@@ -23,6 +23,8 @@ export default function Register() {
     mode: "all",
   });
 
+  // remove name keep username in lowercase, remove mobile keep email
+
   return (
     <section className="login-section">
       <Form method="post" className="form">

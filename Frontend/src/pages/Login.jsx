@@ -40,6 +40,7 @@ export default function Login() {
     mode: "all",
   });
 
+  // remove mobile keep email
   return (
     <section className="login-section">
       <Form method="post" className="form">

@@ -3,11 +3,11 @@ import { loginUser } from "../services/authService";
 
 export async function loginAction({ request }) {
   const formData = await request.formData();
-  const mobile = formData.get("mobile");
+  const email = formData.get("email");
   const password = formData.get("password");
 
   try {
-    await loginUser(mobile, password);
+    await loginUser(email, password);
 
     // TODO: Store real JWT tokens here
 

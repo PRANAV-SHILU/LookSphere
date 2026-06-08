@@ -3,18 +3,20 @@ import * as yup from "yup";
 const commonSchema = yup.string().required("This field is required");
 
 export const registerSchema = yup.object({
-  name: commonSchema.min(3, "Minimum 3 character long name required").trim(),
+  username: commonSchema
+    .min(3, "username must be at least 3 characters long")
+    .trim()
+    .test("no-spaces", "username cannot contain spaces", (value) => !value || !value.includes(" ")),
 
-  mobile: commonSchema
-    .transform((v) => (v ? v.replace(/\s+/g, "") : v))
-    .matches(/^[0-9]{10}$/, "Mobile must be 10 digits"),
+  email: yup.string()
+    .trim()
+    .required("email is required")
+    .email("email is invalid"),
 
   password: commonSchema
-    .min(6, "Password must be at least 6 characters")
-    .matches(/^\S*$/, "Password cannot contain spaces"),
+    .min(6, "password must be at least 6 characters long")
+    .test("no-spaces", "password cannot contain spaces", (value) => !value || !value.includes(" ")),
 
-  confirmPassword: commonSchema.oneOf(
-    [yup.ref("password")],
-    "Passwords must match",
-  ),
+  confirmPassword: commonSchema
+    .oneOf([yup.ref("password")], "confirmPassword does not match password"),
 });

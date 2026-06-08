@@ -57,14 +57,14 @@ export default function Login() {
           <p className="text-center mb-4">Sign in to your account</p>
 
           <div className="input-group">
-            <label className="input-label">Mobile</label>
+            <label className="input-label">Email</label>
             <input
-              type="text"
-              placeholder="Enter your registered mobile number"
+              type="email"
+              placeholder="Enter your registered email"
               className="input-field"
-              {...register("mobile")}
+              {...register("email")}
             />
-            {errors.mobile && <p style={{ color: "var(--status-error)", fontSize: "0.8rem", marginTop: "0.5rem" }}>{errors.mobile.message}</p>}
+            {errors.email && <p style={{ color: "var(--status-error)", fontSize: "0.8rem", marginTop: "0.5rem" }}>{errors.email.message}</p>}
           </div>
 
           <div className="input-group">

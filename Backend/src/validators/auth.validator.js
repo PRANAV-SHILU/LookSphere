@@ -35,17 +35,6 @@ export const registerValidation = [
     })
     .isLength({ min: 6 })
     .withMessage("password must be at least 6 characters long"),
-
-  check("confirmPassword")
-    .trim()
-    .notEmpty()
-    .withMessage("confirmPassword is required")
-    .custom((value, { req }) => {
-      if (value !== req.body.password) {
-        throw new Error("confirmPassword does not match password");
-      }
-      return true;
-    }),
 ];
 
 export const loginValidation = [

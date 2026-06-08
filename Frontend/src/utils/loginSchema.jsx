@@ -1,17 +1,17 @@
 import * as yup from "yup";
 
 export const loginSchema = yup.object({
-  mobile: yup
+  email: yup
     .string()
-    .required("This field is required")
     .trim()
-    .transform((v) => (v ? v.replace(/\s+/g, "") : v))
-    .matches(/^[0-9]{10}$/, "Mobile must be 10 digits"),
+    .lowercase()
+    .required("email is required")
+    .email("email is invalid"),
 
   password: yup
     .string()
-    .required("This field is required")
+    .required("password is required")
     .trim()
-    .matches(/^\S*$/, "Password cannot contain spaces")
-    .min(6, "Password must be at least 6 characters"),
+    .test("no-spaces", "password cannot contain spaces", (value) => !value || !value.includes(" "))
+    .min(6, "password must be at least 6 characters long"),
 });

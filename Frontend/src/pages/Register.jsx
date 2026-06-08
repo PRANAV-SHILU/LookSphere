@@ -45,25 +45,25 @@ export default function Register() {
           <p className="text-center mb-4">Join SecureAuth today</p>
 
           <div className="input-group">
-            <label htmlFor="name" className="input-label">Name</label>
+            <label htmlFor="username" className="input-label">Username</label>
             <input
               type="text"
-              placeholder="Enter your name"
+              placeholder="Enter your username"
               className="input-field"
-              {...register("name")}
+              {...register("username")}
             />
-            {errors.name && <p style={{ color: "var(--status-error)", fontSize: "0.8rem", marginTop: "0.5rem" }}>{errors.name.message}</p>}
+            {errors.username && <p style={{ color: "var(--status-error)", fontSize: "0.8rem", marginTop: "0.5rem" }}>{errors.username.message}</p>}
           </div>
 
           <div className="input-group">
-            <label htmlFor="mobile" className="input-label">Mobile</label>
+            <label htmlFor="email" className="input-label">Email</label>
             <input
-              type="text"
-              placeholder="Enter your mobile number"
+              type="email"
+              placeholder="Enter your email"
               className="input-field"
-              {...register("mobile")}
+              {...register("email")}
             />
-            {errors.mobile && <p style={{ color: "var(--status-error)", fontSize: "0.8rem", marginTop: "0.5rem" }}>{errors.mobile.message}</p>}
+            {errors.email && <p style={{ color: "var(--status-error)", fontSize: "0.8rem", marginTop: "0.5rem" }}>{errors.email.message}</p>}
           </div>
 
           <div className="input-group">

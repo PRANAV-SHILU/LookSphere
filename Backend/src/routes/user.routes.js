@@ -7,6 +7,7 @@ import {
 } from "../controllers/user.controller.js";
 import auth from "../middlewares/auth.middleware.js";
 import upload from "../middlewares/upload.middleware.js";
+import { updateProfileValidation } from "../validators/user.validator.js";
 
 const userRoutes = express.Router();
 

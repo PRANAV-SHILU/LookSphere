@@ -5,6 +5,7 @@ export const registerValidation = [
     .trim()
     .notEmpty()
     .withMessage("username is required")
+    .toLowerCase()
     .isLength({ min: 3 })
     .withMessage("username must be at least 3 characters long")
     .custom((value) => {
@@ -16,6 +17,7 @@ export const registerValidation = [
 
   check("email")
     .trim()
+    .toLowerCase()
     .notEmpty()
     .withMessage("email is required")
     .isEmail()
@@ -55,6 +57,7 @@ export const registerValidation = [
 export const loginValidation = [
   check("email")
     .trim()
+    .toLowerCase()
     .notEmpty()
     .withMessage("email is required")
     .isEmail()

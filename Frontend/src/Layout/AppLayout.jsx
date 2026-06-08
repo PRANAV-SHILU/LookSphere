@@ -8,19 +8,14 @@ export default function AppLayout() {
   const location = useLocation();
 
   return (
-    <>
+    <div className="app-container">
       <Header />
-      <div className="page-container">
-        {/*
-          AnimatePresence with mode="wait" enables page transition animations.
-          The location.pathname key forces re-mount (and therefore re-animation)
-          on every route change.
-        */}
+      <main className="main-content">
         <AnimatePresence mode="wait">
           <Outlet key={location.pathname} />
         </AnimatePresence>
-      </div>
-      <ToastContainer position="top-right" autoClose={3000} limit={1} />
-    </>
+      </main>
+      <ToastContainer position="top-right" autoClose={3000} limit={1} theme="dark" />
+    </div>
   );
 }

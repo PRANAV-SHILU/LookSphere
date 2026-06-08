@@ -28,81 +28,70 @@ export default function Register() {
   return (
     <Motion.section
       className="flex flex-col justify-center items-center"
+      style={{ minHeight: "70vh" }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0, y: -10 }}
       transition={{ duration: 0.3 }}
     >
       <Motion.div
-        className="form-card"
+        className="card w-full max-w-md"
         initial={{ opacity: 0, y: 40, scale: 0.97 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
         <Form method="post">
-          <h1
-            className="text-center text-2xl font-bold text-sky-400"
-            style={{ textShadow: "0 0 6px rgba(56,189,248,0.5), 0 2px 8px rgba(0,0,0,0.6)" }}
-          >
-            Register
-          </h1>
+          <h2 className="text-center hero-text">Create an account</h2>
+          <p className="text-center mb-4">Join SecureAuth today</p>
 
-          <div className="flex flex-col gap-1.5">
-            <label htmlFor="name" className="form-label">
-              Name :
-            </label>
+          <div className="input-group">
+            <label htmlFor="name" className="input-label">Name</label>
             <input
               type="text"
-              placeholder="Enter your name, ex: Pranav Shilu"
-              className="form-input"
+              placeholder="Enter your name"
+              className="input-field"
               {...register("name")}
             />
-            <p className="error-msg">{errors.name?.message}</p>
+            {errors.name && <p style={{ color: "var(--status-error)", fontSize: "0.8rem", marginTop: "0.5rem" }}>{errors.name.message}</p>}
           </div>
 
-          <div className="flex flex-col gap-1.5">
-            <label htmlFor="mobile" className="form-label">
-              Mobile :
-            </label>
+          <div className="input-group">
+            <label htmlFor="mobile" className="input-label">Mobile</label>
             <input
               type="text"
-              placeholder="Enter your mobile number, ex: 1234567891"
-              className="form-input"
+              placeholder="Enter your mobile number"
+              className="input-field"
               {...register("mobile")}
             />
-            <p className="error-msg">{errors.mobile?.message}</p>
+            {errors.mobile && <p style={{ color: "var(--status-error)", fontSize: "0.8rem", marginTop: "0.5rem" }}>{errors.mobile.message}</p>}
           </div>
 
-          <div className="flex flex-col gap-1.5">
-            <label htmlFor="password" className="form-label">
-              Password :
-            </label>
+          <div className="input-group">
+            <label htmlFor="password" className="input-label">Password</label>
             <input
               type="password"
               placeholder="Enter your password"
-              className="form-input"
+              className="input-field"
               {...register("password")}
             />
-            <p className="error-msg">{errors.password?.message}</p>
+            {errors.password && <p style={{ color: "var(--status-error)", fontSize: "0.8rem", marginTop: "0.5rem" }}>{errors.password.message}</p>}
           </div>
 
-          <div className="flex flex-col gap-1.5">
-            <label htmlFor="confirmPassword" className="form-label">
-              Confirm Password :
-            </label>
+          <div className="input-group">
+            <label htmlFor="confirmPassword" className="input-label">Confirm Password</label>
             <input
               type="password"
               placeholder="Confirm your password"
-              className="form-input"
+              className="input-field"
               {...register("confirmPassword")}
             />
-            <p className="error-msg">{errors.confirmPassword?.message}</p>
+            {errors.confirmPassword && <p style={{ color: "var(--status-error)", fontSize: "0.8rem", marginTop: "0.5rem" }}>{errors.confirmPassword.message}</p>}
           </div>
 
-          <div className="flex flex-col gap-1.5">
+          <div className="input-group mt-2">
             <Motion.button
               type="submit"
-              className="btn-primary"
+              className="btn btn-primary w-full"
               disabled={!isValid || isSubmitting}
               whileHover={isValid && !isSubmitting ? { scale: 1.01 } : {}}
               whileTap={isValid && !isSubmitting ? { scale: 0.98 } : {}}
@@ -111,15 +100,12 @@ export default function Register() {
             </Motion.button>
           </div>
 
-          <h3 className="text-center text-sm text-muted mt-4">
-            Already registered :{" "}
-            <NavLink
-              to="/login"
-              className="text-sky-400 hover:text-sky-300 transition-colors duration-200"
-            >
+          <p className="text-center mt-4" style={{ fontSize: "0.875rem" }}>
+            Already registered?{" "}
+            <NavLink to="/login" style={{ fontWeight: 500 }}>
               Login
             </NavLink>
-          </h3>
+          </p>
         </Form>
       </Motion.div>
     </Motion.section>

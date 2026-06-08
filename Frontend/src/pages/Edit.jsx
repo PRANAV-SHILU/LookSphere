@@ -36,61 +36,57 @@ export default function Edit() {
   return (
     <Motion.section
       className="flex flex-col justify-center items-center"
+      style={{ minHeight: "70vh" }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0, y: -10 }}
       transition={{ duration: 0.3 }}
     >
       <Motion.div
-        className="form-card"
+        className="card w-full max-w-md"
         initial={{ opacity: 0, y: 40, scale: 0.97 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
         <Form method="post">
-          <h1
-            className="text-center text-2xl font-bold text-sky-400"
-            style={{ textShadow: "0 0 6px rgba(56,189,248,0.5), 0 2px 8px rgba(0,0,0,0.6)" }}
-          >
-            Edit Your Details
-          </h1>
+          <h2 className="text-center hero-text mb-4">Edit Your Details</h2>
 
-          <div className="flex flex-col gap-1.5">
-            <label className="form-label">Name:</label>
-            <input type="text" className="form-input" {...register("name")} />
-            <p className="error-msg">{errors.name?.message}</p>
+          <div className="input-group">
+            <label className="input-label">Name</label>
+            <input type="text" className="input-field" {...register("name")} />
+            {errors.name && <p style={{ color: "var(--status-error)", fontSize: "0.8rem", marginTop: "0.5rem" }}>{errors.name.message}</p>}
           </div>
 
-          <div className="flex flex-col gap-1.5">
-            <label className="form-label">Mobile:</label>
-            <input type="text" className="form-input" {...register("mobile")} />
-            <p className="error-msg">{errors.mobile?.message}</p>
+          <div className="input-group">
+            <label className="input-label">Mobile</label>
+            <input type="text" className="input-field" {...register("mobile")} />
+            {errors.mobile && <p style={{ color: "var(--status-error)", fontSize: "0.8rem", marginTop: "0.5rem" }}>{errors.mobile.message}</p>}
           </div>
 
-          <div className="flex flex-col gap-1.5">
-            <label className="form-label">Password:</label>
+          <div className="input-group">
+            <label className="input-label">Password</label>
             <input
               type="password"
-              className="form-input"
+              className="input-field"
               {...register("password")}
             />
-            <p className="error-msg">{errors.password?.message}</p>
+            {errors.password && <p style={{ color: "var(--status-error)", fontSize: "0.8rem", marginTop: "0.5rem" }}>{errors.password.message}</p>}
           </div>
 
-          <div className="flex flex-col gap-1.5">
-            <label className="form-label">Confirm Password:</label>
+          <div className="input-group">
+            <label className="input-label">Confirm Password</label>
             <input
               type="password"
-              className="form-input"
+              className="input-field"
               {...register("confirmPassword")}
             />
-            <p className="error-msg">{errors.confirmPassword?.message}</p>
+            {errors.confirmPassword && <p style={{ color: "var(--status-error)", fontSize: "0.8rem", marginTop: "0.5rem" }}>{errors.confirmPassword.message}</p>}
           </div>
 
-          <div className="flex flex-col gap-1.5">
+          <div className="input-group mt-2">
             <Motion.button
               type="submit"
-              className="btn-primary"
+              className="btn btn-primary w-full"
               disabled={!isValid || isSubmitting}
               whileHover={isValid && !isSubmitting ? { scale: 1.01 } : {}}
               whileTap={isValid && !isSubmitting ? { scale: 0.98 } : {}}

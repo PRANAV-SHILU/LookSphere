@@ -4,6 +4,8 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import dns from "dns";
 
+import authRoutes from "./routes/auth.routes.js";
+
 // Fix: Node.js's async DNS resolver fails on SRV lookups on some networks, Force it to use Google's public DNS which correctly handles mongodb+srv:// SRV records.
 dns.setServers(["8.8.8.8", "8.8.4.4"]);
 
@@ -20,9 +22,8 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+// Routes
+app.use("/api/auth", authRoutes);
 
 // 404 handler - for unmatched routes
 app.use((err, req, res, next) => {

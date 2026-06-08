@@ -18,10 +18,16 @@ apiClient.interceptors.response.use(
     let message = "Something went wrong. Please try again.";
 
     if (error.response) {
-      message =
-        error.response.data?.message ||
-        error.response.data?.error ||
-        `Server error (${error.response.status})`;
+      const data = error.response.data;
+      if (data?.errors && Array.isArray(data.errors)) {
+        message = data.errors.map((e) => e.msg).join(", ");
+      } else {
+        message =
+          data?.msg ||
+          data?.message ||
+          data?.error ||
+          `Server error (${error.response.status})`;
+      }
     } else if (error.request) {
       message = "Network error. Please check your connection.";
     }

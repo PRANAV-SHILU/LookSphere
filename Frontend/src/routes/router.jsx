@@ -23,7 +23,7 @@ const router = createBrowserRouter(
       id: "root",
       path: "/",
       Component: AppLayout,
-      loader: checkCurrentUser,
+      // loader: checkCurrentUser,
       errorElement: <ErrorBoundary />,
       children: [
         { index: true, Component: Home },

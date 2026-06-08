@@ -1,11 +1,10 @@
 import * as yup from "yup";
 
-const commonSchema = yup.string().required("This field is required");
+const commonSchema = yup.string().required("This field is required").trim();
 
 export const registerSchema = yup.object({
   username: commonSchema
     .min(3, "username must be at least 3 characters long")
-    .trim()
     .test("no-spaces", "username cannot contain spaces", (value) => !value || !value.includes(" ")),
 
   email: yup.string()

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Form, useActionData, useNavigation, useSearchParams, NavLink } from "react-router-dom";
+import { Form, useActionData, useNavigation, NavLink } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "react-toastify";
@@ -8,20 +8,8 @@ import { motion as Motion } from "framer-motion";
 
 export default function Login() {
   const actionData = useActionData();
-  const [searchParams, setSearchParams] = useSearchParams();
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
-
-  useEffect(() => {
-    if (searchParams.get("registered") === "success") {
-      toast.success("Registration successful. Please log in.");
-      setSearchParams({});
-    }
-    if (searchParams.get("logout") === "success") {
-      toast.success("Logged out successfully.");
-      setSearchParams({});
-    }
-  }, [searchParams, setSearchParams]);
 
   useEffect(() => {
     if (actionData?.error) {
@@ -62,6 +50,10 @@ export default function Login() {
               type="email"
               placeholder="Enter your registered email"
               className="input-field"
+              autoComplete="email"
+              onKeyDown={(e) => {
+                if (e.key === " ") e.preventDefault();
+              }}
               {...register("email")}
             />
             {errors.email && <p style={{ color: "var(--status-error)", fontSize: "0.8rem", marginTop: "0.5rem" }}>{errors.email.message}</p>}
@@ -73,6 +65,9 @@ export default function Login() {
               type="password"
               placeholder="Enter your password"
               className="input-field"
+              onKeyDown={(e) => {
+                if (e.key === " ") e.preventDefault();
+              }}
               {...register("password")}
             />
             {errors.password && <p style={{ color: "var(--status-error)", fontSize: "0.8rem", marginTop: "0.5rem" }}>{errors.password.message}</p>}

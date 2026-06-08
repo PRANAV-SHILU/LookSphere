@@ -11,7 +11,7 @@ export async function loginAction({ request }) {
 
     // TODO: Store real JWT tokens here
 
-    return redirect("/dashboard?loggedin=success");
+    return redirect("/dashboard");
   } catch (err) {
     return { error: err.message || "Login failed. Please try again." };
   }

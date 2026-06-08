@@ -50,6 +50,10 @@ export default function Register() {
               type="text"
               placeholder="Enter your username"
               className="input-field"
+              autoComplete="username"
+              onKeyDown={(e) => {
+                if (e.key === " ") e.preventDefault();
+              }}
               {...register("username")}
             />
             {errors.username && <p style={{ color: "var(--status-error)", fontSize: "0.8rem", marginTop: "0.5rem" }}>{errors.username.message}</p>}
@@ -61,6 +65,10 @@ export default function Register() {
               type="email"
               placeholder="Enter your email"
               className="input-field"
+              autoComplete="email"
+              onKeyDown={(e) => {
+                if (e.key === " ") e.preventDefault();
+              }}
               {...register("email")}
             />
             {errors.email && <p style={{ color: "var(--status-error)", fontSize: "0.8rem", marginTop: "0.5rem" }}>{errors.email.message}</p>}
@@ -72,6 +80,9 @@ export default function Register() {
               type="password"
               placeholder="Enter your password"
               className="input-field"
+              onKeyDown={(e) => {
+                if (e.key === " ") e.preventDefault();
+              }}
               {...register("password")}
             />
             {errors.password && <p style={{ color: "var(--status-error)", fontSize: "0.8rem", marginTop: "0.5rem" }}>{errors.password.message}</p>}

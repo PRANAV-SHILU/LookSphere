@@ -1,4 +1,4 @@
-import { getAllUsers, getUserById, updateUser } from "../network/userApi";
+import { getAllUsers, getOwnProfile, getUserByUsername, updateOwnProfile } from "../network/userApi";
 
 export async function fetchAllUsers() {
   throw new Error("Backend integration pending");

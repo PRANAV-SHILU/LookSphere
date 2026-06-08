@@ -16,7 +16,6 @@ import { editAction } from "../actions/editAction.jsx";
 
 import { userLoader } from "../loaders/userLoader.jsx";
 import { checkCurrentUser } from "../loaders/checkCurrentUser.jsx";
-import ColorMixer from "../pages/ColorMixer.jsx";
 
 const router = createBrowserRouter(
   [
@@ -36,7 +35,6 @@ const router = createBrowserRouter(
           loader: userLoader,
           action: logoutAction,
         },
-        { path: "colormixer", Component: ColorMixer, loader: userLoader },
         {
           path: "edit",
           Component: Edit,

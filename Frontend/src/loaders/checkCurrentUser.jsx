@@ -1,7 +1,5 @@
 import { redirect } from "react-router-dom";
-
-const url = "https://secureauth-api.onrender.com/users";
-// const url = "http://localhost:3000/users";
+import { fetchCurrentUser } from "../services/userService";
 
 export async function checkCurrentUser() {
   const currentUserID = localStorage.getItem("currentUserID");
@@ -11,20 +9,13 @@ export async function checkCurrentUser() {
   }
 
   try {
-    const res = await fetch(`${url}/${currentUserID}`);
+    const user = await fetchCurrentUser(currentUserID);
 
-    // If the server says the user doesn't exist, clear the stale ID and
-    // redirect to home instead of throwing an error that shows the router's
-    // error page.
-    if (!res.ok) {
-      if (res.status === 404) {
-        localStorage.removeItem("currentUserID");
-        return redirect("/");
-      }
-      throw res;
+    // fetchCurrentUser returns null on 404 — clear the stale id
+    if (!user) {
+      localStorage.removeItem("currentUserID");
+      return redirect("/");
     }
-
-    const user = await res.json();
 
     if (!user.isLoggedIn) {
       localStorage.removeItem("currentUserID");
@@ -33,8 +24,8 @@ export async function checkCurrentUser() {
 
     return { isLoggedIn: true, name: user.name };
   } catch (err) {
-    // Network errors or unexpected failures: clear the stale ID and let the
-    // app handle it as not-logged-in (avoid showing the router error page).
+    // Network errors or unexpected failures — clear stale id and treat as
+    // logged-out to avoid showing the router error page.
     console.error("checkCurrentUser error:", err);
     localStorage.removeItem("currentUserID");
     return { isLoggedIn: false, user: null };

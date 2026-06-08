@@ -1,6 +1,5 @@
 import { redirect } from "react-router-dom";
-
-const url = "https://secureauth-api.onrender.com/users";
+import { fetchAllUsers, updateUserProfile } from "../services/userService";
 
 export async function editAction({ request }) {
   const currentUserID = localStorage.getItem("currentUserID");
@@ -12,31 +11,21 @@ export async function editAction({ request }) {
   const password = formData.get("password");
   const mobile = formData.get("mobile");
 
-  const res = await fetch(url);
-  if (!res.ok) {
-    throw res;
+  try {
+    // Check if the new mobile number is already taken by another user
+    const users = await fetchAllUsers();
+    const mobileExists = users.some(
+      (u) => u.mobile === mobile && u.id !== currentUserID,
+    );
+
+    if (mobileExists) {
+      return { error: "Mobile number already exists" };
+    }
+
+    await updateUserProfile(currentUserID, { name, mobile, password });
+
+    return redirect("/dashboard?edited=success");
+  } catch (err) {
+    return { error: err.message || "Failed to update profile. Please try again." };
   }
-  const users = await res.json();
-
-  const mobileExists = users.some(
-    (u) => u.mobile === mobile && u.id !== currentUserID,
-  );
-
-  if (mobileExists) {
-    return { error: "Mobile number already exists" };
-  }
-
-  const patchResponse = await fetch(`${url}/${currentUserID}`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ name, mobile, password }),
-  });
-
-  if (!patchResponse.ok) {
-    throw patchResponse;
-  }
-
-  return redirect("/dashboard?edited=success");
 }

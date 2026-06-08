@@ -1,13 +1,58 @@
 import { NavLink } from "react-router-dom";
-import "../assets/css/pagenotfound.css";
+import { motion as Motion } from "framer-motion";
+
 export default function PageNotFound() {
   return (
-    <section className="notfound">
-      <h1>Page not found - 404</h1>
-      <h2>kindly redirect to home page</h2>
-      <h3>
-        <NavLink to="/">Home</NavLink>
-      </h3>
-    </section>
+    <Motion.section
+      className="flex flex-col items-center justify-center gap-5 py-24 text-center"
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+      transition={{ duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
+    >
+      <Motion.h1
+        className="text-7xl font-bold text-sky-400"
+        initial={{ scale: 0.8, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ delay: 0.1, duration: 0.45, type: "spring", stiffness: 200 }}
+        style={{ textShadow: "0 0 30px rgba(56,189,248,0.4)" }}
+      >
+        404
+      </Motion.h1>
+
+      <Motion.h2
+        className="text-2xl font-semibold text-primary"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2, duration: 0.4 }}
+      >
+        Page not found
+      </Motion.h2>
+
+      <Motion.p
+        className="text-muted"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3, duration: 0.4 }}
+      >
+        Kindly redirect to the home page.
+      </Motion.p>
+
+      <Motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4, duration: 0.4 }}
+      >
+        <NavLink to="/">
+          <Motion.button
+            className="btn-action mt-2"
+            whileHover={{ y: -2 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            Go Home
+          </Motion.button>
+        </NavLink>
+      </Motion.div>
+    </Motion.section>
   );
 }

@@ -1,21 +1,29 @@
 import { useRouteError, isRouteErrorResponse } from "react-router-dom";
+import { motion as Motion } from "framer-motion";
 
 export default function ErrorBoundary() {
   const error = useRouteError();
 
-  if (isRouteErrorResponse(error)) {
-    return (
-      <div style={{ textAlign: "center", padding: "2rem", color: "white" }}>
-        <h1>Error {error.status}</h1>
-        <p>{error.statusText}</p>
-      </div>
-    );
-  }
+  const content = isRouteErrorResponse(error) ? (
+    <>
+      <h1 className="text-5xl font-bold text-red-400">Error {error.status}</h1>
+      <p className="text-lg text-slate-400 mt-3">{error.statusText}</p>
+    </>
+  ) : (
+    <>
+      <h1 className="text-4xl font-bold text-red-400">Something went wrong!</h1>
+      <p className="text-slate-400 mt-3">{error?.message || "Unknown error occurred."}</p>
+    </>
+  );
 
   return (
-    <div style={{ textAlign: "center", padding: "2rem", color: "white" }}>
-      <h1>Something went wrong!</h1>
-      <p>{error?.message || "Unknown error occurred."}</p>
-    </div>
+    <Motion.div
+      className="flex flex-col items-center justify-center text-center py-24"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+    >
+      {content}
+    </Motion.div>
   );
 }

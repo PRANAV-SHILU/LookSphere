@@ -1,15 +1,17 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Form, useActionData, useNavigation, NavLink } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "react-toastify";
 import { loginSchema } from "../utils/loginSchema";
 import { motion as Motion } from "framer-motion";
+import { Eye, EyeOff } from "lucide-react";
 
 export default function Login() {
   const actionData = useActionData();
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     if (actionData?.error) {
@@ -58,21 +60,64 @@ export default function Login() {
               }}
               {...register("username")}
             />
-            {errors.username && <p style={{ color: "var(--status-error)", fontSize: "0.8rem", marginTop: "0.5rem" }}>{errors.username.message}</p>}
+            {errors.username && (
+              <p
+                style={{
+                  color: "var(--status-error)",
+                  fontSize: "0.8rem",
+                  marginTop: "0.5rem",
+                }}
+              >
+                {errors.username.message}
+              </p>
+            )}
           </div>
 
           <div className="input-group">
             <label className="input-label">Password</label>
-            <input
-              type="password"
-              placeholder="Enter your password"
-              className="input-field"
-              onKeyDown={(e) => {
-                if (e.key === " ") e.preventDefault();
-              }}
-              {...register("password")}
-            />
-            {errors.password && <p style={{ color: "var(--status-error)", fontSize: "0.8rem", marginTop: "0.5rem" }}>{errors.password.message}</p>}
+            <div style={{ position: "relative" }}>
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Enter your password"
+                className="input-field"
+                onKeyDown={(e) => {
+                  if (e.key === " ") e.preventDefault();
+                }}
+                {...register("password")}
+                style={{ paddingRight: "2.5rem" }}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((prev) => !prev)}
+                style={{
+                  position: "absolute",
+                  right: "0.75rem",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  background: "transparent",
+                  border: "none",
+                  cursor: "pointer",
+                  color: "var(--text-muted)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  padding: 0,
+                }}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
+            {errors.password && (
+              <p
+                style={{
+                  color: "var(--status-error)",
+                  fontSize: "0.8rem",
+                  marginTop: "0.5rem",
+                }}
+              >
+                {errors.password.message}
+              </p>
+            )}
           </div>
 
           <div className="input-group mt-2">

@@ -3,13 +3,16 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Form, NavLink, useActionData, useNavigation } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { motion as Motion } from "framer-motion";
+import { Eye, EyeOff } from "lucide-react";
 
 export default function Register() {
   const actionData = useActionData();
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   useEffect(() => {
     if (actionData?.error) {
@@ -78,26 +81,72 @@ export default function Register() {
 
           <div className="input-group">
             <label htmlFor="password" className="input-label">Password</label>
-            <input
-              type="password"
-              placeholder="Enter your password"
-              className="input-field"
-              onKeyDown={(e) => {
-                if (e.key === " ") e.preventDefault();
-              }}
-              {...register("password")}
-            />
+            <div style={{ position: "relative" }}>
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Enter your password"
+                className="input-field"
+                onKeyDown={(e) => {
+                  if (e.key === " ") e.preventDefault();
+                }}
+                {...register("password")}
+                style={{ paddingRight: "2.5rem" }}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((prev) => !prev)}
+                style={{
+                  position: "absolute",
+                  right: "0.75rem",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  background: "transparent",
+                  border: "none",
+                  cursor: "pointer",
+                  color: "var(--text-muted)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  padding: 0
+                }}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
             {errors.password && <p style={{ color: "var(--status-error)", fontSize: "0.8rem", marginTop: "0.5rem" }}>{errors.password.message}</p>}
           </div>
 
           <div className="input-group">
             <label htmlFor="confirmPassword" className="input-label">Confirm Password</label>
-            <input
-              type="password"
-              placeholder="Confirm your password"
-              className="input-field"
-              {...register("confirmPassword")}
-            />
+            <div style={{ position: "relative" }}>
+              <input
+                type={showConfirmPassword ? "text" : "password"}
+                placeholder="Confirm your password"
+                className="input-field"
+                {...register("confirmPassword")}
+                style={{ paddingRight: "2.5rem" }}
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword((prev) => !prev)}
+                style={{
+                  position: "absolute",
+                  right: "0.75rem",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  background: "transparent",
+                  border: "none",
+                  cursor: "pointer",
+                  color: "var(--text-muted)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  padding: 0
+                }}
+              >
+                {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
             {errors.confirmPassword && <p style={{ color: "var(--status-error)", fontSize: "0.8rem", marginTop: "0.5rem" }}>{errors.confirmPassword.message}</p>}
           </div>
 

@@ -221,6 +221,7 @@ a:hover {
 }
 
 .input-field {
+  width: 100%;
   background-color: var(--surface-card);
   border: 1px solid var(--border-light);
   color: var(--text-primary);

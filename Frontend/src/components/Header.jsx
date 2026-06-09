@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { NavLink, useRouteLoaderData, useSubmit } from "react-router-dom";
 import { motion as Motion, AnimatePresence } from "framer-motion";
-import { UserCircle2 } from "lucide-react";
+import { UserCircle2, Sun, Moon, User, LogOut, Search, Users, Home } from "lucide-react";
 import ConfirmationModal from "../utils/ConfirmationModal.jsx";
 
 export default function Header() {
@@ -72,11 +72,14 @@ export default function Header() {
           transition={{ duration: 0.4, delay: 0.15 }}
         >
           {/* Public Nav Links */}
-          <NavLink to="/explore" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}>
-            Explore
+          <NavLink to="/" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`} style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
+            <Home size={18} /> Home
           </NavLink>
-          <NavLink to="/users" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}>
-            Users
+          <NavLink to="/explore" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`} style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
+            <Search size={18} /> Explore
+          </NavLink>
+          <NavLink to="/users" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`} style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
+            <Users size={18} /> Users
           </NavLink>
 
           {/* Theme Toggle */}
@@ -86,7 +89,7 @@ export default function Header() {
             title={isDark ? "Switch to light mode" : "Switch to dark mode"}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            style={{ background: "transparent", border: "none", cursor: "pointer", display: "flex", alignItems: "center", padding: "0.25rem" }}
+            style={{ background: "transparent", border: "none", cursor: "pointer", display: "flex", alignItems: "center", padding: "0.25rem", color: "var(--text-primary)" }}
           >
             <AnimatePresence mode="wait" initial={false}>
               <Motion.span
@@ -97,7 +100,7 @@ export default function Header() {
                 transition={{ duration: 0.2, ease: "easeOut" }}
                 style={{ fontSize: "1.25rem", lineHeight: 1 }}
               >
-                {isDark ? "☀️" : "🌙"}
+                {isDark ? <Sun size={20} /> : <Moon size={20} />}
               </Motion.span>
             </AnimatePresence>
           </Motion.button>
@@ -153,7 +156,7 @@ export default function Header() {
                       onMouseEnter={e => e.currentTarget.style.background = "var(--surface-input)"}
                       onMouseLeave={e => e.currentTarget.style.background = "transparent"}
                     >
-                      👤 Profile
+                      <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}><User size={16} /> Profile</div>
                     </NavLink>
 
                     <button
@@ -166,7 +169,7 @@ export default function Header() {
                       onMouseEnter={e => e.currentTarget.style.background = "var(--surface-input)"}
                       onMouseLeave={e => e.currentTarget.style.background = "transparent"}
                     >
-                      🚪 Logout
+                      <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}><LogOut size={16} /> Logout</div>
                     </button>
                   </Motion.div>
                 )}

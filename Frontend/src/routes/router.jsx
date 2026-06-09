@@ -7,7 +7,7 @@ import Home from "../pages/Home.jsx";
 import Login from "../pages/Login.jsx";
 import Register from "../pages/Register.jsx";
 import Profile from "../pages/profile.jsx";
-import Edit from "../pages/Edit.jsx";
+import EditProfile from "../pages/EditProfile.jsx";
 
 import { registerAction } from "../actions/registerAction";
 import { loginAction } from "../actions/loginAction";
@@ -44,7 +44,7 @@ const router = createBrowserRouter(
         { path: "profile", Component: Profile, loader: profileLoader },
         {
           path: "edit-profile",
-          Component: Edit,
+          Component: EditProfile,
           loader: profileLoader,
           action: editAction,
         },

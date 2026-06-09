@@ -3,7 +3,7 @@ import { Form, useLoaderData, useSearchParams, NavLink } from "react-router-dom"
 import { toast } from "react-toastify";
 import { motion as Motion } from "framer-motion";
 
-export default function Dashboard() {
+export default function Profile() {
   const user = useLoaderData();
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -35,7 +35,7 @@ export default function Dashboard() {
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
-        <h1 className="hero-text mb-2">Dashboard</h1>
+        <h1 className="hero-text mb-2">Profile</h1>
         <h2 className="mb-4" style={{ fontSize: "1.125rem", color: "var(--text-muted)" }}>
           Welcome back, {user.name}
         </h2>

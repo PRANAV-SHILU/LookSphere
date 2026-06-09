@@ -10,7 +10,7 @@ export async function editAction({ request }) {
   try {
     await updateUserProfile(null, { name, mobile, password });
 
-    return redirect("/dashboard?edited=success");
+    return redirect("/profile");
   } catch (err) {
     return { error: err.message || "Failed to update profile. Please try again." };
   }

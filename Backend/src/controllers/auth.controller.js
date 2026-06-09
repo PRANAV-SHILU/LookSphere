@@ -15,10 +15,6 @@ export async function register(req, res) {
     if (isUsernameExists)
       return res.status(400).json({ msg: "Username already exists" });
 
-    const isEmailExists = await User.findOne({ email });
-    if (isEmailExists)
-      return res.status(400).json({ msg: "Email already exists" });
-
     const newUser = await User.create({
       username,
       email,
@@ -43,10 +39,10 @@ export async function login(req, res) {
   try {
     const { username, password } = req.body;
 
-    const user = User.findOne({ username });
+    const user = await User.findOne({ username });
     if (!user) return res.status(400).json({ msg: "User not found" });
 
-    const isValidPassword = user.comparePassword(password);
+    const isValidPassword = await user.comparePassword(password);
 
     if (!isValidPassword)
       return res.status(400).json({ msg: "Invalid password" });

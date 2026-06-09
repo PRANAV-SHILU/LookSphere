@@ -47,18 +47,18 @@ export default function Login() {
           </div>
 
           <div className="input-group">
-            <label className="input-label">Email</label>
+            <label className="input-label">Username</label>
             <input
-              type="email"
-              placeholder="Enter your registered email"
+              type="text"
+              placeholder="Enter your username"
               className="input-field"
-              autoComplete="email"
+              autoComplete="username"
               onKeyDown={(e) => {
                 if (e.key === " ") e.preventDefault();
               }}
-              {...register("email")}
+              {...register("username")}
             />
-            {errors.email && <p style={{ color: "var(--status-error)", fontSize: "0.8rem", marginTop: "0.5rem" }}>{errors.email.message}</p>}
+            {errors.username && <p style={{ color: "var(--status-error)", fontSize: "0.8rem", marginTop: "0.5rem" }}>{errors.username.message}</p>}
           </div>
 
           <div className="input-group">

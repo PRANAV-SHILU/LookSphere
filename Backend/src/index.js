@@ -21,13 +21,18 @@ const app = express();
 // neccesary middlewares and configurations
 dotenv.config();
 connectDB();
-app.use(cors());
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL,
+    credentials: true,
+  }),
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use("/", (req, res, next) => {
-  console.log(req.method, req.url, req.body, req.cookies);
+  console.log(req.method, req.url, req.body);
   next();
 });
 

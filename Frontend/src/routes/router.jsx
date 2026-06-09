@@ -6,7 +6,7 @@ import ErrorBoundary from "../components/ErrorBoundary.jsx";
 import Home from "../pages/Home.jsx";
 import Login from "../pages/Login.jsx";
 import Register from "../pages/Register.jsx";
-import Dashboard from "../pages/Dashboard.jsx";
+import Profile from "../pages/profile.jsx";
 import Edit from "../pages/Edit.jsx";
 
 import { registerAction } from "../actions/registerAction";
@@ -23,15 +23,15 @@ const router = createBrowserRouter(
       id: "root",
       path: "/",
       Component: AppLayout,
-      // loader: checkCurrentUser,
+      loader: checkCurrentUser,
       errorElement: <ErrorBoundary />,
       children: [
         { index: true, Component: Home },
         { path: "login", Component: Login, action: loginAction },
         { path: "register", Component: Register, action: registerAction },
         {
-          path: "dashboard",
-          Component: Dashboard,
+          path: "profile",
+          Component: Profile,
           loader: userLoader,
           action: logoutAction,
         },

@@ -3,8 +3,7 @@ import { NavLink, useRouteLoaderData } from "react-router-dom";
 import { motion as Motion, AnimatePresence } from "framer-motion";
 
 export default function Header() {
-  const authData = useRouteLoaderData("root");
-  const isLoggedIn = authData?.isLoggedIn;
+  const user = useRouteLoaderData("root");
 
   const [isDark, setIsDark] = useState(() => {
     // Check local storage or default to dark (since we want a dark-first theme)
@@ -53,13 +52,15 @@ export default function Header() {
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.4, delay: 0.15 }}
       >
-
-        {isLoggedIn ? (
-          <NavLink to="/dashboard" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
-            Dashboard
+        {user ? (
+          <NavLink
+            to="/profile"
+            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
+          >
+            {user?.username ? `@${user.username}` : "Profile"}
           </NavLink>
         ) : (
-          <NavLink to="/login" className={({ isActive }) => `btn btn-primary`}>
+          <NavLink to="/login" className="btn btn-primary">
             Login
           </NavLink>
         )}
@@ -71,7 +72,14 @@ export default function Header() {
           title={isDark ? "Switch to light mode" : "Switch to dark mode"}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
-          style={{ background: "transparent", border: "none", cursor: "pointer", display: "flex", alignItems: "center", padding: "0.25rem" }}
+          style={{
+            background: "transparent",
+            border: "none",
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            padding: "0.25rem",
+          }}
         >
           <AnimatePresence mode="wait" initial={false}>
             <Motion.span

@@ -1,15 +1,15 @@
 import { register, login } from "../network/authApi";
 
-export async function loginUser(email, password) {
+export async function loginUser(payload) {
   try {
-    const res = await login({ email, password });
+    const res = await login(payload);
     return res;
   } catch (err) {
     throw new Error(err.message);
   }
 }
 
-// DONE 
+// DONE
 export async function registerUser(payload) {
   try {
     const res = await register(payload);
@@ -19,6 +19,6 @@ export async function registerUser(payload) {
   }
 }
 
-export async function logoutUser(userId) {
+export async function logoutUser(username) {
   throw new Error("Backend integration pending");
 }

@@ -1,12 +1,13 @@
 import * as yup from "yup";
 
 export const loginSchema = yup.object({
-  email: yup
+  username: yup
     .string()
     .trim()
     .lowercase()
-    .required("email is required")
-    .email("email is invalid"),
+    .required("username is required")
+    .min(3, "username must be at least 3 characters long")
+    .test("no-spaces", "username cannot contain spaces", (value) => !value || !value.includes(" ")),
 
   password: yup
     .string()

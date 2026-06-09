@@ -61,7 +61,7 @@ Log in with an existing account.
 
 | Field      | Type   | Required | Rules                    |
 | ---------- | ------ | -------- | ------------------------ |
-| `email`    | string | ✅       | Valid email format       |
+| `username` | string | ✅       | Min 3 chars, no spaces   |
 | `password` | string | ✅       | Min 6 chars, no spaces   |
 
 **Responses**

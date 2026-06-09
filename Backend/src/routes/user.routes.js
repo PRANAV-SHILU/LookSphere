@@ -18,7 +18,7 @@ userRoutes.get("/", getUsers);
 userRoutes.get("/profile", verifyToken, getOwnProfile);
 
 // get other user's profile
-userRoutes.get("/:username", getUserProfile);
+userRoutes.get("/profile/:username", getUserProfile);
 
 // edit profile
 userRoutes.patch(

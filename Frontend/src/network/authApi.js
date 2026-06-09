@@ -23,3 +23,14 @@ export async function login(credentials) {
     throw new Error(err.message);
   }
 }
+
+export async function logout() {
+  try {
+    const res = await apiClient.post(ENDPOINTS.AUTH.LOGOUT);
+    console.log("logout user", res);
+    return res.data;
+  } catch (err) {
+    console.log("logout error", err);
+    throw new Error(err.message);
+  }
+}

@@ -8,7 +8,10 @@ export async function authLoader({ request }) {
   // Define public routes that guests are allowed to visit
   const publicRoutes = ["/", "/login", "/register"];
 
-  if (!user && !publicRoutes.includes(url.pathname)) {
+  // Strip basename for comparison
+  const path = url.pathname.replace("/SecureAuth", "") || "/";
+
+  if (!user && !publicRoutes.includes(path)) {
     return redirect("/login");
   }
 

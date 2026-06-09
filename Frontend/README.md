@@ -66,7 +66,7 @@ react-spinners
 
 ## 🔑 React Router Hooks Used
 
-### useSearchParams()
+
 
 Used to read and update query parameters in the URL. This helps manage conditional navigation, redirects, and URL-driven state changes.
 

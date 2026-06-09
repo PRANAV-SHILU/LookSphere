@@ -9,10 +9,11 @@ Base URL: `http://localhost:<PORT>`
 - [Auth](#auth)
   - [POST api/auth/register](#post-apiauthregister)
   - [POST api/auth/login](#post-apiauthlogin)
+  - [POST api/auth/logout](#post-apiauthlogout)
 - [Users](#users)
   - [GET api/users](#get-apiusers)
   - [GET api/users/profile](#get-apiusersprofile)
-  - [GET api/users/:username](#get-apiusersusername)
+  - [GET api/users/profile/:username](#get-apiusersusername)
   - [PATCH api/users/profile](#patch-apiusersprofile)
 - [Posts](#posts)
   - [GET api/posts](#get-apiposts)
@@ -75,6 +76,21 @@ Log in with an existing account.
 
 ---
 
+### POST api/auth/logout
+
+Log out the current user by clearing the JWT cookie.
+
+- **Auth required:** No
+
+**Responses**
+
+| Status | Description                     |
+| ------ | ------------------------------- |
+| `200`  | Logged out successfully         |
+| `500`  | Internal server error           |
+
+---
+
 ## Users
 
 ### GET api/users
@@ -108,7 +124,7 @@ Get the authenticated user's own profile.
 
 ---
 
-### GET api/users/:username
+### GET api/users/profile/:username
 
 Get a public profile by username.
 

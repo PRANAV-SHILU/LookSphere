@@ -63,7 +63,7 @@ export default function Profile() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.35 }}
         >
-          <NavLink to="/edit" className="btn btn-secondary">
+          <NavLink to="/edit-profile" className="btn btn-secondary">
             Edit Details
           </NavLink>
 

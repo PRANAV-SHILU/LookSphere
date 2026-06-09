@@ -1,6 +1,6 @@
 import { redirect } from "react-router-dom";
 
-export async function userLoader() {
+export async function profileLoader() {
   try {
     const stored = localStorage.getItem("user");
     const user = stored ? JSON.parse(stored) : null;
@@ -9,9 +9,11 @@ export async function userLoader() {
       return redirect("/login");
     }
 
+    // TODO  : fetch profile
+
     return user;
   } catch (err) {
-    console.error("userLoader error:", err);
+    console.error("profileLoader error:", err);
     return redirect("/login");
   }
 }

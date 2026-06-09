@@ -2,37 +2,55 @@ import { NavLink, useRouteLoaderData } from "react-router-dom";
 import { motion as Motion } from "framer-motion";
 
 const keyFeatures = [
-  "User Registration and Login",
-  "Protected Dashboard Routes",
-  "Edit User Details",
-  "Query String Handling",
-  "Schema-based Form Validation",
-  "Toast Notifications and Loaders",
-  "Multi-user API State Handling",
+  "Secure JWT Cookie-based Authentication",
+  "Protected Profile & Edit Routes via Loaders",
+  "Real-time Theme Toggling (Dark/Light Mode)",
+  "Schema-based Form Validation (Yup)",
+  "Global State Hydration without Context",
+  "Fluid Page & Scroll Animations (Framer Motion)",
 ];
 
 const techStack = [
-  "React JS",
-  "React Router DOM",
-  "React Hook Form + Yup",
-  "JSON Server (Self-made REST API)",
-  "React Toastify and React Spinners",
+  "Frontend: React + React Router DOM",
+  "Styling: Tailwind CSS + Framer Motion",
+  "Forms: React Hook Form + Yup",
+  "Backend: Node.js + Express.js",
+  "Database: MongoDB (Mongoose)",
+  "Auth: JSON Web Tokens (HttpOnly Cookies)",
 ];
 
 const authenticationFlow = [
-  "User registers through the API",
-  "Credentials are validated during login",
-  "Authentication state controls route access",
-  "Protected routes restrict unauthenticated users",
-  "Logout updates session state on the client",
-  "User profile changes sync with the API",
+  "1. Registration: User submits details; React Hook Form & Yup validate data client-side.",
+  "2. Backend Hashing: Express API receives data, hashes password via bcrypt, and saves to MongoDB.",
+  "3. Login: User submits credentials; backend verifies hash and issues an HttpOnly JWT cookie.",
+  "4. Client Hydration: Axios includes the cookie; loaders fetch the profile data seamlessly.",
+  "5. Protected Routes: React Router checks auth state before rendering private pages (/profile).",
+  "6. Logout: User clicks logout; backend clears cookie and frontend wipes local state instantly.",
+];
+
+const whatsNext = [
+  "Role-Based Access Control (Admin vs User dashboards)",
+  "OAuth 2.0 Integration (Google, GitHub social logins)",
+  "Email Verification & Password Reset flows (Nodemailer)",
+  "Rate Limiting & Brute Force Protection (Express-rate-limit)",
+  "Refresh Token Rotation Strategy for extended sessions",
+  "Profile Image Uploads (Multer + Cloud storage)",
 ];
 
 const cardAnimation = {
-  initial: { opacity: 0, y: 28 },
+  initial: { opacity: 0, y: 40 },
   whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: "-60px" },
-  transition: { duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] },
+  exit: { opacity: 0, y: -20 },
+  viewport: { once: false, amount: 0.2 },
+  transition: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] },
+};
+
+const bottomAnimation = {
+  initial: { opacity: 0, y: 40 },
+  whileInView: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -20 },
+  viewport: { once: false, amount: 0.1 },
+  transition: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] },
 };
 
 export default function Home() {
@@ -54,6 +72,7 @@ export default function Home() {
           className="hero-text"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
           Hello {name ? name : "User"}!
@@ -62,18 +81,28 @@ export default function Home() {
           className="mb-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{
+            duration: 0.5,
+            delay: 0.1,
+            ease: [0.25, 0.46, 0.45, 0.94],
+          }}
         >
           SecureAuth – Modern React Authentication
         </Motion.h2>
         <Motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{
+            duration: 0.5,
+            delay: 0.2,
+            ease: [0.25, 0.46, 0.45, 0.94],
+          }}
         >
-          SecureAuth is a frontend-focused authentication system built using
-          React and React Router DOM. It demonstrates real-world authentication
-          patterns without relying on backend authentication or databases.
+          SecureAuth is a full-stack authentication system built using React, 
+          Node.js, and MongoDB. It demonstrates real-world security patterns 
+          like HttpOnly JWT cookies and React Router data loaders.
         </Motion.p>
       </div>
 
@@ -91,7 +120,11 @@ export default function Home() {
         </Motion.div>
 
         {/* Tech Stack */}
-        <Motion.div className="card" {...cardAnimation} transition={{ ...cardAnimation.transition, delay: 0.05 }}>
+        <Motion.div
+          className="card"
+          {...cardAnimation}
+          transition={{ ...cardAnimation.transition, delay: 0.05 }}
+        >
           <h3>Tech Stack</h3>
           <ul style={{ paddingLeft: "1.2rem" }}>
             {techStack.map((tech, index) => (
@@ -105,7 +138,7 @@ export default function Home() {
         {/* Authentication Flow */}
         <Motion.div className="card" {...cardAnimation}>
           <h3>Authentication Flow</h3>
-          <ol style={{ paddingLeft: "1.2rem" }}>
+          <ol style={{ paddingLeft: "1.2rem", listStyleType: "none" }}>
             {authenticationFlow.map((step, index) => (
               <li key={index} style={{ marginBottom: "0.5rem" }}>
                 {step}
@@ -113,18 +146,45 @@ export default function Home() {
             ))}
           </ol>
         </Motion.div>
+
+        {/* What's Next */}
+        <Motion.div className="card" {...cardAnimation}>
+          <h3>What's Next? (Future Enhancements)</h3>
+          <ul style={{ paddingLeft: "1.2rem" }}>
+            {whatsNext.map((item, index) => (
+              <li key={index} style={{ marginBottom: "0.5rem" }}>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </Motion.div>
       </div>
 
       {/* CTA */}
+      {!user && (
+        <Motion.div className="text-center pb-4" {...bottomAnimation}>
+          <p>
+            <NavLink to="/login" className="btn btn-secondary">
+              Log in
+            </NavLink>
+            <span style={{ margin: "0 1rem" }}>or</span>
+            <NavLink to="/register" className="btn btn-primary">
+              Register
+            </NavLink>
+          </p>
+        </Motion.div>
+      )}
+      {/* Thank You Message */}
       <Motion.div
-        className="text-center pb-4"
-        {...cardAnimation}
+        className="text-center pb-8"
+        {...bottomAnimation}
+        style={{
+          marginTop: "2rem",
+          color: "var(--text-muted)",
+          fontStyle: "italic",
+        }}
       >
-        <p>
-          <NavLink to="/login" className="btn btn-secondary">Log in</NavLink>
-          <span style={{ margin: "0 1rem" }}>or</span>
-          <NavLink to="/register" className="btn btn-primary">Register</NavLink>
-        </p>
+        <p>Thank you for visiting! We hope you enjoy exploring SecureAuth.</p>
       </Motion.div>
     </Motion.section>
   );

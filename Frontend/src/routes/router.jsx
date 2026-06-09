@@ -14,8 +14,9 @@ import { loginAction } from "../actions/loginAction";
 import { logoutAction } from "../actions/logoutAction.jsx";
 import { editAction } from "../actions/editAction.jsx";
 
-import { userLoader } from "../loaders/userLoader.jsx";
-import { checkCurrentUser } from "../loaders/checkCurrentUser.jsx";
+import { authLoader } from "../loaders/authLoader.jsx";
+import { profileLoader } from "../loaders/profileLoader.jsx";
+import { redirectIfAuthenticated } from "../loaders/redirectIfAuthenticated.jsx";
 
 const router = createBrowserRouter(
   [
@@ -23,18 +24,28 @@ const router = createBrowserRouter(
       id: "root",
       path: "/",
       Component: AppLayout,
-      loader: checkCurrentUser,
+      loader: authLoader,
       errorElement: <ErrorBoundary />,
       children: [
         { index: true, Component: Home },
-        { path: "register", Component: Register, action: registerAction },
-        { path: "login", Component: Login, action: loginAction },
-        { path: "logout", action: logoutAction },
-        { path: "profile", Component: Profile, loader: userLoader },
         {
-          path: "edit",
+          path: "register",
+          Component: Register,
+          loader: redirectIfAuthenticated,
+          action: registerAction,
+        },
+        {
+          path: "login",
+          Component: Login,
+          loader: redirectIfAuthenticated,
+          action: loginAction,
+        },
+        { path: "logout", action: logoutAction },
+        { path: "profile", Component: Profile, loader: profileLoader },
+        {
+          path: "edit-profile",
           Component: Edit,
-          loader: userLoader,
+          loader: profileLoader,
           action: editAction,
         },
       ],

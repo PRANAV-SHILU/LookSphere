@@ -27,14 +27,10 @@ const router = createBrowserRouter(
       errorElement: <ErrorBoundary />,
       children: [
         { index: true, Component: Home },
-        { path: "login", Component: Login, action: loginAction },
         { path: "register", Component: Register, action: registerAction },
-        {
-          path: "profile",
-          Component: Profile,
-          loader: userLoader,
-          action: logoutAction,
-        },
+        { path: "login", Component: Login, action: loginAction },
+        { path: "logout", action: logoutAction },
+        { path: "profile", Component: Profile, loader: userLoader },
         {
           path: "edit",
           Component: Edit,

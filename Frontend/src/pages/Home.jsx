@@ -36,8 +36,8 @@ const cardAnimation = {
 };
 
 export default function Home() {
-  const authData = useRouteLoaderData("root");
-  const name = authData?.name;
+  const user = useRouteLoaderData("root");
+  const name = user?.username;
 
   return (
     <Motion.section

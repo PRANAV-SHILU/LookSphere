@@ -1,24 +1,12 @@
-import { useEffect } from "react";
-import { Form, useLoaderData, useSearchParams, NavLink } from "react-router-dom";
-import { toast } from "react-toastify";
+import { Form, useLoaderData, NavLink } from "react-router-dom";
 import { motion as Motion } from "framer-motion";
 
 export default function Profile() {
   const user = useLoaderData();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const username = user?.username;
 
-  useEffect(() => {
-    if (searchParams.get("loggedin") === "success") {
-      toast.success("Logged in successfully!");
-      setSearchParams({});
-    }
-    if (searchParams.get("edited") === "success") {
-      toast.success("User details updated successfully!");
-      setSearchParams({});
-    }
-  }, [searchParams, setSearchParams]);
-
-  if (!user) return <h2 className="text-center text-muted">Loading user data...</h2>;
+  if (!username)
+    return <h2 className="text-center text-muted">Loading username data...</h2>;
 
   return (
     <Motion.section
@@ -36,25 +24,36 @@ export default function Profile() {
         transition={{ duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
         <h1 className="hero-text mb-2">Profile</h1>
-        <h2 className="mb-4" style={{ fontSize: "1.125rem", color: "var(--text-muted)" }}>
-          Welcome back, {user.name}
+        <h2
+          className="mb-4"
+          style={{ fontSize: "1.125rem", color: "var(--text-muted)" }}
+        >
+          Hey, {username}
         </h2>
 
         <Motion.div
           className="mb-4"
-          style={{ backgroundColor: "var(--surface-input)", padding: "1.5rem", borderRadius: "var(--radius-md)", textAlign: "left" }}
+          style={{
+            backgroundColor: "var(--surface-input)",
+            padding: "1.5rem",
+            borderRadius: "var(--radius-md)",
+            textAlign: "left",
+          }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.35 }}
         >
           <p className="mb-2" style={{ fontSize: "0.875rem" }}>
-            <strong style={{ color: "var(--text-primary)" }}>Name:</strong> {user.name}
+            <strong style={{ color: "var(--text-primary)" }}>role:</strong>{" "}
+            {user?.role}
           </p>
           <p className="mb-2" style={{ fontSize: "0.875rem" }}>
-            <strong style={{ color: "var(--text-primary)" }}>Mobile:</strong> {user.mobile}
+            <strong style={{ color: "var(--text-primary)" }}>email:</strong>{" "}
+            {user?.email}
           </p>
           <p style={{ fontSize: "0.875rem", marginBottom: 0 }}>
-            <strong style={{ color: "var(--text-primary)" }}>ID:</strong> {user.id}
+            <strong style={{ color: "var(--text-primary)" }}>ID:</strong>{" "}
+            {user?._id}
           </p>
         </Motion.div>
 
@@ -68,11 +67,6 @@ export default function Profile() {
             Edit Details
           </NavLink>
 
-          <Form method="post">
-            <button type="submit" className="btn btn-danger">
-              Logout
-            </button>
-          </Form>
         </Motion.div>
       </Motion.div>
     </Motion.section>

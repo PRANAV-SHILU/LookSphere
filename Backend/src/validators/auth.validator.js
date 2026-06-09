@@ -38,13 +38,19 @@ export const registerValidation = [
 ];
 
 export const loginValidation = [
-  check("email")
+  check("username")
     .trim()
     .toLowerCase()
     .notEmpty()
-    .withMessage("email is required")
-    .isEmail()
-    .withMessage("email is invalid"),
+    .withMessage("username is required")
+    .isLength({ min: 3 })
+    .withMessage("username must be at least 3 characters long")
+    .custom((value) => {
+      if (value.includes(" ")) {
+        throw new Error("username cannot contain spaces");
+      }
+      return true;
+    }),
 
   check("password")
     .trim()

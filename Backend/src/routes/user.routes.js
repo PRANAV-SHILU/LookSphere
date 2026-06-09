@@ -5,7 +5,7 @@ import {
   getUserProfile,
   updateProfile,
 } from "../controllers/user.controller.js";
-import auth from "../middlewares/auth.middleware.js";
+import { verifyToken } from "../middlewares/auth.middleware.js";
 import upload from "../middlewares/upload.middleware.js";
 import { updateProfileValidation } from "../validators/user.validator.js";
 
@@ -15,7 +15,7 @@ const userRoutes = express.Router();
 userRoutes.get("/", getUsers);
 
 // get own profile
-userRoutes.get("/profile", auth, getOwnProfile);
+userRoutes.get("/profile", verifyToken, getOwnProfile);
 
 // get other user's profile
 userRoutes.get("/:username", getUserProfile);
@@ -23,7 +23,7 @@ userRoutes.get("/:username", getUserProfile);
 // edit profile
 userRoutes.patch(
   "/profile",
-  auth,
+  verifyToken,
   upload.single("profileImage"),
   updateProfileValidation,
   updateProfile,

@@ -3,9 +3,11 @@ import connectDB from "./config/db.js";
 import express from "express";
 import mongoose from "mongoose";
 
+import cookieParser from "cookie-parser";
+
 import cors from "cors";
-import dotenv from "dotenv";
 import dns from "dns";
+import dotenv from "dotenv";
 
 import authRoutes from "./routes/auth.routes.js";
 import userRoutes from "./routes/user.routes.js";
@@ -22,9 +24,10 @@ connectDB();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 app.use("/", (req, res, next) => {
-  console.log(req.method, req.url);
+  console.log(req.method, req.url, req.body, req.cookies);
   next();
 });
 
@@ -39,13 +42,18 @@ app.use("/api/posts", postRoutes);
 
 // 404 handler - for unmatched routes
 app.use((req, res, next) => {
-  res.status(404).json({ error: "Path not found. Kindly check the URL or try again later!" });
+  res.status(404).json({
+    error: "Path not found. Kindly check the URL or try again later!",
+  });
 });
 
 // error handler
 app.use((err, req, res, next) => {
   console.error("Express Error:", err);
-  res.status(500).json({ error: "Internal server error. Kindly check backend logs or try again later!" });
+  res.status(500).json({
+    error:
+      "Internal server error. Kindly check backend logs or try again later!",
+  });
 });
 
 app.listen(process.env.PORT, () => {

@@ -41,8 +41,10 @@ export default function Register() {
         transition={{ duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
         <Form method="post">
-          <h2 className="text-center hero-text">Create an account</h2>
-          <p className="text-center mb-4">Join SecureAuth today</p>
+          <div className="text-center">
+            <h2 className="hero-text mx-auto">Create an account</h2>
+            <p className="mb-4">Join SecureAuth today</p>
+          </div>
 
           <div className="input-group">
             <label htmlFor="username" className="input-label">Username</label>

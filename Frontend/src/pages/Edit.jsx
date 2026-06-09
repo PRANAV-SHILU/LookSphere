@@ -49,7 +49,9 @@ export default function Edit() {
         transition={{ duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
         <Form method="post">
-          <h2 className="text-center hero-text mb-4">Edit Your Details</h2>
+          <div className="text-center">
+            <h2 className="hero-text mb-4">Edit Your Details</h2>
+          </div>
 
           <div className="input-group">
             <label className="input-label">Name</label>

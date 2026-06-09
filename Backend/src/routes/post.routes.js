@@ -6,7 +6,7 @@ import {
   getPosts,
   getUserPosts,
 } from "../controllers/post.controller.js";
-import auth from "../middlewares/auth.middleware.js";
+import { verifyToken } from "../middlewares/auth.middleware.js";
 import upload from "../middlewares/upload.middleware.js";
 
 const postRoutes = express.Router();
@@ -18,9 +18,9 @@ postRoutes.get("/", getPosts);
 postRoutes.get("/:id", getPost);
 
 // add post
-postRoutes.post("/", auth, upload.single("media"), createPost);
+postRoutes.post("/", verifyToken, upload.single("media"), createPost);
 
 // delete post
-postRoutes.delete("/:id", auth, deletePost);
+postRoutes.delete("/:id", verifyToken, deletePost);
 
 export default postRoutes;

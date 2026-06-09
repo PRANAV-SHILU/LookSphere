@@ -41,8 +41,10 @@ export default function Login() {
         transition={{ duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
         <Form method="post">
-          <h2 className="text-center hero-text">Welcome back</h2>
-          <p className="text-center mb-4">Sign in to your account</p>
+          <div className="text-center">
+            <h2 className="hero-text">Welcome back</h2>
+            <p className="mb-4">Sign in to your account</p>
+          </div>
 
           <div className="input-group">
             <label className="input-label">Email</label>

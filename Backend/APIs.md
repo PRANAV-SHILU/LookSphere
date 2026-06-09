@@ -96,13 +96,7 @@ Get a list of all users.
 
 Get the authenticated user's own profile.
 
-- **Auth required:** ✅ Bearer Token
-
-**Headers**
-
-| Key             | Value            |
-| --------------- | ---------------- |
-| `Authorization` | `Bearer <token>` |
+- **Auth required:** ✅ Cookie (`jwtToken`)
 
 **Responses**
 
@@ -140,14 +134,8 @@ Get a public profile by username.
 
 Update the authenticated user's profile. All fields are optional.
 
-- **Auth required:** ✅ Bearer Token
+- **Auth required:** ✅ Cookie (`jwtToken`)
 - **Content-Type:** `multipart/form-data`
-
-**Headers**
-
-| Key             | Value            |
-| --------------- | ---------------- |
-| `Authorization` | `Bearer <token>` |
 
 **Form Fields**
 
@@ -213,14 +201,8 @@ Get a single post by ID.
 
 Create a new post. Requires a media file upload.
 
-- **Auth required:** ✅ Bearer Token
+- **Auth required:** ✅ Cookie (`jwtToken`)
 - **Content-Type:** `multipart/form-data`
-
-**Headers**
-
-| Key             | Value            |
-| --------------- | ---------------- |
-| `Authorization` | `Bearer <token>` |
 
 **Form Fields**
 
@@ -245,13 +227,7 @@ Create a new post. Requires a media file upload.
 
 Delete a post by ID. Only the post owner can delete their post.
 
-- **Auth required:** ✅ Bearer Token
-
-**Headers**
-
-| Key             | Value            |
-| --------------- | ---------------- |
-| `Authorization` | `Bearer <token>` |
+- **Auth required:** ✅ Cookie (`jwtToken`)
 
 **Path Parameters**
 

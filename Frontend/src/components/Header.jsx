@@ -176,9 +176,14 @@ export default function Header() {
               </AnimatePresence>
             </div>
           ) : (
-            <NavLink to="/login" className="btn btn-primary">
-              Login
-            </NavLink>
+            <div style={{ display: "flex", gap: "0.75rem" }}>
+              <NavLink to="/login" className="btn btn-primary">
+                Login
+              </NavLink>
+              <NavLink to="/register" className="btn btn-secondary">
+                Register
+              </NavLink>
+            </div>
           )}
         </Motion.nav>
       </Motion.header>

@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import AppLayout from "../Layout/AppLayout.jsx";
-import PageNotFound from "../pages/PageNotFound.jsx";
+import PageNotFound from "../components/PageNotFound.jsx";
 import ErrorBoundary from "../components/ErrorBoundary.jsx";
 
 import Home from "../pages/Home.jsx";
@@ -8,6 +8,7 @@ import Login from "../pages/Login.jsx";
 import Register from "../pages/Register.jsx";
 import Profile from "../pages/profile.jsx";
 import EditProfile from "../pages/EditProfile.jsx";
+import Users from "../pages/Users.jsx";
 
 import { registerAction } from "../actions/registerAction";
 import { loginAction } from "../actions/loginAction";
@@ -17,6 +18,7 @@ import { uploadAction } from "../actions/uploadAction.jsx";
 
 import { authLoader } from "../loaders/authLoader.jsx";
 import { profileLoader } from "../loaders/profileLoader.jsx";
+import { usersLoader } from "../loaders/usersLoader.jsx";
 import { redirectIfAuthenticated } from "../loaders/redirectIfAuthenticated.jsx";
 
 const router = createBrowserRouter(
@@ -42,6 +44,7 @@ const router = createBrowserRouter(
           action: loginAction,
         },
         { path: "logout", action: logoutAction },
+        { path: "users", Component: Users, loader: usersLoader },
         { path: "profile", Component: Profile, loader: profileLoader, action: uploadAction },
         {
           path: "edit-profile",

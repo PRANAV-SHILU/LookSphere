@@ -36,7 +36,7 @@ export default function PageNotFound() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 0.4 }}
       >
-        Kindly redirect to the home page.
+        Kindly go back to the home page.
       </Motion.p>
 
       <Motion.div

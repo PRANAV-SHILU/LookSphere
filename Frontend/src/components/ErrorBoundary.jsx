@@ -1,4 +1,4 @@
-import { useRouteError, isRouteErrorResponse } from "react-router-dom";
+import { useRouteError, isRouteErrorResponse, NavLink } from "react-router-dom";
 import { motion as Motion } from "framer-motion";
 
 export default function ErrorBoundary() {
@@ -24,6 +24,13 @@ export default function ErrorBoundary() {
       transition={{ duration: 0.4, ease: "easeOut" }}
     >
       {content}
+      <NavLink 
+        to="/" 
+        className="mt-8 px-6 py-2.5 rounded-lg font-semibold transition-colors"
+        style={{ backgroundColor: "var(--primary-500)", color: "white" }}
+      >
+        Go to Home
+      </NavLink>
     </Motion.div>
   );
 }

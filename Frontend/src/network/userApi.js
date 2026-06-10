@@ -2,7 +2,13 @@ import apiClient from "./apiClient";
 import { ENDPOINTS } from "./endpoints";
 
 export async function getAllUsers() {
-  throw new Error("Backend integration pending");
+  try {
+    const res = await apiClient.get(ENDPOINTS.USER.USERS);
+    console.log("all users",res.data)
+    return res.data;
+  } catch (err) {
+    throw new Error(err.message);
+  }
 }
 
 export async function getOwnProfile() {

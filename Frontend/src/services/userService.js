@@ -1,7 +1,12 @@
 import { getAllUsers, getOwnProfile, getUserByUsername, updateOwnProfile } from "../network/userApi";
 
 export async function fetchAllUsers() {
-  throw new Error("Backend integration pending");
+  try {
+    const res = await getAllUsers();
+    return res;
+  } catch (err) {
+    throw new Error(err.message);
+  }
 }
 
 export async function fetchOwnProfile() {

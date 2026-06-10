@@ -1,16 +1,21 @@
-export async function getPosts(req, res) {}
+import { asyncHandler } from "../utils/asyncHandler.js";
 
-export async function getPost(req, res) {}
+export const getPosts = asyncHandler("getPosts", async (req, res) => {
+  // logic here
+});
 
-export async function createPost(req, res) {
-  try {
-    if (!req.file)
-      return res.status(400).json({ message: "No media uploaded" });
-  } catch (err) {
-    return res.status(500).json({ message: err.message });
-  }
-}
+export const getPost = asyncHandler("getPost", async (req, res) => {
+  // logic here
+});
 
-export async function deletePost(req, res) {}
+export const createPost = asyncHandler("createPost", async (req, res) => {
+  if (!req.file) return res.status(400).json({ message: "No media uploaded" });
+});
 
-export async function getUserPosts(req, res) {}
+export const deletePost = asyncHandler("deletePost", async (req, res) => {
+  // logic here
+});
+
+export const getUserPosts = asyncHandler("getUserPosts", async (req, res) => {
+  // logic here
+});

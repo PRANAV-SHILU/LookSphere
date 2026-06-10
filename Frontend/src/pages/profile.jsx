@@ -1,9 +1,11 @@
 import { useState } from "react";
-import { useLoaderData, NavLink } from "react-router-dom";
+import { useLoaderData, NavLink, Form, useSubmit } from "react-router-dom";
 import { motion as Motion } from "framer-motion";
 import { User, Settings, Plus } from "lucide-react";
+import { toast } from "react-toastify";
 
 export default function Profile() {
+  const submit = useSubmit();
   const { data } = useLoaderData();
   const { user, images = [], videos = [] } = data || {};
 
@@ -69,10 +71,12 @@ export default function Profile() {
             </h3>
 
             <div
-              className="my-4 text-sm md:text-base"
+              className="my-4 text-sm md:text-base flex gap-4 md:gap-6"
               style={{ color: "var(--text-primary)" }}
             >
-              <strong className="font-semibold">{totalPosts}</strong> posts
+              <span><strong className="font-semibold">{totalPosts}</strong> posts</span>
+              <span><strong className="font-semibold">{user.profileViewCount || 0}</strong> profile views</span>
+              <span><strong className="font-semibold">{user.totalPostViews || 0}</strong> post views</span>
             </div>
 
             <p
@@ -118,10 +122,23 @@ export default function Profile() {
         {activeTab === "images" && (
           images.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-3 gap-[2px]">
-              <div className="add-media-tile">
-                <Plus size={36} className="mb-2" />
-                <span className="font-medium text-sm md:text-base">Add Image</span>
-              </div>
+              <Form method="post" encType="multipart/form-data" className="contents">
+                <input type="hidden" name="type" value="Image" />
+                <label className="add-media-tile">
+                  <input type="file" hidden name="media" accept="image/*" onChange={(e) => {
+                    const file = e.target.files[0];
+                    if (!file) return;
+                    if (file.size > 10 * 1024 * 1024) {
+                      toast.error("Image file size cannot exceed 10 MB.");
+                      e.target.value = "";
+                      return;
+                    }
+                    submit(e.currentTarget.form);
+                  }} />
+                  <Plus size={36} className="mb-2" />
+                  <span className="font-medium text-sm md:text-base">Add Image</span>
+                </label>
+              </Form>
               {images.map((post) => (
                 <div
                   key={post._id}
@@ -129,22 +146,35 @@ export default function Profile() {
                 >
                   <img
                     src={post.mediaUrl}
-                    alt={post.caption || "Post image"}
+                    alt={post.altText || post.caption || "something went wrong"}
                     className="w-full h-full object-cover hover:opacity-90 transition-opacity"
                   />
                 </div>
               ))}
             </div>
           ) : (
-            <div className="empty-state-container flex flex-col items-center justify-center py-16 text-center mx-auto w-[70%]">
-              <div className="empty-circle w-24 h-24 rounded-full flex items-center justify-center mb-4">
-                <Plus size={48} />
-              </div>
-              <h3 className="text-xl font-bold mb-2" style={{ color: "var(--text-primary)" }}>Share Images</h3>
-              <p className="max-w-sm text-sm md:text-base leading-relaxed" style={{ color: "var(--text-muted)" }}>
-                When you share images, they will appear here. Click here to add your first image.
-              </p>
-            </div>
+            <Form method="post" encType="multipart/form-data" className="w-full">
+              <input type="hidden" name="type" value="Image" />
+              <label className="empty-state-container flex flex-col items-center justify-center py-16 text-center mx-auto w-[70%]">
+                <input type="file" hidden name="media" accept="image/*" onChange={(e) => {
+                    const file = e.target.files[0];
+                    if (!file) return;
+                    if (file.size > 10 * 1024 * 1024) {
+                      toast.error("Image file size cannot exceed 10 MB.");
+                      e.target.value = "";
+                      return;
+                    }
+                    submit(e.currentTarget.form);
+                  }} />
+                <div className="empty-circle w-24 h-24 rounded-full flex items-center justify-center mb-4">
+                  <Plus size={48} />
+                </div>
+                <h3 className="text-xl font-bold mb-2" style={{ color: "var(--text-primary)" }}>Share Images</h3>
+                <p className="max-w-sm text-sm md:text-base leading-relaxed" style={{ color: "var(--text-muted)" }}>
+                  When you share images, they will appear here. Click here to add your first image.
+                </p>
+              </label>
+            </Form>
           )
         )}
 
@@ -152,10 +182,23 @@ export default function Profile() {
         {activeTab === "videos" && (
           videos.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-3 gap-[2px]">
-              <div className="add-media-tile">
-                <Plus size={36} className="mb-2" />
-                <span className="font-medium text-sm md:text-base">Add Video</span>
-              </div>
+              <Form method="post" encType="multipart/form-data" className="contents">
+                <input type="hidden" name="type" value="Video" />
+                <label className="add-media-tile">
+                  <input type="file" hidden name="media" accept="video/*" onChange={(e) => {
+                    const file = e.target.files[0];
+                    if (!file) return;
+                    if (file.size > 100 * 1024 * 1024) {
+                      toast.error("Video file size cannot exceed 100 MB.");
+                      e.target.value = "";
+                      return;
+                    }
+                    submit(e.currentTarget.form);
+                  }} />
+                  <Plus size={36} className="mb-2" />
+                  <span className="font-medium text-sm md:text-base">Add Video</span>
+                </label>
+              </Form>
               {videos.map((post) => (
                 <div
                   key={post._id}
@@ -163,6 +206,7 @@ export default function Profile() {
                 >
                   <video
                     src={post.mediaUrl}
+                    alt={post.altText || post.caption || "something went wrong"}
                     className="w-full h-full object-cover hover:opacity-90 transition-opacity"
                     muted
                     loop
@@ -173,15 +217,28 @@ export default function Profile() {
               ))}
             </div>
           ) : (
-            <div className="empty-state-container flex flex-col items-center justify-center py-16 text-center mx-auto w-[70%]">
-              <div className="empty-circle w-24 h-24 rounded-full flex items-center justify-center mb-4">
-                <Plus size={48} />
-              </div>
-              <h3 className="text-xl font-bold mb-2" style={{ color: "var(--text-primary)" }}>Share Videos</h3>
-              <p className="max-w-sm text-sm md:text-base leading-relaxed" style={{ color: "var(--text-muted)" }}>
-                When you share videos, they will appear here. Click here to upload your first clip.
-              </p>
-            </div>
+            <Form method="post" encType="multipart/form-data" className="w-full">
+              <input type="hidden" name="type" value="Video" />
+              <label className="empty-state-container flex flex-col items-center justify-center py-16 text-center mx-auto w-[70%]">
+                <input type="file" hidden name="media" accept="video/*" onChange={(e) => {
+                    const file = e.target.files[0];
+                    if (!file) return;
+                    if (file.size > 100 * 1024 * 1024) {
+                      toast.error("Video file size cannot exceed 100 MB.");
+                      e.target.value = "";
+                      return;
+                    }
+                    submit(e.currentTarget.form);
+                  }} />
+                <div className="empty-circle w-24 h-24 rounded-full flex items-center justify-center mb-4">
+                  <Plus size={48} />
+                </div>
+                <h3 className="text-xl font-bold mb-2" style={{ color: "var(--text-primary)" }}>Share Videos</h3>
+                <p className="max-w-sm text-sm md:text-base leading-relaxed" style={{ color: "var(--text-muted)" }}>
+                  When you share videos, they will appear here. Click here to upload your first clip.
+                </p>
+              </label>
+            </Form>
           )
         )}
       </section>

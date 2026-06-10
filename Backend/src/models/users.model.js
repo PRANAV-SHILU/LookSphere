@@ -41,6 +41,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    profileViewCount: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true, versionKey: false },
 );

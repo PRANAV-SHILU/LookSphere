@@ -5,7 +5,7 @@ export async function getUsers(req, res) {}
 
 export async function getOwnProfile(req, res) {
   try {
-    const user = await User.findOne({ username: req.user.username }, { hashedPassword: 0 });
+    const user = await User.findOne({ username: req.user.username }, { hashedPassword: 0 }).lean();
 
     if (!user) return res.status(404).json({ message: "User not found" });
 
@@ -20,6 +20,12 @@ export async function getOwnProfile(req, res) {
     }).sort({
       createdAt: -1,
     });
+
+    const [viewCountResult] = await Post.aggregate([
+      { $match: { userId: user._id } },
+      { $group: { _id: null, totalViews: { $sum: "$postViewCount" } } }
+    ]);
+    user.totalPostViews = viewCountResult?.totalViews || 0;
 
     return res.status(200).json({
       message: "Profile fetched successfully",

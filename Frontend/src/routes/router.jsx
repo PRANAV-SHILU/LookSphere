@@ -13,6 +13,7 @@ import { registerAction } from "../actions/registerAction";
 import { loginAction } from "../actions/loginAction";
 import { logoutAction } from "../actions/logoutAction.jsx";
 import { editAction } from "../actions/editAction.jsx";
+import { uploadAction } from "../actions/uploadAction.jsx";
 
 import { authLoader } from "../loaders/authLoader.jsx";
 import { profileLoader } from "../loaders/profileLoader.jsx";
@@ -41,7 +42,7 @@ const router = createBrowserRouter(
           action: loginAction,
         },
         { path: "logout", action: logoutAction },
-        { path: "profile", Component: Profile, loader: profileLoader },
+        { path: "profile", Component: Profile, loader: profileLoader, action: uploadAction },
         {
           path: "edit-profile",
           Component: EditProfile,

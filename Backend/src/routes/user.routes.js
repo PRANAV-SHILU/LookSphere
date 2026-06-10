@@ -6,7 +6,7 @@ import {
   updateProfile,
 } from "../controllers/user.controller.js";
 import { verifyToken } from "../middlewares/auth.middleware.js";
-import upload from "../middlewares/upload.middleware.js";
+import { upload, checkMediaSize } from "../middlewares/upload.middleware.js";
 import { updateProfileValidation } from "../validators/user.validator.js";
 
 const userRoutes = express.Router();
@@ -24,6 +24,7 @@ userRoutes.get("/profile/:username", getUserProfile);
 userRoutes.patch(
   "/profile",
   verifyToken,
+  checkMediaSize,
   upload.single("profileImage"),
   updateProfileValidation,
   updateProfile,

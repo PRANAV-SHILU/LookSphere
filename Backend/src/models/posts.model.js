@@ -11,6 +11,11 @@ const postSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    altText: {
+      type: String,
+      trim: true,
+      maxlength: 100,
+    },
     mediaType: {
       type: String,
       enum: ["Image", "Video"],
@@ -21,6 +26,10 @@ const postSchema = new mongoose.Schema(
       trim: true,
       maxlength: 500,
       default: "",
+    },
+    postViewCount: {
+      type: Number,
+      default: 0,
     },
   },
   {

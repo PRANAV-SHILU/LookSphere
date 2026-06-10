@@ -6,7 +6,13 @@ export async function getAllUsers() {
 }
 
 export async function getOwnProfile() {
-  throw new Error("Backend integration pending");
+  try {
+    const res = await apiClient.get(ENDPOINTS.USER.OWN_PROFILE);
+    console.log("own profile",res.data)
+    return res.data;
+  } catch (err) {
+    throw new Error(err.message);
+  }
 }
 
 export async function getUserByUsername(username) {

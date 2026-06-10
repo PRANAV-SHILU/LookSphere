@@ -1,4 +1,5 @@
 import { redirect } from "react-router-dom";
+import { fetchOwnProfile } from "../services/userService.js";
 
 export async function profileLoader() {
   try {
@@ -9,9 +10,8 @@ export async function profileLoader() {
       return redirect("/login");
     }
 
-    // TODO  : fetch profile
-
-    return user;
+    const res = await fetchOwnProfile();
+    return res;
   } catch (err) {
     console.error("profileLoader error:", err);
     return redirect("/login");

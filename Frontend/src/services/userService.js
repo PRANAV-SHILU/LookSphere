@@ -4,8 +4,13 @@ export async function fetchAllUsers() {
   throw new Error("Backend integration pending");
 }
 
-export async function fetchOwnProfile(userId) {
-  throw new Error("Backend integration pending");
+export async function fetchOwnProfile() {
+  try {
+    const res = await getOwnProfile();
+    return res;
+  } catch (err) {
+    throw new Error(err.message);
+  }
 }
 
 export async function fetchProfile(userId) {

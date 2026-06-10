@@ -335,8 +335,8 @@ a:hover {
 }
 
 .tab-btn {
-  padding: 0.4rem 1.5rem;
-  font-size: 1.125rem;
+  padding: 0.22rem 1.5rem;
+  font-size: 1.2rem;
   font-weight: 600;
   border-radius: calc(var(--radius-lg) - 0.25rem);
   color: var(--text-muted);
@@ -354,4 +354,51 @@ a:hover {
   background-color: var(--surface-card);
   color: var(--text-primary);
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Add Media Tiles */
+.add-media-tile {
+  background-color: var(--surface-input);
+  border: 2px dashed var(--border-strong);
+  color: var(--text-secondary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1 / 1;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: var(--radius-sm);
+}
+
+.add-media-tile:hover {
+  background-color: var(--surface-hover);
+  border-color: var(--primary-500);
+  color: var(--text-primary);
+}
+
+/* Empty State Hover Logic */
+.empty-state-container {
+  cursor: pointer;
+  border: 2px dashed var(--border-strong);
+  border-radius: var(--radius-lg);
+  transition: all 0.2s ease;
+}
+
+.empty-state-container:hover {
+  border-color: var(--primary-500);
+  background-color: var(--surface-hover);
+}
+
+.empty-circle {
+  border: 2px dashed var(--border-strong);
+  color: var(--text-primary);
+  background-color: var(--surface-input);
+  transition: all 0.2s ease;
+}
+
+.empty-state-container:hover .empty-circle {
+  border-color: var(--primary-500);
+  background-color: var(--surface-hover);
+  transform: scale(0.95);
 }

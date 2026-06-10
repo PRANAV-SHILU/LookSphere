@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useLoaderData, NavLink } from "react-router-dom";
 import { motion as Motion } from "framer-motion";
-import { User, Settings } from "lucide-react";
+import { User, Settings, Plus } from "lucide-react";
 
 export default function Profile() {
   const { data } = useLoaderData();
@@ -30,7 +30,7 @@ export default function Profile() {
           {user.username}
         </h1>
 
-        <div className="flex flex-row items-start w-full mb-6">
+        <div className="flex flex-row items-start w-full mb-2">
           {/* Profile Image */}
           <div
             className="flex items-center justify-center overflow-hidden border shadow-sm shrink-0"
@@ -61,15 +61,24 @@ export default function Profile() {
 
           {/* Profile Info */}
           <div className="flex flex-col items-start text-left gap-1 mt-2">
-            <h3 className="text-base md:text-lg font-bold" style={{ color: "var(--text-primary)" }}>
-              {user.tagline || user.role}
+            <h3
+              className="text-base md:text-lg font-bold"
+              style={{ color: "var(--text-primary)" }}
+            >
+              {user.tagline}
             </h3>
 
-            <div className="my-4 text-sm md:text-base" style={{ color: "var(--text-primary)" }}>
+            <div
+              className="my-4 text-sm md:text-base"
+              style={{ color: "var(--text-primary)" }}
+            >
               <strong className="font-semibold">{totalPosts}</strong> posts
             </div>
 
-            <p className="whitespace-pre-wrap text-sm md:text-base leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+            <p
+              className="whitespace-pre-wrap text-sm md:text-base leading-relaxed"
+              style={{ color: "var(--text-secondary)" }}
+            >
               {user.bio}
             </p>
           </div>
@@ -79,7 +88,7 @@ export default function Profile() {
         <NavLink
           to="/edit-profile"
           className="btn btn-secondary w-[50%] md:w-full max-w-[250px]"
-          style={{fontSize:"20px",fontWeight:500, padding:"0.2rem"}}
+          style={{ fontSize: "20px", fontWeight: 500, padding: "0" }}
         >
           Edit Profile
         </NavLink>
@@ -107,41 +116,73 @@ export default function Profile() {
       <section className="w-full">
         {/* Image Feed */}
         {activeTab === "images" && (
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-[2px]">
-            {images.map((post) => (
-              <div
-                key={post._id}
-                className="aspect-square bg-zinc-800 overflow-hidden cursor-pointer"
-              >
-                <img
-                  src={post.mediaUrl}
-                  alt={post.caption || "Post image"}
-                  className="w-full h-full object-cover hover:opacity-90 transition-opacity"
-                />
+          images.length > 0 ? (
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-[2px]">
+              <div className="add-media-tile">
+                <Plus size={36} className="mb-2" />
+                <span className="font-medium text-sm md:text-base">Add Image</span>
               </div>
-            ))}
-          </div>
+              {images.map((post) => (
+                <div
+                  key={post._id}
+                  className="aspect-square bg-zinc-800 overflow-hidden cursor-pointer"
+                >
+                  <img
+                    src={post.mediaUrl}
+                    alt={post.caption || "Post image"}
+                    className="w-full h-full object-cover hover:opacity-90 transition-opacity"
+                  />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="empty-state-container flex flex-col items-center justify-center py-16 text-center mx-auto w-[70%]">
+              <div className="empty-circle w-24 h-24 rounded-full flex items-center justify-center mb-4">
+                <Plus size={48} />
+              </div>
+              <h3 className="text-xl font-bold mb-2" style={{ color: "var(--text-primary)" }}>Share Images</h3>
+              <p className="max-w-sm text-sm md:text-base leading-relaxed" style={{ color: "var(--text-muted)" }}>
+                When you share images, they will appear here. Click here to add your first image.
+              </p>
+            </div>
+          )
         )}
 
         {/* Video Feed */}
         {activeTab === "videos" && (
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-[2px]">
-            {videos.map((post) => (
-              <div
-                key={post._id}
-                className="aspect-square bg-zinc-800 overflow-hidden cursor-pointer"
-              >
-                <video
-                  src={post.mediaUrl}
-                  className="w-full h-full object-cover hover:opacity-90 transition-opacity"
-                  muted
-                  loop
-                  onMouseOver={(e) => e.target.play()}
-                  onMouseOut={(e) => e.target.pause()}
-                />
+          videos.length > 0 ? (
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-[2px]">
+              <div className="add-media-tile">
+                <Plus size={36} className="mb-2" />
+                <span className="font-medium text-sm md:text-base">Add Video</span>
               </div>
-            ))}
-          </div>
+              {videos.map((post) => (
+                <div
+                  key={post._id}
+                  className="aspect-square bg-zinc-800 overflow-hidden cursor-pointer"
+                >
+                  <video
+                    src={post.mediaUrl}
+                    className="w-full h-full object-cover hover:opacity-90 transition-opacity"
+                    muted
+                    loop
+                    onMouseOver={(e) => e.target.play()}
+                    onMouseOut={(e) => e.target.pause()}
+                  />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="empty-state-container flex flex-col items-center justify-center py-16 text-center mx-auto w-[70%]">
+              <div className="empty-circle w-24 h-24 rounded-full flex items-center justify-center mb-4">
+                <Plus size={48} />
+              </div>
+              <h3 className="text-xl font-bold mb-2" style={{ color: "var(--text-primary)" }}>Share Videos</h3>
+              <p className="max-w-sm text-sm md:text-base leading-relaxed" style={{ color: "var(--text-muted)" }}>
+                When you share videos, they will appear here. Click here to upload your first clip.
+              </p>
+            </div>
+          )
         )}
       </section>
     </Motion.main>

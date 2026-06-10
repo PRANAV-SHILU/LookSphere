@@ -3,13 +3,15 @@ import Post from "../models/posts.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
 export const getUsers = asyncHandler("getUsers", async (req, res) => {
-  const users = await User.find().select({
-    profileImage: 1,
-    username: 1,
-    tagline: 1,
-    profileViewCount: 1,
-  });
-  console.log("all users", users);
+  const users = await User.find()
+    .select({
+      profileImage: 1,
+      username: 1,
+      tagline: 1,
+      profileViewCount: 1,
+    })
+    .sort({ profileViewCount: -1 });
+
   return res.status(200).json({
     message: "Users fetched successfully",
     data: users,
@@ -48,9 +50,12 @@ export const getOwnProfile = asyncHandler("getOwnProfile", async (req, res) => {
   });
 });
 
-export const getUserProfile = asyncHandler("getUserProfile", async (req, res) => {
-  // logic here
-});
+export const getUserProfile = asyncHandler(
+  "getUserProfile",
+  async (req, res) => {
+    // logic here
+  },
+);
 
 export const updateProfile = asyncHandler("updateProfile", async (req, res) => {
   // logic here

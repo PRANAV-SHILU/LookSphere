@@ -4,10 +4,12 @@ export const updateProfileValidation = [
   check("username")
     .optional()
     .trim()
-    .toLowerCase()
     .isLength({ min: 3 })
     .withMessage("username must be at least 3 characters long")
     .custom((value) => {
+      if (/[A-Z]/.test(value)) {
+        throw new Error("username cannot contain capital letters");
+      }
       if (value.includes(" ")) {
         throw new Error("username cannot contain spaces");
       }

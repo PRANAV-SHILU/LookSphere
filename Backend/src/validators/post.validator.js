@@ -7,9 +7,15 @@ export const createPostValidation = [
     .isLength({ max: 500 })
     .withMessage("caption cannot exceed 500 characters"),
 
+  check("altText")
+    .optional()
+    .trim()
+    .isLength({ max: 50 })
+    .withMessage("altText cannot exceed 50 characters"),
+
   check("mediaType")
     .notEmpty()
     .withMessage("mediaType is required")
-    .isIn(["image", "video"])
-    .withMessage("mediaType must be image or video"),
+    .isIn(["Image", "Video"])
+    .withMessage("mediaType must be Image or Video"),
 ];

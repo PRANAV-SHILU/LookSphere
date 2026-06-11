@@ -5,10 +5,12 @@ export const registerValidation = [
     .trim()
     .notEmpty()
     .withMessage("username is required")
-    .toLowerCase()
     .isLength({ min: 3 })
     .withMessage("username must be at least 3 characters long")
     .custom((value) => {
+      if (/[A-Z]/.test(value)) {
+        throw new Error("username cannot contain capital letters");
+      }
       if (value.includes(" ")) {
         throw new Error("username cannot contain spaces");
       }

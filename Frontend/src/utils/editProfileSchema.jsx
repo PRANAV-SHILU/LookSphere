@@ -7,8 +7,8 @@ export const editProfileSchema = yup.object({
     .required("Username is required")
     .min(3, "Username must be at least 3 characters")
     .max(30, "Username cannot exceed 30 characters")
-    .lowercase()
-    .test("no-spaces", "Username cannot contain spaces", (value) => !value || !value.includes(" ")),
+    .test("no-spaces", "Username cannot contain spaces", (value) => !value || !value.includes(" "))
+    .test("no-capitals", "Username cannot contain capital letters", (value) => !value || !/[A-Z]/.test(value)),
 
   email: yup
     .string()

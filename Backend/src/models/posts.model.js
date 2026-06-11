@@ -14,7 +14,7 @@ const postSchema = new mongoose.Schema(
     altText: {
       type: String,
       trim: true,
-      maxlength: 100,
+      maxlength: 50,
     },
     mediaType: {
       type: String,

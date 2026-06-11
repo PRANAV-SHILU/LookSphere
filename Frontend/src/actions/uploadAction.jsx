@@ -1,15 +1,27 @@
 import { redirect } from "react-router-dom";
+import { uploadUserPost } from "../services/postService";
+import { toast } from "react-toastify";
 
 export async function uploadAction({ request }) {
   const formData = await request.formData();
   const mediaFile = formData.get("media");
-  const mediaType = formData.get("type"); // "image" or "video"
+  const mediaType = formData.get("type"); // "Image" or "Video"
+  const caption = formData.get("caption") || "";
+  const altText = formData.get("altText") || "";
 
-  // TODO: Call your actual userApi/userService here
-  console.log("Simulating upload for:", mediaType, mediaFile);
-  
-  // X-Media-Type - have to send in headers for size validation on backend
+  try {
+    const payload = new FormData();
+    payload.append("media", mediaFile);
+    payload.append("mediaType", mediaType);
+    payload.append("caption", caption);
+    payload.append("altText", altText);
 
-  // Return a redirect to refresh the loader, or just null
+
+    await uploadUserPost(payload);
+    toast.success("Post uploaded successfully!");
+  } catch (err) {
+    toast.error(err.message || "Failed to upload post.");
+  }
+
   return redirect("/profile");
 }

@@ -25,6 +25,7 @@ export default function EditProfile() {
   const {
     register,
     formState: { errors, isValid },
+    watch,
   } = useForm({
     defaultValues: {
       username: user?.username || "",
@@ -35,6 +36,9 @@ export default function EditProfile() {
     resolver: yupResolver(editProfileSchema),
     mode: "all",
   });
+
+  const taglineValue = watch("tagline") || "";
+  const bioValue = watch("bio") || "";
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -144,6 +148,7 @@ export default function EditProfile() {
             type="file"
             name="profileImage"
             accept="image/*"
+            multiple={false}
             hidden
             onChange={handleImageChange}
           />
@@ -208,6 +213,10 @@ export default function EditProfile() {
               {errors.tagline.message}
             </p>
           )}
+          <div className="flex justify-between mt-1.5 px-0.5 text-xs text-[var(--text-muted)]">
+            <span>A short line about you</span>
+            <span>{taglineValue.length}/80</span>
+          </div>
         </div>
 
         {/* --- Bio --- */}
@@ -231,6 +240,10 @@ export default function EditProfile() {
               {errors.bio.message}
             </p>
           )}
+          <div className="flex justify-between mt-1.5 px-0.5 text-xs text-[var(--text-muted)]">
+            <span>Tell people about yourself</span>
+            <span>{bioValue.length}/300</span>
+          </div>
         </div>
 
         {/* --- Submit --- */}

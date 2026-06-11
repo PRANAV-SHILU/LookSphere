@@ -53,6 +53,7 @@ export default function PublicProfile() {
                 src={user.profileImage}
                 alt="Profile"
                 className="w-full"
+                draggable={false}
                 style={{
                   borderRadius: "100%",
                   objectFit: "cover",
@@ -115,16 +116,17 @@ export default function PublicProfile() {
         {/* Image Feed */}
         {activeTab === "images" && (
           images.length > 0 ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-[2px]">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-1">
               {images.map((post) => (
                 <div
                   key={post._id}
-                  className="aspect-square bg-zinc-800 overflow-hidden cursor-pointer"
+                  className="aspect-square bg-zinc-800 overflow-hidden cursor-pointer rounded-[var(--radius-sm)]"
                 >
                   <img
                     src={post.mediaUrl}
                     alt={post.altText || post.caption || "image"}
                     className="w-full h-full object-cover hover:opacity-90 transition-opacity"
+                    draggable={false}
                   />
                 </div>
               ))}
@@ -147,17 +149,18 @@ export default function PublicProfile() {
         {/* Video Feed */}
         {activeTab === "videos" && (
           videos.length > 0 ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-[2px]">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-1">
               {videos.map((post) => (
                 <div
                   key={post._id}
-                  className="aspect-square bg-zinc-800 overflow-hidden cursor-pointer"
+                  className="aspect-square bg-zinc-800 overflow-hidden cursor-pointer rounded-[var(--radius-sm)]"
                 >
                   <video
                     src={post.mediaUrl}
                     className="w-full h-full object-cover hover:opacity-90 transition-opacity"
                     muted
                     loop
+                    draggable={false}
                     onMouseOver={(e) => e.target.play()}
                     onMouseOut={(e) => e.target.pause()}
                   />

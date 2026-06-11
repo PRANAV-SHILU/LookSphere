@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { useLoaderData, NavLink, Form, useSubmit } from "react-router-dom";
-import { motion as Motion } from "framer-motion";
+import { useLoaderData, NavLink, Form, useSubmit, useNavigation } from "react-router-dom";
+import { motion as Motion, AnimatePresence } from "framer-motion";
 import { User, Settings, Plus } from "lucide-react";
-import { toast } from "react-toastify";
 import BackButton from "../shared-components/BackButton";
+import UploadMediaModal from "../utils/UploadMediaModal";
 
 export default function OwnProfile() {
   const submit = useSubmit();
@@ -11,6 +11,26 @@ export default function OwnProfile() {
   const { user, images = [], videos = [] } = data || {};
 
   const [activeTab, setActiveTab] = useState("images"); // "images" or "videos"
+  const [mediaType, setMediaType] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === "submitting";
+
+  const handleTriggerUpload = (type) => {
+    setMediaType(type);
+    setIsModalOpen(true);
+  };
+
+  const handleModalSubmit = ({ file, caption, altText }) => {
+    const formData = new FormData();
+    formData.append("media", file);
+    formData.append("type", mediaType);
+    formData.append("caption", caption);
+    formData.append("altText", altText);
+
+    submit(formData, { method: "post", encType: "multipart/form-data" });
+    setIsModalOpen(false);
+  };
 
   if (!data)
     return (
@@ -18,7 +38,44 @@ export default function OwnProfile() {
     );
 
   return (
-    <Motion.main
+    <>
+      <AnimatePresence>
+        {isSubmitting && (
+          <Motion.div
+            className="fixed inset-0 z-50 flex flex-col items-center justify-center backdrop-blur-sm"
+            style={{ backgroundColor: "rgba(0,0,0,0.55)" }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <Motion.div
+              className="flex flex-col items-center gap-4 bg-[var(--surface-card)] border border-[var(--border-normal)] rounded-[var(--radius-lg)] p-8 shadow-[var(--shadow-card)] max-w-sm w-full mx-4 text-center"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ delay: 0.1, type: "spring", stiffness: 300, damping: 25 }}
+            >
+              {/* Spinner animation */}
+              <Motion.div
+                className="w-12 h-12 rounded-full border-4 border-[var(--border-light)] border-t-[var(--primary-500)]"
+                style={{ borderTopColor: "var(--primary-500)" }}
+                animate={{ rotate: 360 }}
+                transition={{ repeat: Infinity, duration: 0.8, ease: "linear" }}
+              />
+              <div>
+                <h3 className="text-lg font-bold mb-1" style={{ color: "var(--text-primary)" }}>
+                  Uploading Post
+                </h3>
+                <p className="text-sm" style={{ color: "var(--text-muted)" }}>
+                  Please wait, your post is being uploaded and processed.
+                </p>
+              </div>
+            </Motion.div>
+          </Motion.div>
+        )}
+      </AnimatePresence>
+
+      <Motion.main
       className="w-full max-w-[1000px] mx-auto pt-8 pb-16 px-4 md:px-8"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -54,6 +111,7 @@ export default function OwnProfile() {
                 src={user.profileImage}
                 alt="Profile"
                 className="w-full"
+                draggable={false}
                 style={{
                   borderRadius: "100%",
                   objectFit: "cover",
@@ -138,73 +196,37 @@ export default function OwnProfile() {
         {/* Image Feed */}
         {activeTab === "images" &&
           (images.length > 0 ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-[2px]">
-              <Form
-                method="post"
-                encType="multipart/form-data"
-                className="contents"
-              >
-                <input type="hidden" name="type" value="Image" />
-                <label className="add-media-tile">
-                  <input
-                    type="file"
-                    hidden
-                    name="media"
-                    accept="image/*"
-                    onChange={(e) => {
-                      const file = e.target.files[0];
-                      if (!file) return;
-                      if (file.size > 10 * 1024 * 1024) {
-                        toast.error("Image file size cannot exceed 10 MB.");
-                        e.target.value = "";
-                        return;
-                      }
-                      submit(e.currentTarget.form);
-                    }}
-                  />
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-1">
+              <div className="contents">
+                <div
+                  className="add-media-tile aspect-square w-full"
+                  onClick={() => handleTriggerUpload("Image")}
+                >
                   <Plus size={36} className="mb-2" />
                   <span className="font-medium text-sm md:text-base">
                     Add Image
                   </span>
-                </label>
-              </Form>
+                </div>
+              </div>
               {images.map((post) => (
                 <div
                   key={post._id}
-                  className="aspect-square bg-zinc-800 overflow-hidden cursor-pointer"
+                  className="aspect-square bg-zinc-800 overflow-hidden cursor-pointer rounded-[var(--radius-sm)]"
                 >
                   <img
                     src={post.mediaUrl}
                     alt={post.altText || post.caption || "something went wrong"}
                     className="w-full h-full object-cover hover:opacity-90 transition-opacity"
+                    draggable={false}
                   />
                 </div>
               ))}
             </div>
           ) : (
-            <Form
-              method="post"
-              encType="multipart/form-data"
-              className="w-full"
-            >
-              <input type="hidden" name="type" value="Image" />
-              <label className="empty-state-container flex flex-col items-center justify-center py-16 text-center mx-auto w-[70%]">
-                <input
-                  type="file"
-                  hidden
-                  name="media"
-                  accept="image/*"
-                  onChange={(e) => {
-                    const file = e.target.files[0];
-                    if (!file) return;
-                    if (file.size > 10 * 1024 * 1024) {
-                      toast.error("Image file size cannot exceed 10 MB.");
-                      e.target.value = "";
-                      return;
-                    }
-                    submit(e.currentTarget.form);
-                  }}
-                />
+              <div
+                className="empty-state-container flex flex-col items-center justify-center py-16 text-center mx-auto w-[70%]"
+                onClick={() => handleTriggerUpload("Image")}
+              >
                 <div className="empty-circle w-24 h-24 rounded-full flex items-center justify-center mb-4">
                   <Plus size={48} />
                 </div>
@@ -221,47 +243,28 @@ export default function OwnProfile() {
                   When you share images, they will appear here. Click here to
                   add your first image.
                 </p>
-              </label>
-            </Form>
+              </div>
           ))}
 
         {/* Video Feed */}
         {activeTab === "videos" &&
           (videos.length > 0 ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-[2px]">
-              <Form
-                method="post"
-                encType="multipart/form-data"
-                className="contents"
-              >
-                <input type="hidden" name="type" value="Video" />
-                <label className="add-media-tile">
-                  <input
-                    type="file"
-                    hidden
-                    name="media"
-                    accept="video/*"
-                    onChange={(e) => {
-                      const file = e.target.files[0];
-                      if (!file) return;
-                      if (file.size > 100 * 1024 * 1024) {
-                        toast.error("Video file size cannot exceed 100 MB.");
-                        e.target.value = "";
-                        return;
-                      }
-                      submit(e.currentTarget.form);
-                    }}
-                  />
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-1">
+              <div className="contents">
+                <div
+                  className="add-media-tile aspect-square w-full"
+                  onClick={() => handleTriggerUpload("Video")}
+                >
                   <Plus size={36} className="mb-2" />
                   <span className="font-medium text-sm md:text-base">
                     Add Video
                   </span>
-                </label>
-              </Form>
+                </div>
+              </div>
               {videos.map((post) => (
                 <div
                   key={post._id}
-                  className="aspect-square bg-zinc-800 overflow-hidden cursor-pointer"
+                  className="aspect-square bg-zinc-800 overflow-hidden cursor-pointer rounded-[var(--radius-sm)]"
                 >
                   <video
                     src={post.mediaUrl}
@@ -269,6 +272,7 @@ export default function OwnProfile() {
                     className="w-full h-full object-cover hover:opacity-90 transition-opacity"
                     muted
                     loop
+                    draggable={false}
                     onMouseOver={(e) => e.target.play()}
                     onMouseOut={(e) => e.target.pause()}
                   />
@@ -276,49 +280,37 @@ export default function OwnProfile() {
               ))}
             </div>
           ) : (
-            <Form
-              method="post"
-              encType="multipart/form-data"
-              className="w-full"
+            <div
+              className="empty-state-container flex flex-col items-center justify-center py-16 text-center mx-auto w-[70%]"
+              onClick={() => handleTriggerUpload("Video")}
             >
-              <input type="hidden" name="type" value="Video" />
-              <label className="empty-state-container flex flex-col items-center justify-center py-16 text-center mx-auto w-[70%]">
-                <input
-                  type="file"
-                  hidden
-                  name="media"
-                  accept="video/*"
-                  onChange={(e) => {
-                    const file = e.target.files[0];
-                    if (!file) return;
-                    if (file.size > 100 * 1024 * 1024) {
-                      toast.error("Video file size cannot exceed 100 MB.");
-                      e.target.value = "";
-                      return;
-                    }
-                    submit(e.currentTarget.form);
-                  }}
-                />
-                <div className="empty-circle w-24 h-24 rounded-full flex items-center justify-center mb-4">
-                  <Plus size={48} />
-                </div>
-                <h3
-                  className="text-xl font-bold mb-2"
-                  style={{ color: "var(--text-primary)" }}
-                >
-                  Share Videos
-                </h3>
-                <p
-                  className="max-w-sm text-sm md:text-base leading-relaxed"
-                  style={{ color: "var(--text-muted)" }}
-                >
-                  When you share videos, they will appear here. Click here to
-                  upload your first clip.
-                </p>
-              </label>
-            </Form>
+              <div className="empty-circle w-24 h-24 rounded-full flex items-center justify-center mb-4">
+                <Plus size={48} />
+              </div>
+              <h3
+                className="text-xl font-bold mb-2"
+                style={{ color: "var(--text-primary)" }}
+              >
+                Share Videos
+              </h3>
+              <p
+                className="max-w-sm text-sm md:text-base leading-relaxed"
+                style={{ color: "var(--text-muted)" }}
+              >
+                When you share videos, they will appear here. Click here to
+                upload your first clip.
+              </p>
+            </div>
           ))}
       </section>
+
+      <UploadMediaModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        mediaType={mediaType}
+        onSubmit={handleModalSubmit}
+      />
     </Motion.main>
+    </>
   );
 }

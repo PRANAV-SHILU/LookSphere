@@ -5,7 +5,8 @@ const commonSchema = yup.string().required("This field is required").trim();
 export const registerSchema = yup.object({
   username: commonSchema
     .min(3, "username must be at least 3 characters long")
-    .test("no-spaces", "username cannot contain spaces", (value) => !value || !value.includes(" ")),
+    .test("no-spaces", "username cannot contain spaces", (value) => !value || !value.includes(" "))
+    .test("no-capitals", "username cannot contain capital letters", (value) => !value || !/[A-Z]/.test(value)),
 
   email: yup.string()
     .trim()

@@ -27,7 +27,6 @@ export async function fetchPublicProfile(username) {
   }
 }
 
-
 export async function updateUserProfile(payload) {
   try {
     const res = await updateOwnProfile(payload);

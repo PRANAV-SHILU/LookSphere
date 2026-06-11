@@ -1,6 +1,7 @@
 import { useLoaderData, Link } from "react-router-dom";
 import { motion as Motion } from "framer-motion";
 import { User, Eye, ArrowRight } from "lucide-react";
+import BackButton from "../shared-components/BackButton";
 
 export default function Users() {
   const usersList = useLoaderData();
@@ -29,16 +30,19 @@ export default function Users() {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.4 }}
     >
-      <div className="mb-10 text-center md:text-left">
-        <h1
-          className="text-4xl md:text-5xl font-extrabold mb-3 tracking-tight"
-          style={{ color: "var(--text-primary)" }}
-        >
-          Community
-        </h1>
-        <p className="text-lg" style={{ color: "var(--text-muted)" }}>
-          Discover and connect with other users on SecureAuth.
-        </p>
+      <div className="mb-10 flex items-start justify-between">
+        <div className="text-center md:text-left">
+          <h1
+            className="text-4xl md:text-5xl font-extrabold mb-3 tracking-tight"
+            style={{ color: "var(--text-primary)" }}
+          >
+            Community
+          </h1>
+          <p className="text-lg" style={{ color: "var(--text-muted)" }}>
+            Discover and connect with other users on SecureAuth.
+          </p>
+        </div>
+        <BackButton />
       </div>
 
       {usersList.length === 0 ? (

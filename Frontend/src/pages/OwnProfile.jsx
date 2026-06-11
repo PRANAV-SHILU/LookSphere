@@ -3,6 +3,7 @@ import { useLoaderData, NavLink, Form, useSubmit } from "react-router-dom";
 import { motion as Motion } from "framer-motion";
 import { User, Settings, Plus } from "lucide-react";
 import { toast } from "react-toastify";
+import BackButton from "../shared-components/BackButton";
 
 export default function OwnProfile() {
   const submit = useSubmit();
@@ -26,6 +27,11 @@ export default function OwnProfile() {
       exit={{ opacity: 0, y: -10 }}
       transition={{ duration: 0.3 }}
     >
+      {/* --- Back Button --- */}
+      <div className="max-w-[600px] mx-auto w-full mb-2">
+        <BackButton />
+      </div>
+
       {/* --- Profile Header --- */}
       <section className="max-w-[600px] mx-auto flex flex-col items-start gap-6 justify-center">
         <h1 className="text-2xl md:text-3xl font-bold tracking-wide">

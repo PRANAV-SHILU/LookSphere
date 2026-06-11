@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import { motion as Motion } from "framer-motion";
 import { User, Image, Video } from "lucide-react";
+import BackButton from "../shared-components/BackButton";
 
 export default function PublicProfile() {
   const { data } = useLoaderData();
@@ -24,6 +25,11 @@ export default function PublicProfile() {
       exit={{ opacity: 0, y: -10 }}
       transition={{ duration: 0.3 }}
     >
+      {/* --- Back Button --- */}
+      <div className="max-w-[600px] mx-auto w-full mb-2">
+        <BackButton />
+      </div>
+
       {/* --- Profile Header --- */}
       <section className="max-w-[600px] mx-auto flex flex-col items-start gap-6 justify-center">
         <h1 className="text-2xl md:text-3xl font-bold tracking-wide">

@@ -3,12 +3,29 @@ import { updateUserProfile } from "../services/userService";
 
 export async function editAction({ request }) {
   const formData = await request.formData();
-  const name = formData.get("name");
-  const password = formData.get("password");
-  const mobile = formData.get("mobile");
+
+  const username = formData.get("username");
+  const email = formData.get("email");
+  const tagline = formData.get("tagline");
+  const bio = formData.get("bio");
+  const profileImage = formData.get("profileImage");
 
   try {
-    await updateUserProfile(null, { name, mobile, password });
+    const payload = new FormData();
+    payload.append("username", username);
+    payload.append("email", email);
+    payload.append("tagline", tagline);
+    payload.append("bio", bio);
+    if (profileImage && profileImage.size > 0) {
+      payload.append("profileImage", profileImage);
+    }
+
+    const updatedUser = await updateUserProfile(payload);
+
+    // Update localStorage so the edit profile page & other consumers stay in sync
+    const stored = localStorage.getItem("user");
+    const existing = stored ? JSON.parse(stored) : {};
+    localStorage.setItem("user", JSON.stringify({ ...existing, ...updatedUser }));
 
     return redirect("/profile");
   } catch (err) {

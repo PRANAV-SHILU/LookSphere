@@ -17,7 +17,6 @@ export default function OwnProfile() {
       <h2 className="text-center text-muted mt-10">Loading user data...</h2>
     );
 
-  const totalPosts = images.length + videos.length;
 
   return (
     <Motion.main
@@ -80,7 +79,7 @@ export default function OwnProfile() {
               className="my-4 text-sm md:text-base flex gap-4 md:gap-6"
               style={{ color: "var(--text-primary)" }}
             >
-              <span><strong className="font-semibold">{totalPosts}</strong> posts</span>
+              <span><strong className="font-semibold">{user.postCount || 0}</strong> posts</span>
               <span><strong className="font-semibold">{user.profileViewCount || 0}</strong> profile views</span>
               <span><strong className="font-semibold">{user.totalPostViews || 0}</strong> post views</span>
             </div>

@@ -9,6 +9,7 @@ export const getUsers = asyncHandler("getUsers", async (req, res) => {
       username: 1,
       tagline: 1,
       profileViewCount: 1,
+      postCount: 1,
     })
     .sort({ profileViewCount: -1 });
 

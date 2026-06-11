@@ -1,10 +1,20 @@
+import { useState } from "react";
 import { useLoaderData, Link } from "react-router-dom";
 import { motion as Motion } from "framer-motion";
-import { User, Eye, ArrowRight } from "lucide-react";
+import { User, Eye, ArrowRight, Search, FileText } from "lucide-react";
 import BackButton from "../shared-components/BackButton";
 
 export default function Users() {
   const usersList = useLoaderData();
+  const [query, setQuery] = useState("");
+
+  const filteredUsers = usersList.filter((u) => {
+    const q = query.toLowerCase();
+    return (
+      u.username.toLowerCase().includes(q) ||
+      (u.tagline || "").toLowerCase().includes(q)
+    );
+  });
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -45,12 +55,38 @@ export default function Users() {
         <BackButton />
       </div>
 
+      {/* --- Search Bar --- */}
+      <div
+        className="flex items-center gap-3 mb-8 px-4 py-3 rounded-xl"
+        style={{
+          backgroundColor: "var(--surface-input)",
+          border: "1px solid var(--border-normal)",
+        }}
+      >
+        <Search size={18} style={{ color: "var(--text-muted)" }} />
+        <input
+          type="text"
+          placeholder="Search by username or tagline..."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          className="bg-transparent outline-none w-full text-sm"
+          style={{ color: "var(--text-primary)" }}
+        />
+      </div>
+
       {usersList.length === 0 ? (
         <div
           className="text-center py-20 text-lg font-medium"
           style={{ color: "var(--text-muted)" }}
         >
           No users found. Register yourself to be the first one.
+        </div>
+      ) : filteredUsers.length === 0 ? (
+        <div
+          className="text-center py-20 text-lg font-medium"
+          style={{ color: "var(--text-muted)" }}
+        >
+          No users match &ldquo;{query}&rdquo;.
         </div>
       ) : (
         <Motion.div
@@ -59,7 +95,7 @@ export default function Users() {
           initial="hidden"
           animate="show"
         >
-          {usersList.map((user) => (
+          {filteredUsers.map((user) => (
             <Motion.div
               key={user.username}
               variants={itemVariants}
@@ -123,14 +159,28 @@ export default function Users() {
                 >
                   {/* View Count */}
                   <div
-                    className="flex items-center space-x-1.5 text-xs font-semibold px-2.5 py-1.5 rounded-md"
-                    style={{
-                      backgroundColor: "var(--surface-input)",
-                      color: "var(--text-secondary)",
-                    }}
+                    className="flex items-center gap-3"
                   >
-                    <Eye size={14} />
-                    <span>{user.profileViewCount || 0} Views</span>
+                    <div
+                      className="flex items-center space-x-1.5 text-xs font-semibold px-2.5 py-1.5 rounded-md"
+                      style={{
+                        backgroundColor: "var(--surface-input)",
+                        color: "var(--text-secondary)",
+                      }}
+                    >
+                      <Eye size={14} />
+                      <span>{user.profileViewCount || 0} Views</span>
+                    </div>
+                    <div
+                      className="flex items-center space-x-1.5 text-xs font-semibold px-2.5 py-1.5 rounded-md"
+                      style={{
+                        backgroundColor: "var(--surface-input)",
+                        color: "var(--text-secondary)",
+                      }}
+                    >
+                      <FileText size={14} />
+                      <span>{user.postCount || 0} Posts</span>
+                    </div>
                   </div>
 
                   {/* View Profile Button (Icon) */}

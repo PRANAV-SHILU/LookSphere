@@ -15,7 +15,6 @@ export default function PublicProfile() {
       <h2 className="text-center text-muted mt-10">Loading user data...</h2>
     );
 
-  const totalPosts = images.length + videos.length;
 
   return (
     <Motion.main
@@ -78,7 +77,7 @@ export default function PublicProfile() {
               className="my-4 text-sm md:text-base flex gap-4 md:gap-6"
               style={{ color: "var(--text-primary)" }}
             >
-              <span><strong className="font-semibold">{totalPosts}</strong> posts</span>
+              <span><strong className="font-semibold">{user.postCount || 0}</strong> posts</span>
               <span><strong className="font-semibold">{user.profileViewCount || 0}</strong> profile views</span>
               <span><strong className="font-semibold">{user.totalPostViews || 0}</strong> post views</span>
             </div>
@@ -131,8 +130,8 @@ export default function PublicProfile() {
               ))}
             </div>
           ) : (
-            <div className="flex flex-col items-center justify-center py-16 text-center mx-auto w-[70%]">
-              <div className="w-24 h-24 rounded-full flex items-center justify-center mb-4">
+            <div className="flex flex-col items-center justify-center pt-6 pb-16 text-center mx-auto w-[70%]">
+              <div className="w-24 h-24 rounded-full flex items-center justify-center mb-1">
                 <Image size={48} style={{ color: "var(--text-muted)" }} />
               </div>
               <h3 className="text-xl font-bold mb-2" style={{ color: "var(--text-primary)" }}>
@@ -166,8 +165,8 @@ export default function PublicProfile() {
               ))}
             </div>
           ) : (
-            <div className="flex flex-col items-center justify-center py-16 text-center mx-auto w-[70%]">
-              <div className="w-24 h-24 rounded-full flex items-center justify-center mb-4">
+            <div className="flex flex-col items-center justify-center pt-6 pb-16 text-center mx-auto w-[70%]">
+              <div className="w-24 h-24 rounded-full flex items-center justify-center mb-1">
                 <Video size={48} style={{ color: "var(--text-muted)" }} />
               </div>
               <h3 className="text-xl font-bold mb-2" style={{ color: "var(--text-primary)" }}>

@@ -21,6 +21,7 @@ import { authLoader } from "../loaders/authLoader.jsx";
 import { profileLoader } from "../loaders/profileLoader.jsx";
 import { usersLoader } from "../loaders/usersLoader.jsx";
 import { publicProfileLoader } from "../loaders/publicProfileLoader.jsx";
+import { editProfileLoader } from "../loaders/editProfileLoader.jsx";
 import { redirectIfAuthenticated } from "../loaders/redirectIfAuthenticated.jsx";
 
 const router = createBrowserRouter(
@@ -56,7 +57,7 @@ const router = createBrowserRouter(
         {
           path: "edit-profile",
           Component: EditProfile,
-          loader: profileLoader,
+          loader: editProfileLoader,
           action: editAction,
         },
         {

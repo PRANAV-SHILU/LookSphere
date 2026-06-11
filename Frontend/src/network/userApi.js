@@ -22,7 +22,13 @@ export async function getOwnProfile() {
 }
 
 export async function getUserByUsername(username) {
-  throw new Error("Backend integration pending");
+  try {
+    const res = await apiClient.get(ENDPOINTS.USER.PROFILE(username));
+    console.log("public profile", res.data.data);
+    return res.data;
+  } catch (err) {
+    throw new Error(err.message);
+  }
 }
 
 export async function updateOwnProfile(formData) {

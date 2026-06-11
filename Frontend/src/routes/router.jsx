@@ -6,9 +6,10 @@ import ErrorBoundary from "../components/ErrorBoundary.jsx";
 import Home from "../pages/Home.jsx";
 import Login from "../pages/Login.jsx";
 import Register from "../pages/Register.jsx";
-import Profile from "../pages/profile.jsx";
 import EditProfile from "../pages/EditProfile.jsx";
 import Users from "../pages/Users.jsx";
+import OwnProfile from "../pages/OwnProfile.jsx";
+import PublicProfile from "../pages/PublicProfile.jsx";
 
 import { registerAction } from "../actions/registerAction";
 import { loginAction } from "../actions/loginAction";
@@ -19,6 +20,7 @@ import { uploadAction } from "../actions/uploadAction.jsx";
 import { authLoader } from "../loaders/authLoader.jsx";
 import { profileLoader } from "../loaders/profileLoader.jsx";
 import { usersLoader } from "../loaders/usersLoader.jsx";
+import { publicProfileLoader } from "../loaders/publicProfileLoader.jsx";
 import { redirectIfAuthenticated } from "../loaders/redirectIfAuthenticated.jsx";
 
 const router = createBrowserRouter(
@@ -45,12 +47,22 @@ const router = createBrowserRouter(
         },
         { path: "logout", action: logoutAction },
         { path: "users", Component: Users, loader: usersLoader },
-        { path: "profile", Component: Profile, loader: profileLoader, action: uploadAction },
+        {
+          path: "profile",
+          Component: OwnProfile,
+          loader: profileLoader,
+          action: uploadAction,
+        },
         {
           path: "edit-profile",
           Component: EditProfile,
           loader: profileLoader,
           action: editAction,
+        },
+        {
+          path: "profile/:username",
+          Component: PublicProfile,
+          loader: publicProfileLoader,
         },
       ],
     },

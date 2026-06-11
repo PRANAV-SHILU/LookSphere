@@ -47,6 +47,7 @@ export const login = asyncHandler("login", async (req, res) => {
   const token = jwt.sign(
     { username: user.username, role: user.role },
     process.env.JWT_SECRET,
+    { expiresIn: "1y" }
   );
   console.log("JWT Token", token);
 
@@ -55,6 +56,7 @@ export const login = asyncHandler("login", async (req, res) => {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
+    maxAge: 365 * 24 * 60 * 60 * 1000, // 1 year
   });
 
   const { hashedPassword, ...userData } = user.toObject();

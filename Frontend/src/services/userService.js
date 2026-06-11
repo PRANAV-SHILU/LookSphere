@@ -18,8 +18,13 @@ export async function fetchOwnProfile() {
   }
 }
 
-export async function fetchProfile(userId) {
-  throw new Error("Backend integration pending");
+export async function fetchPublicProfile(username) {
+  try {
+    const res = await getUserByUsername(username);
+    return res;
+  } catch (err) {
+    throw new Error(err.message);
+  }
 }
 
 

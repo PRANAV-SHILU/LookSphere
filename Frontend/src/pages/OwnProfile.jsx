@@ -4,7 +4,7 @@ import { motion as Motion } from "framer-motion";
 import { User, Settings, Plus } from "lucide-react";
 import { toast } from "react-toastify";
 
-export default function Profile() {
+export default function OwnProfile() {
   const submit = useSubmit();
   const { data } = useLoaderData();
   const { user, images = [], videos = [] } = data || {};

@@ -476,3 +476,8 @@ a:hover {
     opacity: 0;
   }
 }
+
+/* Global Toast Margin Top */
+.Toastify__toast-container {
+  margin-top: 70px !important;
+}

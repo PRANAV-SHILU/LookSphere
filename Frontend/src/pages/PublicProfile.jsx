@@ -84,7 +84,7 @@ export default function PublicProfile() {
 
             <p
               className="whitespace-pre-wrap text-sm md:text-base leading-relaxed"
-              style={{ color: "var(--text-secondary)" }}
+              style={{ color: "var(--text-secondary)", whiteSpace: "pre-wrap" }}
             >
               {user.bio}
             </p>

@@ -17,7 +17,6 @@ export default function OwnProfile() {
       <h2 className="text-center text-muted mt-10">Loading user data...</h2>
     );
 
-
   return (
     <Motion.main
       className="w-full max-w-[1000px] mx-auto pt-8 pb-16 px-4 md:px-8"
@@ -79,9 +78,22 @@ export default function OwnProfile() {
               className="my-4 text-sm md:text-base flex gap-4 md:gap-6"
               style={{ color: "var(--text-primary)" }}
             >
-              <span><strong className="font-semibold">{user.postCount || 0}</strong> posts</span>
-              <span><strong className="font-semibold">{user.profileViewCount || 0}</strong> profile views</span>
-              <span><strong className="font-semibold">{user.totalPostViews || 0}</strong> post views</span>
+              <span>
+                <strong className="font-semibold">{user.postCount || 0}</strong>{" "}
+                posts
+              </span>
+              <span>
+                <strong className="font-semibold">
+                  {user.profileViewCount || 0}
+                </strong>{" "}
+                profile views
+              </span>
+              <span>
+                <strong className="font-semibold">
+                  {user.totalPostViews || 0}
+                </strong>{" "}
+                post views
+              </span>
             </div>
 
             <p
@@ -124,24 +136,36 @@ export default function OwnProfile() {
       {/* --- Feed Content --- */}
       <section className="w-full">
         {/* Image Feed */}
-        {activeTab === "images" && (
-          images.length > 0 ? (
+        {activeTab === "images" &&
+          (images.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-3 gap-[2px]">
-              <Form method="post" encType="multipart/form-data" className="contents">
+              <Form
+                method="post"
+                encType="multipart/form-data"
+                className="contents"
+              >
                 <input type="hidden" name="type" value="Image" />
                 <label className="add-media-tile">
-                  <input type="file" hidden name="media" accept="image/*" onChange={(e) => {
-                    const file = e.target.files[0];
-                    if (!file) return;
-                    if (file.size > 10 * 1024 * 1024) {
-                      toast.error("Image file size cannot exceed 10 MB.");
-                      e.target.value = "";
-                      return;
-                    }
-                    submit(e.currentTarget.form);
-                  }} />
+                  <input
+                    type="file"
+                    hidden
+                    name="media"
+                    accept="image/*"
+                    onChange={(e) => {
+                      const file = e.target.files[0];
+                      if (!file) return;
+                      if (file.size > 10 * 1024 * 1024) {
+                        toast.error("Image file size cannot exceed 10 MB.");
+                        e.target.value = "";
+                        return;
+                      }
+                      submit(e.currentTarget.form);
+                    }}
+                  />
                   <Plus size={36} className="mb-2" />
-                  <span className="font-medium text-sm md:text-base">Add Image</span>
+                  <span className="font-medium text-sm md:text-base">
+                    Add Image
+                  </span>
                 </label>
               </Form>
               {images.map((post) => (
@@ -158,10 +182,19 @@ export default function OwnProfile() {
               ))}
             </div>
           ) : (
-            <Form method="post" encType="multipart/form-data" className="w-full">
+            <Form
+              method="post"
+              encType="multipart/form-data"
+              className="w-full"
+            >
               <input type="hidden" name="type" value="Image" />
               <label className="empty-state-container flex flex-col items-center justify-center py-16 text-center mx-auto w-[70%]">
-                <input type="file" hidden name="media" accept="image/*" onChange={(e) => {
+                <input
+                  type="file"
+                  hidden
+                  name="media"
+                  accept="image/*"
+                  onChange={(e) => {
                     const file = e.target.files[0];
                     if (!file) return;
                     if (file.size > 10 * 1024 * 1024) {
@@ -170,38 +203,59 @@ export default function OwnProfile() {
                       return;
                     }
                     submit(e.currentTarget.form);
-                  }} />
+                  }}
+                />
                 <div className="empty-circle w-24 h-24 rounded-full flex items-center justify-center mb-4">
                   <Plus size={48} />
                 </div>
-                <h3 className="text-xl font-bold mb-2" style={{ color: "var(--text-primary)" }}>Share Images</h3>
-                <p className="max-w-sm text-sm md:text-base leading-relaxed" style={{ color: "var(--text-muted)" }}>
-                  When you share images, they will appear here. Click here to add your first image.
+                <h3
+                  className="text-xl font-bold mb-2"
+                  style={{ color: "var(--text-primary)" }}
+                >
+                  Share Images
+                </h3>
+                <p
+                  className="max-w-sm text-sm md:text-base leading-relaxed"
+                  style={{ color: "var(--text-muted)" }}
+                >
+                  When you share images, they will appear here. Click here to
+                  add your first image.
                 </p>
               </label>
             </Form>
-          )
-        )}
+          ))}
 
         {/* Video Feed */}
-        {activeTab === "videos" && (
-          videos.length > 0 ? (
+        {activeTab === "videos" &&
+          (videos.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-3 gap-[2px]">
-              <Form method="post" encType="multipart/form-data" className="contents">
+              <Form
+                method="post"
+                encType="multipart/form-data"
+                className="contents"
+              >
                 <input type="hidden" name="type" value="Video" />
                 <label className="add-media-tile">
-                  <input type="file" hidden name="media" accept="video/*" onChange={(e) => {
-                    const file = e.target.files[0];
-                    if (!file) return;
-                    if (file.size > 100 * 1024 * 1024) {
-                      toast.error("Video file size cannot exceed 100 MB.");
-                      e.target.value = "";
-                      return;
-                    }
-                    submit(e.currentTarget.form);
-                  }} />
+                  <input
+                    type="file"
+                    hidden
+                    name="media"
+                    accept="video/*"
+                    onChange={(e) => {
+                      const file = e.target.files[0];
+                      if (!file) return;
+                      if (file.size > 100 * 1024 * 1024) {
+                        toast.error("Video file size cannot exceed 100 MB.");
+                        e.target.value = "";
+                        return;
+                      }
+                      submit(e.currentTarget.form);
+                    }}
+                  />
                   <Plus size={36} className="mb-2" />
-                  <span className="font-medium text-sm md:text-base">Add Video</span>
+                  <span className="font-medium text-sm md:text-base">
+                    Add Video
+                  </span>
                 </label>
               </Form>
               {videos.map((post) => (
@@ -222,10 +276,19 @@ export default function OwnProfile() {
               ))}
             </div>
           ) : (
-            <Form method="post" encType="multipart/form-data" className="w-full">
+            <Form
+              method="post"
+              encType="multipart/form-data"
+              className="w-full"
+            >
               <input type="hidden" name="type" value="Video" />
               <label className="empty-state-container flex flex-col items-center justify-center py-16 text-center mx-auto w-[70%]">
-                <input type="file" hidden name="media" accept="video/*" onChange={(e) => {
+                <input
+                  type="file"
+                  hidden
+                  name="media"
+                  accept="video/*"
+                  onChange={(e) => {
                     const file = e.target.files[0];
                     if (!file) return;
                     if (file.size > 100 * 1024 * 1024) {
@@ -234,18 +297,27 @@ export default function OwnProfile() {
                       return;
                     }
                     submit(e.currentTarget.form);
-                  }} />
+                  }}
+                />
                 <div className="empty-circle w-24 h-24 rounded-full flex items-center justify-center mb-4">
                   <Plus size={48} />
                 </div>
-                <h3 className="text-xl font-bold mb-2" style={{ color: "var(--text-primary)" }}>Share Videos</h3>
-                <p className="max-w-sm text-sm md:text-base leading-relaxed" style={{ color: "var(--text-muted)" }}>
-                  When you share videos, they will appear here. Click here to upload your first clip.
+                <h3
+                  className="text-xl font-bold mb-2"
+                  style={{ color: "var(--text-primary)" }}
+                >
+                  Share Videos
+                </h3>
+                <p
+                  className="max-w-sm text-sm md:text-base leading-relaxed"
+                  style={{ color: "var(--text-muted)" }}
+                >
+                  When you share videos, they will appear here. Click here to
+                  upload your first clip.
                 </p>
               </label>
             </Form>
-          )
-        )}
+          ))}
       </section>
     </Motion.main>
   );

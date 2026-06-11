@@ -24,12 +24,12 @@ export const updateProfileValidation = [
   check("tagline")
     .optional()
     .trim()
-    .isLength({ max: 100 })
-    .withMessage("tagline cannot exceed 100 characters"),
+    .isLength({ max: 80 })
+    .withMessage("tagline cannot exceed 80 characters"),
 
   check("bio")
     .optional()
     .trim()
-    .isLength({ max: 500 })
-    .withMessage("bio cannot exceed 500 characters"),
+    .isLength({ max: 300 })
+    .withMessage("bio cannot exceed 300 characters"),
 ];

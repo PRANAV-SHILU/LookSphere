@@ -31,6 +31,16 @@ export async function getUserByUsername(username) {
   }
 }
 
-export async function updateOwnProfile(formData) {
-  throw new Error("Backend integration pending");
+export async function updateOwnProfile(payload) {
+  try {
+    const res = await apiClient.patch(ENDPOINTS.USER.OWN_PROFILE, payload, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    console.log("updated profile", res.data);
+    return res.data;
+  } catch (err) {
+    throw new Error(err.message);
+  }
 }

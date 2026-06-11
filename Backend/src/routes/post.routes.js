@@ -7,7 +7,11 @@ import {
   getUserPosts,
 } from "../controllers/post.controller.js";
 import { verifyToken } from "../middlewares/auth.middleware.js";
-import {upload,checkMediaSize } from "../middlewares/upload.middleware.js";
+import {
+  upload,
+  checkMediaSize,
+  uploadToCloudinaryMiddleware,
+} from "../middlewares/upload.middleware.js";
 
 const postRoutes = express.Router();
 
@@ -18,7 +22,14 @@ postRoutes.get("/", getPosts);
 postRoutes.get("/:id", getPost);
 
 // add post
-postRoutes.post("/", verifyToken, checkMediaSize, upload.single("media"), createPost);
+postRoutes.post(
+  "/",
+  verifyToken,
+  upload.single("media"),
+  checkMediaSize,
+  uploadToCloudinaryMiddleware,
+  createPost,
+);
 
 // delete post
 postRoutes.delete("/:id", verifyToken, deletePost);

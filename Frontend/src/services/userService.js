@@ -28,6 +28,11 @@ export async function fetchPublicProfile(username) {
 }
 
 
-export async function updateUserProfile(userId, data) {
-  throw new Error("Backend integration pending");
+export async function updateUserProfile(payload) {
+  try {
+    const res = await updateOwnProfile(payload);
+    return res;
+  } catch (err) {
+    throw new Error(err.message);
+  }
 }

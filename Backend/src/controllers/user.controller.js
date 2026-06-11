@@ -1,6 +1,7 @@
 import User from "../models/users.model.js";
 import Post from "../models/posts.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
+import jwt from "jsonwebtoken";
 
 export const getUsers = asyncHandler("getUsers", async (req, res) => {
   const users = await User.find({ role: { $ne: "admin" } })
@@ -58,14 +59,15 @@ export const getUserProfile = asyncHandler(
     if (!username)
       return res.status(404).json({ message: "Username is required" });
 
-    const user = await User.findOne({ username, role: { $ne: "Admin" } })
+    const user = await User.findOneAndUpdate(
+      { username, role: { $ne: "Admin" } },
+      { $inc: { profileViewCount: 1 } },
+      { returnDocument: "after" },
+    )
       .select({ hashedPassword: 0, email: 0 })
       .lean();
 
     if (!user) return res.status(404).json({ message: "User not found" });
-
-    await User.updateOne({ username }, { $inc: { profileViewCount: 1 } });
-    user.profileViewCount += 1;
 
     const images = await Post.find({
       $and: [{ userId: user._id }, { mediaType: "Image" }],
@@ -93,5 +95,60 @@ export const getUserProfile = asyncHandler(
 );
 
 export const updateProfile = asyncHandler("updateProfile", async (req, res) => {
-  // logic here
+  const { username, email, tagline, bio } = req.body;
+  const updateData = {};
+
+  console.log("req.body:", req.body);
+  console.log("req.file:", req.file);
+  console.log("req.cloudinaryUrl:", req.cloudinaryUrl);
+  console.log("req.user:", req.user);
+
+  if (username) {
+    const isUsernameExists = await User.findOne({ username });
+    if (isUsernameExists)
+      return res.status(400).json({ message: "Username already exists" });
+    updateData.username = username;
+  }
+  if (email) updateData.email = email;
+  if (tagline !== undefined) updateData.tagline = tagline;
+  if (bio !== undefined) updateData.bio = bio;
+
+  if (req.cloudinaryUrl) {
+    updateData.profileImage = req.cloudinaryUrl;
+  }
+
+  const updatedUser = await User.findOneAndUpdate(
+    { username: req.user.username },
+    { $set: updateData },
+    { returnDocument: "after", runValidators: true },
+  ).select("-hashedPassword");
+
+  if (!updatedUser) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  // If the username changed, we MUST issue a new JWT because the old JWT
+  // has the old username inside it, which will break future requests.
+  if (username && username !== req.user.username) {
+    const newToken = jwt.sign(
+      {
+        username: updatedUser.username,
+        userId: updatedUser._id,
+        role: updatedUser.role,
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "1y" },
+    );
+
+    res.cookie("jwtToken", newToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 365 * 24 * 60 * 60 * 1000, // 1 year
+    });
+  }
+
+  return res.status(200).json({
+    message: "Profile updated successfully",
+    data: updatedUser,
+  });
 });

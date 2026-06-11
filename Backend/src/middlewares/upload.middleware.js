@@ -1,29 +1,73 @@
 import multer from "multer";
+import { uploadToCloudinary } from "../utils/cloudinaryUpload.js";
 
 const storage = multer.memoryStorage();
 
 export const upload = multer({
   storage,
-  limits: {
-    fileSize: 100 * 1024 * 1024, // Setting a global hard cap at 100MB for Multer
-  }
+  fileFilter: (req, file, cb) => {
+    if (
+      file.mimetype.startsWith("image/") ||
+      file.mimetype.startsWith("video/")
+    ) {
+      cb(null, true);
+    } else {
+      cb(
+        new Error("Unsupported file type! Only images and videos are allowed."),
+        false,
+      );
+    }
+  },
 });
 
 export const checkMediaSize = (req, res, next) => {
-  const contentLength = parseInt(req.headers["content-length"] || "0", 10);
+  if (!req.file) return next();
 
-  // If the frontend sends a custom header, we can dynamically reject images early
-  const type = req.headers["x-media-type"]; 
+  const { size, mimetype } = req.file;
+  const isImage = mimetype.startsWith("image/");
+  const isVideo = mimetype.startsWith("video/");
 
-  if (type === "Image" && contentLength > 10 * 1024 * 1024) {
-    return res.status(400).json({ message: "Image file size cannot exceed 10 MB" });
+  if (isImage && size > 10 * 1024 * 1024) {
+    return res
+      .status(400)
+      .json({ message: "Image file size cannot exceed 10 MB" });
   }
 
-  if (contentLength > 100 * 1024 * 1024) {
-    return res.status(400).json({ message: "Video file size cannot exceed 100 MB" });
+  if (isVideo && size > 100 * 1024 * 1024) {
+    return res
+      .status(400)
+      .json({ message: "Video file size cannot exceed 100 MB" });
   }
 
   next();
+};
+
+export const uploadToCloudinaryMiddleware = async (req, res, next) => {
+  if (!req.file) return next();
+
+  try {
+    const b64 = Buffer.from(req.file.buffer).toString("base64");
+    const dataURI = `data:${req.file.mimetype};base64,${b64}`;
+
+    const customName = req.user
+      ? `${req.user.username}_${req.user.userId}_${Date.now()}`
+      : `${Date.now()}_${req.file.originalname}`;
+
+    const uploadResult = await uploadToCloudinary(
+      dataURI,
+      "secureauth/uploads",
+      customName,
+    );
+
+    req.cloudinaryUrl = uploadResult.secure_url;
+
+    next();
+  } catch (error) {
+    console.error("Cloudinary Upload Error:", error);
+    return res
+      .status(500)
+      .json({ message: "Failed to upload file to Cloudinary" });
+  }
 };
 
 export default upload;

@@ -8,13 +8,13 @@ import Login from "../pages/Login.jsx";
 import Register from "../pages/Register.jsx";
 import EditProfile from "../pages/EditProfile.jsx";
 import Users from "../pages/Users.jsx";
-import OwnProfile from "../pages/OwnProfile.jsx";
+import OwnProfile from "../pages/ownProfile.jsx";
 import PublicProfile from "../pages/PublicProfile.jsx";
 
 import { registerAction } from "../actions/registerAction";
 import { loginAction } from "../actions/loginAction";
 import { logoutAction } from "../actions/logoutAction.jsx";
-import { editAction } from "../actions/editAction.jsx";
+import { editProfileAction } from "../actions/editProfileAction.jsx";
 import { uploadAction } from "../actions/uploadAction.jsx";
 
 import { authLoader } from "../loaders/authLoader.jsx";
@@ -58,7 +58,7 @@ const router = createBrowserRouter(
           path: "edit-profile",
           Component: EditProfile,
           loader: editProfileLoader,
-          action: editAction,
+          action: editProfileAction,
         },
         {
           path: "profile/:username",

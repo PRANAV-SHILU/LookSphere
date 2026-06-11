@@ -45,9 +45,9 @@ export const login = asyncHandler("login", async (req, res) => {
 
   // Generate JWT Token
   const token = jwt.sign(
-    { username: user.username, role: user.role },
+    { username: user.username, userId: user._id, role: user.role },
     process.env.JWT_SECRET,
-    { expiresIn: "1y" }
+    { expiresIn: "1y" },
   );
   console.log("JWT Token", token);
 

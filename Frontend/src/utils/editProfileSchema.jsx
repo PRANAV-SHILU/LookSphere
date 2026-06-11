@@ -19,10 +19,10 @@ export const editProfileSchema = yup.object({
   tagline: yup
     .string()
     .trim()
-    .max(100, "Tagline cannot exceed 100 characters"),
+    .max(80, "Tagline cannot exceed 80 characters"),
 
   bio: yup
     .string()
     .trim()
-    .max(500, "Bio cannot exceed 500 characters"),
+    .max(300, "Bio cannot exceed 300 characters"),
 });

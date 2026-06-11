@@ -28,13 +28,13 @@ const userSchema = new mongoose.Schema(
     tagline: {
       type: String,
       trim: true,
-      maxlength: 100,
+      maxlength: 80,
       default: "INDIAN",
     },
     bio: {
       type: String,
       trim: true,
-      maxlength: 500,
+      maxlength: 300,
       default: "Hey There! How is the JOSH? 🔥",
     },
     profileImage: {

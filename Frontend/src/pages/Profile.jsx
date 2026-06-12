@@ -3,8 +3,8 @@ import { useLoaderData, useParams, NavLink, useSubmit, useNavigation } from "rea
 import { motion as Motion, AnimatePresence } from "framer-motion";
 import { User, Plus, Image as ImageIcon, Video as VideoIcon } from "lucide-react";
 import BackButton from "../shared-components/BackButton";
-import UploadMediaModal from "../utils/UploadMediaModal";
-import PostDetailModal from "../utils/PostDetailModal";
+import UploadMediaModal from "../modals/UploadMediaModal";
+import PostDetailModal from "../modals/PostDetailModal";
 import { trackPostView } from "../services/postService";
 
 export default function Profile() {

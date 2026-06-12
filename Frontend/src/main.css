@@ -586,7 +586,7 @@ a:hover {
 
 .post-detail-alt-tooltip {
   position: absolute;
-  bottom: calc(100% + 8px);
+  bottom: calc(100% + 2px);
   left: 0;
   min-width: 180px;
   max-width: 280px;
@@ -600,9 +600,11 @@ a:hover {
   line-height: 1.45;
   white-space: normal;
   word-break: break-word;
-  pointer-events: none;
+  pointer-events: auto;
+  user-select: text;
+  -webkit-user-select: text;
   opacity: 0;
-  transform: translateY(6px);
+  transform: translateY(4px);
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
 

@@ -10,6 +10,7 @@ import EditProfile from "../pages/EditProfile.jsx";
 import Users from "../pages/Users.jsx";
 import Profile from "../pages/Profile.jsx";
 import Feed from "../pages/Feed.jsx";
+import Explore from "../pages/Explore.jsx";
 
 import { registerAction } from "../actions/registerAction";
 import { loginAction } from "../actions/loginAction";
@@ -49,6 +50,7 @@ const router = createBrowserRouter(
         { path: "logout", action: logoutAction },
         { path: "users", Component: Users, loader: usersLoader },
         { path: "feed", Component: Feed, loader: feedLoader },
+        { path: "explore", Component: Explore, loader: feedLoader },
         {
           path: "profile/:username?",  //optional username means it can be /profile or /profile/:username
           Component: Profile,

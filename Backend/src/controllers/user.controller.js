@@ -20,11 +20,29 @@ export const getUsers = asyncHandler("getUsers", async (req, res) => {
   });
 });
 
-export const getOwnProfile = asyncHandler("getOwnProfile", async (req, res) => {
-  const user = await User.findOne(
-    { username: req.user.username },
-    { hashedPassword: 0 },
-  ).lean();
+export const getProfile = asyncHandler("getProfile", async (req, res) => {
+  const targetUsername = req.params.username || req.user?.username;
+
+  if (!targetUsername) {
+    return res.status(400).json({ message: "Username is required" });
+  }
+
+  const isOwnProfile = req.user && req.user.username === targetUsername;
+
+  let user;
+  if (isOwnProfile) {
+    user = await User.findOne({ username: targetUsername })
+      .select({ hashedPassword: 0 })
+      .lean();
+  } else {
+    user = await User.findOneAndUpdate(
+      { username: targetUsername, role: { $ne: "Admin" } },
+      { $inc: { profileViewCount: 1 } },
+      { returnDocument: "after" },
+    )
+      .select({ hashedPassword: 0, email: 0 })
+      .lean();
+  }
 
   if (!user) return res.status(404).json({ message: "User not found" });
 
@@ -51,48 +69,6 @@ export const getOwnProfile = asyncHandler("getOwnProfile", async (req, res) => {
     data: { user, images, videos },
   });
 });
-
-export const getUserProfile = asyncHandler(
-  "getUserProfile",
-  async (req, res) => {
-    const { username } = req.params;
-    if (!username)
-      return res.status(404).json({ message: "Username is required" });
-
-    const user = await User.findOneAndUpdate(
-      { username, role: { $ne: "Admin" } },
-      { $inc: { profileViewCount: 1 } },
-      { returnDocument: "after" },
-    )
-      .select({ hashedPassword: 0, email: 0 })
-      .lean();
-
-    if (!user) return res.status(404).json({ message: "User not found" });
-
-    const images = await Post.find({
-      $and: [{ userId: user._id }, { mediaType: "Image" }],
-    }).sort({
-      createdAt: -1,
-    });
-
-    const videos = await Post.find({
-      $and: [{ userId: user._id }, { mediaType: "Video" }],
-    }).sort({
-      createdAt: -1,
-    });
-
-    const [viewCountResult] = await Post.aggregate([
-      { $match: { userId: user._id } },
-      { $group: { _id: null, totalViews: { $sum: "$postViewCount" } } },
-    ]);
-    user.totalPostViews = viewCountResult?.totalViews || 0;
-
-    return res.status(200).json({
-      message: "Profile fetched successfully",
-      data: { user, images, videos },
-    });
-  },
-);
 
 export const updateProfile = asyncHandler("updateProfile", async (req, res) => {
   const { username, email, tagline, bio } = req.body;

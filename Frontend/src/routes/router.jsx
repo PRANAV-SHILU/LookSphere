@@ -8,8 +8,7 @@ import Login from "../pages/Login.jsx";
 import Register from "../pages/Register.jsx";
 import EditProfile from "../pages/EditProfile.jsx";
 import Users from "../pages/Users.jsx";
-import OwnProfile from "../pages/ownProfile.jsx";
-import PublicProfile from "../pages/PublicProfile.jsx";
+import Profile from "../pages/Profile.jsx";
 
 import { registerAction } from "../actions/registerAction";
 import { loginAction } from "../actions/loginAction";
@@ -20,7 +19,6 @@ import { uploadAction } from "../actions/uploadAction.jsx";
 import { authLoader } from "../loaders/authLoader.jsx";
 import { profileLoader } from "../loaders/profileLoader.jsx";
 import { usersLoader } from "../loaders/usersLoader.jsx";
-import { publicProfileLoader } from "../loaders/publicProfileLoader.jsx";
 import { editProfileLoader } from "../loaders/editProfileLoader.jsx";
 import { redirectIfAuthenticated } from "../loaders/redirectIfAuthenticated.jsx";
 
@@ -49,8 +47,8 @@ const router = createBrowserRouter(
         { path: "logout", action: logoutAction },
         { path: "users", Component: Users, loader: usersLoader },
         {
-          path: "profile",
-          Component: OwnProfile,
+          path: "profile/:username?",  //optional username means it can be /profile or /profile/:username
+          Component: Profile,
           loader: profileLoader,
           action: uploadAction,
         },
@@ -59,11 +57,6 @@ const router = createBrowserRouter(
           Component: EditProfile,
           loader: editProfileLoader,
           action: editProfileAction,
-        },
-        {
-          path: "profile/:username",
-          Component: PublicProfile,
-          loader: publicProfileLoader,
         },
       ],
     },

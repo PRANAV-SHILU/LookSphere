@@ -396,10 +396,11 @@ export default function PostDetailModal({ isOpen, onClose, post }) {
             </div>
 
             {/* Post Info Footer */}
-            <div
-              className="post-detail-caption"
-              style={{ width: "100%", maxWidth: "100%" }}
-            >
+            {(isEditing || post.postViewCount != null || post.caption) && (
+              <div
+                className="post-detail-caption"
+                style={{ width: "100%", maxWidth: "100%" }}
+              >
               {isEditing ? (
                 <div className="flex flex-col gap-4">
                   <div className="input-group" style={{ marginBottom: "0" }}>
@@ -630,6 +631,7 @@ export default function PostDetailModal({ isOpen, onClose, post }) {
                 </>
               )}
             </div>
+          )}
           </Motion.div>
         </Motion.div>
       )}

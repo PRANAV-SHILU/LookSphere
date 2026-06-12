@@ -24,3 +24,18 @@ export const verifyToken = (req, res, next) => {
 };
 
 export const authorizeRole = (req, res, next) => {};
+
+// for user profile only
+export const verifyTokenOptional = (req, res, next) => {
+  try {
+    const token = req.cookies.jwtToken;
+    if (token) {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      req.user = decoded;
+    }
+  } catch (error) {
+    // Continue even if token is invalid or expired, just don't populate req.user
+    console.error("Optional token verification failed:", error.message);
+  }
+  next();
+};

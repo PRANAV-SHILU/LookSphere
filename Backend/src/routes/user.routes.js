@@ -1,12 +1,11 @@
 import express from "express";
 import {
   getUsers,
-  getOwnProfile,
-  getUserProfile,
+  getProfile,
   updateProfile,
   getUserDetail,
 } from "../controllers/user.controller.js";
-import { verifyToken } from "../middlewares/auth.middleware.js";
+import { verifyToken, verifyTokenOptional } from "../middlewares/auth.middleware.js";
 import { upload, checkMediaSize, uploadToCloudinaryMiddleware } from "../middlewares/upload.middleware.js";
 
 import { updateProfileValidation } from "../validators/user.validator.js";
@@ -19,11 +18,9 @@ userRoutes.get("/:id/detail", getUserDetail);
 // get users list
 userRoutes.get("/", getUsers);
 
-// get own profile
-userRoutes.get("/profile", verifyToken, getOwnProfile);
 
-// get other user's profile
-userRoutes.get("/profile/:username", getUserProfile);
+userRoutes.get("/profile", verifyToken, getProfile);
+userRoutes.get("/profile/:username", verifyTokenOptional, getProfile);
 
 // edit profile
 userRoutes.patch(

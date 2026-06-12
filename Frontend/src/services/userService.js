@@ -1,4 +1,4 @@
-import { getAllUsers, getOwnProfile, getUserByUsername, updateOwnProfile, getUserDetail } from "../network/userApi";
+import { getAllUsers, getProfile, updateOwnProfile, getUserDetail } from "../network/userApi";
 
 export async function fetchAllUsers() {
   try {
@@ -9,18 +9,9 @@ export async function fetchAllUsers() {
   }
 }
 
-export async function fetchOwnProfile() {
+export async function fetchProfile(username) {
   try {
-    const res = await getOwnProfile();
-    return res;
-  } catch (err) {
-    throw new Error(err.message);
-  }
-}
-
-export async function fetchPublicProfile(username) {
-  try {
-    const res = await getUserByUsername(username);
+    const res = await getProfile(username);
     return res;
   } catch (err) {
     throw new Error(err.message);

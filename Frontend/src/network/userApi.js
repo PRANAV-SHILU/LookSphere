@@ -11,20 +11,10 @@ export async function getAllUsers() {
   }
 }
 
-export async function getOwnProfile() {
-  try {
-    const res = await apiClient.get(ENDPOINTS.USER.OWN_PROFILE);
-    console.log("own profile", res.data);
-    return res.data;
-  } catch (err) {
-    throw new Error(err.message);
-  }
-}
-
-export async function getUserByUsername(username) {
+export async function getProfile(username) {
   try {
     const res = await apiClient.get(ENDPOINTS.USER.PROFILE(username));
-    console.log("public profile", res.data.data);
+    console.log("profile", res.data);
     return res.data;
   } catch (err) {
     throw new Error(err.message);
@@ -33,7 +23,7 @@ export async function getUserByUsername(username) {
 
 export async function updateOwnProfile(payload) {
   try {
-    const res = await apiClient.patch(ENDPOINTS.USER.OWN_PROFILE, payload, {
+    const res = await apiClient.patch(ENDPOINTS.USER.PROFILE(), payload, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

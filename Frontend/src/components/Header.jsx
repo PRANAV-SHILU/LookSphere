@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { NavLink, useRouteLoaderData, useSubmit } from "react-router-dom";
 import { motion as Motion, AnimatePresence } from "framer-motion";
-import { UserCircle2, Sun, Moon, User, LogOut, Search, Users, Home } from "lucide-react";
+import { UserCircle2, Sun, Moon, User, LogOut, Search, Users, Home, Image as ImageIcon } from "lucide-react";
 import ConfirmationModal from "../utils/ConfirmationModal.jsx";
 
 export default function Header() {
@@ -75,8 +75,8 @@ export default function Header() {
           <NavLink to="/" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`} style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
             <Home size={18} /> Home
           </NavLink>
-          <NavLink to="/explore" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`} style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
-            <Search size={18} /> Explore
+          <NavLink to="/feed" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`} style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
+            <ImageIcon size={18} /> Feed
           </NavLink>
           <NavLink to="/users" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`} style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
             <Users size={18} /> Users

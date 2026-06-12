@@ -2,9 +2,14 @@ import User from "../models/users.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import Post from "../models/posts.model.js";
 
-// not used
-export const getPosts = asyncHandler("getPosts", async (req, res) => {
-  // logic here
+export const getFeed = asyncHandler("getFeed", async (req, res) => {
+  const posts = await Post.find()
+    .sort({ createdAt: -1 });
+
+  return res.status(200).json({
+    message: "Posts fetched successfully",
+    data: posts,
+  });
 });
 
 export const createPost = asyncHandler("createPost", async (req, res) => {

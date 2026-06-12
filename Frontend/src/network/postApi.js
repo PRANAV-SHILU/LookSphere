@@ -1,11 +1,11 @@
 import apiClient from "./apiClient";
 import { ENDPOINTS } from "./endpoints";
 
-// Not used anywhere currently
-export async function getAllPosts() {
+// Feed
+export async function getFeed() {
   try {
     const res = await apiClient.get(ENDPOINTS.POST.POSTS);
-    console.log("all posts", res.data);
+    console.log("feed posts", res.data);
     return res.data;
   } catch (err) {
     throw new Error(err.response?.data?.message || err.message);

@@ -2,7 +2,7 @@ import express from "express";
 import {
   createPost,
   deletePost,
-  getPosts,
+  getFeed,
   increasePostView,
   editPost,
 } from "../controllers/post.controller.js";
@@ -16,8 +16,8 @@ import { editPostValidation } from "../validators/post.validator.js";
 
 const postRoutes = express.Router();
 
-// get all posts from all users - for feed - not used
-postRoutes.get("/", getPosts);
+// get all posts from all users - for feed
+postRoutes.get("/", getFeed);
 
 // add post
 postRoutes.post(

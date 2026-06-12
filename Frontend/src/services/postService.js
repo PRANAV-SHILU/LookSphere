@@ -1,4 +1,4 @@
-import { createPost, getAllPosts, deletePost, increasePostView, editPost } from "../network/postApi";
+import { createPost, getFeed, deletePost, increasePostView, editPost } from "../network/postApi";
 
 // create post
 export async function uploadUserPost(payload) {
@@ -10,10 +10,10 @@ export async function uploadUserPost(payload) {
   }
 }
 
-// not used
-export async function fetchAllPosts() {
+// Feed posts
+export async function fetchFeed() {
   try {
-    return await getAllPosts();
+    return await getFeed();
   } catch (err) {
     throw new Error(err.message);
   }

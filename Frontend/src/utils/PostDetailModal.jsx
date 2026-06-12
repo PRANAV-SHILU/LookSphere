@@ -5,6 +5,7 @@ import { modifyPost } from "../services/postService";
 import { fetchUserDetail } from "../services/userService";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { postSchema } from "../schema/postSchema";
 
 export default function PostDetailModal({ isOpen, onClose, post }) {
   const navigate = useNavigate();
@@ -18,6 +19,8 @@ export default function PostDetailModal({ isOpen, onClose, post }) {
   const [editCaption, setEditCaption] = useState("");
   const [editAltText, setEditAltText] = useState("");
   const [isSaving, setIsSaving] = useState(false);
+  const [captionError, setCaptionError] = useState("");
+  const [altTextError, setAltTextError] = useState("");
   const [author, setAuthor] = useState(null);
   const overlayRef = useRef(null);
   const prevPostRef = useRef(null);
@@ -32,12 +35,14 @@ export default function PostDetailModal({ isOpen, onClose, post }) {
       setEditCaption(post.caption || "");
       setEditAltText(post.altText || "");
       setAuthor(null);
-      
+
       // Fetch author profile details (username and image)
       if (post.userId) {
         fetchUserDetail(post.userId)
           .then((data) => setAuthor(data))
-          .catch((err) => console.error("Error loading post author details:", err));
+          .catch((err) =>
+            console.error("Error loading post author details:", err),
+          );
       }
     }
   }, [post]);
@@ -208,16 +213,32 @@ export default function PostDetailModal({ isOpen, onClose, post }) {
                     >
                       <button
                         onClick={() => {
-                          setIsEditing(true);
+                          if (isEditing) {
+                            setIsEditing(false);
+                            setEditCaption(post.caption || "");
+                            setEditAltText(post.altText || "");
+                            setCaptionError("");
+                            setAltTextError("");
+                            requestAnimationFrame(() => {
+                              if (overlayRef.current) {
+                                overlayRef.current.scrollTo({
+                                  top: 0,
+                                  behavior: "smooth",
+                                });
+                              }
+                            });
+                          } else {
+                            setIsEditing(true);
+                            requestAnimationFrame(() => {
+                              if (overlayRef.current) {
+                                overlayRef.current.scrollTo({
+                                  top: overlayRef.current.scrollHeight,
+                                  behavior: "smooth",
+                                });
+                              }
+                            });
+                          }
                           setShowMenu(false);
-                          requestAnimationFrame(() => {
-                            if (overlayRef.current) {
-                              overlayRef.current.scrollTo({
-                                top: overlayRef.current.scrollHeight,
-                                behavior: "smooth",
-                              });
-                            }
-                          });
                         }}
                         className="post-detail-dropdown-item"
                         style={{
@@ -233,7 +254,7 @@ export default function PostDetailModal({ isOpen, onClose, post }) {
                           transition: "background-color 0.15s",
                         }}
                       >
-                        Edit Post
+                        {isEditing ? "Cancel Edit" : "Edit Post"}
                       </button>
                     </Motion.div>
                   )}
@@ -281,13 +302,23 @@ export default function PostDetailModal({ isOpen, onClose, post }) {
                     <img
                       src={author.profileImage}
                       alt={author.username}
-                      style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                      }}
                     />
                   ) : (
                     <UserIcon size={16} />
                   )}
                 </div>
-                <span style={{ fontSize: "0.925rem", fontWeight: "600", textShadow: "0 2px 4px rgba(0,0,0,0.5)" }}>
+                <span
+                  style={{
+                    fontSize: "0.925rem",
+                    fontWeight: "600",
+                    textShadow: "0 2px 4px rgba(0,0,0,0.5)",
+                  }}
+                >
                   {author.username}
                 </span>
               </div>
@@ -308,7 +339,7 @@ export default function PostDetailModal({ isOpen, onClose, post }) {
 
             {/* Media Area */}
             <div
-              className="post-detail-media-wrapper"
+              className="post-detail-media-wrapper mt-0.5"
               style={
                 isLoaded
                   ? {
@@ -383,14 +414,45 @@ export default function PostDetailModal({ isOpen, onClose, post }) {
                       rows={5}
                       cols={45}
                       placeholder="Write a caption..."
-                      maxLength={500}
                       value={editCaption}
-                      onChange={(e) => setEditCaption(e.target.value)}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setEditCaption(val);
+                        if (val.length > 500) {
+                          setCaptionError(
+                            "Caption cannot exceed 500 characters",
+                          );
+                        } else {
+                          setCaptionError("");
+                        }
+                      }}
                       style={{ resize: "both" }}
                     />
+                    {captionError && (
+                      <p
+                        style={{
+                          color: "var(--status-error)",
+                          fontSize: "0.8rem",
+                          marginTop: "0.4rem",
+                        }}
+                      >
+                        {captionError}
+                      </p>
+                    )}
                     <div className="flex justify-between mt-1 text-xs text-[var(--text-muted)]">
                       <span>Add context to your post</span>
-                      <span>{editCaption.length}/500</span>
+                      <span
+                        style={{
+                          color:
+                            editCaption.length >= 500
+                              ? "var(--status-error)"
+                              : "inherit",
+                          fontWeight:
+                            editCaption.length >= 500 ? "600" : "normal",
+                        }}
+                      >
+                        {editCaption.length}/500
+                      </span>
                     </div>
                   </div>
 
@@ -405,13 +467,44 @@ export default function PostDetailModal({ isOpen, onClose, post }) {
                       type="text"
                       className="input-field"
                       placeholder="Describe this media for accessibility..."
-                      maxLength={50}
                       value={editAltText}
-                      onChange={(e) => setEditAltText(e.target.value)}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setEditAltText(val);
+                        if (val.length > 50) {
+                          setAltTextError(
+                            "Alt text cannot exceed 50 characters",
+                          );
+                        } else {
+                          setAltTextError("");
+                        }
+                      }}
                     />
+                    {altTextError && (
+                      <p
+                        style={{
+                          color: "var(--status-error)",
+                          fontSize: "0.8rem",
+                          marginTop: "0.4rem",
+                        }}
+                      >
+                        {altTextError}
+                      </p>
+                    )}
                     <div className="flex justify-between mt-1 text-xs text-[var(--text-muted)]">
                       <span>Helps users with screen readers</span>
-                      <span>{editAltText.length}/50</span>
+                      <span
+                        style={{
+                          color:
+                            editAltText.length >= 50
+                              ? "var(--status-error)"
+                              : "inherit",
+                          fontWeight:
+                            editAltText.length >= 50 ? "600" : "normal",
+                        }}
+                      >
+                        {editAltText.length}/50
+                      </span>
                     </div>
                   </div>
 
@@ -424,6 +517,8 @@ export default function PostDetailModal({ isOpen, onClose, post }) {
                         setIsEditing(false);
                         setEditCaption(post.caption || "");
                         setEditAltText(post.altText || "");
+                        setCaptionError("");
+                        setAltTextError("");
                         if (overlayRef.current) {
                           overlayRef.current.scrollTo({
                             top: 0,
@@ -436,9 +531,23 @@ export default function PostDetailModal({ isOpen, onClose, post }) {
                     </button>
                     <button
                       type="button"
-                      disabled={isSaving}
-                      className="btn btn-primary w-full"
+                      disabled={
+                        isSaving ||
+                        editCaption.length > 500 ||
+                        editAltText.length > 50
+                      }
+                      className="btn btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
                       onClick={async () => {
+                        try {
+                          await postSchema.validate({
+                            caption: editCaption,
+                            altText: editAltText,
+                          });
+                        } catch (err) {
+                          toast.error(err.message);
+                          return;
+                        }
+
                         setIsSaving(true);
                         try {
                           const payload = {};
@@ -477,8 +586,21 @@ export default function PostDetailModal({ isOpen, onClose, post }) {
               ) : (
                 <>
                   {post.postViewCount != null && (
-                    <div className="post-detail-views" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                      <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                    <div
+                      className="post-detail-views"
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "6px",
+                        }}
+                      >
                         <Eye size={16} />
                         <span>
                           {post.postViewCount}{" "}
@@ -486,14 +608,19 @@ export default function PostDetailModal({ isOpen, onClose, post }) {
                         </span>
                       </div>
                       {post.createdAt && (
-                        <span style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>
+                        <span
+                          style={{
+                            fontSize: "0.8rem",
+                            color: "var(--text-muted)",
+                          }}
+                        >
                           {new Date(post.createdAt).toLocaleString(undefined, {
-                            year: 'numeric',
-                            month: 'short',
-                            day: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit',
-                            second: '2-digit'
+                            year: "numeric",
+                            month: "short",
+                            day: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            second: "2-digit",
                           })}
                         </span>
                       )}

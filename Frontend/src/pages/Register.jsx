@@ -1,4 +1,4 @@
-import { registerSchema } from "../utils/RegisterSchema";
+import { registerSchema } from "../schema/registerSchema";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Form, NavLink, useActionData, useNavigation } from "react-router-dom";
@@ -153,7 +153,7 @@ export default function Register() {
           <div className="input-group mt-2">
             <Motion.button
               type="submit"
-              className="btn btn-primary w-full"
+              className="btn btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={!isValid || isSubmitting}
               whileHover={isValid && !isSubmitting ? { scale: 1.01 } : {}}
               whileTap={isValid && !isSubmitting ? { scale: 0.98 } : {}}

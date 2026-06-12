@@ -3,6 +3,8 @@ import { motion as Motion, AnimatePresence } from "framer-motion";
 import { X, Plus, Upload } from "lucide-react";
 import { toast } from "react-toastify";
 
+import { postSchema } from "../schema/postSchema";
+
 export default function UploadMediaModal({
   isOpen,
   onClose,
@@ -12,6 +14,8 @@ export default function UploadMediaModal({
   const [selectedFile, setSelectedFile] = useState(null);
   const [caption, setCaption] = useState("");
   const [altText, setAltText] = useState("");
+  const [captionError, setCaptionError] = useState("");
+  const [altTextError, setAltTextError] = useState("");
   const [previewUrl, setPreviewUrl] = useState("");
   const fileInputRef = useRef(null);
 
@@ -47,12 +51,20 @@ export default function UploadMediaModal({
     setPreviewUrl(URL.createObjectURL(file));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!selectedFile) {
       toast.error("Please select a file first.");
       return;
     }
+
+    try {
+      await postSchema.validate({ caption, altText });
+    } catch (err) {
+      toast.error(err.message);
+      return;
+    }
+
     onSubmit({ file: selectedFile, caption, altText });
     if (previewUrl) {
       URL.revokeObjectURL(previewUrl);
@@ -61,6 +73,8 @@ export default function UploadMediaModal({
     setPreviewUrl("");
     setCaption("");
     setAltText("");
+    setCaptionError("");
+    setAltTextError("");
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
@@ -164,21 +178,35 @@ export default function UploadMediaModal({
                   </div>
                 </div>
 
-                {/* Caption */}
+                 {/* Caption */}
                 <div className="input-group">
                   <label className="input-label">Caption</label>
                   <textarea
                     className="input-field"
                     rows={3}
                     placeholder="Write a caption..."
-                    maxLength={500}
                     value={caption}
-                    onChange={(e) => setCaption(e.target.value)}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setCaption(val);
+                      if (val.length > 500) {
+                        setCaptionError("Caption cannot exceed 500 characters");
+                      } else {
+                        setCaptionError("");
+                      }
+                    }}
                     style={{ resize: "none" }}
                   />
+                  {captionError && (
+                    <p style={{ color: "var(--status-error)", fontSize: "0.8rem", marginTop: "0.4rem" }}>
+                      {captionError}
+                    </p>
+                  )}
                   <div className="flex justify-between mt-1.5 px-0.5 text-xs text-[var(--text-muted)]">
                     <span>Add context to your post</span>
-                    <span>{caption.length}/500</span>
+                    <span style={{ color: caption.length >= 500 ? "var(--status-error)" : "inherit", fontWeight: caption.length >= 500 ? "600" : "normal" }}>
+                      {caption.length}/500
+                    </span>
                   </div>
                 </div>
 
@@ -189,13 +217,27 @@ export default function UploadMediaModal({
                     type="text"
                     className="input-field"
                     placeholder="Describe this media for accessibility..."
-                    maxLength={50}
                     value={altText}
-                    onChange={(e) => setAltText(e.target.value)}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setAltText(val);
+                      if (val.length > 50) {
+                        setAltTextError("Alt text cannot exceed 50 characters");
+                      } else {
+                        setAltTextError("");
+                      }
+                    }}
                   />
+                  {altTextError && (
+                    <p style={{ color: "var(--status-error)", fontSize: "0.8rem", marginTop: "0.4rem" }}>
+                      {altTextError}
+                    </p>
+                  )}
                   <div className="flex justify-between mt-1.5 px-0.5 text-xs text-[var(--text-muted)]">
                     <span>Helps users with screen readers</span>
-                    <span>{altText.length}/50</span>
+                    <span style={{ color: altText.length >= 50 ? "var(--status-error)" : "inherit", fontWeight: altText.length >= 50 ? "600" : "normal" }}>
+                      {altText.length}/50
+                    </span>
                   </div>
                 </div>
               </>
@@ -212,7 +254,7 @@ export default function UploadMediaModal({
               </button>
               <button
                 type="submit"
-                disabled={!selectedFile}
+                disabled={!selectedFile || caption.length > 500 || altText.length > 50}
                 className="btn btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Upload

@@ -3,7 +3,7 @@ import { Form, useActionData, useNavigation, NavLink } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "react-toastify";
-import { loginSchema } from "../utils/loginSchema";
+import { loginSchema } from "../schema/loginSchema";
 import { motion as Motion } from "framer-motion";
 import { Eye, EyeOff } from "lucide-react";
 
@@ -123,7 +123,7 @@ export default function Login() {
           <div className="input-group mt-2">
             <Motion.button
               type="submit"
-              className="btn btn-primary w-full"
+              className="btn btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={!isValid || isSubmitting}
               whileHover={isValid && !isSubmitting ? { scale: 1.01 } : {}}
               whileTap={isValid && !isSubmitting ? { scale: 0.98 } : {}}

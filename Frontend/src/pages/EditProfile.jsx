@@ -7,7 +7,7 @@ import {
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { editProfileSchema } from "../utils/editProfileSchema";
+import { editProfileSchema } from "../schema/editProfileSchema";
 import { motion as Motion, AnimatePresence } from "framer-motion";
 import { User, Camera } from "lucide-react";
 import { toast } from "react-toastify";
@@ -215,7 +215,9 @@ export default function EditProfile() {
           )}
           <div className="flex justify-between mt-1.5 px-0.5 text-xs text-[var(--text-muted)]">
             <span>A short line about you</span>
-            <span>{taglineValue.length}/80</span>
+            <span style={{ color: taglineValue.length >= 80 ? "var(--status-error)" : "inherit", fontWeight: taglineValue.length >= 80 ? "600" : "normal" }}>
+              {taglineValue.length}/80
+            </span>
           </div>
         </div>
 
@@ -242,7 +244,9 @@ export default function EditProfile() {
           )}
           <div className="flex justify-between mt-1.5 px-0.5 text-xs text-[var(--text-muted)]">
             <span>Tell people about yourself</span>
-            <span>{bioValue.length}/300</span>
+            <span style={{ color: bioValue.length >= 300 ? "var(--status-error)" : "inherit", fontWeight: bioValue.length >= 300 ? "600" : "normal" }}>
+              {bioValue.length}/300
+            </span>
           </div>
         </div>
 
@@ -261,7 +265,7 @@ export default function EditProfile() {
           </Motion.button>
           <Motion.button
             type="submit"
-            className="btn btn-primary w-full"
+            className="btn btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
             disabled={isSubmitting || !isValid}
             whileHover={
               !isSubmitting && isValid ? { scale: 1.01, opacity: 0.85 } : {}

@@ -2,9 +2,8 @@ import express from "express";
 import {
   createPost,
   deletePost,
-  getPost,
   getPosts,
-  getUserPosts,
+  increasePostView,
 } from "../controllers/post.controller.js";
 import { verifyToken } from "../middlewares/auth.middleware.js";
 import {
@@ -18,9 +17,6 @@ const postRoutes = express.Router();
 // get all posts from all users - for feed
 postRoutes.get("/", getPosts);
 
-// get specific post
-postRoutes.get("/:id", getPost);
-
 // add post
 postRoutes.post(
   "/",
@@ -31,7 +27,10 @@ postRoutes.post(
   createPost,
 );
 
-// delete post
+// increase post view count
+postRoutes.patch("/:id/views", increasePostView);
+
+// delete post  - not used
 postRoutes.delete("/:id", verifyToken, deletePost);
 
 export default postRoutes;

@@ -3,18 +3,29 @@ import { useLoaderData } from "react-router-dom";
 import { motion as Motion } from "framer-motion";
 import { User, Image, Video } from "lucide-react";
 import BackButton from "../shared-components/BackButton";
+import PostDetailModal from "../utils/PostDetailModal";
+import { trackPostView } from "../services/postService";
 
 export default function PublicProfile() {
   const { data } = useLoaderData();
   const { user, images = [], videos = [] } = data || {};
 
   const [activeTab, setActiveTab] = useState("images");
+  const [selectedPost, setSelectedPost] = useState(null);
+
+  const handlePostClick = async (post) => {
+    if (post._id) {
+      const updatedPost = await trackPostView(post._id).catch(() => {});
+      setSelectedPost(updatedPost);
+    } else {
+      setSelectedPost(post);
+    }
+  };
 
   if (!data)
     return (
       <h2 className="text-center text-muted mt-10">Loading user data...</h2>
     );
-
 
   return (
     <Motion.main
@@ -46,7 +57,15 @@ export default function PublicProfile() {
               width: "150px",
               height: "150px",
               marginInlineEnd: "28px",
+              cursor: user.profileImage ? "pointer" : "default",
             }}
+            onClick={() =>
+              user.profileImage &&
+              setSelectedPost({
+                mediaUrl: user.profileImage,
+                mediaType: "Image",
+              })
+            }
           >
             {user.profileImage ? (
               <img
@@ -78,9 +97,22 @@ export default function PublicProfile() {
               className="my-4 text-sm md:text-base flex gap-4 md:gap-6"
               style={{ color: "var(--text-primary)" }}
             >
-              <span><strong className="font-semibold">{user.postCount || 0}</strong> posts</span>
-              <span><strong className="font-semibold">{user.profileViewCount || 0}</strong> profile views</span>
-              <span><strong className="font-semibold">{user.totalPostViews || 0}</strong> post views</span>
+              <span>
+                <strong className="font-semibold">{user.postCount || 0}</strong>{" "}
+                posts
+              </span>
+              <span>
+                <strong className="font-semibold">
+                  {user.profileViewCount || 0}
+                </strong>{" "}
+                profile views
+              </span>
+              <span>
+                <strong className="font-semibold">
+                  {user.totalPostViews || 0}
+                </strong>{" "}
+                post views
+              </span>
             </div>
 
             <p
@@ -114,13 +146,14 @@ export default function PublicProfile() {
       {/* --- Feed Content --- */}
       <section className="w-full">
         {/* Image Feed */}
-        {activeTab === "images" && (
-          images.length > 0 ? (
+        {activeTab === "images" &&
+          (images.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-3 gap-1">
               {images.map((post) => (
                 <div
                   key={post._id}
                   className="aspect-square bg-zinc-800 overflow-hidden cursor-pointer rounded-[var(--radius-sm)]"
+                  onClick={() => handlePostClick(post)}
                 >
                   <img
                     src={post.mediaUrl}
@@ -136,24 +169,30 @@ export default function PublicProfile() {
               <div className="w-24 h-24 rounded-full flex items-center justify-center mb-1">
                 <Image size={48} style={{ color: "var(--text-muted)" }} />
               </div>
-              <h3 className="text-xl font-bold mb-2" style={{ color: "var(--text-primary)" }}>
+              <h3
+                className="text-xl font-bold mb-2"
+                style={{ color: "var(--text-primary)" }}
+              >
                 No Images Yet
               </h3>
-              <p className="max-w-sm text-sm md:text-base leading-relaxed" style={{ color: "var(--text-muted)" }}>
+              <p
+                className="max-w-sm text-sm md:text-base leading-relaxed"
+                style={{ color: "var(--text-muted)" }}
+              >
                 {user.username} hasn't uploaded any images yet.
               </p>
             </div>
-          )
-        )}
+          ))}
 
         {/* Video Feed */}
-        {activeTab === "videos" && (
-          videos.length > 0 ? (
+        {activeTab === "videos" &&
+          (videos.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-3 gap-1">
               {videos.map((post) => (
                 <div
                   key={post._id}
                   className="aspect-square bg-zinc-800 overflow-hidden cursor-pointer rounded-[var(--radius-sm)]"
+                  onClick={() => handlePostClick(post)}
                 >
                   <video
                     src={post.mediaUrl}
@@ -172,16 +211,27 @@ export default function PublicProfile() {
               <div className="w-24 h-24 rounded-full flex items-center justify-center mb-1">
                 <Video size={48} style={{ color: "var(--text-muted)" }} />
               </div>
-              <h3 className="text-xl font-bold mb-2" style={{ color: "var(--text-primary)" }}>
+              <h3
+                className="text-xl font-bold mb-2"
+                style={{ color: "var(--text-primary)" }}
+              >
                 No Videos Yet
               </h3>
-              <p className="max-w-sm text-sm md:text-base leading-relaxed" style={{ color: "var(--text-muted)" }}>
+              <p
+                className="max-w-sm text-sm md:text-base leading-relaxed"
+                style={{ color: "var(--text-muted)" }}
+              >
                 {user.username} hasn't uploaded any videos yet.
               </p>
             </div>
-          )
-        )}
+          ))}
       </section>
+
+      <PostDetailModal
+        isOpen={!!selectedPost}
+        onClose={() => setSelectedPost(null)}
+        post={selectedPost}
+      />
     </Motion.main>
   );
 }

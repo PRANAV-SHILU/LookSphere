@@ -1,12 +1,8 @@
 import User from "../models/users.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
-import Post from "../models/posts.model.js"
+import Post from "../models/posts.model.js";
 
 export const getPosts = asyncHandler("getPosts", async (req, res) => {
-  // logic here
-});
-
-export const getPost = asyncHandler("getPost", async (req, res) => {
   // logic here
 });
 
@@ -36,6 +32,7 @@ export const createPost = asyncHandler("createPost", async (req, res) => {
   });
 });
 
+// delete post  - not used
 export const deletePost = asyncHandler("deletePost", async (req, res) => {
   // TODO: delete post from DB and cloud storage
   // After deleting the post, decrement the user's postCount:
@@ -45,6 +42,21 @@ export const deletePost = asyncHandler("deletePost", async (req, res) => {
   );
 });
 
-export const getUserPosts = asyncHandler("getUserPosts", async (req, res) => {
-  // logic here
-});
+export const increasePostView = asyncHandler(
+  "increasePostView",
+  async (req, res) => {
+    const { id } = req.params;
+    const post = await Post.findByIdAndUpdate(
+      id,
+      { $inc: { postViewCount: 1 } },
+      { returnDocument: "after" },
+    );
+
+    if (!post) return res.status(404).json({ message: "Post not found" });
+
+    return res.status(200).json({
+      message: "Post view increased successfully",
+      data: post,
+    });
+  },
+);

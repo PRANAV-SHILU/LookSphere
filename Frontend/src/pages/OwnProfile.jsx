@@ -4,6 +4,7 @@ import { motion as Motion, AnimatePresence } from "framer-motion";
 import { User, Settings, Plus } from "lucide-react";
 import BackButton from "../shared-components/BackButton";
 import UploadMediaModal from "../utils/UploadMediaModal";
+import PostDetailModal from "../utils/PostDetailModal";
 
 export default function OwnProfile() {
   const submit = useSubmit();
@@ -12,6 +13,7 @@ export default function OwnProfile() {
 
   const [activeTab, setActiveTab] = useState("images"); // "images" or "videos"
   const [mediaType, setMediaType] = useState("");
+  const [selectedPost, setSelectedPost] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
@@ -104,7 +106,12 @@ export default function OwnProfile() {
               width: "150px",
               height: "150px",
               marginInlineEnd: "28px",
+              cursor: user.profileImage ? "pointer" : "default",
             }}
+            onClick={() =>
+              user.profileImage &&
+              setSelectedPost({ mediaUrl: user.profileImage, mediaType: "Image" })
+            }
           >
             {user.profileImage ? (
               <img
@@ -212,6 +219,7 @@ export default function OwnProfile() {
                 <div
                   key={post._id}
                   className="aspect-square bg-zinc-800 overflow-hidden cursor-pointer rounded-[var(--radius-sm)]"
+                  onClick={() => setSelectedPost(post)}
                 >
                   <img
                     src={post.mediaUrl}
@@ -265,6 +273,7 @@ export default function OwnProfile() {
                 <div
                   key={post._id}
                   className="aspect-square bg-zinc-800 overflow-hidden cursor-pointer rounded-[var(--radius-sm)]"
+                  onClick={() => setSelectedPost(post)}
                 >
                   <video
                     src={post.mediaUrl}
@@ -309,6 +318,12 @@ export default function OwnProfile() {
         onClose={() => setIsModalOpen(false)}
         mediaType={mediaType}
         onSubmit={handleModalSubmit}
+      />
+
+      <PostDetailModal
+        isOpen={!!selectedPost}
+        onClose={() => setSelectedPost(null)}
+        post={selectedPost}
       />
     </Motion.main>
     </>

@@ -12,16 +12,6 @@ export async function getAllPosts() {
   }
 }
 
-// Not used anywhere currently
-export async function getPostById(id) {
-  try {
-    const res = await apiClient.get(ENDPOINTS.POST.POST(id));
-    console.log("get post by id", res.data);
-    return res.data;
-  } catch (err) {
-    throw new Error(err.response?.data?.message || err.message);
-  }
-}
 
 export async function createPost(formData) {
   try {
@@ -43,6 +33,16 @@ export async function deletePost(id) {
     const res = await apiClient.delete(ENDPOINTS.POST.DELETE_POST(id));
     console.log("deleted post", res.data);
     return res.data;
+  } catch (err) {
+    throw new Error(err.response?.data?.message || err.message);
+  }
+}
+
+export async function increasePostView(id) {
+  try {
+    const res = await apiClient.patch(ENDPOINTS.POST.INCREASE_POST_VIEW(id));
+    console.log("post view increased", res.data.data);
+    return res.data.data;
   } catch (err) {
     throw new Error(err.response?.data?.message || err.message);
   }

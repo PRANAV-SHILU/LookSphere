@@ -5,6 +5,7 @@ import { User, Eye, Clock, Video, Image as ImageIcon, RotateCw, Plus, Info } fro
 import BackButton from "../shared-components/BackButton";
 import { trackPostView } from "../services/postService";
 import { fetchUserDetail } from "../services/userService";
+import { Feed as FeedAnimation } from "../utils/animation";
 
 // Sub-component for each feed post to fetch user details asynchronously
 function FeedCard({ post, currentUser }) {
@@ -197,42 +198,12 @@ export default function Feed() {
 
   const postsHash = posts.map((p) => p._id).join(",");
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
 
-  const cardVariants = {
-    hidden: { opacity: 0, y: -80 },
-    show: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: "spring",
-        stiffness: 280,
-        damping: 24,
-      },
-    },
-    exit: {
-      opacity: 0,
-      y: 60,
-      transition: {
-        duration: 0.2,
-      },
-    },
-  };
 
   return (
     <Motion.div
       className="max-w-xl mx-auto p-4 md:py-8"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.4 }}
+      {...FeedAnimation.pageTransition}
     >
       <div className="mb-8 flex items-start justify-between">
         <div>
@@ -260,11 +231,11 @@ export default function Feed() {
             title="Refresh Feed"
           >
             <Motion.div
-              animate={isRefreshing ? { rotate: 360 } : { rotate: 0 }}
+              animate={isRefreshing ? FeedAnimation.spinnerActive : FeedAnimation.spinnerInactive}
               transition={
                 isRefreshing
-                  ? { repeat: Infinity, duration: 1, ease: "linear" }
-                  : { duration: 0.2, ease: "easeOut" }
+                  ? FeedAnimation.spinnerTransitionActive
+                  : FeedAnimation.spinnerTransitionInactive
               }
               className="flex items-center justify-center"
             >
@@ -298,7 +269,7 @@ export default function Feed() {
           key={postsHash}
           layout
           className="flex flex-col gap-8"
-          variants={containerVariants}
+          variants={FeedAnimation.containerVariants}
           initial="hidden"
           animate="show"
         >
@@ -307,7 +278,7 @@ export default function Feed() {
               <Motion.div
                 key={post._id}
                 layout
-                variants={cardVariants}
+                variants={FeedAnimation.cardVariants}
               >
                 <FeedCard
                   post={post}

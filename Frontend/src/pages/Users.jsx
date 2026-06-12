@@ -3,6 +3,7 @@ import { useLoaderData, Link } from "react-router-dom";
 import { motion as Motion } from "framer-motion";
 import { User, Eye, ArrowRight, Search, FileText } from "lucide-react";
 import BackButton from "../shared-components/BackButton";
+import { Users as UsersAnimation } from "../utils/animation";
 
 export default function Users() {
   const usersList = useLoaderData();
@@ -16,29 +17,10 @@ export default function Users() {
     );
   });
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: { staggerChildren: 0.08 },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    show: {
-      opacity: 1,
-      y: 0,
-      transition: { type: "spring", stiffness: 300, damping: 24 },
-    },
-  };
-
   return (
     <Motion.div
       className="max-w-6xl mx-auto p-4 md:p-8"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.4 }}
+      {...UsersAnimation.pageTransition}
     >
       <div className="mb-10 flex items-start justify-between">
         <div className="text-center md:text-left">
@@ -91,14 +73,14 @@ export default function Users() {
       ) : (
         <Motion.div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-          variants={containerVariants}
+          variants={UsersAnimation.containerVariants}
           initial="hidden"
           animate="show"
         >
           {filteredUsers.map((user) => (
             <Motion.div
               key={user.username}
-              variants={itemVariants}
+              variants={UsersAnimation.itemVariants}
               className="h-full"
             >
               <Link

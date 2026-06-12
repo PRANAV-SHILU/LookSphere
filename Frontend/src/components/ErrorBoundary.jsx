@@ -1,5 +1,6 @@
 import { useRouteError, isRouteErrorResponse, NavLink } from "react-router-dom";
 import { motion as Motion } from "framer-motion";
+import { ErrorBoundary as ErrorBoundaryAnimation } from "../utils/animation";
 
 export default function ErrorBoundary() {
   const error = useRouteError();
@@ -12,20 +13,20 @@ export default function ErrorBoundary() {
   ) : (
     <>
       <h1 className="text-4xl font-bold text-red-400">Something went wrong!</h1>
-      <p className="text-slate-400 mt-3">{error?.message || "Unknown error occurred."}</p>
+      <p className="text-slate-400 mt-3">
+        {error?.message || "Unknown error occurred."}
+      </p>
     </>
   );
 
   return (
     <Motion.div
       className="flex flex-col items-center justify-center text-center py-24"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: "easeOut" }}
+      {...ErrorBoundaryAnimation.containerTransition}
     >
       {content}
-      <NavLink 
-        to="/" 
+      <NavLink
+        to="/"
         className="mt-8 px-6 py-2.5 rounded-lg font-semibold transition-colors"
         style={{ backgroundColor: "var(--primary-500)", color: "white" }}
       >

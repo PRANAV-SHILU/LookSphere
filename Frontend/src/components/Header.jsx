@@ -3,6 +3,7 @@ import { NavLink, useRouteLoaderData, useSubmit } from "react-router-dom";
 import { motion as Motion, AnimatePresence } from "framer-motion";
 import { UserCircle2, Sun, Moon, User, LogOut, Search, Users, Home, Image as ImageIcon } from "lucide-react";
 import ConfirmationModal from "../modals/ConfirmationModal.jsx";
+import { Header as HeaderAnimation } from "../utils/animation";
 
 export default function Header() {
   const user = useRouteLoaderData("root");
@@ -51,14 +52,10 @@ export default function Header() {
     <>
       <Motion.header
         className="app-header"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
+        {...HeaderAnimation.headerTransition}
       >
         <Motion.div
-          initial={{ opacity: 0, x: -16 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.4, delay: 0.1 }}
+          {...HeaderAnimation.logoTransition}
         >
           <NavLink to="/" className="logo">
             SecureAuth
@@ -67,9 +64,7 @@ export default function Header() {
 
         <Motion.nav
           className="nav-links"
-          initial={{ opacity: 0, x: 16 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.4, delay: 0.15 }}
+          {...HeaderAnimation.navTransition}
         >
           {/* Public Nav Links */}
           <NavLink to="/" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`} style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
@@ -90,17 +85,14 @@ export default function Header() {
             onClick={() => setIsDark(!isDark)}
             aria-label="Toggle theme"
             title={isDark ? "Switch to light mode" : "Switch to dark mode"}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
+            whileHover={HeaderAnimation.themeToggleHover}
+            whileTap={HeaderAnimation.themeToggleTap}
             style={{ background: "transparent", border: "none", cursor: "pointer", display: "flex", alignItems: "center", padding: "0.25rem", color: "var(--text-primary)" }}
           >
             <AnimatePresence mode="wait" initial={false}>
               <Motion.span
                 key={isDark ? "sun" : "moon"}
-                initial={{ rotate: -90, opacity: 0, scale: 0.5 }}
-                animate={{ rotate: 0, opacity: 1, scale: 1 }}
-                exit={{ rotate: 90, opacity: 0, scale: 0.5 }}
-                transition={{ duration: 0.2, ease: "easeOut" }}
+                {...HeaderAnimation.themeIconTransition}
                 style={{ fontSize: "1.25rem", lineHeight: 1 }}
               >
                 {isDark ? <Sun size={20} /> : <Moon size={20} />}
@@ -114,8 +106,8 @@ export default function Header() {
               {/* Avatar button */}
               <Motion.button
                 onClick={() => setDropdownOpen((prev) => !prev)}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={HeaderAnimation.avatarHover}
+                whileTap={HeaderAnimation.avatarTap}
                 style={{ background: "transparent", border: "none", cursor: "pointer", padding: 0, display: "flex", alignItems: "center" }}
                 aria-label="User menu"
               >
@@ -135,10 +127,7 @@ export default function Header() {
               <AnimatePresence>
                 {dropdownOpen && (
                   <Motion.div
-                    initial={{ opacity: 0, y: -6, scale: 0.96 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -6, scale: 0.96 }}
-                    transition={{ duration: 0.15, ease: "easeOut" }}
+                    {...HeaderAnimation.dropdownTransition}
                     style={{
                       position: "absolute",
                       top: "calc(100% + 0.5rem)",

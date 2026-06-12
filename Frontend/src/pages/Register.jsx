@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import { motion as Motion } from "framer-motion";
 import { Eye, EyeOff } from "lucide-react";
+import { Register as RegisterAnimation } from "../utils/animation";
 
 export default function Register() {
   const actionData = useActionData();
@@ -32,16 +33,11 @@ export default function Register() {
     <Motion.section
       className="flex flex-col justify-center items-center"
       style={{ minHeight: "70vh" }}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0, y: -10 }}
-      transition={{ duration: 0.3 }}
+      {...RegisterAnimation.pageTransition}
     >
       <Motion.div
         className="card w-full max-w-md"
-        initial={{ opacity: 0, y: 40, scale: 0.97 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
+        {...RegisterAnimation.cardTransition}
       >
         <Form method="post">
           <div className="text-center">
@@ -155,8 +151,8 @@ export default function Register() {
               type="submit"
               className="btn btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={!isValid || isSubmitting}
-              whileHover={isValid && !isSubmitting ? { scale: 1.01 } : {}}
-              whileTap={isValid && !isSubmitting ? { scale: 0.98 } : {}}
+              whileHover={isValid && !isSubmitting ? RegisterAnimation.buttonHover : {}}
+              whileTap={isValid && !isSubmitting ? RegisterAnimation.buttonTap : {}}
             >
               {isSubmitting ? "Registering…" : "Register"}
             </Motion.button>

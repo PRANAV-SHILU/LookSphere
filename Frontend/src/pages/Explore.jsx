@@ -6,6 +6,7 @@ import BackButton from "../shared-components/BackButton";
 import PostDetailModal from "../modals/PostDetailModal";
 import { trackPostView } from "../services/postService";
 import { STOPWORDS } from "../utils/constants";
+import { Explore as ExploreAnimation } from "../utils/animation";
 
 export default function Explore() {
   const posts = useLoaderData();
@@ -92,36 +93,12 @@ export default function Explore() {
 
   const postsHash = posts.map((p) => p._id).join(",");
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: { staggerChildren: 0.05 },
-    },
-  };
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: -60, scale: 0.94 },
-    show: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: { type: "spring", stiffness: 300, damping: 25 },
-    },
-    exit: {
-      opacity: 0,
-      y: 60,
-      scale: 0.94,
-      transition: { duration: 0.2 },
-    },
-  };
 
   return (
     <Motion.div
       className="max-w-6xl mx-auto p-4 md:p-8"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.4 }}
+      {...ExploreAnimation.pageTransition}
     >
       <div className="mb-6 flex items-start justify-between">
         <div>
@@ -179,11 +156,11 @@ export default function Explore() {
           }}
         >
           <Motion.div
-            animate={isRefreshing ? { rotate: 360 } : { rotate: 0 }}
+            animate={isRefreshing ? ExploreAnimation.spinnerActive : ExploreAnimation.spinnerInactive}
             transition={
               isRefreshing
-                ? { repeat: Infinity, duration: 1, ease: "linear" }
-                : { duration: 0.2, ease: "easeOut" }
+                ? ExploreAnimation.spinnerTransitionActive
+                : ExploreAnimation.spinnerTransitionInactive
             }
           >
             <RotateCw size={14} />
@@ -223,7 +200,7 @@ export default function Explore() {
           key={`${postsHash}-${searchQuery}`}
           layout
           className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2"
-          variants={containerVariants}
+          variants={ExploreAnimation.containerVariants}
           initial="hidden"
           animate="show"
         >
@@ -235,7 +212,7 @@ export default function Explore() {
                 <Motion.div
                   layout
                   key={post._id}
-                  variants={itemVariants}
+                  variants={ExploreAnimation.itemVariants}
                   className="group aspect-square bg-zinc-900 overflow-hidden cursor-pointer rounded-xl relative flex items-center justify-center"
                   onClick={() => handlePostClick(post)}
                 >
@@ -270,7 +247,7 @@ export default function Explore() {
           {/* Add media redirect tile */}
           <Motion.div
             layout
-            variants={itemVariants}
+            variants={ExploreAnimation.itemVariants}
             className="contents"
           >
             <Link

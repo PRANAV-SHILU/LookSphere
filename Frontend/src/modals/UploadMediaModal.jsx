@@ -4,6 +4,7 @@ import { X, Plus, Upload } from "lucide-react";
 import { toast } from "react-toastify";
 
 import { postSchema } from "../schema/postSchema";
+import { UploadMediaModal as UploadMediaModalAnimation } from "../utils/animation";
 
 export default function UploadMediaModal({
   isOpen,
@@ -85,16 +86,11 @@ export default function UploadMediaModal({
       <Motion.div
         className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-md"
         style={{ backgroundColor: "rgba(0, 0, 0, 0.65)" }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
+        {...UploadMediaModalAnimation.backdropTransition}
       >
         <Motion.div
           className="relative w-full max-w-lg overflow-hidden border bg-[var(--surface-card)] border-[var(--border-normal)] rounded-[var(--radius-lg)] shadow-[var(--shadow-card)] flex flex-col max-h-[90vh]"
-          initial={{ scale: 0.95, y: 15, opacity: 0 }}
-          animate={{ scale: 1, y: 0, opacity: 1 }}
-          exit={{ scale: 0.95, y: 15, opacity: 0 }}
-          transition={{ type: "spring", stiffness: 300, damping: 25 }}
+          {...UploadMediaModalAnimation.dialogTransition}
         >
           {/* Header */}
           <div className="flex items-center justify-between px-6 py-4 border-b border-[var(--border-light)]">

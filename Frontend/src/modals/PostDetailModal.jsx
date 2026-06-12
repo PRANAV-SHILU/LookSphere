@@ -6,6 +6,7 @@ import { fetchUserDetail } from "../services/userService";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { postSchema } from "../schema/postSchema";
+import { PostDetailModal as PostDetailModalAnimation } from "../utils/animation";
 
 export default function PostDetailModal({ isOpen, onClose, post }) {
   const navigate = useNavigate();
@@ -145,17 +146,11 @@ export default function PostDetailModal({ isOpen, onClose, post }) {
           ref={overlayRef}
           className="post-detail-overlay"
           onClick={handleOverlayClick}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
+          {...PostDetailModalAnimation.backdropTransition}
         >
           <Motion.div
             className="post-detail-container"
-            initial={{ scale: 0.92, opacity: 0, y: 20 }}
-            animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.92, opacity: 0, y: 20 }}
-            transition={{ type: "spring", stiffness: 350, damping: 30 }}
+            {...PostDetailModalAnimation.dialogTransition}
           >
             {/* Post Options Menu */}
             {isOwner && (
@@ -194,10 +189,7 @@ export default function PostDetailModal({ isOpen, onClose, post }) {
                   {showMenu && (
                     <Motion.div
                       className="post-detail-dropdown"
-                      initial={{ opacity: 0, scale: 0.95, y: -10 }}
-                      animate={{ opacity: 1, scale: 1, y: 0 }}
-                      exit={{ opacity: 0, scale: 0.95, y: -10 }}
-                      transition={{ duration: 0.15 }}
+                      {...PostDetailModalAnimation.dropdownTransition}
                       style={{
                         position: "absolute",
                         top: "42px",

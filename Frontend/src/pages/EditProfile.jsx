@@ -12,6 +12,7 @@ import { motion as Motion, AnimatePresence } from "framer-motion";
 import { User, Camera } from "lucide-react";
 import { toast } from "react-toastify";
 import BackButton from "../shared-components/BackButton";
+import { EditProfile as EditProfileAnimation } from "../utils/animation";
 
 export default function EditProfile() {
   const { data } = useLoaderData();
@@ -58,23 +59,17 @@ export default function EditProfile() {
           <Motion.div
             className="fixed inset-0 z-50 flex flex-col items-center justify-center backdrop-blur-sm"
             style={{ backgroundColor: "rgba(0,0,0,0.55)" }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            {...EditProfileAnimation.backdropTransition}
           >
             <Motion.div
               className="flex flex-col items-center gap-4 bg-[var(--surface-card)] border border-[var(--border-normal)] rounded-[var(--radius-lg)] p-8 shadow-[var(--shadow-card)] max-w-sm w-full mx-4 text-center"
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ delay: 0.1, type: "spring", stiffness: 300, damping: 25 }}
+              {...EditProfileAnimation.dialogTransition}
             >
               {/* Spinner animation */}
               <Motion.div
                 className="w-12 h-12 rounded-full border-4 border-[var(--border-light)] border-t-[var(--primary-500)]"
                 style={{ borderTopColor: "var(--primary-500)" }}
-                animate={{ rotate: 360 }}
-                transition={{ repeat: Infinity, duration: 0.8, ease: "linear" }}
+                {...EditProfileAnimation.spinnerTransition}
               />
               <div>
                 <h3 className="text-lg font-bold mb-1" style={{ color: "var(--text-primary)" }}>
@@ -91,10 +86,7 @@ export default function EditProfile() {
 
       <Motion.main
         className="w-full max-w-[600px] mx-auto pt-8 pb-16 px-4 md:px-8"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0, y: -10 }}
-        transition={{ duration: 0.3 }}
+        {...EditProfileAnimation.pageTransition}
       >
         {/* Back Button */}
       <div className="mb-6">
@@ -257,9 +249,9 @@ export default function EditProfile() {
             className="btn btn-secondary w-full"
             onClick={() => navigate("/profile")}
             disabled={isSubmitting}
-            whileHover={!isSubmitting ? { scale: 1.01, opacity: 0.75 } : {}}
-            whileTap={!isSubmitting ? { scale: 0.98 } : {}}
-            transition={{ duration: 0.15 }}
+            whileHover={!isSubmitting ? EditProfileAnimation.cancelButtonHover : {}}
+            whileTap={!isSubmitting ? EditProfileAnimation.buttonTap : {}}
+            transition={EditProfileAnimation.buttonTransition}
           >
             Cancel
           </Motion.button>
@@ -268,10 +260,10 @@ export default function EditProfile() {
             className="btn btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
             disabled={isSubmitting || !isValid}
             whileHover={
-              !isSubmitting && isValid ? { scale: 1.01, opacity: 0.85 } : {}
+              !isSubmitting && isValid ? EditProfileAnimation.saveButtonHover : {}
             }
-            whileTap={!isSubmitting && isValid ? { scale: 0.98 } : {}}
-            transition={{ duration: 0.15 }}
+            whileTap={!isSubmitting && isValid ? EditProfileAnimation.buttonTap : {}}
+            transition={EditProfileAnimation.buttonTransition}
           >
             {isSubmitting ? "Saving…" : "Save Changes"}
           </Motion.button>

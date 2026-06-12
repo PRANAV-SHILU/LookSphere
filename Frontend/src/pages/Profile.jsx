@@ -6,6 +6,7 @@ import BackButton from "../shared-components/BackButton";
 import UploadMediaModal from "../modals/UploadMediaModal";
 import PostDetailModal from "../modals/PostDetailModal";
 import { trackPostView } from "../services/postService";
+import { Profile as ProfileAnimation } from "../utils/animation";
 
 export default function Profile() {
   const submit = useSubmit();
@@ -61,23 +62,17 @@ export default function Profile() {
           <Motion.div
             className="fixed inset-0 z-50 flex flex-col items-center justify-center backdrop-blur-sm"
             style={{ backgroundColor: "rgba(0,0,0,0.55)" }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            {...ProfileAnimation.backdropTransition}
           >
             <Motion.div
               className="flex flex-col items-center gap-4 bg-[var(--surface-card)] border border-[var(--border-normal)] rounded-[var(--radius-lg)] p-8 shadow-[var(--shadow-card)] max-w-sm w-full mx-4 text-center"
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ delay: 0.1, type: "spring", stiffness: 300, damping: 25 }}
+              {...ProfileAnimation.dialogTransition}
             >
               {/* Spinner animation */}
               <Motion.div
                 className="w-12 h-12 rounded-full border-4 border-[var(--border-light)] border-t-[var(--primary-500)]"
                 style={{ borderTopColor: "var(--primary-500)" }}
-                animate={{ rotate: 360 }}
-                transition={{ repeat: Infinity, duration: 0.8, ease: "linear" }}
+                {...ProfileAnimation.spinnerTransition}
               />
               <div>
                 <h3 className="text-lg font-bold mb-1" style={{ color: "var(--text-primary)" }}>
@@ -94,10 +89,7 @@ export default function Profile() {
 
       <Motion.main
         className="w-full max-w-[1000px] mx-auto pt-8 pb-16 px-4 md:px-8"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0, y: -10 }}
-        transition={{ duration: 0.3 }}
+        {...ProfileAnimation.pageTransition}
       >
         {/* --- Back Button --- */}
         {!isOwnProfile && (

@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { loginSchema } from "../schema/loginSchema";
 import { motion as Motion } from "framer-motion";
 import { Eye, EyeOff } from "lucide-react";
+import { Login as LoginAnimation } from "../utils/animation";
 
 export default function Login() {
   const actionData = useActionData();
@@ -31,16 +32,11 @@ export default function Login() {
     <Motion.section
       className="flex flex-col justify-center items-center"
       style={{ minHeight: "60vh" }}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0, y: -10 }}
-      transition={{ duration: 0.3 }}
+      {...LoginAnimation.pageTransition}
     >
       <Motion.div
         className="card w-full max-w-md"
-        initial={{ opacity: 0, y: 40, scale: 0.97 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
+        {...LoginAnimation.cardTransition}
       >
         <Form method="post">
           <div className="text-center">
@@ -125,8 +121,8 @@ export default function Login() {
               type="submit"
               className="btn btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={!isValid || isSubmitting}
-              whileHover={isValid && !isSubmitting ? { scale: 1.01 } : {}}
-              whileTap={isValid && !isSubmitting ? { scale: 0.98 } : {}}
+              whileHover={isValid && !isSubmitting ? LoginAnimation.buttonHover : {}}
+              whileTap={isValid && !isSubmitting ? LoginAnimation.buttonTap : {}}
             >
               {isSubmitting ? "Logging in…" : "Login"}
             </Motion.button>

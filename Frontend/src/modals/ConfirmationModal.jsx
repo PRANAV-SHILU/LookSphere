@@ -1,4 +1,5 @@
 import { motion as Motion, AnimatePresence } from "framer-motion";
+import { ConfirmationModal as ConfirmationModalAnimation } from "../utils/animation";
 
 export default function ConfirmationModal({
   isOpen,
@@ -15,9 +16,7 @@ export default function ConfirmationModal({
     <AnimatePresence>
       {isOpen && (
         <Motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
+          {...ConfirmationModalAnimation.backdropTransition}
           style={{
             position: "fixed",
             top: 0,
@@ -32,9 +31,7 @@ export default function ConfirmationModal({
           }}
         >
           <Motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.9, opacity: 0 }}
+            {...ConfirmationModalAnimation.dialogTransition}
             style={{
               background: "var(--surface-card)",
               padding: "2rem",

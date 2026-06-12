@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { motion as Motion, AnimatePresence } from "framer-motion";
-import { X, Info, Eye } from "lucide-react";
+import { X, Info, Eye, MoreVertical } from "lucide-react";
+import { modifyPost } from "../services/postService";
+import { toast } from "react-toastify";
 
 export default function PostDetailModal({ isOpen, onClose, post }) {
   const [mediaDimensions, setMediaDimensions] = useState({
@@ -8,13 +10,31 @@ export default function PostDetailModal({ isOpen, onClose, post }) {
     height: 0,
   });
   const [isLoaded, setIsLoaded] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editCaption, setEditCaption] = useState("");
+  const [editAltText, setEditAltText] = useState("");
+  const [isSaving, setIsSaving] = useState(false);
   const overlayRef = useRef(null);
   const prevPostRef = useRef(null);
+
+  const storedUser = localStorage.getItem("user");
+  const currentUser = storedUser ? JSON.parse(storedUser) : null;
+  const isOwner = post && currentUser && currentUser._id === post.userId;
+
+  // Initialize edit fields when edit mode starts or post changes
+  useEffect(() => {
+    if (post) {
+      setEditCaption(post.caption || "");
+      setEditAltText(post.altText || "");
+    }
+  }, [post]);
 
   // Reset state when post changes (ref-based, no setState in effect)
   const postUrl = post?.mediaUrl ?? null;
   if (postUrl !== prevPostRef.current) {
     prevPostRef.current = postUrl;
+    setIsEditing(false);
     if (isLoaded) setIsLoaded(false);
     if (mediaDimensions.width !== 0 || mediaDimensions.height !== 0) {
       setMediaDimensions({ width: 0, height: 0 });
@@ -95,6 +115,8 @@ export default function PostDetailModal({ isOpen, onClose, post }) {
 
   const handleOverlayClick = (e) => {
     if (e.target === overlayRef.current) {
+      if (isEditing) return; // Prevent closing when editing
+      setShowMenu(false);
       onClose();
     }
   };
@@ -118,11 +140,135 @@ export default function PostDetailModal({ isOpen, onClose, post }) {
             exit={{ scale: 0.92, opacity: 0, y: 20 }}
             transition={{ type: "spring", stiffness: 350, damping: 30 }}
           >
+            {/* Post Options Menu */}
+            {(post._id || isOwner) && (
+              <div
+                className="post-detail-options-container"
+                style={{
+                  position: "absolute",
+                  top: "-40px",
+                  right: "42px",
+                  zIndex: 10,
+                }}
+              >
+                <button
+                  onClick={() => setShowMenu(!showMenu)}
+                  className="post-detail-options-btn"
+                  aria-label="Options"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: "36px",
+                    height: "36px",
+                    borderRadius: "50%",
+                    border: "1px solid rgba(255, 255, 255, 0.15)",
+                    background: "rgba(0, 0, 0, 0.5)",
+                    color: "#fff",
+                    cursor: "pointer",
+                    transition: "all 0.2s ease",
+                    backdropFilter: "blur(4px)",
+                  }}
+                >
+                  <MoreVertical size={20} />
+                </button>
+
+                <AnimatePresence>
+                  {showMenu && (
+                    <Motion.div
+                      className="post-detail-dropdown"
+                      initial={{ opacity: 0, scale: 0.95, y: -10 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.95, y: -10 }}
+                      transition={{ duration: 0.15 }}
+                      style={{
+                        position: "absolute",
+                        top: "42px",
+                        right: 0,
+                        backgroundColor: "var(--surface-card)",
+                        border: "1px solid var(--border-light)",
+                        borderRadius: "var(--radius-sm)",
+                        padding: "4px",
+                        boxShadow: "var(--shadow-card)",
+                        zIndex: 11,
+                        minWidth: "120px",
+                      }}
+                    >
+                      {isOwner && (
+                        <button
+                          onClick={() => {
+                            setIsEditing(true);
+                            setShowMenu(false);
+                            requestAnimationFrame(() => {
+                              if (overlayRef.current) {
+                                overlayRef.current.scrollTo({
+                                  top: overlayRef.current.scrollHeight,
+                                  behavior: "smooth",
+                                });
+                              }
+                            });
+                          }}
+                          className="post-detail-dropdown-item"
+                          style={{
+                            width: "100%",
+                            padding: "8px 12px",
+                            textAlign: "left",
+                            background: "none",
+                            border: "none",
+                            color: "var(--text-primary)",
+                            fontSize: "0.875rem",
+                            cursor: "pointer",
+                            borderRadius: "4px",
+                            transition: "background-color 0.15s",
+                          }}
+                        >
+                          Edit Post
+                        </button>
+                      )}
+                      <button
+                        onClick={() => {
+                          setShowMenu(false);
+                          requestAnimationFrame(() => {
+                            if (overlayRef.current) {
+                              overlayRef.current.scrollTo({
+                                top: overlayRef.current.scrollHeight,
+                                behavior: "smooth",
+                              });
+                            }
+                          });
+                        }}
+                        className="post-detail-dropdown-item"
+                        style={{
+                          width: "100%",
+                          padding: "8px 12px",
+                          textAlign: "left",
+                          background: "none",
+                          border: "none",
+                          color: "var(--text-primary)",
+                          fontSize: "0.875rem",
+                          cursor: "pointer",
+                          borderRadius: "4px",
+                          transition: "background-color 0.15s",
+                          borderTop: isOwner ? "1px solid var(--border-light)" : "none",
+                        }}
+                      >
+                        View Details
+                      </button>
+                    </Motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            )}
+
             {/* Close Button */}
             <button
-              onClick={onClose}
+              onClick={() => {
+                setIsEditing(false);
+                onClose();
+              }}
               className="post-detail-close-btn"
               aria-label="Close"
+              style={{ right: "-4px" }}
             >
               <X size={22} />
             </button>
@@ -168,7 +314,7 @@ export default function PostDetailModal({ isOpen, onClose, post }) {
               ) : (
                 <img
                   src={post.mediaUrl}
-                  alt={post.altText || post.caption || "Post"}
+                  alt={editAltText || editCaption || "Post"}
                   className="post-detail-media"
                   draggable={false}
                   onLoad={handleImageLoad}
@@ -177,28 +323,153 @@ export default function PostDetailModal({ isOpen, onClose, post }) {
               )}
 
               {/* Alt Text Info Button */}
-              {post.altText && isLoaded && (
+              {!isEditing && post.altText && isLoaded && (
                 <div className="post-detail-alt-trigger">
                   <Info size={16} />
-                  <div className="post-detail-alt-tooltip">
-                    {post.altText}
-                  </div>
+                  <div className="post-detail-alt-tooltip">{post.altText}</div>
                 </div>
               )}
             </div>
 
             {/* Post Info Footer */}
-            {(post.postViewCount != null || post.caption) && (
-              <div className="post-detail-caption">
-                {post.postViewCount != null && (
-                  <div className="post-detail-views">
-                    <Eye size={16} />
-                    <span>{post.postViewCount} {post.postViewCount === 1 ? "view" : "views"}</span>
+            <div
+              className="post-detail-caption"
+              style={{ width: "100%", maxWidth: "100%" }}
+            >
+              {isEditing ? (
+                <div className="flex flex-col gap-4">
+                  <div className="input-group" style={{ marginBottom: "0" }}>
+                    <label
+                      className="input-label"
+                      style={{ fontSize: "0.85rem", fontWeight: "600" }}
+                    >
+                      Caption
+                    </label>
+                    <textarea
+                      className="input-field"
+                      rows={5}
+                      cols={45}
+                      placeholder="Write a caption..."
+                      maxLength={500}
+                      value={editCaption}
+                      onChange={(e) => setEditCaption(e.target.value)}
+                      style={{ resize: "both" }}
+                    />
+                    <div className="flex justify-between mt-1 text-xs text-[var(--text-muted)]">
+                      <span>Add context to your post</span>
+                      <span>{editCaption.length}/500</span>
+                    </div>
                   </div>
-                )}
-                {post.caption && <p>{post.caption}</p>}
-              </div>
-            )}
+
+                  <div className="input-group" style={{ marginBottom: "0" }}>
+                    <label
+                      className="input-label"
+                      style={{ fontSize: "0.85rem", fontWeight: "600" }}
+                    >
+                      Alt Text (Alternative text)
+                    </label>
+                    <input
+                      type="text"
+                      className="input-field"
+                      placeholder="Describe this media for accessibility..."
+                      maxLength={50}
+                      value={editAltText}
+                      onChange={(e) => setEditAltText(e.target.value)}
+                    />
+                    <div className="flex justify-between mt-1 text-xs text-[var(--text-muted)]">
+                      <span>Helps users with screen readers</span>
+                      <span>{editAltText.length}/50</span>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3 mt-1">
+                    <button
+                      type="button"
+                      disabled={isSaving}
+                      className="btn btn-secondary w-full"
+                      onClick={() => {
+                        setIsEditing(false);
+                        setEditCaption(post.caption || "");
+                        setEditAltText(post.altText || "");
+                        if (overlayRef.current) {
+                          overlayRef.current.scrollTo({
+                            top: 0,
+                            behavior: "smooth",
+                          });
+                        }
+                      }}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="button"
+                      disabled={isSaving}
+                      className="btn btn-primary w-full"
+                      onClick={async () => {
+                        setIsSaving(true);
+                        try {
+                          const payload = {};
+                          if (
+                            editCaption.trim() !== (post.caption || "").trim()
+                          ) {
+                            payload.caption = editCaption.trim();
+                          }
+                          if (
+                            (editAltText || "").trim() !==
+                            (post.altText || "").trim()
+                          ) {
+                            payload.altText = editAltText.trim();
+                          }
+                          if (Object.keys(payload).length === 0) {
+                            toast.info("No changes to save.");
+                            setIsEditing(false);
+                            return;
+                          }
+                          const updated = await modifyPost(post._id, payload);
+                          toast.success("Post updated successfully!");
+                          post.caption = updated.caption;
+                          post.altText = updated.altText;
+                          setIsEditing(false);
+                        } catch (err) {
+                          toast.error(err.message || "Failed to save post.");
+                        } finally {
+                          setIsSaving(false);
+                        }
+                      }}
+                    >
+                      {isSaving ? "Saving..." : "Save"}
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  {post.postViewCount != null && (
+                    <div className="post-detail-views" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                        <Eye size={16} />
+                        <span>
+                          {post.postViewCount}{" "}
+                          {post.postViewCount === 1 ? "view" : "views"}
+                        </span>
+                      </div>
+                      {post.createdAt && (
+                        <span style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>
+                          {new Date(post.createdAt).toLocaleString(undefined, {
+                            year: 'numeric',
+                            month: 'short',
+                            day: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            second: '2-digit'
+                          })}
+                        </span>
+                      )}
+                    </div>
+                  )}
+                  {post.caption && <p>{post.caption}</p>}
+                </>
+              )}
+            </div>
           </Motion.div>
         </Motion.div>
       )}

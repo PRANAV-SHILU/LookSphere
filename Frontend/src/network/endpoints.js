@@ -15,5 +15,6 @@ export const ENDPOINTS = {
     CREATE_POST: "/posts",
     DELETE_POST: (id) => `/posts/${id}`, // not used
     INCREASE_POST_VIEW: (id) => `/posts/${id}/views`,
+    EDIT_POST: (id) => `/posts/${id}`,
   },
 };

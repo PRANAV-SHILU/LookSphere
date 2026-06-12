@@ -12,7 +12,7 @@ export async function getAllPosts() {
   }
 }
 
-
+//create post
 export async function createPost(formData) {
   try {
     const res = await apiClient.post(ENDPOINTS.POST.CREATE_POST, formData, {
@@ -27,7 +27,7 @@ export async function createPost(formData) {
   }
 }
 
-// Not used anywhere currently
+// Not used 
 export async function deletePost(id) {
   try {
     const res = await apiClient.delete(ENDPOINTS.POST.DELETE_POST(id));
@@ -38,10 +38,22 @@ export async function deletePost(id) {
   }
 }
 
+// increase post view count
 export async function increasePostView(id) {
   try {
     const res = await apiClient.patch(ENDPOINTS.POST.INCREASE_POST_VIEW(id));
     console.log("post view increased", res.data.data);
+    return res.data.data;
+  } catch (err) {
+    throw new Error(err.response?.data?.message || err.message);
+  }
+}
+
+// edit post
+export async function editPost(id, updateData) {
+  try {
+    const res = await apiClient.patch(ENDPOINTS.POST.EDIT_POST(id), updateData);
+    console.log("post edited", res.data);
     return res.data.data;
   } catch (err) {
     throw new Error(err.response?.data?.message || err.message);

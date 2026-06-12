@@ -483,12 +483,13 @@ a:hover {
   inset: 0;
   z-index: 60;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  padding: 1rem;
+  padding: 80px 1rem 40px;
   background-color: rgba(0, 0, 0, 0.75);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
+  overflow-y: auto;
 }
 
 .post-detail-container {
@@ -497,7 +498,7 @@ a:hover {
   flex-direction: column;
   align-items: center;
   max-width: 92vw;
-  max-height: 92vh;
+  margin-top: 10px;
 }
 
 .post-detail-close-btn {
@@ -648,4 +649,9 @@ a:hover {
 /* Global Toast Margin Top */
 .Toastify__toast-container {
   margin-top: 70px !important;
+  margin-right: 10px !important;
+}
+
+.post-detail-dropdown-item:hover {
+  background-color: var(--surface-hover) !important;
 }

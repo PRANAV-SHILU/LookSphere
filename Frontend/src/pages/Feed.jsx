@@ -1,19 +1,21 @@
 import { useState, useEffect, useRef } from "react";
 import { useLoaderData, Link, useRevalidator } from "react-router-dom";
 import { motion as Motion, AnimatePresence } from "framer-motion";
-import { User, Eye, Clock, Video, Image as ImageIcon, RotateCw, Plus, Info, ArrowUp } from "lucide-react";
+import { User, Eye, Clock, Video, Image as ImageIcon, RotateCw, Plus, Info, ArrowUp, Maximize2 } from "lucide-react";
 import BackButton from "../shared-components/BackButton";
 import { trackPostView } from "../services/postService";
 import { fetchUserDetail } from "../services/userService";
 import { Feed as FeedAnimation } from "../utils/animation";
+import PostDetailModal from "../modals/PostDetailModal";
 
 // Sub-component for each feed post to fetch user details asynchronously
-function FeedCard({ post, currentUser }) {
+function FeedCard({ post, currentUser, onPostClick, isParentModalOpen }) {
   const [author, setAuthor] = useState(null);
   const cardRef = useRef(null);
   const videoRef = useRef(null);
   const hasTrackedView = useRef(false);
   const isVideo = post.mediaType === "Video";
+  const [isIntersecting, setIsIntersecting] = useState(false);
   const postDate = post.createdAt
     ? new Date(post.createdAt).toLocaleString(undefined, {
         month: "short",
@@ -33,26 +35,18 @@ function FeedCard({ post, currentUser }) {
     }
   }, [post.userId]);
 
-  // Track post view once and control video play/pause when in viewport
+  // Track post view once
   useEffect(() => {
     const isOwnPost = currentUser && post.userId && currentUser._id === post.userId;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
+        setIsIntersecting(entry.isIntersecting);
         if (entry.isIntersecting) {
           // Increment view count exactly once
           if (!isOwnPost && post._id && !hasTrackedView.current) {
             trackPostView(post._id).catch(() => {});
             hasTrackedView.current = true;
-          }
-          // Autoplay video
-          if (isVideo && videoRef.current) {
-            videoRef.current.play().catch(() => {});
-          }
-        } else {
-          // Pause video when scrolled out
-          if (isVideo && videoRef.current) {
-            videoRef.current.pause();
           }
         }
       },
@@ -66,7 +60,18 @@ function FeedCard({ post, currentUser }) {
     return () => {
       observer.disconnect();
     };
-  }, [post._id, currentUser, post.userId, isVideo]);
+  }, [post._id, currentUser, post.userId]);
+
+  // Control video play/pause based on intersection and modal state
+  useEffect(() => {
+    if (isVideo && videoRef.current) {
+      if (isIntersecting && !isParentModalOpen) {
+        videoRef.current.play().catch(() => {});
+      } else {
+        videoRef.current.pause();
+      }
+    }
+  }, [isIntersecting, isParentModalOpen, isVideo]);
 
   return (
     <div
@@ -136,8 +141,9 @@ function FeedCard({ post, currentUser }) {
           <img
             src={post.mediaUrl}
             alt={post.altText || post.caption || "post"}
-            className="w-full h-auto max-h-[600px] object-contain"
+            className="w-full h-auto max-h-[600px] object-contain cursor-pointer hover:opacity-95 transition-opacity"
             loading="lazy"
+            onClick={() => onPostClick(post)}
           />
         )}
 
@@ -156,6 +162,14 @@ function FeedCard({ post, currentUser }) {
             <Eye size={13} />
             {post.postViewCount || 0} views
           </span>
+          <button
+            type="button"
+            onClick={() => onPostClick(post)}
+            className="flex items-center justify-center p-1.5 rounded-lg hover:bg-zinc-800/80 transition-all text-[var(--text-muted)] hover:text-[var(--text-primary)] cursor-pointer border-none bg-transparent"
+            title="View in full screen"
+          >
+            <Maximize2 size={15} />
+          </button>
         </div>
 
         {post.caption ? (
@@ -181,6 +195,7 @@ export default function Feed() {
   const storedUser = localStorage.getItem("user");
   const currentUser = storedUser ? JSON.parse(storedUser) : null;
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [selectedPost, setSelectedPost] = useState(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -303,6 +318,8 @@ export default function Feed() {
                 <FeedCard
                   post={post}
                   currentUser={currentUser}
+                  onPostClick={setSelectedPost}
+                  isParentModalOpen={!!selectedPost}
                 />
               </Motion.div>
             ))}
@@ -355,6 +372,11 @@ export default function Feed() {
           </Motion.button>
         )}
       </AnimatePresence>
+      <PostDetailModal
+        isOpen={!!selectedPost}
+        onClose={() => setSelectedPost(null)}
+        post={selectedPost}
+      />
     </Motion.div>
   );
 }

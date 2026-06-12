@@ -1,10 +1,13 @@
 import { useState, useEffect, useRef } from "react";
 import { motion as Motion, AnimatePresence } from "framer-motion";
-import { X, Info, Eye, MoreVertical } from "lucide-react";
+import { X, Info, Eye, MoreVertical, User as UserIcon } from "lucide-react";
 import { modifyPost } from "../services/postService";
+import { fetchUserDetail } from "../services/userService";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export default function PostDetailModal({ isOpen, onClose, post }) {
+  const navigate = useNavigate();
   const [mediaDimensions, setMediaDimensions] = useState({
     width: 0,
     height: 0,
@@ -15,6 +18,7 @@ export default function PostDetailModal({ isOpen, onClose, post }) {
   const [editCaption, setEditCaption] = useState("");
   const [editAltText, setEditAltText] = useState("");
   const [isSaving, setIsSaving] = useState(false);
+  const [author, setAuthor] = useState(null);
   const overlayRef = useRef(null);
   const prevPostRef = useRef(null);
 
@@ -27,6 +31,14 @@ export default function PostDetailModal({ isOpen, onClose, post }) {
     if (post) {
       setEditCaption(post.caption || "");
       setEditAltText(post.altText || "");
+      setAuthor(null);
+      
+      // Fetch author profile details (username and image)
+      if (post.userId) {
+        fetchUserDetail(post.userId)
+          .then((data) => setAuthor(data))
+          .catch((err) => console.error("Error loading post author details:", err));
+      }
     }
   }, [post]);
 
@@ -141,7 +153,7 @@ export default function PostDetailModal({ isOpen, onClose, post }) {
             transition={{ type: "spring", stiffness: 350, damping: 30 }}
           >
             {/* Post Options Menu */}
-            {(post._id || isOwner) && (
+            {isOwner && (
               <div
                 className="post-detail-options-container"
                 style={{
@@ -194,39 +206,9 @@ export default function PostDetailModal({ isOpen, onClose, post }) {
                         minWidth: "120px",
                       }}
                     >
-                      {isOwner && (
-                        <button
-                          onClick={() => {
-                            setIsEditing(true);
-                            setShowMenu(false);
-                            requestAnimationFrame(() => {
-                              if (overlayRef.current) {
-                                overlayRef.current.scrollTo({
-                                  top: overlayRef.current.scrollHeight,
-                                  behavior: "smooth",
-                                });
-                              }
-                            });
-                          }}
-                          className="post-detail-dropdown-item"
-                          style={{
-                            width: "100%",
-                            padding: "8px 12px",
-                            textAlign: "left",
-                            background: "none",
-                            border: "none",
-                            color: "var(--text-primary)",
-                            fontSize: "0.875rem",
-                            cursor: "pointer",
-                            borderRadius: "4px",
-                            transition: "background-color 0.15s",
-                          }}
-                        >
-                          Edit Post
-                        </button>
-                      )}
                       <button
                         onClick={() => {
+                          setIsEditing(true);
                           setShowMenu(false);
                           requestAnimationFrame(() => {
                             if (overlayRef.current) {
@@ -249,14 +231,65 @@ export default function PostDetailModal({ isOpen, onClose, post }) {
                           cursor: "pointer",
                           borderRadius: "4px",
                           transition: "background-color 0.15s",
-                          borderTop: isOwner ? "1px solid var(--border-light)" : "none",
                         }}
                       >
-                        View Details
+                        Edit Post
                       </button>
                     </Motion.div>
                   )}
                 </AnimatePresence>
+              </div>
+            )}
+
+            {/* Author Profile Info */}
+            {author && (
+              <div
+                onClick={() => {
+                  onClose();
+                  if (currentUser && currentUser._id === author._id) {
+                    navigate("/profile");
+                  } else {
+                    navigate(`/profile/${author.username}`);
+                  }
+                }}
+                style={{
+                  position: "absolute",
+                  top: "-40px",
+                  left: "0",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  cursor: "pointer",
+                  color: "#fff",
+                  zIndex: 10,
+                }}
+              >
+                <div
+                  style={{
+                    width: "32px",
+                    height: "32px",
+                    borderRadius: "50%",
+                    overflow: "hidden",
+                    border: "1px solid rgba(255, 255, 255, 0.2)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    background: "rgba(0,0,0,0.3)",
+                  }}
+                >
+                  {author.profileImage ? (
+                    <img
+                      src={author.profileImage}
+                      alt={author.username}
+                      style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                    />
+                  ) : (
+                    <UserIcon size={16} />
+                  )}
+                </div>
+                <span style={{ fontSize: "0.925rem", fontWeight: "600", textShadow: "0 2px 4px rgba(0,0,0,0.5)" }}>
+                  {author.username}
+                </span>
               </div>
             )}
 

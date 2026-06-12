@@ -1,4 +1,4 @@
-import { getAllUsers, getOwnProfile, getUserByUsername, updateOwnProfile } from "../network/userApi";
+import { getAllUsers, getOwnProfile, getUserByUsername, updateOwnProfile, getUserDetail } from "../network/userApi";
 
 export async function fetchAllUsers() {
   try {
@@ -33,5 +33,14 @@ export async function updateUserProfile(payload) {
     return res;
   } catch (err) {
     throw new Error(err.message);
+  }
+}
+
+export async function fetchUserDetail(id) {
+  try {
+    const res = await getUserDetail(id);
+    return res;
+  } catch (err) {
+    throw new Error(err.message || "Failed to fetch user details.");
   }
 }

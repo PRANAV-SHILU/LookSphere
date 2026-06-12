@@ -9,6 +9,7 @@ export const ENDPOINTS = {
     OWN_PROFILE: "/users/profile",
     PROFILE: (username) => `/users/profile/${username}`,
     UPDATE_PROFILE: "/users/profile",
+    USER_DETAIL: (id) => `/users/${id}/detail`,
   },
   POST: {
     POSTS: "/posts",

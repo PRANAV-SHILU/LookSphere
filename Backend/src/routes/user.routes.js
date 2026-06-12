@@ -4,6 +4,7 @@ import {
   getOwnProfile,
   getUserProfile,
   updateProfile,
+  getUserDetail,
 } from "../controllers/user.controller.js";
 import { verifyToken } from "../middlewares/auth.middleware.js";
 import { upload, checkMediaSize, uploadToCloudinaryMiddleware } from "../middlewares/upload.middleware.js";
@@ -11,6 +12,9 @@ import { upload, checkMediaSize, uploadToCloudinaryMiddleware } from "../middlew
 import { updateProfileValidation } from "../validators/user.validator.js";
 
 const userRoutes = express.Router();
+
+// get user detail (username and avatar only)
+userRoutes.get("/:id/detail", getUserDetail);
 
 // get users list
 userRoutes.get("/", getUsers);

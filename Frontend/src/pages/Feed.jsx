@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useLoaderData, Link, useRevalidator } from "react-router-dom";
 import { motion as Motion, AnimatePresence } from "framer-motion";
-import { User, Eye, Clock, Video, Image as ImageIcon, RotateCw, Plus, Info } from "lucide-react";
+import { User, Eye, Clock, Video, Image as ImageIcon, RotateCw, Plus, Info, ArrowUp } from "lucide-react";
 import BackButton from "../shared-components/BackButton";
 import { trackPostView } from "../services/postService";
 import { fetchUserDetail } from "../services/userService";
@@ -180,6 +180,26 @@ export default function Feed() {
 
   const storedUser = localStorage.getItem("user");
   const currentUser = storedUser ? JSON.parse(storedUser) : null;
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 800) {
+        setShowScrollTop(true);
+      } else {
+        setShowScrollTop(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
   // Track posts seen in this session
   useEffect(() => {
@@ -310,6 +330,31 @@ export default function Feed() {
           </Motion.div>
         </Motion.div>
       )}
+      <AnimatePresence>
+        {showScrollTop && (
+          <Motion.button
+            onClick={scrollToTop}
+            className="flex items-center justify-center cursor-pointer"
+            {...FeedAnimation.scrollTopButton}
+            style={{
+              position: "fixed",
+              bottom: "2.5rem",
+              right: "2.5rem",
+              zIndex: 100,
+              backgroundColor: "var(--primary-500)",
+              color: "#fff",
+              border: "none",
+              borderRadius: "50%",
+              width: "3rem",
+              height: "3rem",
+              boxShadow: "var(--shadow-card)",
+            }}
+            title="Scroll to Top"
+          >
+            <ArrowUp size={20} />
+          </Motion.button>
+        )}
+      </AnimatePresence>
     </Motion.div>
   );
 }

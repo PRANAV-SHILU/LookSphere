@@ -61,6 +61,13 @@ export const Feed = {
   spinnerInactive: { rotate: 0 },
   spinnerTransitionActive: { repeat: Infinity, duration: 1, ease: "linear" },
   spinnerTransitionInactive: { duration: 0.2, ease: "easeOut" },
+  scrollTopButton: {
+    initial: { opacity: 0, scale: 0.8, y: 20 },
+    animate: { opacity: 1, scale: 1, y: 0 },
+    exit: { opacity: 0, scale: 0.8, y: 20 },
+    whileHover: { scale: 1.1 },
+    whileTap: { scale: 0.9 },
+  },
 };
 
 export const Explore = {

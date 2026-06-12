@@ -11,8 +11,12 @@ export async function loginAction({ request }) {
   console.log("Payload", payload);
   try {
     const response = await loginUser(payload);
-    localStorage.setItem("user", JSON.stringify(response.data));
+    const user = response.data;
+    localStorage.setItem("user", JSON.stringify(user));
     toast.success("Login success, enjoyyyyy!");
+    if (user.role === "admin") {
+      return redirect("/dashboard");
+    }
     return redirect("/profile");
   } catch (err) {
     return { error: err.message || "Login failed. Please try again." };

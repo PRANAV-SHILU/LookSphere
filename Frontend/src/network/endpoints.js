@@ -16,4 +16,7 @@ export const ENDPOINTS = {
     INCREASE_POST_VIEW: (id) => `/posts/${id}/views`,
     EDIT_POST: (id) => `/posts/${id}`,
   },
+  ADMIN: {
+    METRICS: "/admin/matrics",
+  },
 };

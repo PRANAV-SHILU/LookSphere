@@ -11,6 +11,7 @@ import Users from "../pages/Users.jsx";
 import Profile from "../pages/Profile.jsx";
 import Feed from "../pages/Feed.jsx";
 import Explore from "../pages/Explore.jsx";
+import Dashboard from "../pages/Dashboard.jsx";
 
 import { registerAction } from "../actions/registerAction";
 import { loginAction } from "../actions/loginAction";
@@ -24,6 +25,7 @@ import { usersLoader } from "../loaders/usersLoader.jsx";
 import { feedLoader } from "../loaders/feedLoader.jsx";
 import { editProfileLoader } from "../loaders/editProfileLoader.jsx";
 import { redirectIfAuthenticated } from "../loaders/redirectIfAuthenticated.jsx";
+import { dashboardLoader } from "../loaders/dashboardLoader.jsx";
 
 const router = createBrowserRouter(
   [
@@ -50,6 +52,7 @@ const router = createBrowserRouter(
         { path: "logout", action: logoutAction },
         { path: "users", Component: Users, loader: usersLoader },
         { path: "feed", Component: Feed, loader: feedLoader },
+        { path: "dashboard", Component: Dashboard, loader: dashboardLoader },
         { path: "explore", Component: Explore, loader: feedLoader },
         {
           path: "profile/:username?",  //optional username means it can be /profile or /profile/:username

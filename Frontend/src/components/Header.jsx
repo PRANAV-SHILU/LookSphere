@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { NavLink, useRouteLoaderData, useSubmit } from "react-router-dom";
 import { motion as Motion, AnimatePresence } from "framer-motion";
-import { UserCircle2, Sun, Moon, User, LogOut, Search, Users, Home, Image as ImageIcon } from "lucide-react";
+import { UserCircle2, Sun, Moon, User, LogOut, Search, Users, Home, Image as ImageIcon, LayoutDashboard } from "lucide-react";
 import ConfirmationModal from "../modals/ConfirmationModal.jsx";
 import { Header as HeaderAnimation } from "../utils/animation";
 
@@ -70,6 +70,11 @@ export default function Header() {
           <NavLink to="/" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`} style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
             <Home size={18} /> Home
           </NavLink>
+          {user?.role === "admin" && (
+            <NavLink to="/dashboard" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`} style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
+              <LayoutDashboard size={18} /> Dashboard
+            </NavLink>
+          )}
           <NavLink to="/feed" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`} style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
             <ImageIcon size={18} /> Feed
           </NavLink>
@@ -141,6 +146,8 @@ export default function Header() {
                       zIndex: 100,
                     }}
                   >
+
+
                     <NavLink
                       to="/profile"
                       onClick={() => setDropdownOpen(false)}

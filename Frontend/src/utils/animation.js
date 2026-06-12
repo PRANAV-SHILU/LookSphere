@@ -23,6 +23,29 @@ export const Users = {
   }
 };
 
+export const Dashboard = {
+  pageTransition: {
+    initial: { opacity: 0 },
+    animate: { opacity: 1 },
+    transition: { duration: 0.4 },
+  },
+  containerVariants: {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.08 },
+    },
+  },
+  itemVariants: {
+    hidden: { opacity: 0, y: 20 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: { type: "spring", stiffness: 300, damping: 24 },
+    },
+  }
+};
+
 export const Feed = {
   pageTransition: {
     initial: { opacity: 0 },

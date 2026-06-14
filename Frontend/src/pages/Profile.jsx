@@ -1,12 +1,103 @@
 import { useState } from "react";
-import { useLoaderData, useParams, NavLink, useSubmit, useNavigation } from "react-router-dom";
+import {
+  useLoaderData,
+  useParams,
+  NavLink,
+  useSubmit,
+  useNavigation,
+} from "react-router-dom";
 import { motion as Motion, AnimatePresence } from "framer-motion";
-import { User, Plus, Image as ImageIcon, Video as VideoIcon } from "lucide-react";
+import {
+  User,
+  Plus,
+  Image as ImageIcon,
+  Video as VideoIcon,
+} from "lucide-react";
 import BackButton from "../shared-components/BackButton";
 import UploadMediaModal from "../modals/UploadMediaModal";
 import PostDetailModal from "../modals/PostDetailModal";
 import { trackPostView } from "../services/postService";
 import { Profile as ProfileAnimation } from "../utils/animation";
+
+function Bio({ bio, className }) {
+  if (!bio) return null;
+  return (
+    <p
+      className={className}
+      style={{
+        color: "var(--text-secondary)",
+        whiteSpace: "pre-wrap",
+      }}
+    >
+      {bio}
+    </p>
+  );
+}
+
+function ProfileStats({
+  postCount,
+  profileViewCount,
+  totalPostViews,
+  isMobile = false,
+}) {
+  if (isMobile) {
+    return (
+      <div className="sm:hidden w-full flex justify-center mb-1" style={{ color: "var(--text-primary)" }}>
+        <div className="flex flex-col items-center flex-1">
+          <strong className="font-bold text-base sm:text-lg">{postCount || 0}</strong>
+          <span className="text-xs text-[var(--text-muted)] mt-0.5">posts</span>
+        </div>
+        <div className="flex flex-col items-center flex-1">
+          <strong className="font-bold text-base sm:text-lg">{profileViewCount || 0}</strong>
+          <span className="text-xs text-[var(--text-muted)] mt-0.5">profile views</span>
+        </div>
+        <div className="flex flex-col items-center flex-1">
+          <strong className="font-bold text-base sm:text-lg">{totalPostViews || 0}</strong>
+          <span className="text-xs text-[var(--text-muted)] mt-0.5">post views</span>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="hidden sm:flex my-4 4xl:my-6 text-sm md:text-base 4xl:text-xl gap-4 md:gap-6 4xl:gap-10" style={{ color: "var(--text-primary)" }}>
+      <span>
+        <strong className="font-semibold">{postCount || 0}</strong> posts
+      </span>
+      <span>
+        <strong className="font-semibold">{profileViewCount || 0}</strong>{" "}
+        profile views
+      </span>
+      <span>
+        <strong className="font-semibold">{totalPostViews || 0}</strong> post
+        views
+      </span>
+    </div>
+  );
+}
+
+
+function ProfileEmptyState({ icon: Icon, title, description }) {
+  return (
+    <div className="col-span-2 md:col-span-3 flex flex-col items-center justify-center pt-6 pb-16 text-center mx-auto w-[70%]">
+      <div className="w-24 h-24 rounded-full flex items-center justify-center mb-1">
+        <Icon size={48} style={{ color: "var(--text-muted)" }} />
+      </div>
+      <h3
+        className="text-xl font-bold mb-2"
+        style={{ color: "var(--text-primary)" }}
+      >
+        {title}
+      </h3>
+      <p
+        className="max-w-sm text-sm md:text-base leading-relaxed"
+        style={{ color: "var(--text-muted)" }}
+      >
+        {description}
+      </p>
+    </div>
+  );
+}
 
 export default function Profile() {
   const submit = useSubmit();
@@ -16,7 +107,8 @@ export default function Profile() {
 
   const storedUser = localStorage.getItem("user");
   const currentUser = storedUser ? JSON.parse(storedUser) : null;
-  const isOwnProfile = !username || (currentUser && currentUser.username === username);
+  const isOwnProfile =
+    !username || (currentUser && currentUser.username === username);
 
   const [activeTab, setActiveTab] = useState("images"); // "images" or "videos"
   const [mediaType, setMediaType] = useState("");
@@ -75,7 +167,10 @@ export default function Profile() {
                 {...ProfileAnimation.spinnerTransition}
               />
               <div>
-                <h3 className="text-lg font-bold mb-1" style={{ color: "var(--text-primary)" }}>
+                <h3
+                  className="text-lg font-bold mb-1"
+                  style={{ color: "var(--text-primary)" }}
+                >
                   Uploading Post
                 </h3>
                 <p className="text-sm" style={{ color: "var(--text-muted)" }}>
@@ -88,33 +183,31 @@ export default function Profile() {
       </AnimatePresence>
 
       <Motion.main
-        className="w-full max-w-[1000px] mx-auto pt-8 pb-16 px-4 md:px-8"
+        className="w-full mx-auto pt-8 pb-16 px-4 md:px-8"
         {...ProfileAnimation.pageTransition}
       >
-        {/* --- Back Button --- */}
-        {!isOwnProfile && (
-          <div className="max-w-[600px] mx-auto w-full mb-2">
-            <BackButton />
-          </div>
-        )}
-
         {/* --- Profile Header --- */}
-        <section className="max-w-[600px] mx-auto flex flex-col items-start gap-6 justify-center">
-          <h1 className="text-2xl md:text-3xl font-bold tracking-wide">
-            {user.username}
-          </h1>
-
-          <div className="flex flex-row items-start w-full mb-2">
+        <section className="max-w-[600px] 4xl:max-w-[1000px] mx-auto flex flex-col items-start gap-3 sm:gap-6 justify-center">
+          <div className="flex w-full justify-between items-center sm:my-2">
+            <h1 className="hidden sm:block text-2xl md:text-3xl 4xl:text-5xl font-bold tracking-wide">
+              {user.username}
+            </h1>
+ 
+            {/* --- Back Button --- */}
+ 
+            <div className="shrink-0 ml-auto">
+              <BackButton />
+            </div>
+          </div>
+ 
+          <div className="flex flex-row items-start sm:items-start w-full mb-2 4xl:mb-6">
             {/* Profile Image */}
             <div
-              className="flex items-center justify-center overflow-hidden border shadow-sm shrink-0"
+              className="flex items-center justify-center overflow-hidden border shadow-sm shrink-0 sm:w-[150px] sm:h-[150px] 4xl:w-[220px] 4xl:h-[220px] w-[90px] h-[90px] sm:mr-7 mr-4 4xl:mr-12"
               style={{
                 backgroundColor: "var(--bg-primary)",
                 borderColor: "var(--border-strong)",
                 borderRadius: "56%",
-                width: "150px",
-                height: "150px",
-                marginInlineEnd: "28px",
                 cursor: user.profileImage ? "pointer" : "default",
               }}
               onClick={() =>
@@ -141,52 +234,49 @@ export default function Profile() {
                 <User size={40} style={{ color: "var(--text-muted)" }} />
               )}
             </div>
-
+ 
             {/* Profile Info */}
-            <div className="flex flex-col items-start text-left gap-1 mt-2">
+            <div className="flex flex-col items-start text-left gap-2 sm:gap-0 mt-1.5 sm:mt-2 4xl:mt-4 4xl:gap-2">
+              <h1 className="sm:hidden block text-xl font-bold tracking-wide">
+                {user.username}
+              </h1>
               <h3
-                className="text-base md:text-lg font-bold"
+                className="text-sm sm:text-base md:text-lg 4xl:text-2xl font-medium sm:font-bold"
                 style={{ color: "var(--text-primary)" }}
               >
                 {user.tagline}
               </h3>
-
-              <div
-                className="my-4 text-sm md:text-base flex gap-4 md:gap-6"
-                style={{ color: "var(--text-primary)" }}
-              >
-                <span>
-                  <strong className="font-semibold">{user.postCount || 0}</strong>{" "}
-                  posts
-                </span>
-                <span>
-                  <strong className="font-semibold">
-                    {user.profileViewCount || 0}
-                  </strong>{" "}
-                  profile views
-                </span>
-                <span>
-                  <strong className="font-semibold">
-                    {user.totalPostViews || 0}
-                  </strong>{" "}
-                  post views
-                </span>
-              </div>
-
-              <p
-                className="whitespace-pre-wrap text-sm md:text-base leading-relaxed"
-                style={{ color: "var(--text-secondary)", whiteSpace: "pre-wrap" }}
-              >
-                {user.bio}
-              </p>
+ 
+              <ProfileStats
+                postCount={user.postCount}
+                profileViewCount={user.profileViewCount}
+                totalPostViews={user.totalPostViews}
+              />
+ 
+              <Bio
+                bio={user.bio}
+                className="hidden sm:flex whitespace-pre-wrap text-sm md:text-base 4xl:text-xl leading-relaxed 4xl:leading-loose"
+              />
             </div>
           </div>
+
+          <ProfileStats
+            postCount={user.postCount}
+            profileViewCount={user.profileViewCount}
+            totalPostViews={user.totalPostViews}
+            isMobile={true}
+          />
+
+          <Bio
+            bio={user.bio}
+            className="block sm:hidden whitespace-pre-wrap text-sm md:text-base leading-relaxed"
+          />
 
           {/* Edit Profile Button */}
           {isOwnProfile && (
             <NavLink
               to="/edit-profile"
-              className="btn btn-secondary w-[50%] md:w-full max-w-[250px]"
+              className="btn btn-secondary w-[50%] md:w-full mt-4 max-w-[250px]"
               style={{ fontSize: "20px", fontWeight: 500, padding: "0" }}
             >
               Edit Profile
@@ -197,16 +287,16 @@ export default function Profile() {
         <hr className="mt-8" style={{ borderColor: "var(--border-normal)" }} />
 
         {/* --- Feed Tabs --- */}
-        <section className="tab-container">
+        <section className="tab-container mx-auto px-1 py-0.5 sm:p-2 mt-3 sm:mt-5 mb-6 sm:mb-8 4xl:p-2 4xl:gap-3 4xl:mt-8 4xl:mb-12">
           <button
             onClick={() => setActiveTab("images")}
-            className={`tab-btn ${activeTab === "images" ? "active" : ""}`}
+            className={`tab-btn py-0.5  sm:py-1.5 px-5 sm:px-6 text-lg sm:text-xl 4xl:px-10 4xl:py-4 4xl:text-3xl ${activeTab === "images" ? "active" : ""}`}
           >
             Images
           </button>
           <button
             onClick={() => setActiveTab("videos")}
-            className={`tab-btn ${activeTab === "videos" ? "active" : ""}`}
+            className={`tab-btn py-0.5 sm:py-1.5 px-5 sm:px-6 text-lg sm:text-xl 4xl:px-10 4xl:py-4 4xl:text-3xl ${activeTab === "videos" ? "active" : ""}`}
           >
             Videos
           </button>
@@ -217,54 +307,57 @@ export default function Profile() {
           {/* Image Feed */}
           {activeTab === "images" && (
             <div className="grid grid-cols-2 md:grid-cols-3 gap-1">
-              {isOwnProfile && (
-                <div className="contents">
-                  <div
-                    className="add-media-tile aspect-square w-full"
-                    onClick={() => handleTriggerUpload("Image")}
-                  >
-                    <Plus size={36} className="mb-2" />
-                    <span className="font-medium text-sm md:text-base">
-                      Add Image
-                    </span>
-                  </div>
-                </div>
-              )}
               {images.length > 0 ? (
-                images.map((post) => (
-                  <div
-                    key={post._id}
-                    className="aspect-square bg-zinc-800 overflow-hidden cursor-pointer rounded-[var(--radius-sm)]"
-                    onClick={() => handlePostClick(post)}
-                  >
-                    <img
-                      src={post.mediaUrl}
-                      alt={post.altText || post.caption || "image"}
-                      className="w-full h-full object-cover hover:opacity-90 transition-opacity"
-                      draggable={false}
-                    />
-                  </div>
-                ))
-              ) : (
-                !isOwnProfile && (
-                  <div className="col-span-2 md:col-span-3 flex flex-col items-center justify-center pt-6 pb-16 text-center mx-auto w-[70%]">
-                    <div className="w-24 h-24 rounded-full flex items-center justify-center mb-1">
-                      <ImageIcon size={48} style={{ color: "var(--text-muted)" }} />
+                <>
+                  {isOwnProfile && (
+                    <div className="contents">
+                      <div
+                        className="add-media-tile aspect-square w-full"
+                        onClick={() => handleTriggerUpload("Image")}
+                      >
+                        <Plus size={36} className="mb-2" />
+                        <span className="font-medium text-sm md:text-base">
+                          Add Image
+                        </span>
+                      </div>
                     </div>
-                    <h3
-                      className="text-xl font-bold mb-2"
-                      style={{ color: "var(--text-primary)" }}
+                  )}
+                  {images.map((post) => (
+                    <div
+                      key={post._id}
+                      className="aspect-square bg-zinc-800 overflow-hidden cursor-pointer rounded-[var(--radius-sm)]"
+                      onClick={() => handlePostClick(post)}
                     >
-                      No Images Yet
-                    </h3>
-                    <p
-                      className="max-w-sm text-sm md:text-base leading-relaxed"
-                      style={{ color: "var(--text-muted)" }}
-                    >
-                      {user.username} hasn't uploaded any images yet.
-                    </p>
+                      <img
+                        src={post.mediaUrl}
+                        alt={post.altText || post.caption || "image"}
+                        className="w-full h-full object-cover hover:opacity-90 transition-opacity"
+                        draggable={false}
+                      />
+                    </div>
+                  ))}
+                </>
+              ) : isOwnProfile ? (
+                <div
+                  className="col-span-2 md:col-span-3 flex flex-col items-center justify-center py-16 px-4 border-2 border-dashed border-[var(--border-strong)] hover:border-[var(--primary-500)] rounded-[var(--radius-lg)] bg-[var(--surface-input)] hover:bg-[var(--surface-hover)] cursor-pointer transition-colors duration-200 w-full"
+                  onClick={() => handleTriggerUpload("Image")}
+                >
+                  <div className="w-12 h-12 rounded-full bg-[var(--bg-primary)] flex items-center justify-center shadow-sm mb-3">
+                    <Plus size={24} className="text-[var(--primary-500)]" />
                   </div>
-                )
+                  <h3 className="text-lg font-bold mb-1" style={{ color: "var(--text-primary)" }}>
+                    Share Images
+                  </h3>
+                  <p className="text-xs text-center" style={{ color: "var(--text-muted)" }}>
+                    You haven't uploaded any images yet. Click here to share your first image!
+                  </p>
+                </div>
+              ) : (
+                <ProfileEmptyState
+                  icon={ImageIcon}
+                  title="No Images Yet"
+                  description={`${user.username} hasn't uploaded any images yet.`}
+                />
               )}
             </div>
           )}
@@ -272,57 +365,60 @@ export default function Profile() {
           {/* Video Feed */}
           {activeTab === "videos" && (
             <div className="grid grid-cols-2 md:grid-cols-3 gap-1">
-              {isOwnProfile && (
-                <div className="contents">
-                  <div
-                    className="add-media-tile aspect-square w-full"
-                    onClick={() => handleTriggerUpload("Video")}
-                  >
-                    <Plus size={36} className="mb-2" />
-                    <span className="font-medium text-sm md:text-base">
-                      Add Video
-                    </span>
-                  </div>
-                </div>
-              )}
               {videos.length > 0 ? (
-                videos.map((post) => (
-                  <div
-                    key={post._id}
-                    className="aspect-square bg-zinc-800 overflow-hidden cursor-pointer rounded-[var(--radius-sm)]"
-                    onClick={() => handlePostClick(post)}
-                  >
-                    <video
-                      src={post.mediaUrl}
-                      className="w-full h-full object-cover hover:opacity-90 transition-opacity"
-                      muted
-                      loop
-                      draggable={false}
-                      onMouseOver={(e) => e.target.play()}
-                      onMouseOut={(e) => e.target.pause()}
-                    />
-                  </div>
-                ))
-              ) : (
-                !isOwnProfile && (
-                  <div className="col-span-2 md:col-span-3 flex flex-col items-center justify-center pt-6 pb-16 text-center mx-auto w-[70%]">
-                    <div className="w-24 h-24 rounded-full flex items-center justify-center mb-1">
-                      <VideoIcon size={48} style={{ color: "var(--text-muted)" }} />
+                <>
+                  {isOwnProfile && (
+                    <div className="contents">
+                      <div
+                        className="add-media-tile aspect-square w-full"
+                        onClick={() => handleTriggerUpload("Video")}
+                      >
+                        <Plus size={36} className="mb-2" />
+                        <span className="font-medium text-sm md:text-base">
+                          Add Video
+                        </span>
+                      </div>
                     </div>
-                    <h3
-                      className="text-xl font-bold mb-2"
-                      style={{ color: "var(--text-primary)" }}
+                  )}
+                  {videos.map((post) => (
+                    <div
+                      key={post._id}
+                      className="aspect-square bg-zinc-800 overflow-hidden cursor-pointer rounded-[var(--radius-sm)]"
+                      onClick={() => handlePostClick(post)}
                     >
-                      No Videos Yet
-                    </h3>
-                    <p
-                      className="max-w-sm text-sm md:text-base leading-relaxed"
-                      style={{ color: "var(--text-muted)" }}
-                    >
-                      {user.username} hasn't uploaded any videos yet.
-                    </p>
+                      <video
+                        src={post.mediaUrl}
+                        className="w-full h-full object-cover hover:opacity-90 transition-opacity"
+                        muted
+                        loop
+                        draggable={false}
+                        onMouseOver={(e) => e.target.play()}
+                        onMouseOut={(e) => e.target.pause()}
+                      />
+                    </div>
+                  ))}
+                </>
+              ) : isOwnProfile ? (
+                <div
+                  className="col-span-2 md:col-span-3 flex flex-col items-center justify-center py-16 px-4 border-2 border-dashed border-[var(--border-strong)] hover:border-[var(--primary-500)] rounded-[var(--radius-lg)] bg-[var(--surface-input)] hover:bg-[var(--surface-hover)] cursor-pointer transition-colors duration-200 w-full"
+                  onClick={() => handleTriggerUpload("Video")}
+                >
+                  <div className="w-12 h-12 rounded-full bg-[var(--bg-primary)] flex items-center justify-center shadow-sm mb-3">
+                    <Plus size={24} className="text-[var(--primary-500)]" />
                   </div>
-                )
+                  <h3 className="text-lg font-bold mb-1" style={{ color: "var(--text-primary)" }}>
+                    Share Videos
+                  </h3>
+                  <p className="text-xs text-center" style={{ color: "var(--text-muted)" }}>
+                    You haven't uploaded any videos yet. Click here to share your first video!
+                  </p>
+                </div>
+              ) : (
+                <ProfileEmptyState
+                  icon={VideoIcon}
+                  title="No Videos Yet"
+                  description={`${user.username} hasn't uploaded any videos yet.`}
+                />
               )}
             </div>
           )}

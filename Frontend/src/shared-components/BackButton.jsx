@@ -8,7 +8,7 @@ export default function BackButton() {
   return (
     <Motion.button
       onClick={() => navigate(-1)}
-      className="flex items-center gap-2 text-sm font-medium"
+      className="flex items-center cursor-pointer gap-2 text-sm font-medium"
       style={{ color: "var(--text-muted)" }}
       whileHover={{ x: -3, opacity: 0.7 }}
       transition={{ duration: 0.2 }}

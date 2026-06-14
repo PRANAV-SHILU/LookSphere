@@ -92,17 +92,17 @@ export default function EditProfile() {
         className="w-full max-w-[600px] mx-auto pt-8 pb-16 px-4 md:px-8"
         {...EditProfileAnimation.pageTransition}
       >
-        {/* Back Button */}
-        <div className="mb-6">
-          <BackButton />
+        <div className="flex w-full justify-between items-center mb-8">
+          <h1
+            className="text-2xl md:text-3xl font-bold tracking-wide"
+            style={{ color: "var(--text-primary)", marginBottom: 0 }}
+          >
+            Edit Profile
+          </h1>
+          <div className="shrink-0 ml-auto">
+            <BackButton />
+          </div>
         </div>
-
-        <h1
-          className="text-2xl md:text-3xl font-bold tracking-wide mb-8"
-          style={{ color: "var(--text-primary)" }}
-        >
-          Edit Profile
-        </h1>
 
         <Form
           method="post"

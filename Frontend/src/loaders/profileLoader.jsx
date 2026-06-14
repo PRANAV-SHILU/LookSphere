@@ -15,6 +15,7 @@ export async function profileLoader({ params }) {
 
   try {
     const res = await fetchProfile(username);
+    
     return res;
   } catch (err) {
     console.error("profileLoader error:", err);

@@ -186,7 +186,7 @@ a:hover {
 .app-container {
   /* display: flex;
   flex-direction: column; */
-  /* min-height: 100vh; */
+  min-height: 100vh;
   background: var(--page-gradient);
 }
 
@@ -338,16 +338,12 @@ a:hover {
   justify-content: center;
   background-color: var(--surface-input);
   border-radius: var(--radius-lg);
-  padding: 0.35rem;
   width: fit-content;
-  margin: 10px auto 1.5rem;
   border: 1px solid var(--border-light);
   gap: 0.25rem;
 }
 
 .tab-btn {
-  padding: 0.22rem 1.5rem;
-  font-size: 1.2rem;
   font-weight: 600;
   border-radius: calc(var(--radius-lg) - 0.25rem);
   color: var(--text-muted);

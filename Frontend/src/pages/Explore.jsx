@@ -12,6 +12,7 @@ export default function Explore() {
   const posts = useLoaderData();
   const [selectedPost, setSelectedPost] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isClearHovered, setIsClearHovered] = useState(false);
   const revalidator = useRevalidator();
   const isRefreshing = revalidator.state === "loading";
 
@@ -135,7 +136,10 @@ export default function Explore() {
         {searchQuery && (
           <button
             onClick={() => setSearchQuery("")}
-            className="text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors p-0.5 rounded-full hover:bg-zinc-800/80"
+            className="transition-colors p-0.5 rounded-full hover:bg-zinc-800/80"
+            style={{ color: isClearHovered ? "var(--text-primary)" : "var(--text-muted)" }}
+            onMouseEnter={() => setIsClearHovered(true)}
+            onMouseLeave={() => setIsClearHovered(false)}
             title="Clear search"
           >
             <X size={16} />
@@ -253,10 +257,11 @@ export default function Explore() {
             <Link
               to="/profile"
               onClick={() => window.scrollTo(0, 0)}
-              className="group aspect-square bg-zinc-900 border border-dashed border-[var(--border-normal)] overflow-hidden cursor-pointer rounded-xl relative flex flex-col items-center justify-center hover:bg-zinc-800 transition-colors"
+              className="group aspect-square bg-zinc-900 border border-dashed overflow-hidden cursor-pointer rounded-xl relative flex flex-col items-center justify-center hover:bg-zinc-800 transition-colors"
+              style={{ borderColor: "var(--border-normal)" }}
             >
-              <Plus size={32} className="mb-2 text-[var(--text-secondary)]" />
-              <span className="font-medium px-0.5 xsm:px-0 text-center text-xs md:text-sm text-[var(--text-secondary)]">
+              <Plus size={32} className="mb-2" style={{ color: "var(--text-secondary)" }} />
+              <span className="font-medium px-0.5 xsm:px-0 text-center text-xs md:text-sm" style={{ color: "var(--text-secondary)" }}>
                 Share Your Image/Video
               </span>
             </Link>

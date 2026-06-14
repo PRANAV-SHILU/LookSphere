@@ -163,10 +163,6 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
 }
 
-/* h1 { font-size: 2.5rem; font-weight: 800; letter-spacing: -0.025em; }
-h2 { font-size: 2rem; }
-h3 { font-size: 1.5rem; } */
-
 p {
   color: var(--text-secondary);
   font-weight: 400;
@@ -184,8 +180,6 @@ a:hover {
 
 /* Base App Container */
 .app-container {
-  /* display: flex;
-  flex-direction: column; */
   min-height: 100vh;
   background: var(--page-gradient);
 }
@@ -310,27 +304,6 @@ a:hover {
   border: 1px solid var(--status-success);
   color: #86EFAC;
 }
-
-
-
-/* Utilities */
-
-/* .text-center { text-align: center; }
-.mt-1 { margin-top: 0.5rem; }
-.mt-2 { margin-top: 1rem; }
-.mt-4 { margin-top: 2rem; }
-.mb-1 { margin-bottom: 0.5rem; }
-.mb-2 { margin-bottom: 1rem; }
-.mb-4 { margin-bottom: 2rem; }
-.flex { display: flex; }
-.flex-col { flex-direction: column; }
-.items-center { align-items: center; }
-.justify-center { justify-content: center; }
-.justify-between { justify-content: space-between; }
-.gap-2 { gap: 0.5rem; }
-.gap-4 { gap: 1rem; }
-.w-full { width: 100%; }
-.max-w-md { max-width: 28rem; margin-inline: auto; } */
 
 /* Custom Profile Tabs (Toggler Style) */
 .tab-container {

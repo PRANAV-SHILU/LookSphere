@@ -20,6 +20,10 @@ export default function UploadMediaModal({
   const [previewUrl, setPreviewUrl] = useState("");
   const fileInputRef = useRef(null);
 
+  // Hover states for elements
+  const [isCloseHovered, setIsCloseHovered] = useState(false);
+  const [isUploadHovered, setIsUploadHovered] = useState(false);
+
   // Revoke object URL on unmount to prevent memory leaks
   useEffect(() => {
     return () => {
@@ -89,11 +93,20 @@ export default function UploadMediaModal({
         {...UploadMediaModalAnimation.backdropTransition}
       >
         <Motion.div
-          className="relative w-full max-w-lg overflow-hidden border bg-[var(--surface-card)] border-[var(--border-normal)] rounded-[var(--radius-lg)] shadow-[var(--shadow-card)] flex flex-col max-h-[90vh]"
+          className="relative w-full max-w-lg overflow-hidden border flex flex-col max-h-[90vh]"
+          style={{
+            backgroundColor: "var(--surface-card)",
+            borderColor: "var(--border-normal)",
+            borderRadius: "var(--radius-lg)",
+            boxShadow: "var(--shadow-card)",
+          }}
           {...UploadMediaModalAnimation.dialogTransition}
         >
           {/* Header */}
-          <div className="flex items-center justify-between px-6 py-4 border-b border-[var(--border-light)]">
+          <div
+            className="flex items-center justify-between px-6 py-4 border-b"
+            style={{ borderColor: "var(--border-light)" }}
+          >
             <h3
               className="text-lg font-bold"
               style={{ color: "var(--text-primary)" }}
@@ -102,7 +115,13 @@ export default function UploadMediaModal({
             </h3>
             <button
               onClick={onClose}
-              className="p-1.5 rounded-full hover:bg-[var(--surface-hover)] transition-colors text-[var(--text-muted)] hover:text-[var(--text-primary)] border-none cursor-pointer"
+              className="p-1.5 rounded-full transition-colors border-none cursor-pointer"
+              style={{
+                color: isCloseHovered ? "var(--text-primary)" : "var(--text-muted)",
+                backgroundColor: isCloseHovered ? "var(--surface-hover)" : "transparent"
+              }}
+              onMouseEnter={() => setIsCloseHovered(true)}
+              onMouseLeave={() => setIsCloseHovered(false)}
             >
               <X size={20} />
             </button>
@@ -126,10 +145,20 @@ export default function UploadMediaModal({
               /* Selection State */
               <div
                 onClick={() => fileInputRef.current?.click()}
-                className="w-full py-12 px-4 border-2 border-dashed border-[var(--border-strong)] hover:border-[var(--primary-500)] rounded-[var(--radius-md)] bg-[var(--surface-input)] hover:bg-[var(--surface-hover)] flex flex-col items-center justify-center gap-3 cursor-pointer transition-colors duration-200"
+                className="w-full py-12 px-4 border-2 border-dashed flex flex-col items-center justify-center gap-3 cursor-pointer transition-colors duration-200"
+                style={{
+                  borderColor: isUploadHovered ? "var(--primary-500)" : "var(--border-strong)",
+                  borderRadius: "var(--radius-md)",
+                  backgroundColor: isUploadHovered ? "var(--surface-hover)" : "var(--surface-input)"
+                }}
+                onMouseEnter={() => setIsUploadHovered(true)}
+                onMouseLeave={() => setIsUploadHovered(false)}
               >
-                <div className="w-12 h-12 rounded-full bg-[var(--bg-primary)] flex items-center justify-center shadow-sm">
-                  <Upload size={24} className="text-[var(--primary-500)]" />
+                <div
+                  className="w-12 h-12 rounded-full flex items-center justify-center shadow-sm"
+                  style={{ backgroundColor: "var(--bg-primary)" }}
+                >
+                  <Upload size={24} style={{ color: "var(--primary-500)" }} />
                 </div>
                 <div className="text-center">
                   <p className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>
@@ -144,7 +173,14 @@ export default function UploadMediaModal({
               /* Fields & Preview State */
               <>
                 {/* Preview Panel */}
-                <div className="w-[200px] h-[200px] mx-auto rounded-[var(--radius-sm)]  border border-[var(--border-light)] bg-[var(--bg-secondary)] flex items-center justify-center relative group">
+                <div
+                  className="w-[200px] h-[200px] mx-auto flex items-center justify-center relative group"
+                  style={{
+                    borderRadius: "var(--radius-sm)",
+                    border: "1px solid var(--border-light)",
+                    backgroundColor: "var(--bg-secondary)"
+                  }}
+                >
                   {previewUrl &&
                     (mediaType === "Image" ? (
                       <img
@@ -198,7 +234,10 @@ export default function UploadMediaModal({
                       {captionError}
                     </p>
                   )}
-                  <div className="flex justify-between mt-1.5 px-0.5 text-xs text-[var(--text-muted)]">
+                  <div
+                    className="flex justify-between mt-1.5 px-0.5 text-xs"
+                    style={{ color: "var(--text-muted)" }}
+                  >
                     <span>Add context to your post</span>
                     <span style={{ color: caption.length >= 500 ? "var(--status-error)" : "inherit", fontWeight: caption.length >= 500 ? "600" : "normal" }}>
                       {caption.length}/500
@@ -229,7 +268,10 @@ export default function UploadMediaModal({
                       {altTextError}
                     </p>
                   )}
-                  <div className="flex justify-between mt-1.5 px-0.5 text-xs text-[var(--text-muted)]">
+                  <div
+                    className="flex justify-between mt-1.5 px-0.5 text-xs"
+                    style={{ color: "var(--text-muted)" }}
+                  >
                     <span>Helps users with screen readers</span>
                     <span style={{ color: altText.length >= 50 ? "var(--status-error)" : "inherit", fontWeight: altText.length >= 50 ? "600" : "normal" }}>
                       {altText.length}/50

@@ -62,13 +62,22 @@ export default function EditProfile() {
             {...EditProfileAnimation.backdropTransition}
           >
             <Motion.div
-              className="flex flex-col items-center gap-4 bg-[var(--surface-card)] border border-[var(--border-normal)] rounded-[var(--radius-lg)] p-8 shadow-[var(--shadow-card)] max-w-sm w-full mx-4 text-center"
+              className="flex flex-col items-center gap-4 border p-8 max-w-sm w-full mx-4 text-center"
+              style={{
+                backgroundColor: "var(--surface-card)",
+                borderColor: "var(--border-normal)",
+                borderRadius: "var(--radius-lg)",
+                boxShadow: "var(--shadow-card)",
+              }}
               {...EditProfileAnimation.dialogTransition}
             >
               {/* Spinner animation */}
               <Motion.div
-                className="w-12 h-12 rounded-full border-4 border-[var(--border-light)] border-t-[var(--primary-500)]"
-                style={{ borderTopColor: "var(--primary-500)" }}
+                className="w-12 h-12 rounded-full border-4"
+                style={{
+                  borderColor: "var(--border-light)",
+                  borderTopColor: "var(--primary-500)",
+                }}
                 {...EditProfileAnimation.spinnerTransition}
               />
               <div>
@@ -213,7 +222,7 @@ export default function EditProfile() {
                 {errors.tagline.message}
               </p>
             )}
-            <div className="flex justify-between mt-1.5 px-0.5 text-xs text-[var(--text-muted)]">
+            <div className="flex justify-between mt-1.5 px-0.5 text-xs" style={{ color: "var(--text-muted)" }}>
               <span>A short line about you</span>
               <span
                 style={{
@@ -250,7 +259,7 @@ export default function EditProfile() {
                 {errors.bio.message}
               </p>
             )}
-            <div className="flex justify-between mt-1.5 px-0.5 text-xs text-[var(--text-muted)]">
+            <div className="flex justify-between mt-1.5 px-0.5 text-xs" style={{ color: "var(--text-muted)" }}>
               <span>Tell people about yourself</span>
               <span
                 style={{

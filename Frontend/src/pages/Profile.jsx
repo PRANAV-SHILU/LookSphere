@@ -45,15 +45,15 @@ function ProfileStats({
       <div className="sm:hidden w-full flex justify-center mb-1" style={{ color: "var(--text-primary)" }}>
         <div className="flex flex-col items-center flex-1">
           <strong className="font-bold text-base sm:text-lg">{postCount || 0}</strong>
-          <span className="text-xs text-[var(--text-muted)] mt-0.5">posts</span>
+          <span className="text-xs mt-0.5" style={{ color: "var(--text-muted)" }}>posts</span>
         </div>
         <div className="flex flex-col items-center flex-1">
           <strong className="font-bold text-base sm:text-lg">{profileViewCount || 0}</strong>
-          <span className="text-xs text-[var(--text-muted)] mt-0.5">profile views</span>
+          <span className="text-xs mt-0.5" style={{ color: "var(--text-muted)" }}>profile views</span>
         </div>
         <div className="flex flex-col items-center flex-1">
           <strong className="font-bold text-base sm:text-lg">{totalPostViews || 0}</strong>
-          <span className="text-xs text-[var(--text-muted)] mt-0.5">post views</span>
+          <span className="text-xs mt-0.5" style={{ color: "var(--text-muted)" }}>post views</span>
         </div>
       </div>
     );
@@ -77,11 +77,12 @@ function ProfileStats({
 }
 
 
-function ProfileEmptyState({ icon: Icon, title, description }) {
+function ProfileEmptyState({ icon, title, description }) {
+  const IconComponent = icon;
   return (
     <div className="col-span-2 md:col-span-3 flex flex-col items-center justify-center pt-6 pb-16 text-center mx-auto w-[70%]">
       <div className="w-24 h-24 rounded-full flex items-center justify-center mb-1">
-        <Icon size={48} style={{ color: "var(--text-muted)" }} />
+        <IconComponent size={48} style={{ color: "var(--text-muted)" }} />
       </div>
       <h3
         className="text-xl font-bold mb-2"
@@ -114,6 +115,8 @@ export default function Profile() {
   const [mediaType, setMediaType] = useState("");
   const [selectedPost, setSelectedPost] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isImageUploadHovered, setIsImageUploadHovered] = useState(false);
+  const [isVideoUploadHovered, setIsVideoUploadHovered] = useState(false);
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
 
@@ -157,13 +160,22 @@ export default function Profile() {
             {...ProfileAnimation.backdropTransition}
           >
             <Motion.div
-              className="flex flex-col items-center gap-4 bg-[var(--surface-card)] border border-[var(--border-normal)] rounded-[var(--radius-lg)] p-8 shadow-[var(--shadow-card)] max-w-sm w-full mx-4 text-center"
+              className="flex flex-col items-center gap-4 border p-8 max-w-sm w-full mx-4 text-center"
+              style={{
+                backgroundColor: "var(--surface-card)",
+                borderColor: "var(--border-normal)",
+                borderRadius: "var(--radius-lg)",
+                boxShadow: "var(--shadow-card)",
+              }}
               {...ProfileAnimation.dialogTransition}
             >
               {/* Spinner animation */}
               <Motion.div
-                className="w-12 h-12 rounded-full border-4 border-[var(--border-light)] border-t-[var(--primary-500)]"
-                style={{ borderTopColor: "var(--primary-500)" }}
+                className="w-12 h-12 rounded-full border-4"
+                style={{
+                  borderColor: "var(--border-light)",
+                  borderTopColor: "var(--primary-500)",
+                }}
                 {...ProfileAnimation.spinnerTransition}
               />
               <div>
@@ -325,7 +337,8 @@ export default function Profile() {
                   {images.map((post) => (
                     <div
                       key={post._id}
-                      className="aspect-square bg-zinc-800 overflow-hidden cursor-pointer rounded-[var(--radius-sm)]"
+                      className="aspect-square bg-zinc-800 overflow-hidden cursor-pointer"
+                      style={{ borderRadius: "var(--radius-sm)" }}
                       onClick={() => handlePostClick(post)}
                     >
                       <img
@@ -339,11 +352,18 @@ export default function Profile() {
                 </>
               ) : isOwnProfile ? (
                 <div
-                  className="col-span-2 md:col-span-3 flex flex-col items-center justify-center py-16 px-4 border-2 border-dashed border-[var(--border-strong)] hover:border-[var(--primary-500)] rounded-[var(--radius-lg)] bg-[var(--surface-input)] hover:bg-[var(--surface-hover)] cursor-pointer transition-colors duration-200 w-full"
+                  className="col-span-2 md:col-span-3 flex flex-col items-center justify-center py-16 px-4 border-2 border-dashed cursor-pointer transition-colors duration-200 w-full"
+                  style={{
+                    borderColor: isImageUploadHovered ? "var(--primary-500)" : "var(--border-strong)",
+                    borderRadius: "var(--radius-lg)",
+                    backgroundColor: isImageUploadHovered ? "var(--surface-hover)" : "var(--surface-input)"
+                  }}
+                  onMouseEnter={() => setIsImageUploadHovered(true)}
+                  onMouseLeave={() => setIsImageUploadHovered(false)}
                   onClick={() => handleTriggerUpload("Image")}
                 >
-                  <div className="w-12 h-12 rounded-full bg-[var(--bg-primary)] flex items-center justify-center shadow-sm mb-3">
-                    <Plus size={24} className="text-[var(--primary-500)]" />
+                  <div className="w-12 h-12 rounded-full flex items-center justify-center shadow-sm mb-3" style={{ backgroundColor: "var(--bg-primary)" }}>
+                    <Plus size={24} style={{ color: "var(--primary-500)" }} />
                   </div>
                   <h3 className="text-lg font-bold mb-1" style={{ color: "var(--text-primary)" }}>
                     Share Images
@@ -383,7 +403,8 @@ export default function Profile() {
                   {videos.map((post) => (
                     <div
                       key={post._id}
-                      className="aspect-square bg-zinc-800 overflow-hidden cursor-pointer rounded-[var(--radius-sm)]"
+                      className="aspect-square bg-zinc-800 overflow-hidden cursor-pointer"
+                      style={{ borderRadius: "var(--radius-sm)" }}
                       onClick={() => handlePostClick(post)}
                     >
                       <video
@@ -400,11 +421,18 @@ export default function Profile() {
                 </>
               ) : isOwnProfile ? (
                 <div
-                  className="col-span-2 md:col-span-3 flex flex-col items-center justify-center py-16 px-4 border-2 border-dashed border-[var(--border-strong)] hover:border-[var(--primary-500)] rounded-[var(--radius-lg)] bg-[var(--surface-input)] hover:bg-[var(--surface-hover)] cursor-pointer transition-colors duration-200 w-full"
+                  className="col-span-2 md:col-span-3 flex flex-col items-center justify-center py-16 px-4 border-2 border-dashed cursor-pointer transition-colors duration-200 w-full"
+                  style={{
+                    borderColor: isVideoUploadHovered ? "var(--primary-500)" : "var(--border-strong)",
+                    borderRadius: "var(--radius-lg)",
+                    backgroundColor: isVideoUploadHovered ? "var(--surface-hover)" : "var(--surface-input)"
+                  }}
+                  onMouseEnter={() => setIsVideoUploadHovered(true)}
+                  onMouseLeave={() => setIsVideoUploadHovered(false)}
                   onClick={() => handleTriggerUpload("Video")}
                 >
-                  <div className="w-12 h-12 rounded-full bg-[var(--bg-primary)] flex items-center justify-center shadow-sm mb-3">
-                    <Plus size={24} className="text-[var(--primary-500)]" />
+                  <div className="w-12 h-12 rounded-full flex items-center justify-center shadow-sm mb-3" style={{ backgroundColor: "var(--bg-primary)" }}>
+                    <Plus size={24} style={{ color: "var(--primary-500)" }} />
                   </div>
                   <h3 className="text-lg font-bold mb-1" style={{ color: "var(--text-primary)" }}>
                     Share Videos

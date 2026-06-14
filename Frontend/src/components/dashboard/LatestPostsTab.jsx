@@ -17,6 +17,7 @@ function formatTimeAgo(dateString, now) {
 export default function LatestPostsTab({ latestPosts, now }) {
   const navigate = useNavigate();
   const [selectedPost, setSelectedPost] = useState(null);
+  const [hoveredPostUser, setHoveredPostUser] = useState(null);
 
   return (
     <div
@@ -43,7 +44,10 @@ export default function LatestPostsTab({ latestPosts, now }) {
             <div
               key={idx}
               className="rounded-xl overflow-hidden transition-all duration-200 hover:-translate-y-1 cursor-pointer"
-              onClick={() => setSelectedPost(post)}
+              onClick={() => setSelectedPost({
+                ...post,
+                userId: post.userId && typeof post.userId === "object" ? post.userId._id : post.userId
+              })}
               style={{
                 backgroundColor: "var(--surface-input)",
                 border: "1px solid var(--border-light)",
@@ -93,8 +97,10 @@ export default function LatestPostsTab({ latestPosts, now }) {
                     )}
                   </div>
                   <span
-                    className="text-xs font-bold truncate cursor-pointer hover:text-[var(--primary-500)] transition-colors"
-                    style={{ color: "var(--text-primary)" }}
+                    className="text-xs font-bold truncate cursor-pointer transition-colors"
+                    style={{ color: hoveredPostUser === post._id ? "var(--primary-500)" : "var(--text-primary)" }}
+                    onMouseEnter={() => setHoveredPostUser(post._id)}
+                    onMouseLeave={() => setHoveredPostUser(null)}
                     onClick={(e) => {
                       e.stopPropagation();
                       if (post.userId?.username) navigate(`/profile/${post.userId.username}`);

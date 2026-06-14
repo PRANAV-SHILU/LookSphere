@@ -35,16 +35,15 @@ export default function Dashboard() {
 
   return (
     <Motion.div
-      className="max-w-7xl mx-auto p-4 md:p-8"
       {...DashboardAnimation.pageTransition}
     >
       {/* Header */}
-      <div className="mb-6 text-center md:text-left">
+      <div className="my-6 text-center md:text-left">
         <h1
           className="text-4xl md:text-5xl font-extrabold mb-3 tracking-tight flex items-center justify-center md:justify-start gap-3"
           style={{ color: "var(--text-primary)" }}
         >
-          <ShieldAlert className="text-[var(--primary-500)]" size={40} /> Admin Dashboard
+          <ShieldAlert style={{ color: "var(--primary-500)" }} size={40} /> Admin Dashboard
         </h1>
         <p className="text-lg" style={{ color: "var(--text-muted)" }}>
           Overview of application metrics and community users.
@@ -52,15 +51,15 @@ export default function Dashboard() {
       </div>
 
       {/* Tabs */}
-      <div className="tab-container mb-8">
+      <div className="tab-container mx-auto p-1 gap-1.5 mt-2 mb-6 sm:p-[0.35rem] sm:gap-2 sm:mt-[10px] sm:mb-8 4xl:p-2.5 4xl:gap-4 4xl:mt-12 4xl:mb-12">
         {TABS.map((tab) => (
           <button
             key={tab.key}
-            className={`tab-btn ${activeTab === tab.key ? "active" : ""}`}
+            className={`tab-btn py-1 px-3 text-sm sm:py-[0.22rem] sm:px-6 sm:text-[1.2rem] 4xl:py-3.5 4xl:px-10 4xl:text-2xl ${activeTab === tab.key ? "active" : ""}`}
             onClick={() => setActiveTab(tab.key)}
             style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}
           >
-            {tab.icon} {tab.label}
+            <span className="hidden xsm:inline-flex">{tab.icon}</span> {tab.label}
           </button>
         ))}
       </div>

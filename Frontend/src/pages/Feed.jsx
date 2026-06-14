@@ -16,6 +16,7 @@ function FeedCard({ post, currentUser, onPostClick, isParentModalOpen }) {
   const hasTrackedView = useRef(false);
   const isVideo = post.mediaType === "Video";
   const [isIntersecting, setIsIntersecting] = useState(false);
+  const [isMaximizeHovered, setIsMaximizeHovered] = useState(false);
   const postDate = post.createdAt
     ? new Date(post.createdAt).toLocaleString(undefined, {
         month: "short",
@@ -165,7 +166,10 @@ function FeedCard({ post, currentUser, onPostClick, isParentModalOpen }) {
           <button
             type="button"
             onClick={() => onPostClick(post)}
-            className="flex items-center justify-center p-1.5 rounded-lg hover:bg-zinc-800/80 transition-all text-[var(--text-muted)] hover:text-[var(--text-primary)] cursor-pointer border-none bg-transparent"
+            className="flex items-center justify-center p-1.5 rounded-lg hover:bg-zinc-800/80 transition-all cursor-pointer border-none bg-transparent"
+            style={{ color: isMaximizeHovered ? "var(--text-primary)" : "var(--text-muted)" }}
+            onMouseEnter={() => setIsMaximizeHovered(true)}
+            onMouseLeave={() => setIsMaximizeHovered(false)}
             title="View in full screen"
           >
             <Maximize2 size={15} />
@@ -174,7 +178,7 @@ function FeedCard({ post, currentUser, onPostClick, isParentModalOpen }) {
 
         {post.caption ? (
           <p className="text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
-            {author && <strong className="mr-2 text-[var(--text-primary)]">{author.username}</strong>}
+            {author && <strong className="mr-2" style={{ color: "var(--text-primary)" }}>{author.username}</strong>}
             {post.caption}
           </p>
         ) : (
@@ -339,8 +343,8 @@ export default function Feed() {
                 margin: "0 auto",
               }}
             >
-              <Plus size={24} className="mb-1 text-[var(--text-secondary)]" />
-              <span className="font-semibold text-xs text-[var(--text-secondary)]">
+              <Plus size={24} className="mb-1" style={{ color: "var(--text-secondary)" }} />
+              <span className="font-semibold text-xs" style={{ color: "var(--text-secondary)" }}>
                 Share Your Own Image or Video
               </span>
             </Link>

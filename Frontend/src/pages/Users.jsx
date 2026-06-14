@@ -8,6 +8,7 @@ import { Users as UsersAnimation } from "../utils/animation";
 export default function Users() {
   const usersList = useLoaderData();
   const [query, setQuery] = useState("");
+  const [hoveredUser, setHoveredUser] = useState(null);
 
   const filteredUsers = usersList.filter((u) => {
     const q = query.toLowerCase();
@@ -91,6 +92,8 @@ export default function Users() {
                   border: "1px solid var(--border-normal)",
                   boxShadow: "var(--shadow-card)",
                 }}
+                onMouseEnter={() => setHoveredUser(user.username)}
+                onMouseLeave={() => setHoveredUser(null)}
               >
                 {/* Background Glow Effect on Hover */}
                 <div
@@ -104,8 +107,11 @@ export default function Users() {
                 <div className="flex items-start space-x-4 mb-5 relative z-10">
                   {/* Avatar */}
                   <div
-                    className="w-16 h-16 4xl:w-21 4xl:h-21 shrink-0 rounded-full overflow-hidden flex items-center justify-center border-2 border-transparent group-hover:border-[var(--primary-500)] transition-colors duration-300 shadow-sm"
-                    style={{ backgroundColor: "var(--surface-input)" }}
+                    className="w-16 h-16 4xl:w-21 4xl:h-21 shrink-0 rounded-full overflow-hidden flex items-center justify-center border-2 transition-colors duration-300 shadow-sm"
+                    style={{
+                      backgroundColor: "var(--surface-input)",
+                      borderColor: hoveredUser === user.username ? "var(--primary-500)" : "transparent"
+                    }}
                   >
                     {user.profileImage ? (
                       <img
@@ -121,8 +127,8 @@ export default function Users() {
                   {/* User Info */}
                   <div className="flex-1 overflow-hidden">
                     <h2
-                      className="text-xl 4xl:text-3xl font-bold truncate group-hover:text-[var(--primary-600)] transition-colors"
-                      style={{ color: "var(--text-primary)" }}
+                      className="text-xl 4xl:text-3xl font-bold truncate transition-colors"
+                      style={{ color: hoveredUser === user.username ? "var(--primary-600)" : "var(--text-primary)" }}
                     >
                       {user.username}
                     </h2>

@@ -31,57 +31,56 @@ export default function Register() {
 
   return (
     <Motion.section
-      className="flex flex-col justify-center items-center"
-      style={{ minHeight: "70vh" }}
+      className="flex mt-8 flex-col justify-center items-center px-4 w-full min-h-[calc(100vh-120px)]"
       {...RegisterAnimation.pageTransition}
     >
       <Motion.div
-        className="card w-full max-w-md"
+        className="card w-full max-w-md py-4 px-0 xsm:p-8 4xl:max-w-xl 4xl:p-14 4xl:rounded-2xl"
         {...RegisterAnimation.cardTransition}
       >
         <Form method="post">
           <div className="text-center">
-            <h2 className="hero-text mx-auto">Create an account</h2>
-            <p className="mb-4">Join SecureAuth today</p>
+            <h2 className="hero-text mx-auto text-2xl xsm:text-4xl 4xl:text-5xl font-extrabold mb-3">Create an account</h2>
+            <p className="mb-8  text-sm xsm:text-base 4xl:text-xl ">Join SecureAuth today</p>
           </div>
 
           <div className="input-group">
-            <label htmlFor="username" className="input-label">Username</label>
+            <label htmlFor="username" className="input-label text-xs xsm:text-sm 4xl:text-lg">Username</label>
             <input
               type="text"
               placeholder="Enter your username"
-              className="input-field"
+              className="input-field text-sm xsm:text-base 4xl:text-xl 4xl:py-4 4xl:px-6 4xl:rounded-lg"
               autoComplete="username"
               onKeyDown={(e) => {
                 if (e.key === " ") e.preventDefault();
               }}
               {...register("username")}
             />
-            {errors.username && <p style={{ color: "var(--status-error)", fontSize: "0.8rem", marginTop: "0.5rem" }}>{errors.username.message}</p>}
+            {errors.username && <p className="text-xs 4xl:text-base mt-1.5" style={{ color: "var(--status-error)" }}>{errors.username.message}</p>}
           </div>
 
           <div className="input-group">
-            <label htmlFor="email" className="input-label">Email</label>
+            <label htmlFor="email" className="input-label text-xs xsm:text-sm 4xl:text-lg">Email</label>
             <input
               type="email"
               placeholder="Enter your email"
-              className="input-field"
+              className="input-field text-sm xsm:text-base 4xl:text-xl 4xl:py-4 4xl:px-6 4xl:rounded-lg"
               autoComplete="email"
               onKeyDown={(e) => {
                 if (e.key === " ") e.preventDefault();
               }}
               {...register("email")}
             />
-            {errors.email && <p style={{ color: "var(--status-error)", fontSize: "0.8rem", marginTop: "0.5rem" }}>{errors.email.message}</p>}
+            {errors.email && <p className="text-xs 4xl:text-base mt-1.5" style={{ color: "var(--status-error)" }}>{errors.email.message}</p>}
           </div>
 
           <div className="input-group">
-            <label htmlFor="password" className="input-label">Password</label>
+            <label htmlFor="password" className="input-label text-xs xsm:text-sm 4xl:text-lg">Password</label>
             <div style={{ position: "relative" }}>
               <input
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter your password"
-                className="input-field"
+                className="input-field text-sm xsm:text-base 4xl:text-xl 4xl:py-4 4xl:px-6 4xl:rounded-lg"
                 onKeyDown={(e) => {
                   if (e.key === " ") e.preventDefault();
                 }}
@@ -109,16 +108,16 @@ export default function Register() {
                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
             </div>
-            {errors.password && <p style={{ color: "var(--status-error)", fontSize: "0.8rem", marginTop: "0.5rem" }}>{errors.password.message}</p>}
+            {errors.password && <p className="text-xs 4xl:text-base mt-1.5" style={{ color: "var(--status-error)" }}>{errors.password.message}</p>}
           </div>
 
           <div className="input-group">
-            <label htmlFor="confirmPassword" className="input-label">Confirm Password</label>
+            <label htmlFor="confirmPassword" className="input-label text-xs xsm:text-sm 4xl:text-lg">Confirm Password</label>
             <div style={{ position: "relative" }}>
               <input
                 type={showConfirmPassword ? "text" : "password"}
                 placeholder="Confirm your password"
-                className="input-field"
+                className="input-field text-sm xsm:text-base 4xl:text-xl 4xl:py-4 4xl:px-6 4xl:rounded-lg"
                 {...register("confirmPassword")}
                 style={{ paddingRight: "2.5rem" }}
               />
@@ -143,13 +142,13 @@ export default function Register() {
                 {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
             </div>
-            {errors.confirmPassword && <p style={{ color: "var(--status-error)", fontSize: "0.8rem", marginTop: "0.5rem" }}>{errors.confirmPassword.message}</p>}
+            {errors.confirmPassword && <p className="text-xs 4xl:text-base mt-1.5" style={{ color: "var(--status-error)" }}>{errors.confirmPassword.message}</p>}
           </div>
 
           <div className="input-group mt-2">
             <Motion.button
               type="submit"
-              className="btn btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
+              className="btn btn-primary w-full py-2 px-4 xsm:py-2.5 4xl:py-4.5 4xl:text-xl 4xl:rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={!isValid || isSubmitting}
               whileHover={isValid && !isSubmitting ? RegisterAnimation.buttonHover : {}}
               whileTap={isValid && !isSubmitting ? RegisterAnimation.buttonTap : {}}
@@ -158,7 +157,7 @@ export default function Register() {
             </Motion.button>
           </div>
 
-          <p className="text-center mt-4" style={{ fontSize: "0.875rem" }}>
+          <p className="text-center mt-4 xsm:mt-6 text-xs xsm:text-sm 4xl:text-lg">
             Already registered?{" "}
             <NavLink to="/login" style={{ fontWeight: 500 }}>
               Login

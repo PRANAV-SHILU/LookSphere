@@ -30,26 +30,25 @@ export default function Login() {
 
   return (
     <Motion.section
-      className="flex flex-col justify-center items-center"
-      style={{ minHeight: "60vh" }}
+      className="flex flex-col mt-4 justify-center items-center px-4 w-full min-h-[calc(100vh-120px)]"
       {...LoginAnimation.pageTransition}
     >
       <Motion.div
-        className="card w-full max-w-md"
+        className="card w-full max-w-md p-4! xsm:p-8! 4xl:max-w-xl 4xl:p-14! 4xl:rounded-2xl"
         {...LoginAnimation.cardTransition}
       >
         <Form method="post">
           <div className="text-center">
-            <h2 className="hero-text">Welcome back</h2>
-            <p className="mb-4">Sign in to your account</p>
+            <h2 className="hero-text text-3xl xsm:text-4xl 4xl:text-5xl font-extrabold mb-3">Welcome back</h2>
+            <p className="mb-6 xsm:mb-6 text-sm xsm:text-base 4xl:text-xl 4xl:mb-8">Sign in to your account</p>
           </div>
 
           <div className="input-group">
-            <label className="input-label">Username</label>
+            <label className="input-label text-xs xsm:text-sm 4xl:text-lg">Username</label>
             <input
               type="text"
               placeholder="Enter your username"
-              className="input-field"
+              className="input-field text-sm xsm:text-base 4xl:text-xl 4xl:py-4 4xl:px-6 4xl:rounded-lg"
               autoComplete="username"
               onKeyDown={(e) => {
                 if (e.key === " ") e.preventDefault();
@@ -58,10 +57,9 @@ export default function Login() {
             />
             {errors.username && (
               <p
+                className="text-xs 4xl:text-base mt-1.5"
                 style={{
-                  color: "var(--status-error)",
-                  fontSize: "0.8rem",
-                  marginTop: "0.5rem",
+                  color: "var(--status-error)"
                 }}
               >
                 {errors.username.message}
@@ -70,12 +68,12 @@ export default function Login() {
           </div>
 
           <div className="input-group">
-            <label className="input-label">Password</label>
+            <label className="input-label text-xs xsm:text-sm 4xl:text-lg">Password</label>
             <div style={{ position: "relative" }}>
               <input
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter your password"
-                className="input-field"
+                className="input-field text-sm xsm:text-base 4xl:text-xl 4xl:py-4 4xl:px-6 4xl:rounded-lg"
                 onKeyDown={(e) => {
                   if (e.key === " ") e.preventDefault();
                 }}
@@ -105,10 +103,9 @@ export default function Login() {
             </div>
             {errors.password && (
               <p
+                className="text-xs 4xl:text-base mt-1.5"
                 style={{
-                  color: "var(--status-error)",
-                  fontSize: "0.8rem",
-                  marginTop: "0.5rem",
+                  color: "var(--status-error)"
                 }}
               >
                 {errors.password.message}
@@ -119,7 +116,7 @@ export default function Login() {
           <div className="input-group mt-2">
             <Motion.button
               type="submit"
-              className="btn btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
+              className="btn btn-primary w-full py-2 px-4 xsm:py-2.5 4xl:py-4.5 4xl:text-xl 4xl:rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={!isValid || isSubmitting}
               whileHover={isValid && !isSubmitting ? LoginAnimation.buttonHover : {}}
               whileTap={isValid && !isSubmitting ? LoginAnimation.buttonTap : {}}
@@ -128,7 +125,7 @@ export default function Login() {
             </Motion.button>
           </div>
 
-          <p className="text-center mt-4" style={{ fontSize: "0.875rem" }}>
+          <p className="text-center mt-4 xsm:mt-6 text-xs xsm:text-sm 4xl:text-lg">
             Don't have an account?{" "}
             <NavLink to="/register" style={{ fontWeight: 500 }}>
               Register

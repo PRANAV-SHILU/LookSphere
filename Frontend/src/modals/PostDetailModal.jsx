@@ -432,7 +432,7 @@ export default function PostDetailModal({ isOpen, onClose, post }) {
                           {captionError}
                         </p>
                       )}
-                      <div className="flex justify-between mt-1 text-xs text-[var(--text-muted)]">
+                      <div className="flex justify-between mt-1 text-xs" style={{ color: "var(--text-muted)" }}>
                         <span>Add context to your post</span>
                         <span
                           style={{
@@ -484,7 +484,7 @@ export default function PostDetailModal({ isOpen, onClose, post }) {
                           {altTextError}
                         </p>
                       )}
-                      <div className="flex justify-between mt-1 text-xs text-[var(--text-muted)]">
+                      <div className="flex justify-between mt-1 text-xs" style={{ color: "var(--text-muted)" }}>
                         <span>Helps users with screen readers</span>
                         <span
                           style={{

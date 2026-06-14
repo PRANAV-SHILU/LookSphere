@@ -45,6 +45,15 @@ app.get("/", (req, res) => {
   res.send("welcome to secureauth backend");
 });
 
+// Simple ping endpoint for uptime robot to keep server alive
+app.get("/ping", (req, res) => {
+  res.status(200).json({
+    status: "ok",
+    timestamp: new Date().toISOString(),
+    message: "Server is alive"
+  });
+});
+
 // Health check endpoint for Render monitoring
 app.get("/health", (req, res) => {
   const dbStatus = mongoose.connection.readyState;

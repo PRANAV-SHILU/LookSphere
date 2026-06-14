@@ -5,7 +5,7 @@ import {
   useNavigate,
 } from "react-router-dom";
 import { useRef, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { editProfileSchema } from "../schema/editProfileSchema";
 import { motion as Motion, AnimatePresence } from "framer-motion";
@@ -26,7 +26,7 @@ export default function EditProfile() {
   const {
     register,
     formState: { errors, isValid },
-    watch,
+    control,
   } = useForm({
     defaultValues: {
       username: user?.username || "",
@@ -38,8 +38,8 @@ export default function EditProfile() {
     mode: "all",
   });
 
-  const taglineValue = watch("tagline") || "";
-  const bioValue = watch("bio") || "";
+  const taglineValue = useWatch({ control, name: "tagline" }) || "";
+  const bioValue = useWatch({ control, name: "bio" }) || "";
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];

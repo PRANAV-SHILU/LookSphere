@@ -12,7 +12,8 @@ import dotenv from "dotenv";
 import authRoutes from "./routes/auth.routes.js";
 import userRoutes from "./routes/user.routes.js";
 import postRoutes from "./routes/post.routes.js";
-import adminRoutes from "./routes/admin.route.js"
+import adminRoutes from "./routes/admin.route.js";
+import { setupErrorHandlers, startServerWithErrorHandling, retryWithBackoff } from "./utils/errorHandler.js";
 
 // Fix: Node.js's async DNS resolver fails on SRV lookups on some networks, Force it to use Google's public DNS which correctly handles mongodb+srv:// SRV records.
 dns.setServers(["8.8.8.8", "8.8.4.4"]);
@@ -21,7 +22,10 @@ const app = express();
 
 // neccesary middlewares and configurations
 dotenv.config();
-connectDB();
+
+// Connect DB with retry logic
+retryWithBackoff(() => connectDB(), 5, 5000, "Database connection");
+
 app.use(
   cors({
     origin: process.env.FRONTEND_URL,
@@ -54,15 +58,8 @@ app.use((req, res, next) => {
   });
 });
 
-// error handler
-app.use((err, req, res, next) => {
-  console.error("Express Error:", err);
-  res.status(500).json({
-    error:
-      "Internal server error. Kindly check backend logs or try again later!",
-  });
-});
+// Setup comprehensive error handlers
+setupErrorHandlers(app);
 
-app.listen(process.env.PORT, () => {
-  console.log(`Server is running on http://localhost:${process.env.PORT}`);
-});
+// Start server with error handling
+startServerWithErrorHandling(app, process.env.PORT);

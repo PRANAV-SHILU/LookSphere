@@ -4,279 +4,100 @@ Base URL: `http://localhost:<PORT>`
 
 ---
 
-## Table of Contents
-
-- [Auth](#auth)
-  - [POST api/auth/register](#post-apiauthregister)
-  - [POST api/auth/login](#post-apiauthlogin)
-  - [POST api/auth/logout](#post-apiauthlogout)
-- [Users](#users)
-  - [GET api/users](#get-apiusers)
-  - [GET api/users/profile](#get-apiusersprofile)
-  - [GET api/users/profile/:username](#get-apiusersusername)
-  - [PATCH api/users/profile](#patch-apiusersprofile)
-- [Posts](#posts)
-  - [GET api/posts](#get-apiposts)
-  - [GET api/posts/:id](#get-apipostsid)
-  - [POST api/posts](#post-apiposts)
-  - [DELETE api/posts/:id](#delete-apipostsid)
-
----
-
 ## Auth
 
-### POST api/auth/register
+### POST /api/auth/register
+Register new user account
+- **Auth:** None
+- **Body:** `{ username, email, password, confirmPassword }`
+- **Response:** `201` user created | `400` validation/error | `500`
 
-Register a new user account.
+### POST /api/auth/login  
+Authenticate/Login user and set session token
+- **Auth:** None
+- **Body:** `{ username, password }`
+- **Response:** `200` token set | `401` invalid | `500`
 
-- **Auth required:** No
-
-**Request Body** `application/json`
-
-| Field             | Type   | Required | Rules                               |
-| ----------------- | ------ | -------- | ----------------------------------- |
-| `username`        | string | ✅       | Min 3 chars, no spaces, lowercased  |
-| `email`           | string | ✅       | Valid email format, lowercased      |
-| `password`        | string | ✅       | Min 6 chars, no spaces              |
-| `confirmPassword` | string | ✅       | Must match `password`               |
-
-**Responses**
-
-| Status | Description                    |
-| ------ | ------------------------------ |
-| `201`  | User created successfully      |
-| `400`  | Validation error / user exists |
-| `500`  | Internal server error          |
-
-> **Note:** `hashedPassword` is never returned in any response.
-
----
-
-### POST api/auth/login
-
-Log in with an existing account.
-
-- **Auth required:** No
-
-**Request Body** `application/json`
-
-| Field      | Type   | Required | Rules                    |
-| ---------- | ------ | -------- | ------------------------ |
-| `username` | string | ✅       | Min 3 chars, no spaces   |
-| `password` | string | ✅       | Min 6 chars, no spaces   |
-
-**Responses**
-
-| Status | Description                     |
-| ------ | ------------------------------- |
-| `200`  | Login successful, returns token |
-| `400`  | Validation error                |
-| `401`  | Invalid credentials             |
-| `500`  | Internal server error           |
-
----
-
-### POST api/auth/logout
-
-Log out the current user by clearing the JWT cookie.
-
-- **Auth required:** No
-
-**Responses**
-
-| Status | Description                     |
-| ------ | ------------------------------- |
-| `200`  | Logged out successfully         |
-| `500`  | Internal server error           |
+### POST /api/auth/logout
+Clear session token and logout user
+- **Auth:** None
+- **Response:** `200` logged out | `500`
 
 ---
 
 ## Users
 
-### GET api/users
+### GET /api/users
+Get list of all users
+- **Auth:** None
+- **Response:** `200` users array | `500`
 
-Get a list of all users.
+### GET /api/users/:id/detail
+Get minimal user info (username, avatar)
+- **Auth:** None
+- **Response:** `200` { username, avatar } | `404` | `500`
 
-- **Auth required:** No
+### GET /api/users/profile
+Get authenticated user's own profile
+- **Auth:** Required (jwtToken cookie)
+- **Response:** `200` own profile | `401` | `500`
 
-**Responses**
+### GET /api/users/profile/:username
+Get public profile by username
+- **Auth:** Optional (jwtToken cookie)
+- **Response:** `200` public profile | `404` | `500`
 
-| Status | Description           |
-| ------ | --------------------- |
-| `200`  | Array of user objects |
-| `500`  | Internal server error |
-
----
-
-### GET api/users/profile
-
-Get the authenticated user's own profile.
-
-- **Auth required:** ✅ Cookie (`jwtToken`)
-
-**Responses**
-
-| Status | Description                  |
-| ------ | ---------------------------- |
-| `200`  | Own profile data             |
-| `401`  | Unauthorized / invalid token |
-| `500`  | Internal server error        |
-
----
-
-### GET api/users/profile/:username
-
-Get a public profile by username.
-
-- **Auth required:** No
-
-**Path Parameters**
-
-| Param      | Type   | Description         |
-| ---------- | ------ | ------------------- |
-| `username` | string | The user's username |
-
-**Responses**
-
-| Status | Description           |
-| ------ | --------------------- |
-| `200`  | User profile data     |
-| `404`  | User not found        |
-| `500`  | Internal server error |
-
----
-
-### PATCH api/users/profile
-
-Update the authenticated user's profile. All fields are optional.
-
-- **Auth required:** ✅ Cookie (`jwtToken`)
-- **Content-Type:** `multipart/form-data`
-
-**Form Fields**
-
-| Field          | Type   | Required | Rules                   |
-| -------------- | ------ | -------- | ----------------------- |
-| `username`     | string | ❌       | Min 3 chars, no spaces  |
-| `email`        | string | ❌       | Valid email format      |
-| `tagline`      | string | ❌       | Max 100 characters      |
-| `bio`          | string | ❌       | Max 500 characters      |
-| `profileImage` | file   | ❌       | Image file (via upload) |
-
-**Responses**
-
-| Status | Description                  |
-| ------ | ---------------------------- |
-| `200`  | Profile updated successfully |
-| `400`  | Validation error             |
-| `401`  | Unauthorized / invalid token |
-| `500`  | Internal server error        |
+### PATCH /api/users/profile
+Update/Edit authenticated user's profile
+- **Auth:** Required (jwtToken cookie)
+- **Content:** multipart/form-data
+- **Fields:** `username, email, tagline, bio, profileImage` (all optional)
+- **Response:** `200` updated | `400` validation | `401` | `500`
 
 ---
 
 ## Posts
 
-### GET api/posts
+### GET /api/posts
+Get feed of all posts from all users
+- **Auth:** None
+- **Response:** `200` feed array | `500`
 
-Get all posts from all users (public feed).
+### POST /api/posts
+Create new post with media upload
+- **Auth:** Required (jwtToken cookie)
+- **Content:** multipart/form-data
+- **Fields:** `media` (required), `mediaType` (image/video), `caption` (optional)
+- **Response:** `201` created | `400` validation | `401` | `500`
 
-- **Auth required:** No
+### PATCH /api/posts/:id/views
+Increment post view count
+- **Auth:** None
+- **Response:** `200` view count incremented | `404` | `500`
 
-**Responses**
+### PATCH /api/posts/:id
+Edit post caption
+- **Auth:** Required (jwtToken cookie)
+- **Body:** `{ caption }` (optional)
+- **Response:** `200` updated | `400` validation | `401` | `403` not owner | `404` | `500`
 
-| Status | Description           |
-| ------ | --------------------- |
-| `200`  | Array of post objects |
-| `500`  | Internal server error |
-
----
-
-### GET api/posts/:id
-
-Get a single post by ID.
-
-- **Auth required:** No
-
-**Path Parameters**
-
-| Param | Type   | Description      |
-| ----- | ------ | ---------------- |
-| `id`  | string | MongoDB ObjectId |
-
-**Responses**
-
-| Status | Description           |
-| ------ | --------------------- |
-| `200`  | Post object           |
-| `404`  | Post not found        |
-| `500`  | Internal server error |
+### DELETE /api/posts/:id
+Delete post (owner only)
+- **Auth:** Required (jwtToken cookie)
+- **Response:** `200` deleted | `401` | `403` not owner | `404` | `500`
 
 ---
 
-### POST api/posts
+## Admin
 
-Create a new post. Requires a media file upload.
-
-- **Auth required:** ✅ Cookie (`jwtToken`)
-- **Content-Type:** `multipart/form-data`
-
-**Form Fields**
-
-| Field       | Type   | Required | Rules                    |
-| ----------- | ------ | -------- | ------------------------ |
-| `media`     | file   | ✅       | Image or video file      |
-| `mediaType` | string | ✅       | `"image"` or `"video"`   |
-| `caption`   | string | ❌       | Max 500 characters       |
-
-**Responses**
-
-| Status | Description                  |
-| ------ | ---------------------------- |
-| `201`  | Post created successfully    |
-| `400`  | Validation error             |
-| `401`  | Unauthorized / invalid token |
-| `500`  | Internal server error        |
+### GET /api/admin/matrics
+Get platform analytics metrics
+- **Auth:** Required (jwtToken cookie + admin role)
+- **Response:** `200` metrics | `401` | `403` not admin | `500`
 
 ---
 
-### DELETE api/posts/:id
+## Error Format
 
-Delete a post by ID. Only the post owner can delete their post.
-
-- **Auth required:** ✅ Cookie (`jwtToken`)
-
-**Path Parameters**
-
-| Param | Type   | Description      |
-| ----- | ------ | ---------------- |
-| `id`  | string | MongoDB ObjectId |
-
-**Responses**
-
-| Status | Description                    |
-| ------ | ------------------------------ |
-| `200`  | Post deleted successfully      |
-| `401`  | Unauthorized / invalid token   |
-| `403`  | Forbidden — not the post owner |
-| `404`  | Post not found                 |
-| `500`  | Internal server error          |
-
----
-
-## Error Response Format
-
-All validation errors follow this structure:
-
-| Field      | Type   | Description                              |
-| ---------- | ------ | ---------------------------------------- |
-| `errors`   | array  | List of validation error objects         |
-| `errors[].type` | string | Type of error (e.g. `"field"`)      |
-| `errors[].msg`  | string | Human-readable error message        |
-| `errors[].path` | string | The field that failed validation    |
-| `errors[].location` | string | Where the field was (`"body"`) |
-
-Non-validation errors return:
-
-| Field | Type   | Description          |
-| ----- | ------ | -------------------- |
-| `msg` | string | Short error message  |
+**Validation errors:** `{ errors: [{ type, msg, path, location }] }`
+**Other errors:** `{ msg: string }`

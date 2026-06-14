@@ -24,10 +24,12 @@ export default function ErrorBoundary() {
     <>
       <Header />
       <Motion.div
-        className="flex gap-8 flex-col items-center justify-center text-center min-h-screen"
+        className="flex gap-2 px-4 lg:gap-8 flex-col items-center justify-center text-center min-h-screen"
         {...ErrorBoundaryAnimation.containerTransition}
       >
+
       {content}
+
       <NavLink
         to="/"
         className="mt-4 px-4 md:px-6 py-2 md:py-3 text-white rounded-lg font-semibold transition-colors text-sm md:text-base"

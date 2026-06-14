@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { NavLink, useRouteLoaderData, useSubmit } from "react-router-dom";
 import { motion as Motion, AnimatePresence } from "framer-motion";
-import { UserCircle2, Sun, Moon, User, LogOut, Search, Users, Home, Image as ImageIcon, LayoutDashboard, Menu, X } from "lucide-react";
+import { UserCircle2, Sun, Moon, User, LogOut, Search, Users, Home, Image as ImageIcon, LayoutDashboard, Menu, X, ChevronDown } from "lucide-react";
 import ConfirmationModal from "../modals/ConfirmationModal.jsx";
 import { Header as HeaderAnimation } from "../utils/animation";
 
@@ -78,14 +78,34 @@ export default function Header() {
           </NavLink>
         </Motion.div>
 
-        {/* Burger Menu Button - Mobile Only */}
-        <button
-          className="lg:hidden bg-transparent border-none cursor-pointer p-2 text-(--text-primary) flex items-center"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          aria-label="Toggle menu"
-        >
-          {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        {/* Theme Toggle & Burger Menu - Mobile Only */}
+        <div className="lg:hidden flex items-center gap-2">
+          <Motion.button
+            onClick={() => setIsDark(!isDark)}
+            aria-label="Toggle theme"
+            title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+            whileHover={HeaderAnimation.themeToggleHover}
+            whileTap={HeaderAnimation.themeToggleTap}
+            className="bg-transparent border-none cursor-pointer flex items-center p-2 text-(--text-primary)"
+          >
+            <AnimatePresence mode="wait" initial={false}>
+              <Motion.span
+                key={isDark ? "sun" : "moon"}
+                {...HeaderAnimation.themeIconTransition}
+                className="text-xl leading-none"
+              >
+                {isDark ? <Sun size={20} /> : <Moon size={20} />}
+              </Motion.span>
+            </AnimatePresence>
+          </Motion.button>
+          <button
+            className="bg-transparent border-none cursor-pointer p-2 text-(--text-primary) flex items-center"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
 
         <Motion.nav
           className="hidden lg:flex gap-6 items-center"
@@ -214,15 +234,32 @@ export default function Header() {
         {/* Mobile Menu */}
         <AnimatePresence>
           {mobileMenuOpen && (
-            <Motion.div
-              className="lg:hidden absolute top-full left-0 right-0 bg-(--surface-card) border-b border-(--border-color) z-50 overflow-hidden"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.2 }}
-            >
+            <>
+              {/* Backdrop Blur Overlay */}
+              <Motion.div
+                className="lg:hidden fixed top-[74px] left-0 right-0 bottom-0 bg-black/40 backdrop-blur-md z-40"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                onClick={() => setMobileMenuOpen(false)}
+              />
+              <Motion.div
+                className="mobile-menu-container pr-6 lg:hidden fixed top-[74px] right-0 w-64 h-[calc(100vh-72px)] bg-(--surface-card) border-l border-(--border-color) z-50 overflow-y-auto shadow-lg"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ duration: 0.2 }}
+              >
               <div className="flex flex-col p-4 gap-2">
                 {/* Nav Links */}
+                <NavLink
+                  to="/"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={({ isActive }) => `text-sm font-medium text-(--text-secondary) hover:text-(--text-primary) ${isActive ? "text-(--text-primary)" : ""} flex items-center gap-2 p-3 text-(--text-primary) no-underline`}
+                >
+                  <Home size={18} /> Home
+                </NavLink>
                 {user?.role === "admin" && (
                   <NavLink
                     to="/dashboard"
@@ -232,6 +269,13 @@ export default function Header() {
                     <LayoutDashboard size={18} /> Dashboard
                   </NavLink>
                 )}
+                <NavLink
+                  to="/feed"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={({ isActive }) => `text-sm font-medium text-(--text-secondary) hover:text-(--text-primary) ${isActive ? "text-(--text-primary)" : ""} flex items-center gap-2 p-3 text-(--text-primary) no-underline`}
+                >
+                  <ImageIcon size={18} /> Feed
+                </NavLink>
                 <NavLink
                   to="/explore"
                   onClick={() => setMobileMenuOpen(false)}
@@ -256,19 +300,22 @@ export default function Header() {
                     {/* Profile Button */}
                     <button
                       onClick={() => setMobileProfileOpen(!mobileProfileOpen)}
-                      className="flex items-center gap-2 p-3 bg-transparent border-none cursor-pointer text-(--text-primary) text-left w-full"
+                      className="flex items-center justify-between p-3 bg-transparent border-none cursor-pointer text-(--text-primary) text-left w-full"
                     >
-                      {user.profileImage && !imgError ? (
-                        <img
-                          src={user.profileImage}
-                          alt={user.username}
-                          onError={() => setImgError(true)}
-                          className="w-6 h-6 rounded-full object-cover"
-                        />
-                      ) : (
-                        <UserCircle2 size={24} className="text-(--text-muted)" />
-                      )}
-                      <span>{user.username}</span>
+                      <div className="flex items-center gap-2">
+                        {user.profileImage && !imgError ? (
+                          <img
+                            src={user.profileImage}
+                            alt={user.username}
+                            onError={() => setImgError(true)}
+                            className="w-6 h-6 rounded-full object-cover"
+                          />
+                        ) : (
+                          <UserCircle2 size={24} className="text-(--text-muted)" />
+                        )}
+                        <span>{user.username}</span>
+                      </div>
+                      <ChevronDown size={16} className={`transition-transform ${mobileProfileOpen ? 'rotate-180' : ''}`} />
                     </button>
 
                     {/* Profile Submenu */}
@@ -279,7 +326,7 @@ export default function Header() {
                           animate={{ opacity: 1, height: "auto" }}
                           exit={{ opacity: 0, height: 0 }}
                           transition={{ duration: 0.2 }}
-                          className="pl-6 flex flex-col gap-1"
+                          className="pl-8 flex flex-col gap-4"
                         >
                           <NavLink
                             to="/profile"
@@ -287,7 +334,7 @@ export default function Header() {
                               setMobileMenuOpen(false);
                               setMobileProfileOpen(false);
                             }}
-                            className="flex items-center gap-2 p-2 text-(--text-primary) no-underline"
+                            className="flex items-center gap-2 px-2 text-(--text-primary) no-underline"
                           >
                             <User size={16} /> Profile
                           </NavLink>
@@ -297,7 +344,7 @@ export default function Header() {
                               setMobileProfileOpen(false);
                               setShowLogoutModal(true);
                             }}
-                            className="flex items-center gap-2 p-2 bg-transparent border-none cursor-pointer text-(--status-error) text-left"
+                            className="flex items-center gap-2 px-2 bg-transparent border-none cursor-pointer text-(--status-error) text-left"
                           >
                             <LogOut size={16} /> Logout
                           </button>
@@ -325,6 +372,7 @@ export default function Header() {
                 )}
               </div>
             </Motion.div>
+            </>
           )}
         </AnimatePresence>
       </Motion.header>

@@ -32,6 +32,7 @@
   --border-light: #E2E8F0;
   --border-normal: #CBD5E1;
   --border-strong: #94A3B8;
+  --border-color: #CBD5E1;
 
   /* Status Colors */
   --status-success: #16A34A;
@@ -81,6 +82,7 @@ html.dark {
   --border-light: #3F3F46;
   --border-normal: #27272A;
   --border-strong: #52525B;
+  --border-color: #27272A;
 
   /* Status Colors */
   --status-success: #22C55E;

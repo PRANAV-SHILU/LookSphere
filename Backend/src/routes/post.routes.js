@@ -25,7 +25,7 @@ postRoutes.post(
   verifyToken,
   upload.single("media"),
   checkMediaSize,
-  uploadToCloudinaryMiddleware,
+  uploadToCloudinaryMiddleware("uploads"),
   createPost,
 );
 

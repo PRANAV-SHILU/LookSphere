@@ -42,32 +42,45 @@ export const checkMediaSize = (req, res, next) => {
   next();
 };
 
-export const uploadToCloudinaryMiddleware = async (req, res, next) => {
-  if (!req.file) return next();
+export const uploadToCloudinaryMiddleware = (folder = "uploads") => {
+  return async (req, res, next) => {
+    if (!req.file) return next();
 
-  try {
-    const b64 = Buffer.from(req.file.buffer).toString("base64");
-    const dataURI = `data:${req.file.mimetype};base64,${b64}`;
+    try {
+      const b64 = Buffer.from(req.file.buffer).toString("base64");
+      const dataURI = `data:${req.file.mimetype};base64,${b64}`;
 
-    const customName = req.user
-      ? `${req.user.username}_${req.user.userId}_${Date.now()}`
-      : `${Date.now()}_${req.file.originalname}`;
+      const customName = req.user
+        ? `${req.user.username}_${req.user.userId}_${Date.now()}`
+        : `${Date.now()}_${req.file.originalname}`;
 
-    const uploadResult = await uploadToCloudinary(
-      dataURI,
-      "secureauth/uploads",
-      customName,
-    );
+      // Determine subfolder based on file type
+      const isImage = req.file.mimetype.startsWith("image/");
+      const isVideo = req.file.mimetype.startsWith("video/");
+      
+      let finalFolder = folder;
+      if (isImage) {
+        finalFolder = `${folder}/images`;
+      } else if (isVideo) {
+        finalFolder = `${folder}/videos`;
+      }
 
-    req.cloudinaryUrl = uploadResult.secure_url;
+      const uploadResult = await uploadToCloudinary(
+        dataURI,
+        finalFolder,
+        customName,
+      );
 
-    next();
-  } catch (error) {
-    console.error("Cloudinary Upload Error:", error);
-    return res
-      .status(500)
-      .json({ message: "Failed to upload file to Cloudinary" });
-  }
+      req.cloudinaryUrl = uploadResult.secure_url;
+
+      next();
+    } catch (error) {
+      console.error("Cloudinary Upload Error:", error);
+      return res
+        .status(500)
+        .json({ message: "Failed to upload file to Cloudinary" });
+    }
+  };
 };
 
 export default upload;

@@ -28,7 +28,7 @@ userRoutes.patch(
   verifyToken,
   upload.single("profileImage"),
   checkMediaSize,
-  uploadToCloudinaryMiddleware,
+  uploadToCloudinaryMiddleware("profile-images"),
   updateProfileValidation,
   updateProfile,
 );

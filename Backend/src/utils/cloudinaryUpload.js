@@ -1,6 +1,6 @@
 import cloudinary from "../config/cloudinaryConfig.js";
 
-export async function uploadToCloudinary(file, folder = "secureauth", customName = null) {
+export async function uploadToCloudinary(file, folder = "uploads", customName = null) {
   const options = {
     folder,
     resource_type: "auto",

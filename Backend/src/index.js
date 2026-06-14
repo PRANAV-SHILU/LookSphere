@@ -42,7 +42,28 @@ app.use("/", (req, res, next) => {
 });
 
 app.get("/", (req, res) => {
-  res.send("welcome to secureauth");
+  res.send("welcome to secureauth backend");
+});
+
+// Health check endpoint for Render monitoring
+app.get("/health", (req, res) => {
+  const dbStatus = mongoose.connection.readyState;
+  const statusMap = {
+    0: 'disconnected',
+    1: 'connected',
+    2: 'connecting',
+    3: 'disconnecting'
+  };
+  
+  const healthStatus = {
+    status: dbStatus === 1 ? 'healthy' : 'unhealthy',
+    timestamp: new Date().toISOString(),
+    database: statusMap[dbStatus] || 'unknown',
+    uptime: process.uptime()
+  };
+  
+  const statusCode = dbStatus === 1 ? 200 : 503;
+  res.status(statusCode).json(healthStatus);
 });
 
 // Routes
@@ -58,7 +79,7 @@ app.use((req, res, next) => {
   });
 });
 
-// Setup comprehensive error handlers
+// Setup basic error handlers
 setupErrorHandlers(app);
 
 // Start server with error handling

@@ -119,7 +119,7 @@ function FeedCard({ post, currentUser, onPostClick, isParentModalOpen }) {
           </div>
         )}
 
-        <div className="flex items-center gap-1.5 text-xs" style={{ color: "var(--text-muted)" }}>
+        <div className="items-center gap-1.5 text-xs hidden sm:flex" style={{ color: "var(--text-muted)" }}>
           <Clock size={12} />
           <span>{postDate}</span>
         </div>
@@ -237,7 +237,7 @@ export default function Feed() {
 
   return (
     <Motion.div
-      className="max-w-xl mx-auto p-4 md:py-8"
+      className="max-w-xl mx-auto  mt-6 p-4 md:py-8"
       {...FeedAnimation.pageTransition}
     >
       <div className="mb-8 flex items-start justify-between">
@@ -351,7 +351,7 @@ export default function Feed() {
         {showScrollTop && (
           <Motion.button
             onClick={scrollToTop}
-            className="flex items-center justify-center cursor-pointer"
+            className="flex opacity-50 items-center justify-center cursor-pointer"
             {...FeedAnimation.scrollTopButton}
             style={{
               position: "fixed",

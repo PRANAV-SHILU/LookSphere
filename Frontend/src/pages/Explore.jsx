@@ -97,18 +97,18 @@ export default function Explore() {
 
   return (
     <Motion.div
-      className="max-w-6xl mx-auto p-4 md:p-8"
+      className="max-w-6xl xl:max-w-7xl mx-auto p-4 md:p-8"
       {...ExploreAnimation.pageTransition}
     >
-      <div className="mb-6 flex items-start justify-between">
+      <div className="mb-6 mt-6 gap-8 flex items-start justify-between">
         <div>
           <h1
-            className="text-4xl md:text-5xl font-extrabold mb-3 tracking-tight"
+            className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-3 tracking-tight"
             style={{ color: "var(--text-primary)" }}
           >
             Explore Community
           </h1>
-          <p className="text-lg" style={{ color: "var(--text-muted)" }}>
+          <p className="text-base sm:text-lg" style={{ color: "var(--text-muted)" }}>
             Explore latest photos and videos shared by the community.
           </p>
         </div>
@@ -171,7 +171,7 @@ export default function Explore() {
 
       {posts.length === 0 ? (
         <div
-          className="text-center py-24 rounded-2xl border border-dashed"
+          className="text-center px-4 py-24 rounded-2xl border border-dashed"
           style={{
             borderColor: "var(--border-normal)",
             backgroundColor: "var(--surface-card)",
@@ -256,7 +256,7 @@ export default function Explore() {
               className="group aspect-square bg-zinc-900 border border-dashed border-[var(--border-normal)] overflow-hidden cursor-pointer rounded-xl relative flex flex-col items-center justify-center hover:bg-zinc-800 transition-colors"
             >
               <Plus size={32} className="mb-2 text-[var(--text-secondary)]" />
-              <span className="font-medium text-xs md:text-sm text-[var(--text-secondary)]">
+              <span className="font-medium px-0.5 xsm:px-0 text-center text-xs md:text-sm text-[var(--text-secondary)]">
                 Share Your Image/Video
               </span>
             </Link>

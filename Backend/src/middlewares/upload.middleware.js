@@ -59,10 +59,14 @@ export const uploadToCloudinaryMiddleware = (folder = "uploads") => {
       const isVideo = req.file.mimetype.startsWith("video/");
       
       let finalFolder = folder;
-      if (isImage) {
-        finalFolder = `${folder}/images`;
-      } else if (isVideo) {
-        finalFolder = `${folder}/videos`;
+      // Only add subfolders if folder is "uploads" (for posts)
+      // For specific folders like "uploads/profile-image", keep as-is
+      if (folder === "uploads") {
+        if (isImage) {
+          finalFolder = `${folder}/images`;
+        } else if (isVideo) {
+          finalFolder = `${folder}/videos`;
+        }
       }
 
       const uploadResult = await uploadToCloudinary(

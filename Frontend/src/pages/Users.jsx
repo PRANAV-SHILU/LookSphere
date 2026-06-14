@@ -19,18 +19,18 @@ export default function Users() {
 
   return (
     <Motion.div
-      className="max-w-6xl mx-auto p-4 md:p-8"
+      className=""
       {...UsersAnimation.pageTransition}
     >
-      <div className="mb-10 flex items-start justify-between">
+      <div className="mb-10 mt-8 4xl:mt-16 gap-4 flex items-start justify-between">
         <div className="text-center md:text-left">
           <h1
-            className="text-4xl md:text-5xl font-extrabold mb-3 tracking-tight"
+            className="text-4xl xsm:text-5xl text-left font-extrabold mb-3 tracking-tight"
             style={{ color: "var(--text-primary)" }}
           >
             Community
           </h1>
-          <p className="text-lg" style={{ color: "var(--text-muted)" }}>
+          <p className="text-base xsm:text-lg text-left" style={{ color: "var(--text-muted)" }}>
             Discover and connect with other users on SecureAuth.
           </p>
         </div>
@@ -72,7 +72,7 @@ export default function Users() {
         </div>
       ) : (
         <Motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6 2xl:gap-8"
           variants={UsersAnimation.containerVariants}
           initial="hidden"
           animate="show"
@@ -85,7 +85,7 @@ export default function Users() {
             >
               <Link
                 to={`/profile/${user.username}`}
-                className="group relative flex flex-col h-full p-6 rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1"
+                className="group relative flex flex-col h-full p-6 4xl:p-8 rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1"
                 style={{
                   backgroundColor: "var(--surface-card)",
                   border: "1px solid var(--border-normal)",
@@ -104,7 +104,7 @@ export default function Users() {
                 <div className="flex items-start space-x-4 mb-5 relative z-10">
                   {/* Avatar */}
                   <div
-                    className="w-16 h-16 shrink-0 rounded-full overflow-hidden flex items-center justify-center border-2 border-transparent group-hover:border-[var(--primary-500)] transition-colors duration-300 shadow-sm"
+                    className="w-16 h-16 4xl:w-21 4xl:h-21 shrink-0 rounded-full overflow-hidden flex items-center justify-center border-2 border-transparent group-hover:border-[var(--primary-500)] transition-colors duration-300 shadow-sm"
                     style={{ backgroundColor: "var(--surface-input)" }}
                   >
                     {user.profileImage ? (
@@ -114,20 +114,20 @@ export default function Users() {
                         className="w-full h-full object-cover"
                       />
                     ) : (
-                      <User size={32} style={{ color: "var(--text-muted)" }} />
+                      <User size={32} className="4xl:size-36" style={{ color: "var(--text-muted)" }} />
                     )}
                   </div>
 
                   {/* User Info */}
                   <div className="flex-1 overflow-hidden">
                     <h2
-                      className="text-xl font-bold truncate group-hover:text-[var(--primary-600)] transition-colors"
+                      className="text-xl 4xl:text-3xl font-bold truncate group-hover:text-[var(--primary-600)] transition-colors"
                       style={{ color: "var(--text-primary)" }}
                     >
                       {user.username}
                     </h2>
                     <p
-                      className="text-sm line-clamp-2 mt-1"
+                      className="text-sm 4xl:text-lg line-clamp-2 mt-1"
                       style={{ color: "var(--text-secondary)" }}
                     >
                       {user.tagline || "No tagline provided."}
@@ -144,36 +144,36 @@ export default function Users() {
                     className="flex items-center gap-3"
                   >
                     <div
-                      className="flex items-center space-x-1.5 text-xs font-semibold px-2.5 py-1.5 rounded-md"
+                      className="flex items-center space-x-1.5 text-xs 4xl:text-base font-semibold px-2.5 py-1.5 4xl:py-2.5 rounded-md"
                       style={{
                         backgroundColor: "var(--surface-input)",
                         color: "var(--text-secondary)",
                       }}
                     >
-                      <Eye size={14} />
+                      <Eye size={14} className="4xl:size-8" />
                       <span>{user.profileViewCount || 0} Views</span>
                     </div>
                     <div
-                      className="flex items-center space-x-1.5 text-xs font-semibold px-2.5 py-1.5 rounded-md"
+                      className="flex items-center space-x-1.5 text-xs 4xl:text-base font-semibold px-2.5 py-1.5 4xl:py-2.5  rounded-md"
                       style={{
                         backgroundColor: "var(--surface-input)",
                         color: "var(--text-secondary)",
                       }}
                     >
-                      <FileText size={14} />
+                      <FileText size={14} className="4xl:size-8" />
                       <span>{user.postCount || 0} Posts</span>
                     </div>
                   </div>
 
                   {/* View Profile Button (Icon) */}
                   <div
-                    className="flex items-center justify-center w-8 h-8 rounded-full transform group-hover:translate-x-1 transition-all duration-300"
+                    className="flex items-center justify-center w-8 h-8  rounded-full transform group-hover:translate-x-1 transition-all duration-300"
                     style={{
                       backgroundColor: "var(--primary-50)",
                       color: "var(--primary-600)",
                     }}
                   >
-                    <ArrowRight size={16} />
+                    <ArrowRight size={16} className="4xl:size-10" />
                   </div>
                 </div>
               </Link>

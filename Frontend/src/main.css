@@ -2,6 +2,8 @@
 
 @theme {
   --breakpoint-xsm: 480px;
+  --breakpoint-3xl: 1600px;
+  --breakpoint-4xl: 1920px;
 }
 
 :root {
@@ -190,7 +192,7 @@ a:hover {
 
 .main-content {
   flex: 1;
-  max-width: 1680px;
+  max-width: 1980px;
   width: 94%;
   margin: 0 auto;
 }

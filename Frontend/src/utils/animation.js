@@ -16,7 +16,7 @@ export const Users = {
   itemVariants: {
     hidden: { opacity: 0, y: 20 },
     show: {
-      opacity: 1,
+      opacity: 0.9,
       y: 0,
       transition: { type: "spring", stiffness: 300, damping: 24 },
     },

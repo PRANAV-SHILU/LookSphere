@@ -1,12 +1,10 @@
 import { NavLink } from "react-router-dom";
 import { motion as Motion } from "framer-motion";
 import { PageNotFound as PageNotFoundAnimation } from "../utils/animation";
-import Header from "./Header";
 
 export default function PageNotFound() {
   return (
     <>
-      <Header />
       <Motion.section
         className="flex flex-col items-center justify-center gap-4 text-center px-4 min-h-screen"
         {...PageNotFoundAnimation.pageTransition}

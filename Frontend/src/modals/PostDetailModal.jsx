@@ -393,237 +393,240 @@ export default function PostDetailModal({ isOpen, onClose, post }) {
                 className="post-detail-caption"
                 style={{ width: "100%", maxWidth: "100%" }}
               >
-              {isEditing ? (
-                <div className="flex flex-col gap-4">
-                  <div className="input-group" style={{ marginBottom: "0" }}>
-                    <label
-                      className="input-label"
-                      style={{ fontSize: "0.85rem", fontWeight: "600" }}
-                    >
-                      Caption
-                    </label>
-                    <textarea
-                      className="input-field"
-                      rows={5}
-                      cols={45}
-                      placeholder="Write a caption..."
-                      value={editCaption}
-                      onChange={(e) => {
-                        const val = e.target.value;
-                        setEditCaption(val);
-                        if (val.length > 500) {
-                          setCaptionError(
-                            "Caption cannot exceed 500 characters",
-                          );
-                        } else {
-                          setCaptionError("");
-                        }
-                      }}
-                      style={{ resize: "both" }}
-                    />
-                    {captionError && (
-                      <p
-                        style={{
-                          color: "var(--status-error)",
-                          fontSize: "0.8rem",
-                          marginTop: "0.4rem",
-                        }}
+                {isEditing ? (
+                  <div className="flex flex-col gap-4">
+                    <div className="input-group" style={{ marginBottom: "0" }}>
+                      <label
+                        className="input-label"
+                        style={{ fontSize: "0.85rem", fontWeight: "600" }}
                       >
-                        {captionError}
-                      </p>
-                    )}
-                    <div className="flex justify-between mt-1 text-xs text-[var(--text-muted)]">
-                      <span>Add context to your post</span>
-                      <span
-                        style={{
-                          color:
-                            editCaption.length >= 500
-                              ? "var(--status-error)"
-                              : "inherit",
-                          fontWeight:
-                            editCaption.length >= 500 ? "600" : "normal",
-                        }}
-                      >
-                        {editCaption.length}/500
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="input-group" style={{ marginBottom: "0" }}>
-                    <label
-                      className="input-label"
-                      style={{ fontSize: "0.85rem", fontWeight: "600" }}
-                    >
-                      Alt Text (Alternative text)
-                    </label>
-                    <input
-                      type="text"
-                      className="input-field"
-                      placeholder="Describe this media for accessibility..."
-                      value={editAltText}
-                      onChange={(e) => {
-                        const val = e.target.value;
-                        setEditAltText(val);
-                        if (val.length > 50) {
-                          setAltTextError(
-                            "Alt text cannot exceed 50 characters",
-                          );
-                        } else {
-                          setAltTextError("");
-                        }
-                      }}
-                    />
-                    {altTextError && (
-                      <p
-                        style={{
-                          color: "var(--status-error)",
-                          fontSize: "0.8rem",
-                          marginTop: "0.4rem",
-                        }}
-                      >
-                        {altTextError}
-                      </p>
-                    )}
-                    <div className="flex justify-between mt-1 text-xs text-[var(--text-muted)]">
-                      <span>Helps users with screen readers</span>
-                      <span
-                        style={{
-                          color:
-                            editAltText.length >= 50
-                              ? "var(--status-error)"
-                              : "inherit",
-                          fontWeight:
-                            editAltText.length >= 50 ? "600" : "normal",
-                        }}
-                      >
-                        {editAltText.length}/50
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="flex gap-3 mt-1">
-                    <button
-                      type="button"
-                      disabled={isSaving}
-                      className="btn btn-secondary w-full"
-                      onClick={() => {
-                        setIsEditing(false);
-                        setEditCaption(post.caption || "");
-                        setEditAltText(post.altText || "");
-                        setCaptionError("");
-                        setAltTextError("");
-                        if (overlayRef.current) {
-                          overlayRef.current.scrollTo({
-                            top: 0,
-                            behavior: "smooth",
-                          });
-                        }
-                      }}
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="button"
-                      disabled={
-                        isSaving ||
-                        editCaption.length > 500 ||
-                        editAltText.length > 50
-                      }
-                      className="btn btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
-                      onClick={async () => {
-                        try {
-                          await postSchema.validate({
-                            caption: editCaption,
-                            altText: editAltText,
-                          });
-                        } catch (err) {
-                          toast.error(err.message);
-                          return;
-                        }
-
-                        setIsSaving(true);
-                        try {
-                          const payload = {};
-                          if (
-                            editCaption.trim() !== (post.caption || "").trim()
-                          ) {
-                            payload.caption = editCaption.trim();
+                        Caption
+                      </label>
+                      <textarea
+                        className="input-field"
+                        rows={5}
+                        cols={45}
+                        placeholder="Write a caption..."
+                        value={editCaption}
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          setEditCaption(val);
+                          if (val.length > 500) {
+                            setCaptionError(
+                              "Caption cannot exceed 500 characters",
+                            );
+                          } else {
+                            setCaptionError("");
                           }
-                          if (
-                            (editAltText || "").trim() !==
-                            (post.altText || "").trim()
-                          ) {
-                            payload.altText = editAltText.trim();
-                          }
-                          if (Object.keys(payload).length === 0) {
-                            toast.info("No changes to save.");
-                            setIsEditing(false);
-                            return;
-                          }
-                          const updated = await modifyPost(post._id, payload);
-                          toast.success("Post updated successfully!");
-                          post.caption = updated.caption;
-                          post.altText = updated.altText;
-                          setIsEditing(false);
-                        } catch (err) {
-                          toast.error(err.message || "Failed to save post.");
-                        } finally {
-                          setIsSaving(false);
-                        }
-                      }}
-                    >
-                      {isSaving ? "Saving..." : "Save"}
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <>
-                  {post.postViewCount != null && (
-                    <div
-                      className="post-detail-views"
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                      }}
-                    >
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "6px",
                         }}
-                      >
-                        <Eye size={16} />
-                        <span>
-                          {post.postViewCount}{" "}
-                          {post.postViewCount === 1 ? "view" : "views"}
-                        </span>
-                      </div>
-                      {post.createdAt && (
-                        <span
+                        style={{ resize: "both" }}
+                      />
+                      {captionError && (
+                        <p
                           style={{
+                            color: "var(--status-error)",
                             fontSize: "0.8rem",
-                            color: "var(--text-muted)",
+                            marginTop: "0.4rem",
                           }}
                         >
-                          {new Date(post.createdAt).toLocaleString(undefined, {
-                            year: "numeric",
-                            month: "short",
-                            day: "numeric",
-                            hour: "2-digit",
-                            minute: "2-digit",
-                            second: "2-digit",
-                          })}
-                        </span>
+                          {captionError}
+                        </p>
                       )}
+                      <div className="flex justify-between mt-1 text-xs text-[var(--text-muted)]">
+                        <span>Add context to your post</span>
+                        <span
+                          style={{
+                            color:
+                              editCaption.length >= 500
+                                ? "var(--status-error)"
+                                : "inherit",
+                            fontWeight:
+                              editCaption.length >= 500 ? "600" : "normal",
+                          }}
+                        >
+                          {editCaption.length}/500
+                        </span>
+                      </div>
                     </div>
-                  )}
-                  {post.caption && <p>{post.caption}</p>}
-                </>
-              )}
-            </div>
-          )}
+
+                    <div className="input-group" style={{ marginBottom: "0" }}>
+                      <label
+                        className="input-label"
+                        style={{ fontSize: "0.85rem", fontWeight: "600" }}
+                      >
+                        Alt Text (Alternative text)
+                      </label>
+                      <input
+                        type="text"
+                        className="input-field"
+                        placeholder="Describe this media for accessibility..."
+                        value={editAltText}
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          setEditAltText(val);
+                          if (val.length > 50) {
+                            setAltTextError(
+                              "Alt text cannot exceed 50 characters",
+                            );
+                          } else {
+                            setAltTextError("");
+                          }
+                        }}
+                      />
+                      {altTextError && (
+                        <p
+                          style={{
+                            color: "var(--status-error)",
+                            fontSize: "0.8rem",
+                            marginTop: "0.4rem",
+                          }}
+                        >
+                          {altTextError}
+                        </p>
+                      )}
+                      <div className="flex justify-between mt-1 text-xs text-[var(--text-muted)]">
+                        <span>Helps users with screen readers</span>
+                        <span
+                          style={{
+                            color:
+                              editAltText.length >= 50
+                                ? "var(--status-error)"
+                                : "inherit",
+                            fontWeight:
+                              editAltText.length >= 50 ? "600" : "normal",
+                          }}
+                        >
+                          {editAltText.length}/50
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-3 mt-1">
+                      <button
+                        type="button"
+                        disabled={isSaving}
+                        className="btn btn-secondary w-full"
+                        onClick={() => {
+                          setIsEditing(false);
+                          setEditCaption(post.caption || "");
+                          setEditAltText(post.altText || "");
+                          setCaptionError("");
+                          setAltTextError("");
+                          if (overlayRef.current) {
+                            overlayRef.current.scrollTo({
+                              top: 0,
+                              behavior: "smooth",
+                            });
+                          }
+                        }}
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="button"
+                        disabled={
+                          isSaving ||
+                          editCaption.length > 500 ||
+                          editAltText.length > 50
+                        }
+                        className="btn btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
+                        onClick={async () => {
+                          try {
+                            await postSchema.validate({
+                              caption: editCaption,
+                              altText: editAltText,
+                            });
+                          } catch (err) {
+                            toast.error(err.message);
+                            return;
+                          }
+
+                          setIsSaving(true);
+                          try {
+                            const payload = {};
+                            if (
+                              editCaption.trim() !== (post.caption || "").trim()
+                            ) {
+                              payload.caption = editCaption.trim();
+                            }
+                            if (
+                              (editAltText || "").trim() !==
+                              (post.altText || "").trim()
+                            ) {
+                              payload.altText = editAltText.trim();
+                            }
+                            if (Object.keys(payload).length === 0) {
+                              toast.info("No changes to save.");
+                              setIsEditing(false);
+                              return;
+                            }
+                            const updated = await modifyPost(post._id, payload);
+                            toast.success("Post updated successfully!");
+                            post.caption = updated.caption;
+                            post.altText = updated.altText;
+                            setIsEditing(false);
+                          } catch (err) {
+                            toast.error(err.message || "Failed to save post.");
+                          } finally {
+                            setIsSaving(false);
+                          }
+                        }}
+                      >
+                        {isSaving ? "Saving..." : "Save"}
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    {post.postViewCount != null && (
+                      <div
+                        className="post-detail-views"
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                        }}
+                      >
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "6px",
+                          }}
+                        >
+                          <Eye size={16} />
+                          <span>
+                            {post.postViewCount}{" "}
+                            {post.postViewCount === 1 ? "view" : "views"}
+                          </span>
+                        </div>
+                        {post.createdAt && (
+                          <span
+                            style={{
+                              fontSize: "0.8rem",
+                              color: "var(--text-muted)",
+                            }}
+                          >
+                            {new Date(post.createdAt).toLocaleString(
+                              undefined,
+                              {
+                                year: "numeric",
+                                month: "short",
+                                day: "numeric",
+                                hour: "2-digit",
+                                minute: "2-digit",
+                                second: "2-digit",
+                              },
+                            )}
+                          </span>
+                        )}
+                      </div>
+                    )}
+                    {post.caption && <p>{post.caption}</p>}
+                  </>
+                )}
+              </div>
+            )}
           </Motion.div>
         </Motion.div>
       )}

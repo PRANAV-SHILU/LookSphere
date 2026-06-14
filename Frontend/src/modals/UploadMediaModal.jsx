@@ -144,7 +144,7 @@ export default function UploadMediaModal({
               /* Fields & Preview State */
               <>
                 {/* Preview Panel */}
-                <div className="w-[200px] h-[200px] mx-auto rounded-[var(--radius-sm)] overflow-hidden border border-[var(--border-light)] bg-[var(--bg-secondary)] flex items-center justify-center relative group">
+                <div className="w-[200px] h-[200px] mx-auto rounded-[var(--radius-sm)]  border border-[var(--border-light)] bg-[var(--bg-secondary)] flex items-center justify-center relative group">
                   {previewUrl &&
                     (mediaType === "Image" ? (
                       <img
@@ -179,7 +179,8 @@ export default function UploadMediaModal({
                   <label className="input-label">Caption</label>
                   <textarea
                     className="input-field"
-                    rows={3}
+                    rows={5}
+                    style={{ resize: "vertical" }}
                     placeholder="Write a caption..."
                     value={caption}
                     onChange={(e) => {
@@ -191,7 +192,6 @@ export default function UploadMediaModal({
                         setCaptionError("");
                       }
                     }}
-                    style={{ resize: "none" }}
                   />
                   {captionError && (
                     <p style={{ color: "var(--status-error)", fontSize: "0.8rem", marginTop: "0.4rem" }}>

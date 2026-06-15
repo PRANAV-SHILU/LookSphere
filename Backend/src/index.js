@@ -28,7 +28,7 @@ retryWithBackoff(() => connectDB(), 5, 5000, "Database connection");
 
 app.use(
   cors({
-    origin: "*",
+    origin: process.env.FRONTEND_URL,
     credentials: true,
   })
 );

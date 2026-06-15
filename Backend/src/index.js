@@ -91,7 +91,6 @@ app.use((req, res, next) => {
 // Setup basic error handlers
 setupErrorHandlers(app);
 
-const PORT = process.env.PORT || 5000;
-
 // Start server with error handling
+const PORT = process.env.PORT || 5000;
 startServerWithErrorHandling(app, PORT);

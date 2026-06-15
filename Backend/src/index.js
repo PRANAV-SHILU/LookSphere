@@ -28,9 +28,9 @@ retryWithBackoff(() => connectDB(), 5, 5000, "Database connection");
 
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL,
+    origin: "*",
     credentials: true,
-  }),
+  })
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -91,5 +91,7 @@ app.use((req, res, next) => {
 // Setup basic error handlers
 setupErrorHandlers(app);
 
+const PORT = process.env.PORT || 5000;
+
 // Start server with error handling
-startServerWithErrorHandling(app, process.env.PORT);
+startServerWithErrorHandling(app, PORT);

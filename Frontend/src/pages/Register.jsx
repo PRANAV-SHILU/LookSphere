@@ -41,7 +41,7 @@ export default function Register() {
         <Form method="post">
           <div className="text-center">
             <h2 className="hero-text mx-auto text-2xl xsm:text-4xl 4xl:text-5xl font-extrabold mb-3">Create an account</h2>
-            <p className="mb-8  text-sm xsm:text-base 4xl:text-xl ">Join SecureAuth today</p>
+            <p className="mb-8  text-sm xsm:text-base 4xl:text-xl ">Join LookSphere today</p>
           </div>
 
           <div className="input-group">

@@ -32,7 +32,7 @@ export default function Users() {
             Community
           </h1>
           <p className="text-base xsm:text-lg text-left" style={{ color: "var(--text-muted)" }}>
-            Discover and connect with other users on SecureAuth.
+            Discover and connect with other users on LookSphere.
           </p>
         </div>
         <BackButton />

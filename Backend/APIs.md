@@ -1,4 +1,4 @@
-# SecureAuth — API Documentation
+# LookSphere — API Documentation
 
 Base URL: `http://localhost:<PORT>`
 

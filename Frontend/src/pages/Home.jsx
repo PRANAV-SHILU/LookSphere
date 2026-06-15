@@ -49,20 +49,20 @@ export default function Home() {
 
   return (
     <Motion.section
-      className="flex flex-col items-center"
+      className="flex flex-col mt-14 items-center"
       style={{ gap: "3rem" }}
       {...HomeAnimation.pageTransition}
     >
       {/* Hero */}
-      <div className="text-center" style={{ maxWidth: "800px" }}>
+      <div className="text-center " style={{ maxWidth: "800px" }}>
         <Motion.h1
-          className="hero-text"
+          className="hero-text text-4xl mb-4"
           {...HomeAnimation.h1}
         >
           Hello {name ? name : "User"}!
         </Motion.h1>
         <Motion.h2
-          className="mb-4"
+          className="mb-4 text-xl"
           {...HomeAnimation.h2}
         >
           SecureAuth – Modern React Authentication

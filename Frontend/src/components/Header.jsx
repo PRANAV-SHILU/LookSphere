@@ -66,15 +66,16 @@ export default function Header() {
 
   return (
     <>
-      <Motion.header
-        className="flex justify-between items-center px-4 md:px-8 py-4 bg-(--header-bg) backdrop-blur-md border-b border-(--border-normal) sticky top-0 z-10"
-        {...HeaderAnimation.headerTransition}
-      >
+      <div className="w-full bg-(--header-bg) backdrop-blur-md border-b border-(--border-normal) sticky top-0 z-10">
+        <Motion.header
+          className="max-w-[1980px] w-[94%] mx-auto flex justify-between items-center px-4 md:px-8 py-4 3xl:py-6"
+          {...HeaderAnimation.headerTransition}
+        >
         <Motion.div
           {...HeaderAnimation.logoTransition}
         >
-          <NavLink to="/" className="text-xl font-extrabold text-(--text-primary) no-underline flex items-center gap-2">
-            SecureAuth
+          <NavLink to="/" className="text-xl md:text-2xl 3xl:text-3xl font-extrabold text-(--text-primary) no-underline flex items-center gap-2">
+            LookSphere
           </NavLink>
         </Motion.div>
 
@@ -108,26 +109,26 @@ export default function Header() {
         </div>
 
         <Motion.nav
-          className="hidden lg:flex gap-6 items-center"
+          className="hidden lg:flex lg:gap-6 3xl:gap-8 4xl:gap-10 items-center"
           {...HeaderAnimation.navTransition}
         >
           {/* Public Nav Links */}
-          <NavLink to="/" className={({ isActive }) => `text-sm font-medium text-(--text-secondary) hover:text-(--text-primary) ${isActive ? "text-(--text-primary)" : ""} flex items-center gap-1`}>
-            <Home size={18} /> Home
+          <NavLink to="/" className={({ isActive }) => `text-sm 3xl:text-base 4xl:text-lg font-medium text-(--text-secondary) hover:text-(--text-primary) ${isActive ? "text-(--text-primary)" : ""} flex items-center gap-1.5`}>
+            <Home className="w-4.5 h-4.5 3xl:w-5 3xl:h-5 4xl:w-5.5 4xl:h-5.5" /> Home
           </NavLink>
           {user?.role === "admin" && (
-            <NavLink to="/dashboard" className={({ isActive }) => `text-sm font-medium text-(--text-secondary) hover:text-(--text-primary) ${isActive ? "text-(--text-primary)" : ""} flex items-center gap-1`}>
-              <LayoutDashboard size={18} /> Dashboard
+            <NavLink to="/dashboard" className={({ isActive }) => `text-sm 3xl:text-base 4xl:text-lg font-medium text-(--text-secondary) hover:text-(--text-primary) ${isActive ? "text-(--text-primary)" : ""} flex items-center gap-1.5`}>
+              <LayoutDashboard className="w-4.5 h-4.5 3xl:w-5 3xl:h-5 4xl:w-5.5 4xl:h-5.5" /> Dashboard
             </NavLink>
           )}
-          <NavLink to="/feed" className={({ isActive }) => `text-sm font-medium text-(--text-secondary) hover:text-(--text-primary) ${isActive ? "text-(--text-primary)" : ""} flex items-center gap-1`}>
-            <ImageIcon size={18} /> Feed
+          <NavLink to="/feed" className={({ isActive }) => `text-sm 3xl:text-base 4xl:text-lg font-medium text-(--text-secondary) hover:text-(--text-primary) ${isActive ? "text-(--text-primary)" : ""} flex items-center gap-1.5`}>
+            <ImageIcon className="w-4.5 h-4.5 3xl:w-5 3xl:h-5 4xl:w-5.5 4xl:h-5.5" /> Feed
           </NavLink>
-          <NavLink to="/explore" className={({ isActive }) => `text-sm font-medium text-(--text-secondary) hover:text-(--text-primary) ${isActive ? "text-(--text-primary)" : ""} flex items-center gap-1`}>
-            <Search size={18} /> Explore
+          <NavLink to="/explore" className={({ isActive }) => `text-sm 3xl:text-base 4xl:text-lg font-medium text-(--text-secondary) hover:text-(--text-primary) ${isActive ? "text-(--text-primary)" : ""} flex items-center gap-1.5`}>
+            <Search className="w-4.5 h-4.5 3xl:w-5 3xl:h-5 4xl:w-5.5 4xl:h-5.5" /> Explore
           </NavLink>
-          <NavLink to="/users" className={({ isActive }) => `text-sm font-medium text-(--text-secondary) hover:text-(--text-primary) ${isActive ? "text-(--text-primary)" : ""} flex items-center gap-1`}>
-            <Users size={18} /> Users
+          <NavLink to="/users" className={({ isActive }) => `text-sm 3xl:text-base 4xl:text-lg font-medium text-(--text-secondary) hover:text-(--text-primary) ${isActive ? "text-(--text-primary)" : ""} flex items-center gap-1.5`}>
+            <Users className="w-4.5 h-4.5 3xl:w-5 3xl:h-5 4xl:w-5.5 4xl:h-5.5" /> Users
           </NavLink>
 
           {/* Theme Toggle */}
@@ -143,9 +144,9 @@ export default function Header() {
               <Motion.span
                 key={isDark ? "sun" : "moon"}
                 {...HeaderAnimation.themeIconTransition}
-                className="text-xl leading-none"
+                className="text-xl leading-none flex items-center"
               >
-                {isDark ? <Sun size={20} /> : <Moon size={20} />}
+                {isDark ? <Sun className="w-5 h-5 3xl:w-6 3xl:h-6 4xl:w-7 4xl:h-7" /> : <Moon className="w-5 h-5 3xl:w-6 3xl:h-6 4xl:w-7 4xl:h-7" />}
               </Motion.span>
             </AnimatePresence>
           </Motion.button>
@@ -166,10 +167,10 @@ export default function Header() {
                     src={user.profileImage}
                     alt={user.username}
                     onError={() => setImgError(true)}
-                    style={{ width: "2.1rem", height: "2.1rem", borderRadius: "50%", objectFit: "cover", border: "2px solid var(--border-color)" }}
+                    className="w-[2.1rem] h-[2.1rem] 3xl:w-10 3xl:h-10 4xl:w-12 4xl:h-12 rounded-full object-cover border-2 border-(--border-color)"
                   />
                 ) : (
-                  <UserCircle2 size={34} style={{ color: "var(--text-muted)" }} />
+                  <UserCircle2 className="w-8.5 h-8.5 3xl:w-10 3xl:h-10 4xl:w-12 4xl:h-12 text-(--text-muted)" />
                 )}
               </Motion.button>
 
@@ -221,10 +222,10 @@ export default function Header() {
             </div>
           ) : (
             <div style={{ display: "flex", gap: "0.75rem" }}>
-              <NavLink to="/login" className="btn btn-primary">
+              <NavLink to="/login" className="btn btn-primary 3xl:text-base 3xl:px-5 3xl:py-2.5 4xl:text-lg 4xl:px-6 4xl:py-3">
                 Login
               </NavLink>
-              <NavLink to="/register" className="btn btn-secondary">
+              <NavLink to="/register" className="btn btn-secondary 3xl:text-base 3xl:px-5 3xl:py-2.5 4xl:text-lg 4xl:px-6 4xl:py-3">
                 Register
               </NavLink>
             </div>
@@ -376,6 +377,7 @@ export default function Header() {
           )}
         </AnimatePresence>
       </Motion.header>
+      </div>
 
       <ConfirmationModal
         isOpen={showLogoutModal}

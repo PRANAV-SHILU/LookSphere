@@ -6,7 +6,7 @@ export async function authLoader({ request }) {
     const user = stored ? JSON.parse(stored) : null;
     const url = new URL(request.url);
 
-    // Define public routes that guests are allowed to visit
+    // Define routes that guests are allowed to visit
     const publicRoutes = ["/", "/login", "/register"];
 
     // Strip basename for comparison

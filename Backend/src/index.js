@@ -42,7 +42,7 @@ app.use("/", (req, res, next) => {
 });
 
 app.get("/", (req, res) => {
-  res.send("welcome to secureauth backend");
+  res.send("welcome to LookSphere backend");
 });
 
 // Simple ping endpoint for uptime robot to keep server alive

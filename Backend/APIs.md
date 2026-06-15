@@ -1,103 +1,91 @@
 # LookSphere — API Documentation
 
-Base URL: `http://localhost:<PORT>`
+Base URL: `http://BASE_URL/api`
 
 ---
 
 ## Auth
 
-### POST /api/auth/register
-Register new user account
-- **Auth:** None
+### POST /auth/register
+Register a new user account
 - **Body:** `{ username, email, password, confirmPassword }`
-- **Response:** `201` user created | `400` validation/error | `500`
+- **Response:** `201` `{ success, data }` | `400` | `500`
 
-### POST /api/auth/login  
-Authenticate/Login user and set session token
-- **Auth:** None
+### POST /auth/login
+Authenticate user and set JWT cookie
 - **Body:** `{ username, password }`
-- **Response:** `200` token set | `401` invalid | `500`
+- **Response:** `200` `{ success, data }` | `400` | `500`
 
-### POST /api/auth/logout
-Clear session token and logout user
-- **Auth:** None
-- **Response:** `200` logged out | `500`
+### POST /auth/logout
+Clear JWT cookie and end session
+- **Response:** `200` `{ success, message }` | `500`
 
 ---
 
 ## Users
 
-### GET /api/users
-Get list of all users
-- **Auth:** None
-- **Response:** `200` users array | `500`
+### GET /users
+Fetch all non-admin users sorted by profile views
+- **Response:** `200` `{ message, data }` | `500`
 
-### GET /api/users/:id/detail
-Get minimal user info (username, avatar)
-- **Auth:** None
-- **Response:** `200` { username, avatar } | `404` | `500`
+### GET /users/:id/detail
+Get username and avatar for a specific user
+- **Response:** `200` `{ message, data }` | `404` | `500`
 
-### GET /api/users/profile
-Get authenticated user's own profile
-- **Auth:** Required (jwtToken cookie)
-- **Response:** `200` own profile | `401` | `500`
+### GET /users/profile
+Get the logged-in user's own full profile with posts
+- **Auth:** Required
+- **Response:** `200` `{ message, data: { user, images, videos } }` | `401` | `500`
 
-### GET /api/users/profile/:username
-Get public profile by username
-- **Auth:** Optional (jwtToken cookie)
-- **Response:** `200` public profile | `404` | `500`
+### GET /users/profile/:username
+Get a public user's profile by username
+- **Auth:** Optional
+- **Response:** `200` `{ message, data: { user, images, videos } }` | `404` | `500`
 
-### PATCH /api/users/profile
-Update/Edit authenticated user's profile
-- **Auth:** Required (jwtToken cookie)
-- **Content:** multipart/form-data
+### PATCH /users/profile
+Update the logged-in user's profile details or avatar
+- **Auth:** Required
+- **Content:** `multipart/form-data`
 - **Fields:** `username, email, tagline, bio, profileImage` (all optional)
-- **Response:** `200` updated | `400` validation | `401` | `500`
+- **Response:** `200` `{ message, data }` | `400` | `401` | `404` | `500`
 
 ---
 
 ## Posts
 
-### GET /api/posts
-Get feed of all posts from all users
-- **Auth:** None
-- **Response:** `200` feed array | `500`
+### GET /posts
+Fetch all posts for the feed sorted by newest first
+- **Response:** `200` `{ message, data }` | `500`
 
-### POST /api/posts
-Create new post with media upload
-- **Auth:** Required (jwtToken cookie)
-- **Content:** multipart/form-data
-- **Fields:** `media` (required), `mediaType` (image/video), `caption` (optional)
-- **Response:** `201` created | `400` validation | `401` | `500`
+### POST /posts
+Upload and create a new media post
+- **Auth:** Required
+- **Content:** `multipart/form-data`
+- **Fields:** `media` (required), `mediaType`, `altText`, `caption`
+- **Response:** `201` `{ message, post }` | `400` | `401` | `500`
 
-### PATCH /api/posts/:id/views
-Increment post view count
-- **Auth:** None
-- **Response:** `200` view count incremented | `404` | `500`
+### PATCH /posts/:id/increment-view
+Increment a post's view count by one
+- **Response:** `200` `{ message, data }` | `404` | `500`
 
-### PATCH /api/posts/:id
-Edit post caption
-- **Auth:** Required (jwtToken cookie)
-- **Body:** `{ caption }` (optional)
-- **Response:** `200` updated | `400` validation | `401` | `403` not owner | `404` | `500`
-
-### DELETE /api/posts/:id
-Delete post (owner only)
-- **Auth:** Required (jwtToken cookie)
-- **Response:** `200` deleted | `401` | `403` not owner | `404` | `500`
+### PATCH /posts/:id
+Edit a post's caption or alt text
+- **Auth:** Required
+- **Body:** `{ caption, altText }` (optional)
+- **Response:** `200` `{ message, data }` | `401` | `403` | `404` | `500`
 
 ---
 
 ## Admin
 
-### GET /api/admin/matrics
-Get platform analytics metrics
-- **Auth:** Required (jwtToken cookie + admin role)
-- **Response:** `200` metrics | `401` | `403` not admin | `500`
+### GET /admin/matrics
+Get platform-wide analytics and user/post metrics
+- **Auth:** Required (admin)
+- **Response:** `200` `{ success, data }` | `401` | `403` | `500`
 
 ---
 
 ## Error Format
 
-**Validation errors:** `{ errors: [{ type, msg, path, location }] }`
-**Other errors:** `{ msg: string }`
+**Validation:** `{ errors: [{ type, msg, path, location }] }`  
+**Other:** `{ message: string }`

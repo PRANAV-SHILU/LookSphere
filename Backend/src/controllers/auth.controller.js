@@ -13,7 +13,7 @@ export const register = asyncHandler("register", async (req, res) => {
 
   const isUsernameExists = await User.findOne({ username });
   if (isUsernameExists)
-    return res.status(400).json({ msg: "Username already exists" });
+    return res.status(400).json({ message: "Username already exists" });
 
   const newUser = await User.create({
     username,
@@ -36,12 +36,12 @@ export const login = asyncHandler("login", async (req, res) => {
   const { username, password } = req.body;
 
   const user = await User.findOne({ username });
-  if (!user) return res.status(400).json({ msg: "User not found" });
+  if (!user) return res.status(400).json({ message: "User not found" });
 
   const isValidPassword = await user.comparePassword(password);
 
   if (!isValidPassword)
-    return res.status(400).json({ msg: "Invalid password" });
+    return res.status(400).json({ message: "Invalid password" });
 
   // Generate JWT Token
   const token = jwt.sign(
@@ -54,9 +54,9 @@ export const login = asyncHandler("login", async (req, res) => {
   // set token to cookie
   res.cookie("jwtToken", token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
     maxAge: 365 * 24 * 60 * 60 * 1000, // 1 year
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
   });
 
   const { hashedPassword, ...userData } = user.toObject();
@@ -64,6 +64,10 @@ export const login = asyncHandler("login", async (req, res) => {
 });
 
 export const logout = asyncHandler("logout", async (req, res) => {
-  res.clearCookie("jwtToken");
+  res.clearCookie("jwtToken", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+  });
   res.status(200).json({ success: true, message: "Logged out successfully" });
 });

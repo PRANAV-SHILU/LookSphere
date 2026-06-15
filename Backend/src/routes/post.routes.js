@@ -1,7 +1,6 @@
 import express from "express";
 import {
   createPost,
-  deletePost,
   getFeed,
   increasePostView,
   editPost,
@@ -30,12 +29,10 @@ postRoutes.post(
 );
 
 // increase post view count
-postRoutes.patch("/:id/views", increasePostView);
+postRoutes.patch("/:id/increment-view", increasePostView);
 
 // edit post
 postRoutes.patch("/:id", verifyToken,editPostValidation, editPost);
 
-// delete post  - not used
-postRoutes.delete("/:id", verifyToken, deletePost);
-
 export default postRoutes;
+

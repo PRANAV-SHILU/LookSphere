@@ -24,7 +24,6 @@ apiClient.interceptors.response.use(
         message = data.errors.map((e) => e.msg).join(", ");
       } else {
         message =
-          data?.msg ||
           data?.message ||
           data?.error ||
           `Server error (${error.response.status})`;

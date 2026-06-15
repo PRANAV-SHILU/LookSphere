@@ -26,7 +26,8 @@
 │   │   └── 📄 user.routes.js
 │   ├── 📁 utils
 │   │   ├── 📄 asyncHandler.js
-│   │   └── 📄 cloudinaryUpload.js
+│   │   ├── 📄 cloudinaryUpload.js
+│   │   └── 📄 errorHandler.js
 │   ├── 📁 validators
 │   │   ├── 📄 auth.validator.js
 │   │   ├── 📄 post.validator.js

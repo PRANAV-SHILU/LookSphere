@@ -27,17 +27,6 @@ export async function createPost(formData) {
   }
 }
 
-// Not used 
-export async function deletePost(id) {
-  try {
-    const res = await apiClient.delete(ENDPOINTS.POST.DELETE_POST(id));
-    console.log("deleted post", res.data);
-    return res.data;
-  } catch (err) {
-    throw new Error(err.response?.data?.message || err.message);
-  }
-}
-
 // increase post view count
 export async function increasePostView(id) {
   try {

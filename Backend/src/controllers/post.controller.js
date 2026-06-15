@@ -38,16 +38,6 @@ export const createPost = asyncHandler("createPost", async (req, res) => {
   });
 });
 
-// delete post  - not used
-export const deletePost = asyncHandler("deletePost", async (req, res) => {
-  // TODO: delete post from DB and cloud storage
-  // After deleting the post, decrement the user's postCount:
-  await User.updateOne(
-    { username: req.user.username },
-    { $inc: { postCount: -1 } },
-  );
-});
-
 export const increasePostView = asyncHandler(
   "increasePostView",
   async (req, res) => {

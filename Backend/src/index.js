@@ -47,7 +47,7 @@ app.get("/", (req, res) => {
 
 // Simple ping endpoint for uptime robot to keep server alive
 app.get("/ping", (req, res) => {
-  console.log("ping api");
+  console.log("=== PING ENDPOINT CALLED ===");
   res.status(200).json({
     status: "ok",
     timestamp: new Date().toISOString(),
@@ -57,7 +57,6 @@ app.get("/ping", (req, res) => {
 
 // Health check endpoint for Render monitoring
 app.get("/health", (req, res) => {
-  console.log("Health api");
   const dbStatus = mongoose.connection.readyState;
   const statusMap = {
     0: 'disconnected',

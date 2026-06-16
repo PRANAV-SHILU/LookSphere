@@ -56,7 +56,7 @@ export const login = asyncHandler("login", async (req, res) => {
     httpOnly: true,
     maxAge: 365 * 24 * 60 * 60 * 1000, // 1 year
     secure: process.env.NODE_ENV === "production",
-    sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
   });
 
   const { hashedPassword, ...userData } = user.toObject();
@@ -67,7 +67,7 @@ export const logout = asyncHandler("logout", async (req, res) => {
   res.clearCookie("jwtToken", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
   });
   res.status(200).json({ success: true, message: "Logged out successfully" });
 });

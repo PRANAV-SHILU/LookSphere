@@ -66,7 +66,7 @@ export default function Header() {
 
   return (
     <>
-      <div className="w-full bg-(--header-bg) backdrop-blur-md border-b border-(--border-normal) sticky top-0 z-10">
+      <div className="w-full bg-(--header-bg) backdrop-blur-md border-b border-(--border-normal) sticky top-0 z-20">
         <Motion.header
           className="max-w-[1980px] w-[94%] mx-auto flex justify-between items-center px-4 md:px-8 py-4 3xl:py-6"
           {...HeaderAnimation.headerTransition}

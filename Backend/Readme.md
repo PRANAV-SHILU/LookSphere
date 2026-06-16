@@ -20,7 +20,7 @@ This is the backend server for **LookSphere**, a modern social media application
 ## ✨ Features Highlight
 
 - **Seamless Media Uploads:** Handles both Images and Videos with auto-optimization and cloud storage via Cloudinary.
-- **Secure Authentication:** JWT-based persistent sessions utilizing secure, HTTP-only cookies.
+- **Secure Authentication:** JWT-based authentication using localStorage with Authorization header transmission to avoid third-party cookie blocking issues.
 - **Platform Analytics:** Comprehensive metrics and statistics for admin dashboards.
 - **Engagement Tracking:** Dynamic counters for profile views and post views.
 - **Robust Validation:** Strict input validation to ensure data integrity before it reaches the database.
@@ -30,13 +30,13 @@ This is the backend server for **LookSphere**, a modern social media application
 - **Runtime:** Node.js
 - **Framework:** Express.js
 - **Database:** MongoDB (with Mongoose)
-- **Authentication:** JWT (JSON Web Tokens) via HTTP-only Cookies
+- **Authentication:** JWT (JSON Web Tokens) via localStorage with Authorization header
 - **Media Storage:** Cloudinary (Image & Video uploads)
 - **File Parsing:** Multer
 - **Validation:** Express-Validator
 - **Security & Password Hashing:** bcrypt
 - **Email Services:** Nodemailer
-- **Middleware:** CORS (Cross-Origin Resource Sharing), Cookie-Parser
+- **Middleware:** CORS (Cross-Origin Resource Sharing)
 - **Environment Management:** Dotenv
 - **Development Tool:** Nodemon
 
@@ -45,7 +45,7 @@ This is the backend server for **LookSphere**, a modern social media application
 Security is a top priority for this API. The following protections are in place:
 
 - **Password Protection:** Passwords are salted and hashed using `bcrypt` (cost factor 10).
-- **XSS Mitigation:** `HttpOnly` cookies are used for session management, preventing Cross-Site Scripting (XSS) token theft (no `localStorage` usage for JWTs).
+- **XSS Mitigation:** JWT tokens are stored in localStorage. To mitigate XSS risks, implement strict Content Security Policy (CSP) and validate/sanitize all user inputs.
 - **Route Authorization:** Robust JWT middleware ensures protected routes are only accessible to authenticated users.
 - **Input Sanitization:** All incoming request bodies and parameters are validated and sanitized via `express-validator` to prevent bad data and NoSQL injection.
 - **Role Separation:** Dedicated admin middleware prevents standard users from accessing platform metrics.
@@ -53,7 +53,7 @@ Security is a top priority for this API. The following protections are in place:
 ## 🏗️ Architecture & Key Design Decisions
 
 - **Why Multer + Cloudinary?** Heavy media streaming and storage are offloaded to Cloudinary, ensuring the Node.js server remains lightweight and fast for API requests.
-- **Why HTTP-Only Cookies over LocalStorage?** Storing JWTs in HTTP-only cookies provides superior protection against Cross-Site Scripting (XSS) token theft compared to local storage.
+- **Why LocalStorage with Authorization Header?** Storing JWTs in localStorage with Authorization header transmission avoids third-party cookie blocking issues and provides better cross-origin compatibility. Security is maintained through CSP and input validation.
 - **Why MVC (Model-View-Controller)?** Keeping routing, business logic, and database operations decoupled makes the codebase maintainable, scalable, and easier to test.
 - **Role-Based Access Control:** The API includes specific middleware to differentiate between standard users and administrators, securing sensitive endpoints.
 

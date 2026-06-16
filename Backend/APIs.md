@@ -12,13 +12,15 @@ Register a new user account
 - **Response:** `201` `{ success, data }` | `400` | `500`
 
 ### POST /auth/login
-Authenticate user and set JWT cookie
+Authenticate user and return JWT token
 - **Body:** `{ username, password }`
-- **Response:** `200` `{ success, data }` | `400` | `500`
+- **Response:** `200` `{ success, data, token }` | `400` | `500`
+- **Note:** Store the returned `token` and user data in localStorage and include it in the Authorization header as `Bearer <token>` for subsequent requests.
 
 ### POST /auth/logout
-Clear JWT cookie and end session
+End session (client should remove token from localStorage)
 - **Response:** `200` `{ success, message }` | `500`
+- **Note:** Client should remove the JWT token and user data from localStorage after successful logout.
 
 ---
 
@@ -89,3 +91,21 @@ Get platform-wide analytics and user/post metrics
 
 **Validation:** `{ errors: [{ type, msg, path, location }] }`  
 **Other:** `{ message: string }`
+
+---
+
+## Authentication
+
+All protected endpoints require JWT authentication via the Authorization header:
+
+- **Header Format:** `Authorization: Bearer <token>`
+- **Token Storage:** Store JWT token in localStorage on the client side
+- **Token Retrieval:** Token is returned in the response body on successful login
+- **Token Refresh:** When username is changed via profile update, a new token is returned and should replace the old one in localStorage
+
+**Example Request:**
+```javascript
+headers: {
+  'Authorization': 'Bearer jwt_token'
+}
+```

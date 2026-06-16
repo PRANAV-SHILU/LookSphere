@@ -2,8 +2,9 @@ import jwt from "jsonwebtoken";
 
 export const verifyToken = (req, res, next) => {
   try {
-    // Read the token from the cookie
-    const token = req.cookies.jwtToken;
+    // Read the token from the Authorization header
+    const authHeader = req.headers.authorization;
+    const token = authHeader && authHeader.split(" ")[1]; // Bearer <token>
 
     if (!token) {
       return res
@@ -34,7 +35,8 @@ export const isAdmin = (req, res, next) => {
 // for user profile only
 export const verifyTokenOptional = (req, res, next) => {
   try {
-    const token = req.cookies.jwtToken;
+    const authHeader = req.headers.authorization;
+    const token = authHeader && authHeader.split(" ")[1]; // Bearer <token>
     if (token) {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
       req.user = decoded;

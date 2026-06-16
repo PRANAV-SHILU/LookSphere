@@ -12,7 +12,9 @@ export async function loginAction({ request }) {
   try {
     const response = await loginUser(payload);
     const user = response.data;
+    const token = response.token;
     localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem("jwtToken", token);
     toast.success("Login success, enjoyyyyy!");
     if (user.role === "admin") {
       return redirect("/dashboard");

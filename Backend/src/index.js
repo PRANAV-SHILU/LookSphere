@@ -3,8 +3,6 @@ import connectDB from "./config/db.js";
 import express from "express";
 import mongoose from "mongoose";
 
-import cookieParser from "cookie-parser";
-
 import cors from "cors";
 import dns from "dns";
 import dotenv from "dotenv";
@@ -29,12 +27,10 @@ retryWithBackoff(() => connectDB(), 5, 5000, "Database connection");
 app.use(
   cors({
     origin: process.env.FRONTEND_URL,
-    credentials: true,
   })
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
 
 app.use("/", (req, res, next) => {
   console.log(req.method, req.url, req.body);

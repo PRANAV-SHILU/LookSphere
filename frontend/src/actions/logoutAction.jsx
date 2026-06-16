@@ -10,6 +10,7 @@ export async function logoutAction() {
     console.error("Logout API error:", err.message);
   } finally {
     localStorage.removeItem("user");
+    localStorage.removeItem("jwtToken");
   }
 
   return redirect("/login");

@@ -19,6 +19,6 @@ export async function profileLoader({ params }) {
     return res;
   } catch (err) {
     console.error("profileLoader error:", err);
-    return redirect(username ? "/users" : "/login");
+    throw new Error("Failed to fetch profile. Please try again later.");
   }
 }

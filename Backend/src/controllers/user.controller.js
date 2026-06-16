@@ -116,10 +116,10 @@ export const updateProfile = asyncHandler("updateProfile", async (req, res) => {
       { expiresIn: "1y" },
     );
 
-    res.cookie("jwtToken", newToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      maxAge: 365 * 24 * 60 * 60 * 1000, // 1 year
+    return res.status(200).json({
+      message: "Profile updated successfully",
+      data: updatedUser,
+      token: newToken,
     });
   }
 

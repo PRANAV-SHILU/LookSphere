@@ -50,6 +50,11 @@ export async function editProfileAction({ request }) {
       JSON.stringify({ ...existing, ...updatedUser.data }),
     );
 
+    // If username changed, backend returns a new token - update localStorage
+    if (updatedUser.token) {
+      localStorage.setItem("jwtToken", updatedUser.token);
+    }
+
     toast.success("Profile updated successfully!");
     return redirect("/profile");
   } catch (err) {

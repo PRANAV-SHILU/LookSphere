@@ -112,10 +112,7 @@ export default function Header() {
           className="hidden lg:flex lg:gap-6 3xl:gap-8 4xl:gap-10 items-center"
           {...HeaderAnimation.navTransition}
         >
-          {/* Public Nav Links */}
-          <NavLink to="/" className={({ isActive }) => `text-sm 3xl:text-base 4xl:text-lg font-medium text-(--text-secondary) hover:text-(--text-primary) ${isActive ? "text-(--text-primary)" : ""} flex items-center gap-1.5`}>
-            <Home className="w-4.5 h-4.5 3xl:w-5 3xl:h-5 4xl:w-5.5 4xl:h-5.5" /> Home
-          </NavLink>
+
           {user?.role === "admin" && (
             <NavLink to="/dashboard" className={({ isActive }) => `text-sm 3xl:text-base 4xl:text-lg font-medium text-(--text-secondary) hover:text-(--text-primary) ${isActive ? "text-(--text-primary)" : ""} flex items-center gap-1.5`}>
               <LayoutDashboard className="w-4.5 h-4.5 3xl:w-5 3xl:h-5 4xl:w-5.5 4xl:h-5.5" /> Dashboard
@@ -238,29 +235,17 @@ export default function Header() {
             <>
               {/* Backdrop Blur Overlay */}
               <Motion.div
-                className="lg:hidden fixed top-[74px] left-0 right-0 bottom-0 bg-black/40 backdrop-blur-md z-40"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
+                className="fixed inset-0 bg-black/40 dark:bg-black/60 backdrop-blur-md z-40"
+                {...HeaderAnimation.mobileMenuOverlay}
                 onClick={() => setMobileMenuOpen(false)}
               />
               <Motion.div
-                className="mobile-menu-container pr-6 lg:hidden fixed top-[74px] right-0 w-64 h-[calc(100vh-72px)] bg-(--surface-card) border-l border-(--border-color) z-50 overflow-y-auto shadow-lg"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 20 }}
-                transition={{ duration: 0.2 }}
+                className="fixed top-0 right-0 bottom-0 w-3/4 max-w-sm bg-(--surface-normal) border-l border-(--border-normal) shadow-2xl z-50 flex flex-col overflow-y-auto liquid-glass"
+                {...HeaderAnimation.mobileMenuContent}
               >
               <div className="flex flex-col p-4 gap-2">
                 {/* Nav Links */}
-                <NavLink
-                  to="/"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={({ isActive }) => `text-sm font-medium text-(--text-secondary) hover:text-(--text-primary) ${isActive ? "text-(--text-primary)" : ""} flex items-center gap-2 p-3 text-(--text-primary) no-underline`}
-                >
-                  <Home size={18} /> Home
-                </NavLink>
+
                 {user?.role === "admin" && (
                   <NavLink
                     to="/dashboard"
@@ -323,11 +308,8 @@ export default function Header() {
                     <AnimatePresence>
                       {mobileProfileOpen && (
                         <Motion.div
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: "auto" }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.2 }}
-                          className="pl-8 flex flex-col gap-4"
+                          {...HeaderAnimation.mobileMenuDropdown}
+                          className="overflow-hidden bg-(--surface-input) rounded-xl mt-2 border border-(--border-normal)"
                         >
                           <NavLink
                             to="/profile"

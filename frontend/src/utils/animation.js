@@ -127,7 +127,7 @@ export const Explore = {
   spinnerTransitionInactive: { duration: 0.2, ease: "easeOut" },
 };
 
-export const Home = {
+export const HomeAnimation = {
   pageTransition: {
     initial: { opacity: 0 },
     animate: { opacity: 1 },
@@ -173,7 +173,236 @@ export const Home = {
     exit: { opacity: 0, y: -20 },
     viewport: { once: false, amount: 0.1 },
     transition: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] },
-  }
+  },
+  // --- Reusable variants for Homepage ---
+  fadeInUp: {
+    initial: { opacity: 0, y: 30 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, margin: "-50px" },
+    transition: { duration: 0.6, type: "spring", stiffness: 100 },
+  },
+  fadeInUpSmall: {
+    initial: { opacity: 0, y: 20 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, margin: "-50px" },
+    transition: { duration: 0.5 },
+  },
+  fadeInUpBasic: {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 },
+  },
+  scaleUpHover: {
+    whileHover: { scale: 1.05 },
+    whileTap: { scale: 0.95 },
+  },
+  featureCard: {
+    initial: { opacity: 0, y: 30, scale: 0.9 },
+    whileInView: { opacity: 1, y: 0, scale: 1 },
+    viewport: { once: true, margin: "-50px" },
+    whileHover: { y: -10 },
+  },
+  featureIcon: {
+    initial: { rotate: -180, opacity: 0 },
+    whileInView: { rotate: 0, opacity: 1 },
+    viewport: { once: true },
+  },
+  stepCard: {
+    initial: { opacity: 0, y: 30 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, margin: "-50px" },
+    whileHover: { scale: 1.03, y: -5 },
+  },
+  stepIcon: {
+    whileHover: { rotate: 10, scale: 1.1 },
+  },
+  tabContainer: {
+    initial: { opacity: 0, y: 20 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true },
+  },
+  tabContent: {
+    initial: { opacity: 0, y: 20, scale: 0.98 },
+    animate: { opacity: 1, y: 0, scale: 1 },
+    exit: { opacity: 0, y: -20, scale: 0.98 },
+    transition: { duration: 0.3 },
+  },
+  featureItem: {
+    initial: { opacity: 0, x: 20 },
+    animate: { opacity: 1, x: 0 },
+  },
+  showcaseApp: {
+    initial: { opacity: 0, y: 40 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true },
+    transition: { duration: 0.6 },
+  },
+
+  activityFeed: {
+    initial: { opacity: 0, y: 30 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true },
+    transition: { duration: 0.5 },
+  },
+  
+  // --- Hero & CTA Icons ---
+  buttonEntrance: {
+    initial: { opacity: 0, scale: 0.9, y: 15 },
+    whileInView: { opacity: 1, scale: 1, y: 0 },
+    viewport: { once: true },
+    transition: { type: "spring", stiffness: 300, damping: 20 },
+  },
+  popIn: {
+    initial: { opacity: 0, scale: 0 },
+    whileInView: { opacity: 1, scale: 1 },
+    viewport: { once: true, margin: "-20px" },
+    transition: { type: "spring", stiffness: 500, damping: 12, delay: 0.8 },
+  },
+  sparklesIcon: {
+    initial: { scale: 0.8, opacity: 0, rotate: -10 },
+    whileInView: { scale: 1, opacity: 1, rotate: 0 },
+    viewport: { once: true },
+    transition: { type: "spring", stiffness: 200, damping: 15 },
+  },
+  
+  // --- Section Headings ---
+  sectionHeadingIcon: {
+    initial: { opacity: 0, scale: 0, y: 20 },
+    whileInView: { opacity: 1, scale: 1, y: 0 },
+    viewport: { once: true, margin: "-10px" },
+    transition: { type: "spring", stiffness: 40, damping: 12, delay: 0.2 },
+  },
+  
+  heroTextChild: {
+    variants: {
+      hidden: { opacity: 0, y: 50, rotateX: -90 },
+      visible: { opacity: 1, y: 0, rotateX: 0 },
+    },
+    transition: { type: "spring", damping: 12, stiffness: 200 },
+  },
+
+  getAnimatedTextContainer: (stagger, delay) => ({
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: stagger, delayChildren: delay },
+    },
+  }),
+  
+  getAnimatedTextChild: (yOffset) => ({
+    variants: {
+      hidden: { opacity: 0, y: yOffset, rotateX: -90 },
+      visible: { opacity: 1, y: 0, rotateX: 0 },
+    },
+    transition: { type: "spring", damping: 15, stiffness: 300 },
+  }),
+
+  heartPulse: {
+    animate: { scale: [1, 1.2, 1] },
+    transition: { duration: 2, repeat: Infinity, ease: "easeInOut" },
+  },
+
+  techStackContainer: {
+    variants: {
+      hidden: { opacity: 0 },
+      visible: {
+        opacity: 1,
+        transition: { staggerChildren: 0.05 },
+      },
+    },
+    initial: "hidden",
+    whileInView: "visible",
+    viewport: { once: true, margin: "-50px" },
+  },
+  techStackItem: {
+    variants: {
+      hidden: { opacity: 0, scale: 0.8, y: 20 },
+      visible: { opacity: 1, scale: 1, y: 0 },
+    },
+    transition: { type: "spring", stiffness: 200, damping: 15 },
+    whileHover: { scale: 1.1, rotate: [-2, 2, -2, 0] },
+  },
+  faqCard: {
+    initial: { opacity: 0, y: 20 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true },
+  },
+  futurePlanCard: {
+    initial: { opacity: 0, y: 20 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true },
+  },
+  futurePlanGroup: {
+    initial: { opacity: 0, y: 20 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true },
+  },
+  ctaCard: {
+    initial: { opacity: 0, y: 30 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true },
+    transition: { duration: 0.6 },
+  },
+  ctaIcon: {
+    initial: { scale: 0.8, opacity: 0 },
+    whileInView: { scale: 1, opacity: 1 },
+    viewport: { once: true },
+    transition: {
+      delay: 0.2,
+      type: "spring",
+      stiffness: 200,
+    },
+  },
+  thankYouContainer: {
+    initial: { opacity: 0, y: 20 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true },
+    transition: { duration: 0.6 },
+  },
+  thankYouHeart: {
+    initial: { scale: 0 },
+    whileInView: { scale: 1 },
+    viewport: { once: true },
+    transition: {
+      delay: 0.2,
+      type: "spring",
+      stiffness: 200,
+      damping: 15,
+    },
+  },
+  scaleUp: {
+    initial: { opacity: 0, scale: 0.8 },
+    whileInView: { opacity: 1, scale: 1 },
+    viewport: { once: true },
+    transition: { type: "spring", stiffness: 200, damping: 15, delay: 0.1 },
+  },
+  slideInLeft: {
+    initial: { opacity: 0, x: -30 },
+    whileInView: { opacity: 1, x: 0 },
+    viewport: { once: true, margin: "-50px" },
+    transition: { duration: 0.6 },
+  },
+  slideInRight: {
+    initial: { opacity: 0, x: 30 },
+    whileInView: { opacity: 1, x: 0 },
+    viewport: { once: true, margin: "-50px" },
+    transition: { duration: 0.6 },
+  },
+  staggerContainer: {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1, delayChildren: 0.2 },
+    },
+  },
+  loadingScreen: {
+    initial: { opacity: 1 },
+    exit: { opacity: 0, y: -50 },
+    transition: { duration: 0.6, ease: "easeInOut" },
+  },
+  loadingText: {
+    animate: { opacity: [0.5, 1, 0.5] },
+    transition: { repeat: Infinity, duration: 1.5 },
+  },
 };
 
 export const Register = {
@@ -321,27 +550,55 @@ export const Header = {
   },
   navTransition: {
     initial: { opacity: 0, x: 16 },
-    animate: { opacity: 1, x: 0 },
-    transition: { duration: 0.4, delay: 0.15 },
+    viewport: { once: true },
+    transition: { duration: 0.6 },
   },
-  themeToggleHover: { scale: 1.1 },
-  themeToggleTap: { scale: 0.9 },
-  themeIconTransition: {
-    initial: { rotate: -90, opacity: 0, scale: 0.5 },
-    animate: { rotate: 0, opacity: 1, scale: 1 },
-    exit: { rotate: 90, opacity: 0, scale: 0.5 },
-    transition: { duration: 0.2, ease: "easeOut" },
+  thankYouHeart: {
+    initial: { scale: 0 },
+    whileInView: { scale: 1 },
+    viewport: { once: true },
+    transition: {
+      delay: 0.2,
+      type: "spring",
+      stiffness: 200,
+      damping: 15,
+    },
   },
-  avatarHover: { scale: 1.05 },
-  avatarTap: { scale: 0.95 },
-  dropdownTransition: {
-    initial: { opacity: 0, y: -6, scale: 0.96 },
-    animate: { opacity: 1, y: 0, scale: 1 },
-    exit: { opacity: 0, y: -6, scale: 0.96 },
-    transition: { duration: 0.15, ease: "easeOut" },
+  scaleUp: {
+    initial: { opacity: 0, scale: 0.8 },
+    whileInView: { opacity: 1, scale: 1 },
+    viewport: { once: true },
+    transition: { type: "spring", stiffness: 200, damping: 15, delay: 0.1 },
+  },
+  slideInLeft: {
+    initial: { opacity: 0, x: -30 },
+    whileInView: { opacity: 1, x: 0 },
+    viewport: { once: true, margin: "-50px" },
+    transition: { duration: 0.6 },
+  },
+  slideInRight: {
+    initial: { opacity: 0, x: 30 },
+    whileInView: { opacity: 1, x: 0 },
+    viewport: { once: true, margin: "-50px" },
+    transition: { duration: 0.6 },
+  },
+  staggerContainer: {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1, delayChildren: 0.2 },
+    },
+  },
+  loadingScreen: {
+    initial: { opacity: 1 },
+    exit: { opacity: 0, y: -50 },
+    transition: { duration: 0.6, ease: "easeInOut" },
+  },
+  loadingText: {
+    animate: { opacity: [0.5, 1, 0.5] },
+    transition: { repeat: Infinity, duration: 1.5 },
   },
 };
-
 export const PageNotFound = {
   pageTransition: {
     initial: { opacity: 0, y: 30 },
@@ -379,5 +636,9 @@ export const ErrorBoundary = {
   },
 };
 
-
-
+export const ModalAnimation = {
+  spinner: {
+    animate: { rotate: 360 },
+    transition: { repeat: Infinity, duration: 0.8, ease: "linear" },
+  },
+};

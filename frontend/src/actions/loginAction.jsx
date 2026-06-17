@@ -19,7 +19,7 @@ export async function loginAction({ request }) {
     if (user.role === "admin") {
       return redirect("/dashboard");
     }
-    return redirect("/profile");
+    return redirect("/feed");
   } catch (err) {
     return { error: err.message || "Login failed. Please try again." };
   }

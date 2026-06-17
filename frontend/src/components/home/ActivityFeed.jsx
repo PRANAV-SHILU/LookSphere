@@ -1,0 +1,74 @@
+import { motion as Motion } from "framer-motion";
+import { Zap } from "lucide-react";
+import { HomeAnimation } from "../../utils/animation";
+import { activities } from "../../utils/staticData";
+import { GLASS_SHADOW } from "../../utils/styles";
+import { SectionHeading } from "./Shared";
+
+export default function ActivityFeed() {
+  return (
+    <div className="w-full py-12 sm:py-16 md:py-20 px-4 sm:px-8 md:px-12">
+      <SectionHeading
+        icon={Zap}
+        title="Live Activity"
+        subtitle="See what's happening across the platform right now."
+      />
+
+      <Motion.div
+        className="max-w-md mx-auto h-72 overflow-hidden relative rounded-2xl liquid-glass"
+        style={GLASS_SHADOW}
+        {...HomeAnimation.activityFeed}
+      >
+        {/* Fade masks */}
+        <div
+          className="absolute top-0 left-0 right-0 h-16 z-10 pointer-events-none"
+          style={{
+            background:
+              "linear-gradient(to bottom, var(--bg-primary), transparent)",
+          }}
+        />
+        <div
+          className="absolute bottom-0 left-0 right-0 h-16 z-10 pointer-events-none"
+          style={{
+            background:
+              "linear-gradient(to top, var(--bg-primary), transparent)",
+          }}
+        />
+
+        {/* Scrolling track — duplicated for seamless loop */}
+        <div className="feed-scroll-track px-4 pt-4">
+          {[...activities, ...activities].map((activity, i) => {
+            const ActIcon = activity.icon;
+            return (
+              <div
+                key={i}
+                className="glass flex items-center gap-3 rounded-xl px-4 py-3 mb-3 transition-all duration-200"
+              >
+                <div
+                  className="shrink-0 w-8 h-8 flex items-center justify-center rounded-lg"
+                  style={{ backgroundColor: "var(--surface-input)" }}
+                >
+                  <ActIcon
+                    size={16}
+                    style={{ color: "var(--primary-500)" }}
+                  />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <span className="text-sm text-(--text-primary) font-medium">
+                    {activity.user}
+                  </span>{" "}
+                  <span className="text-sm text-(--text-muted)">
+                    {activity.action}
+                  </span>
+                </div>
+                <span className="text-xs text-(--text-muted) shrink-0">
+                  {activity.time}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      </Motion.div>
+    </div>
+  );
+}

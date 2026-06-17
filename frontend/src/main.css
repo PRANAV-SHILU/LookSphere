@@ -56,7 +56,7 @@
 
   /* Gradients & Special */
   --hero-gradient: linear-gradient(135deg, #2563EB, #7C3AED);
-  --page-gradient: linear-gradient(180deg, #F8FAFC 0%, #E2E8F0 100%);
+  --page-gradient: linear-gradient(180deg, #FDFDFD 0%, #F1F5F9 100%);
   --header-bg: rgba(255, 255, 255, 0.8);
   --scrollbar-track: transparent;
   --scrollbar-thumb: #33f5ff;
@@ -589,4 +589,79 @@ a:hover {
 
 .post-detail-dropdown-item:hover {
   background-color: var(--surface-hover) !important;
+}
+
+/* ─── Hero Floating Orbs ─── */
+@keyframes float-orb-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -50px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.9); }
+}
+@keyframes float-orb-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-40px, 30px) scale(0.9); }
+  66% { transform: translate(20px, -40px) scale(1.1); }
+}
+@keyframes float-orb-3 {
+  0%, 100% { transform: translate(0, 0) scale(1.05); }
+  50% { transform: translate(50px, 30px) scale(0.95); }
+}
+.hero-orb-1 { animation: float-orb-1 8s ease-in-out infinite; }
+.hero-orb-2 { animation: float-orb-2 10s ease-in-out infinite; }
+.hero-orb-3 { animation: float-orb-3 12s ease-in-out infinite; }
+
+/* ─── Live Feed Auto-Scroll ─── */
+@keyframes scroll-feed {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+.feed-scroll-track {
+  animation: scroll-feed 25s linear infinite;
+}
+.feed-scroll-track:hover {
+  animation-play-state: paused;
+}
+
+/* ─── Glassmorphism ─── */
+.glass {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+html:not(.dark) .glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px) saturate(200%);
+  -webkit-backdrop-filter: blur(20px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
+}
+
+/* ─── Liquid Glass ─── */
+.liquid-glass {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(24px) saturate(200%);
+  -webkit-backdrop-filter: blur(24px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 8px 32px rgba(0, 0, 0, 0.15);
+}
+html:not(.dark) .liquid-glass {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(30px) saturate(220%);
+  -webkit-backdrop-filter: blur(30px) saturate(220%);
+  border: 1px solid rgba(255, 255, 255, 1);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 1),
+    0 8px 32px rgba(31, 38, 135, 0.1);
+}
+
+/* ─── Pulse Glow ─── */
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+.pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
 }

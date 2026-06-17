@@ -39,7 +39,7 @@ export default function Login() {
       >
         <Form method="post">
           <div className="text-center">
-            <h2 className="hero-text text-3xl xsm:text-4xl 4xl:text-5xl font-extrabold mb-3">Welcome back</h2>
+            <h2 className="hero-text text-3xl xsm:text-4xl 4xl:text-5xl font-extrabold mb-3 bg-gradient-to-r from-(--primary-500) to-purple-500 bg-clip-text text-transparent">Welcome back</h2>
             <p className="mb-6 xsm:mb-6 text-sm xsm:text-base 4xl:text-xl 4xl:mb-8">Sign in to your account</p>
           </div>
 

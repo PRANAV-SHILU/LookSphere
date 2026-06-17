@@ -269,7 +269,7 @@ export const HomeAnimation = {
     initial: { opacity: 0, scale: 0, y: 20 },
     whileInView: { opacity: 1, scale: 1, y: 0 },
     viewport: { once: true, margin: "-10px" },
-    transition: { type: "spring", stiffness: 40, damping: 12, delay: 0.2 },
+    transition: { type: "spring", stiffness: 120, damping: 14, delay: 0.2 },
   },
   
   heroTextChild: {
@@ -550,8 +550,8 @@ export const Header = {
   },
   navTransition: {
     initial: { opacity: 0, x: 16 },
-    viewport: { once: true },
-    transition: { duration: 0.6 },
+    animate: { opacity: 1, x: 0 },
+    transition: { duration: 0.4, delay: 0.15 },
   },
   thankYouHeart: {
     initial: { scale: 0 },

@@ -1,9 +1,24 @@
 import { useState, useEffect, useRef } from "react";
 import { NavLink, useRouteLoaderData, useSubmit } from "react-router-dom";
 import { motion as Motion, AnimatePresence } from "framer-motion";
-import { UserCircle2, Sun, Moon, User, LogOut, Search, Users, Home, Image as ImageIcon, LayoutDashboard, Menu, X, ChevronDown } from "lucide-react";
+import {
+  UserCircle2,
+  Sun,
+  Moon,
+  User,
+  LogOut,
+  Search,
+  Users,
+  Home,
+  Image as ImageIcon,
+  LayoutDashboard,
+  Menu,
+  X,
+  ChevronDown,
+} from "lucide-react";
 import ConfirmationModal from "../modals/ConfirmationModal.jsx";
 import { Header as HeaderAnimation } from "../utils/animation";
+import { desktopNavLinkClass, mobileNavLinkClass } from "../utils/styles";
 
 export default function Header() {
   const user = useRouteLoaderData("root");
@@ -48,7 +63,11 @@ export default function Header() {
   // Close mobile menu when clicking outside
   useEffect(() => {
     function handleClickOutside(e) {
-      if (mobileMenuOpen && !e.target.closest('.mobile-menu-container') && !e.target.closest('.burger-menu-btn')) {
+      if (
+        mobileMenuOpen &&
+        !e.target.closest(".mobile-menu-container") &&
+        !e.target.closest(".burger-menu-btn")
+      ) {
         setMobileMenuOpen(false);
         setMobileProfileOpen(false);
       }
@@ -71,294 +90,325 @@ export default function Header() {
           className="max-w-[1980px] w-[94%] mx-auto flex justify-between items-center px-4 md:px-8 py-4 3xl:py-6"
           {...HeaderAnimation.headerTransition}
         >
-        <Motion.div
-          {...HeaderAnimation.logoTransition}
-        >
-          <NavLink to="/" className="text-xl md:text-2xl 3xl:text-3xl font-extrabold text-(--text-primary) no-underline flex items-center gap-2">
-            LookSphere
-          </NavLink>
-        </Motion.div>
-
-        {/* Theme Toggle & Burger Menu - Mobile Only */}
-        <div className="lg:hidden flex items-center gap-2">
-          <Motion.button
-            onClick={() => setIsDark(!isDark)}
-            aria-label="Toggle theme"
-            title={isDark ? "Switch to light mode" : "Switch to dark mode"}
-            whileHover={HeaderAnimation.themeToggleHover}
-            whileTap={HeaderAnimation.themeToggleTap}
-            className="bg-transparent border-none cursor-pointer flex items-center p-2 text-(--text-primary)"
-          >
-            <AnimatePresence mode="wait" initial={false}>
-              <Motion.span
-                key={isDark ? "sun" : "moon"}
-                {...HeaderAnimation.themeIconTransition}
-                className="text-xl leading-none"
-              >
-                {isDark ? <Sun size={20} /> : <Moon size={20} />}
-              </Motion.span>
-            </AnimatePresence>
-          </Motion.button>
-          <button
-            className="bg-transparent border-none cursor-pointer p-2 text-(--text-primary) flex items-center"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle menu"
-          >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
-
-        <Motion.nav
-          className="hidden lg:flex lg:gap-6 3xl:gap-8 4xl:gap-10 items-center"
-          {...HeaderAnimation.navTransition}
-        >
-
-          {user?.role === "admin" && (
-            <NavLink to="/dashboard" className={({ isActive }) => `text-sm 3xl:text-base 4xl:text-lg font-medium text-(--text-secondary) hover:text-(--text-primary) ${isActive ? "text-(--text-primary)" : ""} flex items-center gap-1.5`}>
-              <LayoutDashboard className="w-4.5 h-4.5 3xl:w-5 3xl:h-5 4xl:w-5.5 4xl:h-5.5" /> Dashboard
+          <Motion.div {...HeaderAnimation.logoTransition}>
+            <NavLink
+              to="/"
+              className="text-xl md:text-2xl 3xl:text-3xl font-extrabold no-underline flex items-center gap-2 group"
+            >
+              <span className="bg-clip-text text-transparent bg-gradient-to-tr from-[var(--primary-600)] via-[var(--secondary-500)] to-[var(--primary-400)] drop-shadow-[0_2px_10px_rgba(59,130,246,0.3)] transition-all duration-300 group-hover:drop-shadow-[0_4px_15px_rgba(59,130,246,0.5)]">
+                LookSphere
+              </span>
             </NavLink>
-          )}
-          <NavLink to="/feed" className={({ isActive }) => `text-sm 3xl:text-base 4xl:text-lg font-medium text-(--text-secondary) hover:text-(--text-primary) ${isActive ? "text-(--text-primary)" : ""} flex items-center gap-1.5`}>
-            <ImageIcon className="w-4.5 h-4.5 3xl:w-5 3xl:h-5 4xl:w-5.5 4xl:h-5.5" /> Feed
-          </NavLink>
-          <NavLink to="/explore" className={({ isActive }) => `text-sm 3xl:text-base 4xl:text-lg font-medium text-(--text-secondary) hover:text-(--text-primary) ${isActive ? "text-(--text-primary)" : ""} flex items-center gap-1.5`}>
-            <Search className="w-4.5 h-4.5 3xl:w-5 3xl:h-5 4xl:w-5.5 4xl:h-5.5" /> Explore
-          </NavLink>
-          <NavLink to="/users" className={({ isActive }) => `text-sm 3xl:text-base 4xl:text-lg font-medium text-(--text-secondary) hover:text-(--text-primary) ${isActive ? "text-(--text-primary)" : ""} flex items-center gap-1.5`}>
-            <Users className="w-4.5 h-4.5 3xl:w-5 3xl:h-5 4xl:w-5.5 4xl:h-5.5" /> Users
-          </NavLink>
+          </Motion.div>
 
-          {/* Theme Toggle */}
-          <Motion.button
-            onClick={() => setIsDark(!isDark)}
-            aria-label="Toggle theme"
-            title={isDark ? "Switch to light mode" : "Switch to dark mode"}
-            whileHover={HeaderAnimation.themeToggleHover}
-            whileTap={HeaderAnimation.themeToggleTap}
-            className="bg-transparent border-none cursor-pointer flex items-center p-1 text-(--text-primary)"
-          >
-            <AnimatePresence mode="wait" initial={false}>
-              <Motion.span
-                key={isDark ? "sun" : "moon"}
-                {...HeaderAnimation.themeIconTransition}
-                className="text-xl leading-none flex items-center"
-              >
-                {isDark ? <Sun className="w-5 h-5 3xl:w-6 3xl:h-6 4xl:w-7 4xl:h-7" /> : <Moon className="w-5 h-5 3xl:w-6 3xl:h-6 4xl:w-7 4xl:h-7" />}
-              </Motion.span>
-            </AnimatePresence>
-          </Motion.button>
-
-          {/* Auth: Avatar dropdown OR Login button */}
-          {user ? (
-            <div ref={dropdownRef} style={{ position: "relative" }}>
-              {/* Avatar button */}
-              <Motion.button
-                onClick={() => setDropdownOpen((prev) => !prev)}
-                whileHover={HeaderAnimation.avatarHover}
-                whileTap={HeaderAnimation.avatarTap}
-                style={{ background: "transparent", border: "none", cursor: "pointer", padding: 0, display: "flex", alignItems: "center" }}
-                aria-label="User menu"
-              >
-                {user.profileImage && !imgError ? (
-                  <img
-                    src={user.profileImage}
-                    alt={user.username}
-                    onError={() => setImgError(true)}
-                    className="w-[2.1rem] h-[2.1rem] 3xl:w-10 3xl:h-10 4xl:w-12 4xl:h-12 rounded-full object-cover border-2 border-(--border-color)"
-                  />
-                ) : (
-                  <UserCircle2 className="w-8.5 h-8.5 3xl:w-10 3xl:h-10 4xl:w-12 4xl:h-12 text-(--text-muted)" />
-                )}
-              </Motion.button>
-
-              {/* Dropdown */}
-              <AnimatePresence>
-                {dropdownOpen && (
-                  <Motion.div
-                    {...HeaderAnimation.dropdownTransition}
-                    style={{
-                      position: "absolute",
-                      top: "calc(100% + 0.5rem)",
-                      right: 0,
-                      minWidth: "10rem",
-                      background: "var(--surface-card)",
-                      border: "1px solid var(--border-color)",
-                      borderRadius: "var(--radius-md)",
-                      boxShadow: "0 8px 24px rgba(0,0,0,0.18)",
-                      overflow: "hidden",
-                      zIndex: 100,
-                    }}
-                  >
-
-
-                    <NavLink
-                      to="/profile"
-                      onClick={() => setDropdownOpen(false)}
-                      style={{ display: "block", padding: "0.65rem 1rem", fontSize: "0.9rem", color: "var(--text-primary)", textDecoration: "none" }}
-                      onMouseEnter={e => e.currentTarget.style.background = "var(--surface-input)"}
-                      onMouseLeave={e => e.currentTarget.style.background = "transparent"}
-                    >
-                      <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}><User size={16} /> Profile</div>
-                    </NavLink>
-
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setDropdownOpen(false);
-                        setShowLogoutModal(true);
-                      }}
-                      style={{ display: "block", width: "100%", textAlign: "left", padding: "0.65rem 1rem", fontSize: "0.9rem", color: "var(--status-error)", background: "transparent", border: "none", cursor: "pointer", borderTop: "1px solid var(--border-color)" }}
-                      onMouseEnter={e => e.currentTarget.style.background = "var(--surface-input)"}
-                      onMouseLeave={e => e.currentTarget.style.background = "transparent"}
-                    >
-                      <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}><LogOut size={16} /> Logout</div>
-                    </button>
-                  </Motion.div>
-                )}
+          {/* Theme Toggle & Burger Menu - Mobile Only */}
+          <div className="lg:hidden flex items-center gap-2">
+            <Motion.button
+              onClick={() => setIsDark(!isDark)}
+              aria-label="Toggle theme"
+              title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+              whileHover={HeaderAnimation.themeToggleHover}
+              whileTap={HeaderAnimation.themeToggleTap}
+              className="bg-transparent border-none cursor-pointer flex items-center p-2 text-(--text-primary)"
+            >
+              <AnimatePresence mode="wait" initial={false}>
+                <Motion.span
+                  key={isDark ? "sun" : "moon"}
+                  {...HeaderAnimation.themeIconTransition}
+                  className="text-xl leading-none"
+                >
+                  {isDark ? <Sun size={20} /> : <Moon size={20} />}
+                </Motion.span>
               </AnimatePresence>
-            </div>
-          ) : (
-            <div style={{ display: "flex", gap: "0.75rem" }}>
-              <NavLink to="/login" className="btn btn-primary 3xl:text-base 3xl:px-5 3xl:py-2.5 4xl:text-lg 4xl:px-6 4xl:py-3">
-                Login
+            </Motion.button>
+            <button
+              className="bg-transparent border-none cursor-pointer p-2 text-(--text-primary) flex items-center"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
+
+          <Motion.nav
+            className="hidden lg:flex lg:gap-6 3xl:gap-8 4xl:gap-10 items-center"
+            {...HeaderAnimation.navTransition}
+          >
+            {user?.role === "admin" && (
+              <NavLink to="/dashboard" className={desktopNavLinkClass}>
+                <LayoutDashboard className="w-4.5 h-4.5 3xl:w-5 3xl:h-5 4xl:w-5.5 4xl:h-5.5 transition-transform duration-300 group-hover:scale-110" />{" "}
+                Dashboard
               </NavLink>
-              <NavLink to="/register" className="btn btn-secondary 3xl:text-base 3xl:px-5 3xl:py-2.5 4xl:text-lg 4xl:px-6 4xl:py-3">
-                Register
-              </NavLink>
-            </div>
-          )}
-        </Motion.nav>
+            )}
+            <NavLink to="/feed" className={desktopNavLinkClass}>
+              <ImageIcon className="w-4.5 h-4.5 3xl:w-5 3xl:h-5 4xl:w-5.5 4xl:h-5.5 transition-transform duration-300 group-hover:scale-110" />{" "}
+              Feed
+            </NavLink>
+            <NavLink to="/explore" className={desktopNavLinkClass}>
+              <Search className="w-4.5 h-4.5 3xl:w-5 3xl:h-5 4xl:w-5.5 4xl:h-5.5 transition-transform duration-300 group-hover:scale-110" />{" "}
+              Explore
+            </NavLink>
+            <NavLink to="/users" className={desktopNavLinkClass}>
+              <Users className="w-4.5 h-4.5 3xl:w-5 3xl:h-5 4xl:w-5.5 4xl:h-5.5 transition-transform duration-300 group-hover:scale-110" />{" "}
+              Users
+            </NavLink>
 
-        {/* Mobile Menu */}
-        <AnimatePresence>
-          {mobileMenuOpen && (
-            <>
-              {/* Backdrop Blur Overlay */}
-              <Motion.div
-                className="fixed inset-0 bg-black/40 dark:bg-black/60 backdrop-blur-md z-40"
-                {...HeaderAnimation.mobileMenuOverlay}
-                onClick={() => setMobileMenuOpen(false)}
-              />
-              <Motion.div
-                className="fixed top-0 right-0 bottom-0 w-3/4 max-w-sm bg-(--surface-normal) border-l border-(--border-normal) shadow-2xl z-50 flex flex-col overflow-y-auto liquid-glass"
-                {...HeaderAnimation.mobileMenuContent}
-              >
-              <div className="flex flex-col p-4 gap-2">
-                {/* Nav Links */}
-
-                {user?.role === "admin" && (
-                  <NavLink
-                    to="/dashboard"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className={({ isActive }) => `text-sm font-medium text-(--text-secondary) hover:text-(--text-primary) ${isActive ? "text-(--text-primary)" : ""} flex items-center gap-2 p-3 text-(--text-primary) no-underline`}
-                  >
-                    <LayoutDashboard size={18} /> Dashboard
-                  </NavLink>
-                )}
-                <NavLink
-                  to="/feed"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={({ isActive }) => `text-sm font-medium text-(--text-secondary) hover:text-(--text-primary) ${isActive ? "text-(--text-primary)" : ""} flex items-center gap-2 p-3 text-(--text-primary) no-underline`}
+            {/* Theme Toggle */}
+            <Motion.button
+              onClick={() => setIsDark(!isDark)}
+              aria-label="Toggle theme"
+              title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+              whileHover={HeaderAnimation.themeToggleHover}
+              whileTap={HeaderAnimation.themeToggleTap}
+              className="bg-transparent border-none cursor-pointer flex items-center p-2 rounded-full text-(--text-primary) transition-all duration-300 hover:bg-(--surface-hover) hover:text-(--primary-500) hover:shadow-md hover:-translate-y-0.5"
+            >
+              <AnimatePresence mode="wait" initial={false}>
+                <Motion.span
+                  key={isDark ? "sun" : "moon"}
+                  {...HeaderAnimation.themeIconTransition}
+                  className="text-xl leading-none flex items-center"
                 >
-                  <ImageIcon size={18} /> Feed
-                </NavLink>
-                <NavLink
-                  to="/explore"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={({ isActive }) => `text-sm font-medium text-(--text-secondary) hover:text-(--text-primary) ${isActive ? "text-(--text-primary)" : ""} flex items-center gap-2 p-3 text-(--text-primary) no-underline`}
+                  {isDark ? (
+                    <Sun className="w-5 h-5 3xl:w-6 3xl:h-6 4xl:w-7 4xl:h-7" />
+                  ) : (
+                    <Moon className="w-5 h-5 3xl:w-6 3xl:h-6 4xl:w-7 4xl:h-7" />
+                  )}
+                </Motion.span>
+              </AnimatePresence>
+            </Motion.button>
+
+            {/* Auth: Avatar dropdown OR Login button */}
+            {user ? (
+              <div ref={dropdownRef} style={{ position: "relative" }}>
+                {/* Avatar button */}
+                <Motion.button
+                  onClick={() => setDropdownOpen((prev) => !prev)}
+                  whileHover={HeaderAnimation.avatarHover}
+                  whileTap={HeaderAnimation.avatarTap}
+                  className="bg-transparent border-none cursor-pointer p-0 flex items-center rounded-full ring-2 ring-transparent transition-all duration-300 hover:ring-(--primary-500) hover:shadow-[0_0_15px_rgba(59,130,246,0.4)] hover:-translate-y-[2px]"
+                  aria-label="User menu"
                 >
-                  <Search size={18} /> Explore
-                </NavLink>
-                <NavLink
-                  to="/users"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={({ isActive }) => `text-sm font-medium text-(--text-secondary) hover:text-(--text-primary) ${isActive ? "text-(--text-primary)" : ""} flex items-center gap-2 p-3 text-(--text-primary) no-underline`}
-                >
-                  <Users size={18} /> Users
-                </NavLink>
+                  {user.profileImage && !imgError ? (
+                    <img
+                      src={user.profileImage}
+                      alt={user.username}
+                      onError={() => setImgError(true)}
+                      className="w-[2.1rem] h-[2.1rem] 3xl:w-10 3xl:h-10 4xl:w-12 4xl:h-12 rounded-full object-cover transition-all duration-300"
+                    />
+                  ) : (
+                    <UserCircle2 className="w-8.5 h-8.5 3xl:w-10 3xl:h-10 4xl:w-12 4xl:h-12 text-(--text-muted) transition-colors duration-300 hover:text-(--primary-500)" />
+                  )}
+                </Motion.button>
 
-                {/* Divider */}
-                <div className="h-px bg-(--border-color) my-1" />
+                {/* Dropdown */}
+                <AnimatePresence>
+                  {dropdownOpen && (
+                    <Motion.div
+                      {...HeaderAnimation.dropdownTransition}
+                      style={{
+                        position: "absolute",
+                        top: "calc(100% + 0.5rem)",
+                        right: 0,
+                        minWidth: "10rem",
+                        background: "var(--surface-card)",
+                        border: "1px solid var(--border-color)",
+                        borderRadius: "var(--radius-md)",
+                        boxShadow: "0 8px 24px rgba(0,0,0,0.18)",
+                        overflow: "hidden",
+                        zIndex: 100,
+                      }}
+                    >
+                      <NavLink
+                        to="/profile"
+                        onClick={() => setDropdownOpen(false)}
+                        className="block px-4 py-3 text-sm text-(--text-primary) no-underline transition-all duration-300 hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-blue-900/30 dark:hover:text-blue-400 hover:pl-5 group"
+                      >
+                        <div className="flex items-center gap-2">
+                          <User
+                            size={16}
+                            className="transition-transform duration-300 group-hover:scale-110 group-hover:-translate-x-1"
+                          />{" "}
+                          Profile
+                        </div>
+                      </NavLink>
 
-                {/* Auth Section */}
-                {user ? (
-                  <>
-                    {/* Profile Button */}
-                    <button
-                      onClick={() => setMobileProfileOpen(!mobileProfileOpen)}
-                      className="flex items-center justify-between p-3 bg-transparent border-none cursor-pointer text-(--text-primary) text-left w-full"
-                    >
-                      <div className="flex items-center gap-2">
-                        {user.profileImage && !imgError ? (
-                          <img
-                            src={user.profileImage}
-                            alt={user.username}
-                            onError={() => setImgError(true)}
-                            className="w-6 h-6 rounded-full object-cover"
-                          />
-                        ) : (
-                          <UserCircle2 size={24} className="text-(--text-muted)" />
-                        )}
-                        <span>{user.username}</span>
-                      </div>
-                      <ChevronDown size={16} className={`transition-transform ${mobileProfileOpen ? 'rotate-180' : ''}`} />
-                    </button>
-
-                    {/* Profile Submenu */}
-                    <AnimatePresence>
-                      {mobileProfileOpen && (
-                        <Motion.div
-                          {...HeaderAnimation.mobileMenuDropdown}
-                          className="overflow-hidden bg-(--surface-input) rounded-xl mt-2 border border-(--border-normal)"
-                        >
-                          <NavLink
-                            to="/profile"
-                            onClick={() => {
-                              setMobileMenuOpen(false);
-                              setMobileProfileOpen(false);
-                            }}
-                            className="flex items-center gap-2 px-2 text-(--text-primary) no-underline"
-                          >
-                            <User size={16} /> Profile
-                          </NavLink>
-                          <button
-                            onClick={() => {
-                              setMobileMenuOpen(false);
-                              setMobileProfileOpen(false);
-                              setShowLogoutModal(true);
-                            }}
-                            className="flex items-center gap-2 px-2 bg-transparent border-none cursor-pointer text-(--status-error) text-left"
-                          >
-                            <LogOut size={16} /> Logout
-                          </button>
-                        </Motion.div>
-                      )}
-                    </AnimatePresence>
-                  </>
-                ) : (
-                  <div className="flex flex-col gap-2">
-                    <NavLink
-                      to="/login"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="btn btn-primary text-center"
-                    >
-                      Login
-                    </NavLink>
-                    <NavLink
-                      to="/register"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="btn btn-secondary text-center"
-                    >
-                      Register
-                    </NavLink>
-                  </div>
-                )}
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setDropdownOpen(false);
+                          setShowLogoutModal(true);
+                        }}
+                        className="block w-full text-left px-4 py-3 text-sm text-(--status-error) bg-transparent border-none border-t border-(--border-color) cursor-pointer transition-all duration-300 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/30 dark:hover:text-red-400 hover:pl-5 group"
+                      >
+                        <div className="flex items-center gap-2">
+                          <LogOut
+                            size={16}
+                            className="transition-transform duration-300 group-hover:scale-110 group-hover:-translate-x-1"
+                          />{" "}
+                          Logout
+                        </div>
+                      </button>
+                    </Motion.div>
+                  )}
+                </AnimatePresence>
               </div>
-            </Motion.div>
-            </>
-          )}
-        </AnimatePresence>
-      </Motion.header>
+            ) : (
+              <div style={{ display: "flex", gap: "0.75rem" }}>
+                <NavLink
+                  to="/login"
+                  className="btn btn-primary 3xl:text-base 3xl:px-5 3xl:py-2.5 4xl:text-lg 4xl:px-6 4xl:py-3 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(59,130,246,0.8)] hover:text-white hover:bg-blue-500 hover:brightness-110 font-medium"
+                >
+                  Login
+                </NavLink>
+                <NavLink
+                  to="/register"
+                  className="btn btn-secondary 3xl:text-base 3xl:px-5 3xl:py-2.5 4xl:text-lg 4xl:px-6 4xl:py-3 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-slate-500/20 hover:bg-(--surface-hover)"
+                >
+                  Register
+                </NavLink>
+              </div>
+            )}
+          </Motion.nav>
+
+          {/* Mobile Menu */}
+          <AnimatePresence>
+            {mobileMenuOpen && (
+              <>
+                {/* Backdrop Blur Overlay */}
+                <Motion.div
+                  className="fixed inset-0 bg-black/40 dark:bg-black/60 backdrop-blur-md z-40"
+                  {...HeaderAnimation.mobileMenuOverlay}
+                  onClick={() => setMobileMenuOpen(false)}
+                />
+                <Motion.div
+                  className="fixed top-0 right-0 bottom-0 w-3/4 max-w-sm bg-(--surface-normal) border-l border-(--border-normal) shadow-2xl z-50 flex flex-col overflow-y-auto liquid-glass"
+                  {...HeaderAnimation.mobileMenuContent}
+                >
+                  <div className="flex flex-col p-4 gap-2">
+                    {/* Nav Links */}
+
+                    {user?.role === "admin" && (
+                      <NavLink
+                        to="/dashboard"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className={mobileNavLinkClass}
+                      >
+                        <LayoutDashboard size={20} className="text-inherit" />{" "}
+                        Dashboard
+                      </NavLink>
+                    )}
+                    <NavLink
+                      to="/feed"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={mobileNavLinkClass}
+                    >
+                      <ImageIcon size={20} className="text-inherit" /> Feed
+                    </NavLink>
+                    <NavLink
+                      to="/explore"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={mobileNavLinkClass}
+                    >
+                      <Search size={20} className="text-inherit" /> Explore
+                    </NavLink>
+                    <NavLink
+                      to="/users"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={mobileNavLinkClass}
+                    >
+                      <Users size={20} className="text-inherit" /> Users
+                    </NavLink>
+
+                    {/* Divider */}
+                    <div className="h-px bg-(--border-color) my-1" />
+
+                    {/* Auth Section */}
+                    {user ? (
+                      <>
+                        {/* Profile Button */}
+                        <button
+                          onClick={() =>
+                            setMobileProfileOpen(!mobileProfileOpen)
+                          }
+                          className="flex items-center justify-between p-3 bg-transparent border-none cursor-pointer text-(--text-primary) text-left w-full"
+                        >
+                          <div className="flex items-center gap-2">
+                            {user.profileImage && !imgError ? (
+                              <img
+                                src={user.profileImage}
+                                alt={user.username}
+                                onError={() => setImgError(true)}
+                                className="w-6 h-6 rounded-full object-cover"
+                              />
+                            ) : (
+                              <UserCircle2
+                                size={24}
+                                className="text-(--text-muted)"
+                              />
+                            )}
+                            <span>{user.username}</span>
+                          </div>
+                          <ChevronDown
+                            size={16}
+                            className={`transition-transform ${mobileProfileOpen ? "rotate-180" : ""}`}
+                          />
+                        </button>
+
+                        {/* Profile Submenu */}
+                        <AnimatePresence>
+                          {mobileProfileOpen && (
+                            <Motion.div
+                              {...HeaderAnimation.mobileMenuDropdown}
+                              className="overflow-hidden bg-(--surface-input) rounded-xl mt-2 border border-(--border-normal)"
+                            >
+                              <NavLink
+                                to="/profile"
+                                onClick={() => {
+                                  setMobileMenuOpen(false);
+                                  setMobileProfileOpen(false);
+                                }}
+                                className="flex items-center gap-2 px-2 text-(--text-primary) no-underline"
+                              >
+                                <User size={16} /> Profile
+                              </NavLink>
+                              <button
+                                onClick={() => {
+                                  setMobileMenuOpen(false);
+                                  setMobileProfileOpen(false);
+                                  setShowLogoutModal(true);
+                                }}
+                                className="flex items-center gap-2 px-2 bg-transparent border-none cursor-pointer text-(--status-error) text-left"
+                              >
+                                <LogOut size={16} /> Logout
+                              </button>
+                            </Motion.div>
+                          )}
+                        </AnimatePresence>
+                      </>
+                    ) : (
+                      <div className="flex flex-col gap-2">
+                        <NavLink
+                          to="/login"
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="btn btn-primary text-center"
+                        >
+                          Login
+                        </NavLink>
+                        <NavLink
+                          to="/register"
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="btn btn-secondary text-center"
+                        >
+                          Register
+                        </NavLink>
+                      </div>
+                    )}
+                  </div>
+                </Motion.div>
+              </>
+            )}
+          </AnimatePresence>
+        </Motion.header>
       </div>
 
       <ConfirmationModal
@@ -372,4 +422,3 @@ export default function Header() {
     </>
   );
 }
-

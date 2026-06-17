@@ -230,6 +230,7 @@ a:hover {
 
 .btn-primary:hover {
   background-color: var(--primary-700);
+  color: #FFFFFF;
 }
 
 .btn-secondary {
@@ -249,6 +250,7 @@ a:hover {
 
 .btn-danger:hover {
   background-color: #DC2626; /* Slightly darker */
+  color: #FFFFFF;
 }
 
 /* Inputs */

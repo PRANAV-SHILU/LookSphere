@@ -93,17 +93,22 @@ export default function Home() {
         {...HomeAnimation.pageTransition}
       >
         <HeroSection user={user} />
+
         <WhyLookSphere />
         <HowItWorks />
-        <SecurityPrivacy />
-        <WaveDivider className="mt-4" />
         <WhatYouCanDo />
-        <AppShowcase />
         <WaveDivider className="mt-4" />
+
+        <AppShowcase />
         <ThemePreview />
         <ActivityFeed />
+        <WaveDivider className="mt-4" />
+
         <TechStack />
+        <SecurityPrivacy />
         <FAQSection />
+        <WaveDivider className="mt-4" />
+
         <FuturePlans />
         <CTASection user={user} />
         <ThankYouSection />

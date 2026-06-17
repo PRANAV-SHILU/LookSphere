@@ -77,7 +77,7 @@ export function AnimatedText({ text, className, delay = 0, stagger = 0.04, yOffs
   );
 }
 
-export function SectionHeading({ icon: Icon, title, subtitle }) {
+export function SectionHeading({ icon: Icon, title, subtitle, badge }) {
   return (
     <div className="text-center mb-12">
       {Icon && (
@@ -86,6 +86,17 @@ export function SectionHeading({ icon: Icon, title, subtitle }) {
             className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-4"
             style={{ color: "var(--primary-500)" }}
           />
+        </Motion.div>
+      )}
+      {badge && (
+        <Motion.div 
+          className="inline-block px-3 py-1 mb-4 rounded-full bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 text-xs sm:text-sm font-semibold tracking-wide uppercase shadow-sm border border-blue-200 dark:border-blue-800"
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.1, duration: 0.5 }}
+        >
+          {badge}
         </Motion.div>
       )}
       <AnimatedText 

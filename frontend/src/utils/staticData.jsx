@@ -34,6 +34,7 @@ import {
   Send,
   ShieldCheck,
   FileKey,
+  FileText,
 } from "lucide-react";
 
 export const socialFeatures = [
@@ -68,11 +69,12 @@ export const futurePlans = [
     category: "Communication",
     items: [
       { icon: Mail, label: "Contact Us page" },
-      { icon: Bell, label: "Personal notifications page" },
+      { icon: Bell, label: "Live notification page" },
       {
         icon: MessageSquare,
         label: "Admin notes to individual users in notifications",
       },
+      { icon: MessageSquare, label: "Detailed FAQ page" },
       { icon: Mail, label: "Mail functionality" },
     ],
   },
@@ -98,8 +100,9 @@ export const futurePlans = [
         icon: Bookmark,
         label: "Save posts — view saved posts in your profile",
       },
+      { icon: Zap, label: "Live Activity feed" },
+      { icon: FileText, label: "Text-based posts feed (like Twitter)" },
       { icon: Trash2, label: "Delete post/user" },
-      { icon: Sparkles, label: "SEO" },
     ],
   },
 ];
@@ -110,7 +113,7 @@ export const howItWorks = [
     step: "01",
     title: "Secure Signup",
     description:
-      "Your password is encrypted with 12 salt rounds before hitting our MongoDB database.",
+      "Your password is encrypted with 12 salt rounds before hitting our database.",
   },
   {
     icon: <Upload className="w-8 h-8" />,
@@ -137,12 +140,12 @@ export const faqs = [
   {
     question: "How do I protect my privacy?",
     answer:
-      "We prioritize your privacy. LookSphere never exposes your sensitive info—our backend strictly strips out hashed passwords before sending data. We also employ strict CORS origin policies to block unauthorized websites from accessing the API.",
+      "We prioritize your privacy. LookSphere never exposes your sensitive info—our backend strictly strips out hashed passwords before sending data. We also enforce strict CORS origin policies to block unauthorized websites from accessing the API.",
   },
   {
     question: "How is my password stored?",
     answer:
-      "We never store plain text passwords. We utilize bcrypt with 12 computational salt rounds to hash your password securely before it is ever saved to our MongoDB database.",
+      "We never store plain text passwords. We utilize bcrypt with 12 computational salt rounds to hash your password securely before it is ever saved to our database.",
   },
   {
     question: "Are my login sessions secure?",
@@ -183,13 +186,12 @@ export const capabilities = [
     icon: Search,
     title: "Never Miss a Thing",
     description:
-      "Browse a global feed of posts, discover new users, and navigate the app instantly via React Router with seamless Framer Motion transitions.",
+      "Browse a global feed of posts, discover new users, and Explore page for all new posts.",
     features: [
       "Global post feed",
       "Smart search & filters",
       "Discover new creators",
       "Curated recommendations",
-      "User directory search",
     ],
   },
   {
@@ -265,7 +267,7 @@ export const securityFeatures = [
     name: "Bcrypt",
     purpose: "Password Hashing",
     description:
-      "All user passwords are hashed with bcrypt using salt rounds before storage. Plain-text passwords are never saved.",
+      "All user passwords are hashed with bcrypt using 12 salt rounds before storage. Plain-text passwords are never saved.",
     where: "Backend — User registration & login",
   },
   {
@@ -274,7 +276,7 @@ export const securityFeatures = [
     purpose: "Authentication",
     description:
       "Stateless JWT tokens are issued on login and verified on every protected route to ensure secure, session-free authentication.",
-    where: "Backend — Auth middleware & protected APIs",
+    where: "Backend — Authentication & Authorization",
   },
   {
     icon: Shield,
@@ -317,6 +319,9 @@ export const techStack = [
   { name: "MongoDB", color: "#47A248", icon: Database },
   { name: "Mongoose", color: "#880000", icon: Database },
   { name: "Tailwind CSS", color: "#06B6D4", icon: Palette },
+  { name: "HTML5", color: "#E34F26", icon: Globe },
+  { name: "CSS3", color: "#1572B6", icon: Palette },
+  { name: "JavaScript", color: "#F7DF1E", icon: Code2 },
   { name: "Vite", color: "#BD34FE", icon: Zap },
   { name: "React Router", color: "#F44250", icon: Navigation },
   { name: "JWT", color: "#FB015B", icon: KeyRound },

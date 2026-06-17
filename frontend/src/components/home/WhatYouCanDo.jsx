@@ -76,14 +76,14 @@ export default function WhatYouCanDo() {
                   {capabilities[activeCapability].features.map((feature, fi) => (
                     <Motion.li
                       key={feature}
-                      className="glass flex items-center gap-3 rounded-xl px-4 py-3 text-sm sm:text-base text-(--text-secondary)"
+                      className="glass flex items-center gap-3 rounded-xl px-4 py-3 text-sm sm:text-base text-(--text-secondary) transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-(--primary-500)/10 hover:text-(--primary-600) cursor-default group"
                       style={GLASS_SHADOW}
                       {...HomeAnimation.featureItem}
                       transition={{ delay: fi * 0.08 }}
                     >
                       <Check
                         size={16}
-                        className="shrink-0"
+                        className="shrink-0 transition-transform duration-300 group-hover:scale-125"
                         style={{ color: "var(--status-success)" }}
                       />
                       {feature}

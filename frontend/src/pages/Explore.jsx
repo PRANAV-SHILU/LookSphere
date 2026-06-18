@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { useLoaderData, Link, useRevalidator } from "react-router-dom";
+import { useState, useEffect, useRef, Suspense } from "react";
+import { useLoaderData, Link, Await, useRevalidator } from "react-router-dom";
 import { motion as Motion, AnimatePresence } from "framer-motion";
 import {
   Video,
@@ -8,23 +8,123 @@ import {
   RotateCw,
   Search,
   X,
+  User,
 } from "lucide-react";
 import BackButton from "../shared-components/BackButton";
 import PostDetailModal from "../modals/PostDetailModal";
 import { trackPostView } from "../services/postService";
+import { fetchUserDetail } from "../services/userService";
 import { STOPWORDS } from "../utils/constants";
 import { Explore as ExploreAnimation } from "../utils/animation";
+import ExploreSkeleton from "../skeletons/ExploreSkeleton";
 
-export default function Explore() {
-  const posts = useLoaderData();
-  const [selectedPost, setSelectedPost] = useState(null);
+function ExploreCard({ post }) {
+  const [author, setAuthor] = useState(null);
+  const videoRef = useRef(null);
+  const isVideo =
+    post.mediaType === "Video" ||
+    (post.mediaUrl && post.mediaUrl.match(/\.(mp4|webm|ogg)$/i)) ||
+    (post.mediaUrl && post.mediaUrl.includes("video/upload"));
+
+  useEffect(() => {
+    if (post.userId) {
+      fetchUserDetail(post.userId)
+        .then((data) => setAuthor(data))
+        .catch((err) => console.error("Error loading post author:", err));
+    }
+  }, [post.userId]);
+
+  const handleMouseEnter = () => {
+    if (videoRef.current) {
+      videoRef.current.play().catch(() => {});
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (videoRef.current) {
+      videoRef.current.pause();
+    }
+  };
+
+  return (
+    <div
+      className="relative w-full h-full"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      {isVideo ? (
+        <div className="relative">
+          <video
+            ref={videoRef}
+            src={post.mediaUrl}
+            className="w-full h-auto object-cover opacity-90 group-hover:opacity-100 transition-opacity"
+            muted
+            loop
+            playsInline
+          />
+          <div className="absolute top-2 right-2 bg-black/50 p-1.5 rounded-md text-white backdrop-blur-sm">
+            <Video size={14} />
+          </div>
+        </div>
+      ) : (
+        <img
+          src={post.mediaUrl}
+          alt={post.altText || post.caption || "explore post"}
+          loading="lazy"
+          className="w-full h-auto object-cover opacity-90 group-hover:opacity-100 transition-all duration-300 group-hover:scale-105"
+        />
+      )}
+
+      <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-white">
+        <div className="flex items-center gap-2 mb-2">
+          {author ? (
+            <Link
+              to={`/profile/${author.username}`}
+              onClick={(e) => e.stopPropagation()}
+              className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+            >
+              <div className="w-6 h-6 rounded-full overflow-hidden bg-zinc-700 shrink-0 flex items-center justify-center">
+                {author.profileImage ? (
+                  <img
+                    src={author.profileImage}
+                    alt="author"
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <User size={12} className="text-zinc-400" />
+                )}
+              </div>
+              <span className="font-semibold text-sm truncate drop-shadow-md">
+                {author.username}
+              </span>
+            </Link>
+          ) : (
+            <>
+              <div className="w-6 h-6 rounded-full overflow-hidden bg-zinc-700 shrink-0 flex items-center justify-center">
+                <User size={12} className="text-zinc-400" />
+              </div>
+              <span className="font-semibold text-sm truncate drop-shadow-md">
+                Loading...
+              </span>
+            </>
+          )}
+        </div>
+
+        {post.caption && (
+          <p className="text-xs line-clamp-2 text-zinc-200 drop-shadow-md">
+            {post.caption}
+          </p>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function ExploreContent({ posts, setSelectedPost }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [isClearHovered, setIsClearHovered] = useState(false);
   const revalidator = useRevalidator();
   const isRefreshing = revalidator.state === "loading";
-
-  const storedUser = localStorage.getItem("user");
-  const currentUser = storedUser ? JSON.parse(storedUser) : null;
 
   const filteredPosts = (() => {
     if (!searchQuery) return posts;
@@ -34,7 +134,6 @@ export default function Explore() {
     let queryWords = query.split(/[\s\r\n]+/).filter(Boolean);
     if (queryWords.length === 0) return posts;
 
-    // Filter out stopwords unless query contains only stopwords
     const nonStopwords = queryWords.filter((word) => !STOPWORDS.has(word));
     if (nonStopwords.length > 0) {
       queryWords = nonStopwords;
@@ -62,8 +161,9 @@ export default function Explore() {
         }
       });
 
-      if (matchedWords > 0) {
-        score += matchedWords;
+      score += matchedWords * 10;
+
+      if (score > 0) {
         scoredPosts.push({ post, score });
       }
     });
@@ -71,28 +171,11 @@ export default function Explore() {
     // Sort descending by score to put the most relevant matches first
     scoredPosts.sort((a, b) => b.score - a.score);
 
-    return scoredPosts.map((item) => item.post);
+    return scoredPosts.map((sp) => sp.post);
   })();
 
-  // Track posts that have been rendered in this session
-  useEffect(() => {
-    if (posts && posts.length > 0) {
-      try {
-        const storedSeen = sessionStorage.getItem("seenPostIds");
-        const seenIds = storedSeen ? JSON.parse(storedSeen) : [];
-        const currentIds = posts.map((p) => p._id).filter(Boolean);
-        const newSeenIds = Array.from(new Set([...seenIds, ...currentIds]));
-        sessionStorage.setItem("seenPostIds", JSON.stringify(newSeenIds));
-      } catch (e) {
-        console.error("Error writing seenPostIds to sessionStorage:", e);
-      }
-    }
-  }, [posts]);
-
   const handlePostClick = async (post) => {
-    const isOwnPost =
-      currentUser && post.userId && currentUser._id === post.userId;
-    if (!isOwnPost && post._id) {
+    if (post._id) {
       const updatedPost = await trackPostView(post._id).catch(() => {});
       setSelectedPost(updatedPost || post);
     } else {
@@ -103,29 +186,7 @@ export default function Explore() {
   const postsHash = posts.map((p) => p._id).join(",");
 
   return (
-    <Motion.div
-      className="max-w-6xl xl:max-w-7xl mx-auto p-4 md:p-8"
-      {...ExploreAnimation.pageTransition}
-    >
-      <div className="mb-6 mt-6 gap-8 flex items-start justify-between">
-        <div>
-          <h1
-            className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-3 tracking-tight"
-            style={{ color: "var(--text-primary)" }}
-          >
-            Explore Community
-          </h1>
-          <p
-            className="text-base sm:text-lg"
-            style={{ color: "var(--text-muted)" }}
-          >
-            Explore latest photos and videos shared by the community.
-          </p>
-        </div>
-        <BackButton />
-      </div>
-
-      {/* --- Search Bar --- */}
+    <>
       <div
         className="flex items-center gap-3 mb-4 px-4 py-3 rounded-xl"
         style={{
@@ -160,12 +221,14 @@ export default function Explore() {
         )}
       </div>
 
-      {/* --- Refresh Button --- */}
-      <div className="mb-6 flex justify-end">
+      <div className="mb-8 flex justify-between items-center text-sm">
+        <span style={{ color: "var(--text-muted)" }}>
+          {filteredPosts.length} posts found
+        </span>
         <button
           onClick={() => revalidator.revalidate()}
           disabled={isRefreshing}
-          className="flex items-center gap-2 px-3.5 py-2 rounded-lg text-sm font-semibold transition-all hover:bg-zinc-800 disabled:opacity-50"
+          className="flex items-center cursor-pointer gap-2 px-3.5 py-2 rounded-lg text-sm font-semibold transition-all hover:bg-zinc-800 disabled:opacity-50"
           style={{
             backgroundColor: "var(--surface-input)",
             color: "var(--text-secondary)",
@@ -192,32 +255,31 @@ export default function Explore() {
 
       {posts.length === 0 ? (
         <div
-          className="text-center px-4 py-24 rounded-2xl border border-dashed"
+          className="text-center py-20 rounded-2xl border border-dashed"
           style={{
             borderColor: "var(--border-normal)",
             backgroundColor: "var(--surface-card)",
           }}
         >
           <div
-            className="w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4"
+            className="w-12 h-12 mx-auto rounded-full flex items-center justify-center mb-3"
             style={{ backgroundColor: "var(--surface-input)" }}
           >
-            <ImageIcon size={28} style={{ color: "var(--text-muted)" }} />
+            <ImageIcon size={20} style={{ color: "var(--text-muted)" }} />
           </div>
           <h2
-            className="text-2xl font-bold mb-2"
+            className="text-lg font-bold mb-1"
             style={{ color: "var(--text-primary)" }}
           >
-            No Posts Yet
+            No Posts Found
           </h2>
           <p
-            className="text-sm max-w-sm mx-auto"
+            className="text-xs max-w-xs mx-auto mb-4"
             style={{ color: "var(--text-muted)" }}
           >
-            Be the first to share an image or video! Go to your profile to
-            upload.
+            There are no posts to explore yet. Be the first to share something!
           </p>
-          <Link to="/profile" className="btn btn-primary mt-6 inline-block">
+          <Link to="/profile" className="btn btn-primary btn-sm inline-block">
             Go to Profile
           </Link>
         </div>
@@ -230,87 +292,95 @@ export default function Explore() {
         </div>
       ) : (
         <Motion.div
-          key={`${postsHash}-${searchQuery}`}
-          layout
-          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2"
+          key={postsHash}
+          className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4 space-y-4"
           variants={ExploreAnimation.containerVariants}
           initial="hidden"
           animate="show"
         >
-          <AnimatePresence mode="popLayout">
+          <AnimatePresence>
             {filteredPosts.map((post) => {
-              const isVideo = post.mediaType === "Video";
-
               return (
                 <Motion.div
-                  layout
                   key={post._id}
                   variants={ExploreAnimation.itemVariants}
-                  className="group aspect-square bg-zinc-900 overflow-hidden cursor-pointer rounded-xl relative flex items-center justify-center"
+                  className="break-inside-avoid relative rounded-xl overflow-hidden cursor-pointer group bg-zinc-900 border"
+                  style={{ borderColor: "var(--border-normal)" }}
                   onClick={() => handlePostClick(post)}
                 >
-                  {isVideo ? (
-                    <>
-                      <video
-                        src={post.mediaUrl}
-                        className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
-                        muted
-                        loop
-                        playsInline
-                        onMouseOver={(e) => e.target.play()}
-                        onMouseOut={(e) => e.target.pause()}
-                      />
-                      <div className="absolute top-3 right-3 bg-black/60 p-1.5 rounded-full text-white pointer-events-none">
-                        <Video size={16} />
-                      </div>
-                    </>
-                  ) : (
-                    <img
-                      src={post.mediaUrl}
-                      alt={post.altText || post.caption || "post"}
-                      className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
-                      loading="lazy"
-                    />
-                  )}
+                  <ExploreCard post={post} />
                 </Motion.div>
               );
             })}
           </AnimatePresence>
-
-          {/* Add media redirect tile */}
-          <Motion.div
-            layout
-            variants={ExploreAnimation.itemVariants}
-            className="contents"
-          >
-            <Link
-              to="/profile"
-              onClick={() => window.scrollTo(0, 0)}
-              className="group aspect-square bg-zinc-900 border border-dashed overflow-hidden cursor-pointer rounded-xl relative flex flex-col items-center justify-center hover:bg-zinc-800 transition-colors"
-              style={{ borderColor: "var(--border-normal)" }}
-            >
-              <Plus
-                size={32}
-                className="mb-2"
-                style={{ color: "var(--text-secondary)" }}
-              />
-              <span
-                className="font-medium px-0.5 xsm:px-0 text-center text-xs md:text-sm"
-                style={{ color: "var(--text-secondary)" }}
+              <Link
+                to="/profile"
+                onClick={() => window.scrollTo(0, 0)}
+                className="group aspect-square bg-zinc-900 border border-dashed overflow-hidden cursor-pointer rounded-xl relative flex flex-col items-center justify-center hover:bg-zinc-800 transition-colors"
+                style={{ borderColor: "var(--border-normal)" }}
               >
-                Share Your Image/Video
-              </span>
-            </Link>
+                <Plus
+                  size={32}
+                  className="mb-2"
+                  style={{ color: "var(--text-secondary)" }}
+                />
+                <span
+                  className="font-medium px-0.5 xsm:px-0 text-center text-xs md:text-sm"
+                  style={{ color: "var(--text-secondary)" }}
+                >
+                  Share Your Image/Video
+                </span>
+              </Link>
           </Motion.div>
-        </Motion.div>
-      )}
-
-      {/* Detail Modal */}
-      <PostDetailModal
-        isOpen={!!selectedPost}
-        onClose={() => setSelectedPost(null)}
-        post={selectedPost}
-      />
-    </Motion.div>
-  );
-}
+        )}
+  
+      </>
+    );
+  }
+  
+  export default function Explore() {
+    const { feedData } = useLoaderData();
+    const [selectedPost, setSelectedPost] = useState(null);
+  
+    return (
+      <Motion.div
+        className="max-w-6xl xl:max-w-7xl mx-auto p-4 md:p-8"
+        {...ExploreAnimation.pageTransition}
+      >
+        <div className="mb-6 mt-6 gap-8 flex items-start justify-between">
+          <div>
+            <h1
+              className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-3 tracking-tight"
+              style={{ color: "var(--text-primary)" }}
+            >
+              Explore Community
+            </h1>
+            <p
+              className="text-base sm:text-lg"
+              style={{ color: "var(--text-muted)" }}
+            >
+              Explore latest photos and videos shared by the community.
+            </p>
+          </div>
+          <BackButton />
+        </div>
+  
+        <Suspense fallback={<ExploreSkeleton />}>
+          <Await resolve={feedData} errorElement={<div className="text-center py-10">Error loading explore data.</div>}>
+            {(posts) => (
+              <ExploreContent 
+                posts={posts} 
+                setSelectedPost={setSelectedPost} 
+              />
+            )}
+          </Await>
+        </Suspense>
+  
+        <PostDetailModal
+          isOpen={!!selectedPost}
+          onClose={() => setSelectedPost(null)}
+          post={selectedPost}
+        />
+      </Motion.div>
+    );
+  }

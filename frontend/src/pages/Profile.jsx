@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import {
   useLoaderData,
   useParams,
   NavLink,
   useSubmit,
   useNavigation,
+  Await,
 } from "react-router-dom";
+import ProfileSkeleton from "../skeletons/ProfileSkeleton";
 import { motion as Motion, AnimatePresence } from "framer-motion";
 import {
   User,
@@ -100,11 +102,9 @@ function ProfileEmptyState({ icon, title, description }) {
   );
 }
 
-export default function Profile() {
-  const submit = useSubmit();
-  const { username } = useParams();
-  const { data } = useLoaderData();
-  const { user, images = [], videos = [] } = data || {};
+function ProfileContent({ data, username, submit }) {
+  const profileDataObj = data?.data || data || {};
+  const { user, images = [], videos = [] } = profileDataObj;
 
   const storedUser = localStorage.getItem("user");
   const currentUser = storedUser ? JSON.parse(storedUser) : null;
@@ -145,10 +145,8 @@ export default function Profile() {
     }
   };
 
-  if (!data)
-    return (
-      <h2 className="text-center text-muted mt-10">Loading user data...</h2>
-    );
+  if (!data) return <h2 className="text-center text-muted mt-10">Loading user data...</h2>;
+  if (!user) return <h2 className="text-center text-muted mt-10">User not found.</h2>;
 
   return (
     <>
@@ -204,14 +202,14 @@ export default function Profile() {
             <h1 className="hidden sm:block text-2xl md:text-3xl 4xl:text-5xl font-bold tracking-wide">
               {user.username}
             </h1>
- 
+
             {/* --- Back Button --- */}
- 
+
             <div className="shrink-0 ml-auto">
               <BackButton />
             </div>
           </div>
- 
+
           <div className="flex flex-row items-start sm:items-start w-full mb-2 4xl:mb-6">
             {/* Profile Image */}
             <div
@@ -246,7 +244,7 @@ export default function Profile() {
                 <User size={40} style={{ color: "var(--text-muted)" }} />
               )}
             </div>
- 
+
             {/* Profile Info */}
             <div className="flex flex-col items-start text-left gap-2 sm:gap-0 mt-1.5 sm:mt-2 4xl:mt-4 4xl:gap-2">
               <h1 className="sm:hidden block text-xl font-bold tracking-wide">
@@ -258,13 +256,13 @@ export default function Profile() {
               >
                 {user.tagline}
               </h3>
- 
+
               <ProfileStats
                 postCount={user.postCount}
                 profileViewCount={user.profileViewCount}
                 totalPostViews={user.totalPostViews}
               />
- 
+
               <Bio
                 bio={user.bio}
                 className="hidden sm:flex whitespace-pre-wrap text-sm md:text-base 4xl:text-xl leading-relaxed 4xl:leading-loose"
@@ -468,5 +466,19 @@ export default function Profile() {
         />
       </Motion.main>
     </>
+  );
+}
+
+export default function Profile() {
+  const submit = useSubmit();
+  const { username } = useParams();
+  const { profileData } = useLoaderData();
+
+  return (
+    <Suspense fallback={<ProfileSkeleton />}>
+      <Await resolve={profileData} errorElement={<div className="text-center py-10 mt-10">Error loading profile data.</div>}>
+        {(data) => <ProfileContent data={data} username={username} submit={submit} />}
+      </Await>
+    </Suspense>
   );
 }

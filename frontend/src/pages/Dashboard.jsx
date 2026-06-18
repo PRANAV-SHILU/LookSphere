@@ -1,11 +1,12 @@
-import { useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import { useState, Suspense } from "react";
+import { useLoaderData, Await } from "react-router-dom";
 import { motion as Motion } from "framer-motion";
 import { ShieldAlert, BarChart3, Clock, ImageIcon } from "lucide-react";
 import { Dashboard as DashboardAnimation } from "../utils/animation";
 import MetricsTab from "../components/dashboard/MetricsTab";
 import RecentActivityTab from "../components/dashboard/RecentActivityTab";
 import LatestPostsTab from "../components/dashboard/LatestPostsTab";
+import DashboardSkeleton from "../skeletons/DashboardSkeleton";
 
 const TABS = [
   { key: "metrics", label: "Metrics", icon: <BarChart3 size={16} /> },
@@ -13,9 +14,7 @@ const TABS = [
   { key: "latestPosts", label: "Latest Posts", icon: <ImageIcon size={16} /> },
 ];
 
-export default function Dashboard() {
-  const data = useLoaderData();
-
+function DashboardContent({ data }) {
   const {
     totalUsersCount = 0,
     totalPostCount = 0,
@@ -34,22 +33,7 @@ export default function Dashboard() {
   const stats = { totalUsersCount, totalPostCount, totalImageCount, totalVideoCount };
 
   return (
-    <Motion.div
-      {...DashboardAnimation.pageTransition}
-    >
-      {/* Header */}
-      <div className="my-6 text-center md:text-left">
-        <h1
-          className="text-4xl md:text-5xl font-extrabold mb-3 tracking-tight flex items-center justify-center md:justify-start gap-3"
-          style={{ color: "var(--text-primary)" }}
-        >
-          <ShieldAlert style={{ color: "var(--primary-500)" }} size={40} /> Admin Dashboard
-        </h1>
-        <p className="text-lg" style={{ color: "var(--text-muted)" }}>
-          Overview of application metrics and community users.
-        </p>
-      </div>
-
+    <>
       {/* Tabs */}
       <div className="tab-container mx-auto p-1 gap-1.5 mt-2 mb-6 sm:p-[0.35rem] sm:gap-2 sm:mt-[10px] sm:mb-8 4xl:p-2.5 4xl:gap-4 4xl:mt-12 4xl:mb-12">
         {TABS.map((tab) => (
@@ -68,6 +52,35 @@ export default function Dashboard() {
       {activeTab === "metrics" && <MetricsTab stats={stats} userList={userList} />}
       {activeTab === "recentActivity" && <RecentActivityTab recentUsers={recentUsers} now={now} />}
       {activeTab === "latestPosts" && <LatestPostsTab latestPosts={latestPosts} now={now} />}
+    </>
+  );
+}
+
+export default function Dashboard() {
+  const { dashboardData } = useLoaderData();
+
+  return (
+    <Motion.div
+      {...DashboardAnimation.pageTransition}
+    >
+      {/* Header */}
+      <div className="my-6 text-center md:text-left">
+        <h1
+          className="text-4xl md:text-5xl font-extrabold mb-3 tracking-tight flex items-center justify-center md:justify-start gap-3"
+          style={{ color: "var(--text-primary)" }}
+        >
+          <ShieldAlert style={{ color: "var(--primary-500)" }} size={40} /> Admin Dashboard
+        </h1>
+        <p className="text-lg" style={{ color: "var(--text-muted)" }}>
+          Overview of application metrics and community users.
+        </p>
+      </div>
+
+      <Suspense fallback={<DashboardSkeleton />}>
+        <Await resolve={dashboardData} errorElement={<div className="text-center py-10">Error loading dashboard data.</div>}>
+          {(data) => <DashboardContent data={data} />}
+        </Await>
+      </Suspense>
     </Motion.div>
   );
 }

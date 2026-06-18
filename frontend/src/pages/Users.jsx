@@ -1,12 +1,12 @@
-import { useState } from "react";
-import { useLoaderData, Link } from "react-router-dom";
+import { useState, Suspense } from "react";
+import { useLoaderData, Link, Await } from "react-router-dom";
 import { motion as Motion } from "framer-motion";
 import { User, Eye, ArrowRight, Search, FileText } from "lucide-react";
 import BackButton from "../shared-components/BackButton";
 import { Users as UsersAnimation } from "../utils/animation";
+import UsersSkeleton from "../skeletons/UsersSkeleton";
 
-export default function Users() {
-  const usersList = useLoaderData();
+function UsersContent({ usersList }) {
   const [query, setQuery] = useState("");
   const [hoveredUser, setHoveredUser] = useState(null);
 
@@ -19,25 +19,7 @@ export default function Users() {
   });
 
   return (
-    <Motion.div
-      className=""
-      {...UsersAnimation.pageTransition}
-    >
-      <div className="mb-10 mt-8 4xl:mt-16 gap-4 flex items-start justify-between">
-        <div className="text-center md:text-left">
-          <h1
-            className="text-4xl xsm:text-5xl text-left font-extrabold mb-3 tracking-tight"
-            style={{ color: "var(--text-primary)" }}
-          >
-            Community
-          </h1>
-          <p className="text-base xsm:text-lg text-left" style={{ color: "var(--text-muted)" }}>
-            Discover and connect with other users on LookSphere.
-          </p>
-        </div>
-        <BackButton />
-      </div>
-
+    <>
       {/* --- Search Bar --- */}
       <div
         className="flex items-center gap-3 mb-8 px-4 py-3 rounded-xl"
@@ -187,6 +169,38 @@ export default function Users() {
           ))}
         </Motion.div>
       )}
+    </>
+  );
+}
+
+export default function Users() {
+  const { usersData } = useLoaderData();
+
+  return (
+    <Motion.div
+      className=""
+      {...UsersAnimation.pageTransition}
+    >
+      <div className="mb-10 mt-8 4xl:mt-16 gap-4 flex items-start justify-between">
+        <div className="text-center md:text-left">
+          <h1
+            className="text-4xl xsm:text-5xl text-left font-extrabold mb-3 tracking-tight"
+            style={{ color: "var(--text-primary)" }}
+          >
+            Community
+          </h1>
+          <p className="text-base xsm:text-lg text-left" style={{ color: "var(--text-muted)" }}>
+            Discover and connect with other users on LookSphere.
+          </p>
+        </div>
+        <BackButton />
+      </div>
+
+      <Suspense fallback={<UsersSkeleton />}>
+        <Await resolve={usersData} errorElement={<div className="text-center py-10">Error loading users data.</div>}>
+          {(usersList) => <UsersContent usersList={usersList} />}
+        </Await>
+      </Suspense>
     </Motion.div>
   );
 }

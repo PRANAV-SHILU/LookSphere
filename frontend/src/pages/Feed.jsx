@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef } from "react";
-import { useLoaderData, Link, useRevalidator } from "react-router-dom";
+import { useState, useEffect, useRef, Suspense } from "react";
+import { useLoaderData, Link, useRevalidator, Await } from "react-router-dom";
+import FeedSkeleton from "../skeletons/FeedSkeleton";
 import { motion as Motion, AnimatePresence } from "framer-motion";
 import {
   User,
@@ -226,8 +227,118 @@ function FeedCard({ post, currentUser, onPostClick, isParentModalOpen }) {
   );
 }
 
+// Component that renders when data is loaded
+function FeedContent({ posts, currentUser, setSelectedPost, selectedPost }) {
+  // Track posts seen in this session
+  useEffect(() => {
+    if (posts && posts.length > 0) {
+      try {
+        const storedSeen = sessionStorage.getItem("seenPostIds");
+        const seenIds = storedSeen ? JSON.parse(storedSeen) : [];
+        const currentIds = posts.map((p) => p._id).filter(Boolean);
+        const newSeenIds = Array.from(new Set([...seenIds, ...currentIds]));
+        sessionStorage.setItem("seenPostIds", JSON.stringify(newSeenIds));
+      } catch (e) {
+        console.error("Error writing seenPostIds:", e);
+      }
+    }
+  }, [posts]);
+
+  const postsHash = posts.map((p) => p._id).join(",");
+
+  if (posts.length === 0) {
+    return (
+      <div
+        className="text-center py-20 rounded-2xl border border-dashed"
+        style={{
+          borderColor: "var(--border-normal)",
+          backgroundColor: "var(--surface-card)",
+        }}
+      >
+        <div
+          className="w-12 h-12 mx-auto rounded-full flex items-center justify-center mb-3"
+          style={{ backgroundColor: "var(--surface-input)" }}
+        >
+          <ImageIcon size={20} style={{ color: "var(--text-muted)" }} />
+        </div>
+        <h2
+          className="text-lg font-bold mb-1"
+          style={{ color: "var(--text-primary)" }}
+        >
+          No Posts
+        </h2>
+        <p
+          className="text-xs max-w-xs mx-auto mb-4"
+          style={{ color: "var(--text-muted)" }}
+        >
+          Be the first to share an image or video!
+        </p>
+        <Link to="/profile" className="btn btn-primary btn-sm inline-block">
+          Go to Profile
+        </Link>
+      </div>
+    );
+  }
+
+  return (
+    <Motion.div
+      key={postsHash}
+      layout
+      className="flex flex-col gap-8"
+      variants={FeedAnimation.containerVariants}
+      initial="hidden"
+      animate="show"
+    >
+      <AnimatePresence mode="popLayout">
+        {posts.map((post) => (
+          <Motion.div
+            key={post._id}
+            layout
+            variants={FeedAnimation.cardVariants}
+          >
+            <FeedCard
+              post={post}
+              currentUser={currentUser}
+              onPostClick={setSelectedPost}
+              isParentModalOpen={!!selectedPost}
+            />
+          </Motion.div>
+        ))}
+      </AnimatePresence>
+
+      {/* Add media redirect card */}
+      <Motion.div layout>
+        <Link
+          to="/profile"
+          onClick={() => window.scrollTo(0, 0)}
+          className="flex flex-col items-center justify-center py-8 rounded-2xl border border-dashed hover:bg-zinc-800/40 transition-colors"
+          style={{
+            borderColor: "var(--border-normal)",
+            backgroundColor: "var(--surface-card)",
+            maxWidth: "520px",
+            width: "100%",
+            margin: "0 auto",
+          }}
+        >
+          <Plus
+            size={24}
+            className="mb-1"
+            style={{ color: "var(--text-secondary)" }}
+          />
+          <span
+            className="font-semibold text-xs"
+            style={{ color: "var(--text-secondary)" }}
+          >
+            Share Your Own Image or Video
+          </span>
+        </Link>
+      </Motion.div>
+    </Motion.div>
+  );
+}
+
 export default function Feed() {
-  const posts = useLoaderData();
+  const { feedData } = useLoaderData();
   const revalidator = useRevalidator();
   const isRefreshing = revalidator.state === "loading";
 
@@ -254,23 +365,6 @@ export default function Feed() {
       behavior: "smooth",
     });
   };
-
-  // Track posts seen in this session
-  useEffect(() => {
-    if (posts && posts.length > 0) {
-      try {
-        const storedSeen = sessionStorage.getItem("seenPostIds");
-        const seenIds = storedSeen ? JSON.parse(storedSeen) : [];
-        const currentIds = posts.map((p) => p._id).filter(Boolean);
-        const newSeenIds = Array.from(new Set([...seenIds, ...currentIds]));
-        sessionStorage.setItem("seenPostIds", JSON.stringify(newSeenIds));
-      } catch (e) {
-        console.error("Error writing seenPostIds:", e);
-      }
-    }
-  }, [posts]);
-
-  const postsHash = posts.map((p) => p._id).join(",");
 
   return (
     <Motion.div
@@ -321,91 +415,19 @@ export default function Feed() {
         </div>
       </div>
 
-      {posts.length === 0 ? (
-        <div
-          className="text-center py-20 rounded-2xl border border-dashed"
-          style={{
-            borderColor: "var(--border-normal)",
-            backgroundColor: "var(--surface-card)",
-          }}
-        >
-          <div
-            className="w-12 h-12 mx-auto rounded-full flex items-center justify-center mb-3"
-            style={{ backgroundColor: "var(--surface-input)" }}
-          >
-            <ImageIcon size={20} style={{ color: "var(--text-muted)" }} />
-          </div>
-          <h2
-            className="text-lg font-bold mb-1"
-            style={{ color: "var(--text-primary)" }}
-          >
-            No Posts
-          </h2>
-          <p
-            className="text-xs max-w-xs mx-auto mb-4"
-            style={{ color: "var(--text-muted)" }}
-          >
-            Be the first to share an image or video!
-          </p>
-          <Link to="/profile" className="btn btn-primary btn-sm inline-block">
-            Go to Profile
-          </Link>
-        </div>
-      ) : (
-        <Motion.div
-          key={postsHash}
-          layout
-          className="flex flex-col gap-8"
-          variants={FeedAnimation.containerVariants}
-          initial="hidden"
-          animate="show"
-        >
-          <AnimatePresence mode="popLayout">
-            {posts.map((post) => (
-              <Motion.div
-                key={post._id}
-                layout
-                variants={FeedAnimation.cardVariants}
-              >
-                <FeedCard
-                  post={post}
-                  currentUser={currentUser}
-                  onPostClick={setSelectedPost}
-                  isParentModalOpen={!!selectedPost}
-                />
-              </Motion.div>
-            ))}
-          </AnimatePresence>
+      <Suspense fallback={<FeedSkeleton />}>
+        <Await resolve={feedData} errorElement={<div className="text-center py-10">Error loading feed.</div>}>
+          {(posts) => (
+            <FeedContent 
+              posts={posts} 
+              currentUser={currentUser} 
+              setSelectedPost={setSelectedPost} 
+              selectedPost={selectedPost} 
+            />
+          )}
+        </Await>
+      </Suspense>
 
-          {/* Add media redirect card */}
-          <Motion.div layout>
-            <Link
-              to="/profile"
-              onClick={() => window.scrollTo(0, 0)}
-              className="flex flex-col items-center justify-center py-8 rounded-2xl border border-dashed hover:bg-zinc-800/40 transition-colors"
-              style={{
-                borderColor: "var(--border-normal)",
-                backgroundColor: "var(--surface-card)",
-                maxWidth: "520px",
-                width: "100%",
-                margin: "0 auto",
-              }}
-            >
-              <Plus
-                size={24}
-                className="mb-1"
-                style={{ color: "var(--text-secondary)" }}
-              />
-              <span
-                className="font-semibold text-xs"
-                style={{ color: "var(--text-secondary)" }}
-              >
-                Share Your Own Image or Video
-              </span>
-            </Link>
-          </Motion.div>
-        </Motion.div>
-      )}
       <AnimatePresence>
         {showScrollTop && (
           <Motion.button

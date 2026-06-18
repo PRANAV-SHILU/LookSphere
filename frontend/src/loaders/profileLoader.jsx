@@ -1,7 +1,7 @@
 import { redirect } from "react-router-dom";
 import { fetchProfile } from "../services/userService.js";
 
-export async function profileLoader({ params }) {
+export function profileLoader({ params }) {
   const { username } = params || {};
 
   if (!username) {
@@ -13,12 +13,10 @@ export async function profileLoader({ params }) {
     }
   }
 
-  try {
-    const res = await fetchProfile(username);
-    
-    return res;
-  } catch (err) {
+  const profilePromise = fetchProfile(username).catch((err) => {
     console.error("profileLoader error:", err);
     throw new Error("Failed to fetch profile. Please try again later.");
-  }
+  });
+
+  return { profileData: profilePromise };
 }

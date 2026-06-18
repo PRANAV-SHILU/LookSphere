@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, Suspense } from "react";
 import { useLoaderData, Link, Await, useRevalidator } from "react-router-dom";
+import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import { motion as Motion, AnimatePresence } from "framer-motion";
 import {
   Video,
@@ -338,6 +339,7 @@ function ExploreContent({ posts, setSelectedPost }) {
   export default function Explore() {
     const { feedData } = useLoaderData();
     const [selectedPost, setSelectedPost] = useState(null);
+    useDocumentMetadata("Explore");
 
     useEffect(() => {
       window.scrollTo(0, 0);

@@ -7,6 +7,7 @@ import {
   useNavigation,
   Await,
 } from "react-router-dom";
+import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import ProfileSkeleton from "../skeletons/ProfileSkeleton";
 import { motion as Motion, AnimatePresence } from "framer-motion";
 import {
@@ -105,6 +106,10 @@ function ProfileEmptyState({ icon, title, description }) {
 function ProfileContent({ data, username, submit }) {
   const profileDataObj = data?.data || data || {};
   const { user, images = [], videos = [] } = profileDataObj;
+
+  useDocumentMetadata(
+    user?.username ? `@${user.username} profile` : "Profile"
+  );
 
   const storedUser = localStorage.getItem("user");
   const currentUser = storedUser ? JSON.parse(storedUser) : null;

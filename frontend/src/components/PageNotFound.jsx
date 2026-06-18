@@ -1,8 +1,10 @@
 import { NavLink } from "react-router-dom";
+import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import { motion as Motion } from "framer-motion";
 import { PageNotFound as PageNotFoundAnimation } from "../utils/animation";
 
 export default function PageNotFound() {
+  useDocumentMetadata("Page Not Found");
   return (
     <>
       <Motion.section

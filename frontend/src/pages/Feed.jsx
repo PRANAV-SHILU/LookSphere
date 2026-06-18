@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, Suspense } from "react";
 import { useLoaderData, Link, useRevalidator, Await } from "react-router-dom";
+import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import FeedSkeleton from "../skeletons/FeedSkeleton";
 import { motion as Motion, AnimatePresence } from "framer-motion";
 import {
@@ -331,6 +332,7 @@ export default function Feed() {
   const { feedData } = useLoaderData();
   const revalidator = useRevalidator();
   const isRefreshing = revalidator.state === "loading";
+  useDocumentMetadata("Feed");
 
   const storedUser = localStorage.getItem("user");
   const currentUser = storedUser ? JSON.parse(storedUser) : null;

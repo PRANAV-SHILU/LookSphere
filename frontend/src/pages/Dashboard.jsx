@@ -1,5 +1,6 @@
 import { useState, Suspense } from "react";
 import { useLoaderData, Await } from "react-router-dom";
+import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import { motion as Motion } from "framer-motion";
 import { ShieldAlert, BarChart3, Clock, ImageIcon } from "lucide-react";
 import { Dashboard as DashboardAnimation } from "../utils/animation";
@@ -58,6 +59,7 @@ function DashboardContent({ data }) {
 
 export default function Dashboard() {
   const { dashboardData } = useLoaderData();
+  useDocumentMetadata("Dashboard");
 
   return (
     <Motion.div

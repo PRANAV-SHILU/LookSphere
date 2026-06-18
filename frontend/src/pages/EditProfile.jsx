@@ -4,6 +4,7 @@ import {
   useNavigation,
   useNavigate,
 } from "react-router-dom";
+import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import { useRef, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -16,6 +17,7 @@ import { EditProfile as EditProfileAnimation } from "../utils/animation";
 
 export default function EditProfile() {
   const { data } = useLoaderData();
+  useDocumentMetadata("Edit Profile");
   const { user } = data || {};
   const navigate = useNavigate();
   const navigation = useNavigation();

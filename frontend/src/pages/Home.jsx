@@ -1,4 +1,5 @@
 import { useRouteLoaderData } from "react-router-dom";
+import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import {
   motion as Motion,
   AnimatePresence,
@@ -26,6 +27,7 @@ import ThankYouSection from "../components/home/ThankYouSection";
 
 export default function Home() {
   const user = useRouteLoaderData("root");
+  useDocumentMetadata("Home");
 
   const { scrollYProgress } = useScroll();
   const parallaxY1 = useTransform(scrollYProgress, [0, 1], [0, -150]);

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Form, useActionData, useNavigation, NavLink } from "react-router-dom";
+import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "react-toastify";
@@ -9,6 +10,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { Login as LoginAnimation } from "../utils/animation";
 
 export default function Login() {
+  useDocumentMetadata("Login");
   const actionData = useActionData();
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";

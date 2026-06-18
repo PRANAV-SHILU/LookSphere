@@ -2,6 +2,7 @@ import { registerSchema } from "../schema/registerSchema";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Form, NavLink, useActionData, useNavigation } from "react-router-dom";
+import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import { motion as Motion } from "framer-motion";
@@ -9,6 +10,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { Register as RegisterAnimation } from "../utils/animation";
 
 export default function Register() {
+  useDocumentMetadata("Register");
   const actionData = useActionData();
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";

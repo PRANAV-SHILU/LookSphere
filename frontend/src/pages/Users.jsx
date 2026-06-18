@@ -1,5 +1,6 @@
 import { useState, Suspense } from "react";
 import { useLoaderData, Link, Await } from "react-router-dom";
+import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import { motion as Motion } from "framer-motion";
 import { User, Eye, ArrowRight, Search, FileText } from "lucide-react";
 import BackButton from "../shared-components/BackButton";
@@ -175,6 +176,7 @@ function UsersContent({ usersList }) {
 
 export default function Users() {
   const { usersData } = useLoaderData();
+  useDocumentMetadata("Creators");
 
   return (
     <Motion.div

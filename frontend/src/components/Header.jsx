@@ -270,146 +270,176 @@ export default function Header() {
             )}
           </Motion.nav>
 
-          {/* Mobile Menu */}
-          <AnimatePresence>
-            {mobileMenuOpen && (
-              <>
-                {/* Backdrop Blur Overlay */}
-                <Motion.div
-                  className="fixed inset-0 bg-black/40 dark:bg-black/60 backdrop-blur-md z-40"
-                  {...HeaderAnimation.mobileMenuOverlay}
-                  onClick={() => setMobileMenuOpen(false)}
-                />
-                <Motion.div
-                  className="fixed top-0 right-0 bottom-0 w-3/4 max-w-sm bg-(--surface-normal) border-l border-(--border-normal) shadow-2xl z-50 flex flex-col overflow-y-auto liquid-glass"
-                  {...HeaderAnimation.mobileMenuContent}
-                >
-                  <div className="flex flex-col p-4 gap-2">
-                    {/* Nav Links */}
-
-                    {user?.role === "admin" && (
-                      <NavLink
-                        to="/dashboard"
-                        onClick={() => setMobileMenuOpen(false)}
-                        className={mobileNavLinkClass}
-                      >
-                        <LayoutDashboard size={20} className="text-inherit" />{" "}
-                        Dashboard
-                      </NavLink>
-                    )}
-                    <NavLink
-                      to="/feed"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className={mobileNavLinkClass}
-                    >
-                      <ImageIcon size={20} className="text-inherit" /> Feed
-                    </NavLink>
-                    <NavLink
-                      to="/explore"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className={mobileNavLinkClass}
-                    >
-                      <Search size={20} className="text-inherit" /> Explore
-                    </NavLink>
-                    <NavLink
-                      to="/users"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className={mobileNavLinkClass}
-                    >
-                      <Users size={20} className="text-inherit" /> Users
-                    </NavLink>
-
-                    {/* Divider */}
-                    <div className="h-px bg-(--border-color) my-1" />
-
-                    {/* Auth Section */}
-                    {user ? (
-                      <>
-                        {/* Profile Button */}
-                        <button
-                          onClick={() =>
-                            setMobileProfileOpen(!mobileProfileOpen)
-                          }
-                          className="flex items-center justify-between p-3 bg-transparent border-none cursor-pointer text-(--text-primary) text-left w-full"
-                        >
-                          <div className="flex items-center gap-2">
-                            {user.profileImage && !imgError ? (
-                              <img
-                                src={user.profileImage}
-                                alt={user.username}
-                                onError={() => setImgError(true)}
-                                className="w-6 h-6 rounded-full object-cover"
-                              />
-                            ) : (
-                              <UserCircle2
-                                size={24}
-                                className="text-(--text-muted)"
-                              />
-                            )}
-                            <span>{user.username}</span>
-                          </div>
-                          <ChevronDown
-                            size={16}
-                            className={`transition-transform ${mobileProfileOpen ? "rotate-180" : ""}`}
-                          />
-                        </button>
-
-                        {/* Profile Submenu */}
-                        <AnimatePresence>
-                          {mobileProfileOpen && (
-                            <Motion.div
-                              {...HeaderAnimation.mobileMenuDropdown}
-                              className="overflow-hidden bg-(--surface-input) rounded-xl mt-2 border border-(--border-normal)"
-                            >
-                              <NavLink
-                                to="/profile"
-                                onClick={() => {
-                                  setMobileMenuOpen(false);
-                                  setMobileProfileOpen(false);
-                                }}
-                                className="flex items-center gap-2 px-2 text-(--text-primary) no-underline"
-                              >
-                                <User size={16} /> Profile
-                              </NavLink>
-                              <button
-                                onClick={() => {
-                                  setMobileMenuOpen(false);
-                                  setMobileProfileOpen(false);
-                                  setShowLogoutModal(true);
-                                }}
-                                className="flex items-center gap-2 px-2 bg-transparent border-none cursor-pointer text-(--status-error) text-left"
-                              >
-                                <LogOut size={16} /> Logout
-                              </button>
-                            </Motion.div>
-                          )}
-                        </AnimatePresence>
-                      </>
-                    ) : (
-                      <div className="flex flex-col gap-2">
-                        <NavLink
-                          to="/login"
-                          onClick={() => setMobileMenuOpen(false)}
-                          className="btn btn-primary text-center"
-                        >
-                          Login
-                        </NavLink>
-                        <NavLink
-                          to="/register"
-                          onClick={() => setMobileMenuOpen(false)}
-                          className="btn btn-secondary text-center"
-                        >
-                          Register
-                        </NavLink>
-                      </div>
-                    )}
-                  </div>
-                </Motion.div>
-              </>
-            )}
-          </AnimatePresence>
         </Motion.header>
       </div>
+
+      {/* Mobile Menu — rendered outside the sticky header to avoid backdrop-filter clipping */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <>
+            {/* Backdrop Blur Overlay */}
+            <Motion.div
+              className="fixed inset-0 bg-black/40 dark:bg-black/60 backdrop-blur-md z-40"
+              {...HeaderAnimation.mobileMenuOverlay}
+              onClick={() => setMobileMenuOpen(false)}
+            />
+            <Motion.div
+              className="mobile-menu-container fixed top-0 right-0 bottom-0 w-2/3 max-w-[280px] bg-(--surface-normal) border-l border-(--border-normal) shadow-2xl z-50 flex flex-col overflow-y-auto liquid-glass"
+              {...HeaderAnimation.mobileMenuContent}
+            >
+              <div className="flex flex-col p-4 pt-6 gap-2">
+                {/* Close Button */}
+                <div className="flex justify-end mb-2">
+                  <button
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="p-2 rounded-lg bg-transparent border-none cursor-pointer text-(--text-muted) hover:text-(--text-primary) hover:bg-(--surface-hover) transition-all duration-200"
+                    aria-label="Close menu"
+                  >
+                    <X size={28} />
+                  </button>
+                </div>
+
+                {/* Nav Links */}
+                <NavLink
+                  to="/"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={mobileNavLinkClass}
+                >
+                  <Home size={20} className="text-inherit" /> Home
+                </NavLink>
+
+                {user?.role === "admin" && (
+                  <NavLink
+                    to="/dashboard"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={mobileNavLinkClass}
+                  >
+                    <LayoutDashboard size={20} className="text-inherit" />{" "}
+                    Dashboard
+                  </NavLink>
+                )}
+                <NavLink
+                  to="/feed"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={mobileNavLinkClass}
+                >
+                  <ImageIcon size={20} className="text-inherit" /> Feed
+                </NavLink>
+                <NavLink
+                  to="/explore"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={mobileNavLinkClass}
+                >
+                  <Search size={20} className="text-inherit" /> Explore
+                </NavLink>
+                <NavLink
+                  to="/users"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={mobileNavLinkClass}
+                >
+                  <Users size={20} className="text-inherit" /> Users
+                </NavLink>
+
+                {/* Divider */}
+                <div className="h-px bg-(--border-color) my-1" />
+
+                {/* Auth Section */}
+                {user ? (
+                  <>
+                    {/* Profile Row */}
+                    <div className="flex items-center justify-between w-full hover:bg-(--surface-hover) rounded-lg transition-colors">
+                      <NavLink
+                        to="/profile"
+                        onClick={() => {
+                          setMobileMenuOpen(false);
+                          setMobileProfileOpen(false);
+                        }}
+                        className="flex items-center gap-2 p-3 text-(--text-primary) no-underline flex-1"
+                      >
+                        {user.profileImage && !imgError ? (
+                          <img
+                            src={user.profileImage}
+                            alt={user.username}
+                            onError={() => setImgError(true)}
+                            className="w-6 h-6 rounded-full object-cover"
+                          />
+                        ) : (
+                          <UserCircle2
+                            size={24}
+                            className="text-(--text-muted)"
+                          />
+                        )}
+                        <span>{user.username}</span>
+                      </NavLink>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setMobileProfileOpen(!mobileProfileOpen);
+                        }}
+                        className="p-3 bg-transparent border-none cursor-pointer text-(--text-primary) flex items-center justify-center rounded-lg hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
+                        aria-label="Toggle profile menu"
+                      >
+                        <ChevronDown
+                          size={18}
+                          className={`transition-transform ${mobileProfileOpen ? "rotate-180" : ""}`}
+                        />
+                      </button>
+                    </div>
+
+                    {/* Profile Submenu */}
+                    <AnimatePresence>
+                      {mobileProfileOpen && (
+                        <Motion.div
+                          {...HeaderAnimation.mobileMenuDropdown}
+                          className="overflow-hidden bg-(--surface-input) rounded-xl mt-2 ml-6 pl-1 border border-(--border-normal) flex flex-col gap-4"
+                        >
+                          <NavLink
+                            to="/profile"
+                            onClick={() => {
+                              setMobileMenuOpen(false);
+                              setMobileProfileOpen(false);
+                            }}
+                            className="flex items-center gap-3 px-3 pt-3 text-(--text-primary) no-underline rounded-lg hover:bg-(--surface-hover) transition-colors"
+                          >
+                            <User size={18} /> Profile
+                          </NavLink>
+                          <button
+                            onClick={() => {
+                              setMobileMenuOpen(false);
+                              setMobileProfileOpen(false);
+                              setShowLogoutModal(true);
+                            }}
+                            className="flex items-center gap-3 px-3 pb-3 rounded-lg hover:bg-red-500/10 transition-colors bg-transparent border-none cursor-pointer text-(--status-error) text-left w-full"
+                          >
+                            <LogOut size={18} /> Logout
+                          </button>
+                        </Motion.div>
+                      )}
+                    </AnimatePresence>
+                  </>
+                ) : (
+                  <div className="flex flex-col gap-2">
+                    <NavLink
+                      to="/login"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="btn btn-primary text-center"
+                    >
+                      Login
+                    </NavLink>
+                    <NavLink
+                      to="/register"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="btn btn-secondary text-center"
+                    >
+                      Register
+                    </NavLink>
+                  </div>
+                )}
+              </div>
+            </Motion.div>
+          </>
+        )}
+      </AnimatePresence>
 
       <ConfirmationModal
         isOpen={showLogoutModal}

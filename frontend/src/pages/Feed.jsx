@@ -1,7 +1,18 @@
 import { useState, useEffect, useRef } from "react";
 import { useLoaderData, Link, useRevalidator } from "react-router-dom";
 import { motion as Motion, AnimatePresence } from "framer-motion";
-import { User, Eye, Clock, Video, Image as ImageIcon, RotateCw, Plus, Info, ArrowUp, Maximize2 } from "lucide-react";
+import {
+  User,
+  Eye,
+  Clock,
+  Video,
+  Image as ImageIcon,
+  RotateCw,
+  Plus,
+  Info,
+  ArrowUp,
+  Maximize2,
+} from "lucide-react";
 import BackButton from "../shared-components/BackButton";
 import { trackPostView } from "../services/postService";
 import { fetchUserDetail } from "../services/userService";
@@ -38,7 +49,8 @@ function FeedCard({ post, currentUser, onPostClick, isParentModalOpen }) {
 
   // Track post view once
   useEffect(() => {
-    const isOwnPost = currentUser && post.userId && currentUser._id === post.userId;
+    const isOwnPost =
+      currentUser && post.userId && currentUser._id === post.userId;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -51,7 +63,7 @@ function FeedCard({ post, currentUser, onPostClick, isParentModalOpen }) {
           }
         }
       },
-      { threshold: 0.5 } // Triggers when 50% of the post card enters/leaves viewport
+      { threshold: 0.5 }, // Triggers when 50% of the post card enters/leaves viewport
     );
 
     if (cardRef.current) {
@@ -86,7 +98,10 @@ function FeedCard({ post, currentUser, onPostClick, isParentModalOpen }) {
       }}
     >
       {/* Header: User Info */}
-      <div className="flex items-center justify-between p-4 border-b" style={{ borderColor: "var(--border-light)" }}>
+      <div
+        className="flex items-center justify-between p-4 border-b"
+        style={{ borderColor: "var(--border-light)" }}
+      >
         {author ? (
           <Link
             to={`/profile/${author.username}`}
@@ -109,7 +124,10 @@ function FeedCard({ post, currentUser, onPostClick, isParentModalOpen }) {
                 <User size={18} style={{ color: "var(--text-muted)" }} />
               )}
             </div>
-            <span className="font-bold text-sm" style={{ color: "var(--text-primary)" }}>
+            <span
+              className="font-bold text-sm"
+              style={{ color: "var(--text-primary)" }}
+            >
               {author.username}
             </span>
           </Link>
@@ -120,7 +138,10 @@ function FeedCard({ post, currentUser, onPostClick, isParentModalOpen }) {
           </div>
         )}
 
-        <div className="items-center gap-1.5 text-xs hidden sm:flex" style={{ color: "var(--text-muted)" }}>
+        <div
+          className="items-center gap-1.5 text-xs hidden sm:flex"
+          style={{ color: "var(--text-muted)" }}
+        >
           <Clock size={12} />
           <span>{postDate}</span>
         </div>
@@ -158,7 +179,10 @@ function FeedCard({ post, currentUser, onPostClick, isParentModalOpen }) {
 
       {/* Footer: Details */}
       <div className="p-4 flex flex-col gap-2.5">
-        <div className="flex items-center justify-between text-xs" style={{ color: "var(--text-muted)" }}>
+        <div
+          className="flex items-center justify-between text-xs"
+          style={{ color: "var(--text-muted)" }}
+        >
           <span className="font-medium flex items-center gap-1">
             <Eye size={13} />
             {post.postViewCount || 0} views
@@ -167,7 +191,11 @@ function FeedCard({ post, currentUser, onPostClick, isParentModalOpen }) {
             type="button"
             onClick={() => onPostClick(post)}
             className="flex items-center justify-center p-1.5 rounded-lg hover:bg-zinc-800/80 transition-all cursor-pointer border-none bg-transparent"
-            style={{ color: isMaximizeHovered ? "var(--text-primary)" : "var(--text-muted)" }}
+            style={{
+              color: isMaximizeHovered
+                ? "var(--text-primary)"
+                : "var(--text-muted)",
+            }}
             onMouseEnter={() => setIsMaximizeHovered(true)}
             onMouseLeave={() => setIsMaximizeHovered(false)}
             title="View in full screen"
@@ -177,8 +205,15 @@ function FeedCard({ post, currentUser, onPostClick, isParentModalOpen }) {
         </div>
 
         {post.caption ? (
-          <p className="text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
-            {author && <strong className="mr-2" style={{ color: "var(--text-primary)" }}>{author.username}</strong>}
+          <p
+            className="text-sm leading-relaxed"
+            style={{ color: "var(--text-secondary)" }}
+          >
+            {author && (
+              <strong className="mr-2" style={{ color: "var(--text-primary)" }}>
+                {author.username}
+              </strong>
+            )}
             {post.caption}
           </p>
         ) : (
@@ -237,8 +272,6 @@ export default function Feed() {
 
   const postsHash = posts.map((p) => p._id).join(",");
 
-
-
   return (
     <Motion.div
       className="max-w-xl mx-auto  mt-6 p-4 md:py-8"
@@ -270,7 +303,11 @@ export default function Feed() {
             title="Refresh Feed"
           >
             <Motion.div
-              animate={isRefreshing ? FeedAnimation.spinnerActive : FeedAnimation.spinnerInactive}
+              animate={
+                isRefreshing
+                  ? FeedAnimation.spinnerActive
+                  : FeedAnimation.spinnerInactive
+              }
               transition={
                 isRefreshing
                   ? FeedAnimation.spinnerTransitionActive
@@ -292,11 +329,22 @@ export default function Feed() {
             backgroundColor: "var(--surface-card)",
           }}
         >
-          <div className="w-12 h-12 mx-auto rounded-full flex items-center justify-center mb-3" style={{ backgroundColor: "var(--surface-input)" }}>
+          <div
+            className="w-12 h-12 mx-auto rounded-full flex items-center justify-center mb-3"
+            style={{ backgroundColor: "var(--surface-input)" }}
+          >
             <ImageIcon size={20} style={{ color: "var(--text-muted)" }} />
           </div>
-          <h2 className="text-lg font-bold mb-1" style={{ color: "var(--text-primary)" }}>No Posts</h2>
-          <p className="text-xs max-w-xs mx-auto mb-4" style={{ color: "var(--text-muted)" }}>
+          <h2
+            className="text-lg font-bold mb-1"
+            style={{ color: "var(--text-primary)" }}
+          >
+            No Posts
+          </h2>
+          <p
+            className="text-xs max-w-xs mx-auto mb-4"
+            style={{ color: "var(--text-muted)" }}
+          >
             Be the first to share an image or video!
           </p>
           <Link to="/profile" className="btn btn-primary btn-sm inline-block">
@@ -343,8 +391,15 @@ export default function Feed() {
                 margin: "0 auto",
               }}
             >
-              <Plus size={24} className="mb-1" style={{ color: "var(--text-secondary)" }} />
-              <span className="font-semibold text-xs" style={{ color: "var(--text-secondary)" }}>
+              <Plus
+                size={24}
+                className="mb-1"
+                style={{ color: "var(--text-secondary)" }}
+              />
+              <span
+                className="font-semibold text-xs"
+                style={{ color: "var(--text-secondary)" }}
+              >
                 Share Your Own Image or Video
               </span>
             </Link>

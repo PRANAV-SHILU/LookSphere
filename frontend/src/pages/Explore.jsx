@@ -1,7 +1,14 @@
 import { useState, useEffect } from "react";
 import { useLoaderData, Link, useRevalidator } from "react-router-dom";
 import { motion as Motion, AnimatePresence } from "framer-motion";
-import { Video, Image as ImageIcon, Plus, RotateCw, Search, X } from "lucide-react";
+import {
+  Video,
+  Image as ImageIcon,
+  Plus,
+  RotateCw,
+  Search,
+  X,
+} from "lucide-react";
 import BackButton from "../shared-components/BackButton";
 import PostDetailModal from "../modals/PostDetailModal";
 import { trackPostView } from "../services/postService";
@@ -83,7 +90,8 @@ export default function Explore() {
   }, [posts]);
 
   const handlePostClick = async (post) => {
-    const isOwnPost = currentUser && post.userId && currentUser._id === post.userId;
+    const isOwnPost =
+      currentUser && post.userId && currentUser._id === post.userId;
     if (!isOwnPost && post._id) {
       const updatedPost = await trackPostView(post._id).catch(() => {});
       setSelectedPost(updatedPost || post);
@@ -93,8 +101,6 @@ export default function Explore() {
   };
 
   const postsHash = posts.map((p) => p._id).join(",");
-
-
 
   return (
     <Motion.div
@@ -109,7 +115,10 @@ export default function Explore() {
           >
             Explore Community
           </h1>
-          <p className="text-base sm:text-lg" style={{ color: "var(--text-muted)" }}>
+          <p
+            className="text-base sm:text-lg"
+            style={{ color: "var(--text-muted)" }}
+          >
             Explore latest photos and videos shared by the community.
           </p>
         </div>
@@ -137,7 +146,11 @@ export default function Explore() {
           <button
             onClick={() => setSearchQuery("")}
             className="transition-colors p-0.5 rounded-full hover:bg-zinc-800/80"
-            style={{ color: isClearHovered ? "var(--text-primary)" : "var(--text-muted)" }}
+            style={{
+              color: isClearHovered
+                ? "var(--text-primary)"
+                : "var(--text-muted)",
+            }}
             onMouseEnter={() => setIsClearHovered(true)}
             onMouseLeave={() => setIsClearHovered(false)}
             title="Clear search"
@@ -160,7 +173,11 @@ export default function Explore() {
           }}
         >
           <Motion.div
-            animate={isRefreshing ? ExploreAnimation.spinnerActive : ExploreAnimation.spinnerInactive}
+            animate={
+              isRefreshing
+                ? ExploreAnimation.spinnerActive
+                : ExploreAnimation.spinnerInactive
+            }
             transition={
               isRefreshing
                 ? ExploreAnimation.spinnerTransitionActive
@@ -181,12 +198,24 @@ export default function Explore() {
             backgroundColor: "var(--surface-card)",
           }}
         >
-          <div className="w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4" style={{ backgroundColor: "var(--surface-input)" }}>
+          <div
+            className="w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4"
+            style={{ backgroundColor: "var(--surface-input)" }}
+          >
             <ImageIcon size={28} style={{ color: "var(--text-muted)" }} />
           </div>
-          <h2 className="text-2xl font-bold mb-2" style={{ color: "var(--text-primary)" }}>No Posts Yet</h2>
-          <p className="text-sm max-w-sm mx-auto" style={{ color: "var(--text-muted)" }}>
-            Be the first to share an image or video! Go to your profile to upload.
+          <h2
+            className="text-2xl font-bold mb-2"
+            style={{ color: "var(--text-primary)" }}
+          >
+            No Posts Yet
+          </h2>
+          <p
+            className="text-sm max-w-sm mx-auto"
+            style={{ color: "var(--text-muted)" }}
+          >
+            Be the first to share an image or video! Go to your profile to
+            upload.
           </p>
           <Link to="/profile" className="btn btn-primary mt-6 inline-block">
             Go to Profile
@@ -247,7 +276,7 @@ export default function Explore() {
               );
             })}
           </AnimatePresence>
-          
+
           {/* Add media redirect tile */}
           <Motion.div
             layout
@@ -260,8 +289,15 @@ export default function Explore() {
               className="group aspect-square bg-zinc-900 border border-dashed overflow-hidden cursor-pointer rounded-xl relative flex flex-col items-center justify-center hover:bg-zinc-800 transition-colors"
               style={{ borderColor: "var(--border-normal)" }}
             >
-              <Plus size={32} className="mb-2" style={{ color: "var(--text-secondary)" }} />
-              <span className="font-medium px-0.5 xsm:px-0 text-center text-xs md:text-sm" style={{ color: "var(--text-secondary)" }}>
+              <Plus
+                size={32}
+                className="mb-2"
+                style={{ color: "var(--text-secondary)" }}
+              />
+              <span
+                className="font-medium px-0.5 xsm:px-0 text-center text-xs md:text-sm"
+                style={{ color: "var(--text-secondary)" }}
+              >
                 Share Your Image/Video
               </span>
             </Link>

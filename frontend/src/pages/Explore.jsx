@@ -13,26 +13,16 @@ import {
 import BackButton from "../shared-components/BackButton";
 import PostDetailModal from "../modals/PostDetailModal";
 import { trackPostView } from "../services/postService";
-import { fetchUserDetail } from "../services/userService";
 import { STOPWORDS } from "../utils/constants";
 import { Explore as ExploreAnimation } from "../utils/animation";
 import ExploreSkeleton from "../skeletons/ExploreSkeleton";
 
 function ExploreCard({ post }) {
-  const [author, setAuthor] = useState(null);
   const videoRef = useRef(null);
   const isVideo =
     post.mediaType === "Video" ||
     (post.mediaUrl && post.mediaUrl.match(/\.(mp4|webm|ogg)$/i)) ||
     (post.mediaUrl && post.mediaUrl.includes("video/upload"));
-
-  useEffect(() => {
-    if (post.userId) {
-      fetchUserDetail(post.userId)
-        .then((data) => setAuthor(data))
-        .catch((err) => console.error("Error loading post author:", err));
-    }
-  }, [post.userId]);
 
   const handleMouseEnter = () => {
     if (videoRef.current) {
@@ -77,17 +67,17 @@ function ExploreCard({ post }) {
 
       <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-white">
         <div className="flex items-center gap-2 mb-2">
-          {author ? (
+          {post.userId ? (
             <Link
-              to={`/profile/${author.username}`}
+              to={`/profile/${post.userId.username}`}
               onClick={(e) => e.stopPropagation()}
               className="flex items-center gap-2 hover:opacity-80 transition-opacity"
             >
               <div className="w-6 h-6 rounded-full overflow-hidden bg-zinc-700 shrink-0 flex items-center justify-center">
-                {author.profileImage ? (
+                {post.userId.profileImage ? (
                   <img
-                    src={author.profileImage}
-                    alt="author"
+                    src={post.userId.profileImage}
+                    alt={post.userId.username}
                     className="w-full h-full object-cover"
                   />
                 ) : (
@@ -95,7 +85,7 @@ function ExploreCard({ post }) {
                 )}
               </div>
               <span className="font-semibold text-sm truncate drop-shadow-md">
-                {author.username}
+                {post.userId.username}
               </span>
             </Link>
           ) : (
@@ -177,7 +167,14 @@ function ExploreContent({ posts, setSelectedPost }) {
   const handlePostClick = async (post) => {
     if (post._id) {
       const updatedPost = await trackPostView(post._id).catch(() => {});
-      setSelectedPost(updatedPost || post);
+      if (updatedPost) {
+        setSelectedPost({
+          ...post,
+          postViewCount: updatedPost.postViewCount
+        });
+      } else {
+        setSelectedPost(post);
+      }
     } else {
       setSelectedPost(post);
     }
@@ -341,6 +338,10 @@ function ExploreContent({ posts, setSelectedPost }) {
   export default function Explore() {
     const { feedData } = useLoaderData();
     const [selectedPost, setSelectedPost] = useState(null);
+
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
   
     return (
       <Motion.div

@@ -4,6 +4,7 @@ import Post from "../models/posts.model.js";
 
 export const getFeed = asyncHandler("getFeed", async (req, res) => {
   const posts = await Post.find()
+    .populate("userId", "username profileImage")
     .sort({ createdAt: -1 });
 
   return res.status(200).json({

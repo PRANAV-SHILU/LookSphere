@@ -2,13 +2,12 @@ import { useState, useEffect, useRef } from "react";
 import { motion as Motion, AnimatePresence } from "framer-motion";
 import { X, Info, Eye, MoreVertical, User as UserIcon } from "lucide-react";
 import { modifyPost } from "../services/postService";
-import { fetchUserDetail } from "../services/userService";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { postSchema } from "../schema/postSchema";
 import { PostDetailModal as PostDetailModalAnimation } from "../utils/animation";
 
-export default function PostDetailModal({ isOpen, onClose, post }) {
+export default function PostDetailModal({ isOpen, onClose, post, profileUser }) {
   const navigate = useNavigate();
   const [mediaDimensions, setMediaDimensions] = useState({
     width: 0,
@@ -22,37 +21,29 @@ export default function PostDetailModal({ isOpen, onClose, post }) {
   const [isSaving, setIsSaving] = useState(false);
   const [captionError, setCaptionError] = useState("");
   const [altTextError, setAltTextError] = useState("");
-  const [author, setAuthor] = useState(null);
   const overlayRef = useRef(null);
   const prevPostRef = useRef(null);
 
   const storedUser = localStorage.getItem("user");
   const currentUser = storedUser ? JSON.parse(storedUser) : null;
-  const isOwner = post && currentUser && currentUser._id === post.userId;
+  const postAuthor = 
+    (post?.userId && typeof post.userId === 'object' && post.userId.username) ? post.userId : 
+    profileUser ? profileUser : 
+    (post?.userId ? { _id: post.userId, username: "Unknown User", profileImage: null } : null);
+  const isOwner = post && currentUser && currentUser._id === (postAuthor?._id || post?.userId);
 
-  // Initialize edit fields when edit mode starts or post changes
-  useEffect(() => {
-    if (post) {
-      setEditCaption(post.caption || "");
-      setEditAltText(post.altText || "");
-      setAuthor(null);
-
-      // Fetch author profile details (username and image)
-      if (post.userId) {
-        fetchUserDetail(post.userId)
-          .then((data) => setAuthor(data))
-          .catch((err) =>
-            console.error("Error loading post author details:", err),
-          );
-      }
-    }
-  }, [post]);
+  const [displayCaption, setDisplayCaption] = useState("");
+  const [displayAltText, setDisplayAltText] = useState("");
 
   // Reset state when post changes (ref-based, no setState in effect)
   const postUrl = post?.mediaUrl ?? null;
   if (postUrl !== prevPostRef.current) {
     prevPostRef.current = postUrl;
     setIsEditing(false);
+    setEditCaption(post?.caption || "");
+    setEditAltText(post?.altText || "");
+    setDisplayCaption(post?.caption || "");
+    setDisplayAltText(post?.altText || "");
     if (isLoaded) setIsLoaded(false);
     if (mediaDimensions.width !== 0 || mediaDimensions.height !== 0) {
       setMediaDimensions({ width: 0, height: 0 });
@@ -207,8 +198,8 @@ export default function PostDetailModal({ isOpen, onClose, post }) {
                         onClick={() => {
                           if (isEditing) {
                             setIsEditing(false);
-                            setEditCaption(post.caption || "");
-                            setEditAltText(post.altText || "");
+                            setEditCaption(displayCaption);
+                            setEditAltText(displayAltText);
                             setCaptionError("");
                             setAltTextError("");
                             requestAnimationFrame(() => {
@@ -255,14 +246,14 @@ export default function PostDetailModal({ isOpen, onClose, post }) {
             )}
 
             {/* Author Profile Info */}
-            {author && (
+            {postAuthor && (
               <div
                 onClick={() => {
                   onClose();
-                  if (currentUser && currentUser._id === author._id) {
+                  if (currentUser && currentUser._id === (postAuthor._id || post.userId)) {
                     navigate("/profile");
                   } else {
-                    navigate(`/profile/${author.username}`);
+                    navigate(`/profile/${postAuthor.username}`);
                   }
                 }}
                 style={{
@@ -290,10 +281,10 @@ export default function PostDetailModal({ isOpen, onClose, post }) {
                     background: "rgba(0,0,0,0.3)",
                   }}
                 >
-                  {author.profileImage ? (
+                  {postAuthor.profileImage ? (
                     <img
-                      src={author.profileImage}
-                      alt={author.username}
+                      src={postAuthor.profileImage}
+                      alt={postAuthor.username}
                       style={{
                         width: "100%",
                         height: "100%",
@@ -311,7 +302,7 @@ export default function PostDetailModal({ isOpen, onClose, post }) {
                     textShadow: "0 2px 4px rgba(0,0,0,0.5)",
                   }}
                 >
-                  {author.username}
+                  {postAuthor.username}
                 </span>
               </div>
             )}
@@ -379,16 +370,16 @@ export default function PostDetailModal({ isOpen, onClose, post }) {
               )}
 
               {/* Alt Text Info Button */}
-              {!isEditing && post.altText && isLoaded && (
+              {!isEditing && displayAltText && isLoaded && (
                 <div className="post-detail-alt-trigger">
                   <Info size={16} />
-                  <div className="post-detail-alt-tooltip">{post.altText}</div>
+                  <div className="post-detail-alt-tooltip">{displayAltText}</div>
                 </div>
               )}
             </div>
 
             {/* Post Info Footer */}
-            {(isEditing || post.postViewCount != null || post.caption) && (
+            {(isEditing || post.postViewCount != null || displayCaption) && (
               <div
                 className="post-detail-caption"
                 style={{ width: "100%", maxWidth: "100%" }}
@@ -508,8 +499,8 @@ export default function PostDetailModal({ isOpen, onClose, post }) {
                         className="btn btn-secondary w-full"
                         onClick={() => {
                           setIsEditing(false);
-                          setEditCaption(post.caption || "");
-                          setEditAltText(post.altText || "");
+                          setEditCaption(displayCaption);
+                          setEditAltText(displayAltText);
                           setCaptionError("");
                           setAltTextError("");
                           if (overlayRef.current) {
@@ -545,13 +536,13 @@ export default function PostDetailModal({ isOpen, onClose, post }) {
                           try {
                             const payload = {};
                             if (
-                              editCaption.trim() !== (post.caption || "").trim()
+                              editCaption.trim() !== displayCaption.trim()
                             ) {
                               payload.caption = editCaption.trim();
                             }
                             if (
                               (editAltText || "").trim() !==
-                              (post.altText || "").trim()
+                              displayAltText.trim()
                             ) {
                               payload.altText = editAltText.trim();
                             }
@@ -562,8 +553,8 @@ export default function PostDetailModal({ isOpen, onClose, post }) {
                             }
                             const updated = await modifyPost(post._id, payload);
                             toast.success("Post updated successfully!");
-                            post.caption = updated.caption;
-                            post.altText = updated.altText;
+                            setDisplayCaption(updated.caption);
+                            setDisplayAltText(updated.altText);
                             setIsEditing(false);
                           } catch (err) {
                             toast.error(err.message || "Failed to save post.");
@@ -622,7 +613,7 @@ export default function PostDetailModal({ isOpen, onClose, post }) {
                         )}
                       </div>
                     )}
-                    {post.caption && <p>{post.caption}</p>}
+                    {displayCaption && <p>{displayCaption}</p>}
                   </>
                 )}
               </div>

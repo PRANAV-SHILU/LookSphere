@@ -129,14 +129,3 @@ export const updateProfile = asyncHandler("updateProfile", async (req, res) => {
   });
 });
 
-// get user detail (avtar and username only)
-export const getUserDetail = asyncHandler("getUserDetail", async (req, res) => {
-  const { id } = req.params;
-  const user = await User.findById(id).select("username profileImage");
-  if (!user) return res.status(404).json({ message: "User not found" });
-
-  return res.status(200).json({
-    message: "User details fetched successfully",
-    data: user,
-  });
-});

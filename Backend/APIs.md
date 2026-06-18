@@ -30,10 +30,6 @@ End session (client should remove token from localStorage)
 Fetch all non-admin users sorted by profile views
 - **Response:** `200` `{ message, data }` | `500`
 
-### GET /users/:id/detail
-Get username and avatar for a specific user
-- **Response:** `200` `{ message, data }` | `404` | `500`
-
 ### GET /users/profile
 Get the logged-in user's own full profile with posts
 - **Auth:** Required

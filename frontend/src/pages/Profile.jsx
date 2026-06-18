@@ -1,4 +1,4 @@
-import { useState, Suspense } from "react";
+import { useState, Suspense, useEffect } from "react";
 import {
   useLoaderData,
   useParams,
@@ -463,6 +463,7 @@ function ProfileContent({ data, username, submit }) {
           isOpen={!!selectedPost}
           onClose={() => setSelectedPost(null)}
           post={selectedPost}
+          profileUser={user}
         />
       </Motion.main>
     </>
@@ -473,6 +474,10 @@ export default function Profile() {
   const submit = useSubmit();
   const { username } = useParams();
   const { profileData } = useLoaderData();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [username]);
 
   return (
     <Suspense fallback={<ProfileSkeleton />}>

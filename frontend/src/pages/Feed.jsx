@@ -16,13 +16,11 @@ import {
 } from "lucide-react";
 import BackButton from "../shared-components/BackButton";
 import { trackPostView } from "../services/postService";
-import { fetchUserDetail } from "../services/userService";
 import { Feed as FeedAnimation } from "../utils/animation";
 import PostDetailModal from "../modals/PostDetailModal";
 
 // Sub-component for each feed post to fetch user details asynchronously
 function FeedCard({ post, currentUser, onPostClick, isParentModalOpen }) {
-  const [author, setAuthor] = useState(null);
   const cardRef = useRef(null);
   const videoRef = useRef(null);
   const hasTrackedView = useRef(false);
@@ -39,14 +37,6 @@ function FeedCard({ post, currentUser, onPostClick, isParentModalOpen }) {
         second: "2-digit",
       })
     : "";
-
-  useEffect(() => {
-    if (post.userId) {
-      fetchUserDetail(post.userId)
-        .then((data) => setAuthor(data))
-        .catch((err) => console.error("Error loading post author:", err));
-    }
-  }, [post.userId]);
 
   // Track post view once
   useEffect(() => {
@@ -103,33 +93,33 @@ function FeedCard({ post, currentUser, onPostClick, isParentModalOpen }) {
         className="flex items-center justify-between p-4 border-b"
         style={{ borderColor: "var(--border-light)" }}
       >
-        {author ? (
+        {post.userId ? (
           <Link
-            to={`/profile/${author.username}`}
-            className="flex items-center gap-3 hover:opacity-85 transition-opacity"
+            to={`/profile/${post.userId.username}`}
+            className="flex items-center gap-3 group"
           >
             <div
-              className="w-9 h-9 rounded-full overflow-hidden flex items-center justify-center border"
+              className="w-9 h-9 rounded-full overflow-hidden flex items-center justify-center border transition-all duration-300 group-hover:scale-105 group-hover:ring-2 group-hover:ring-zinc-600/50 group-hover:ring-offset-2 group-hover:ring-offset-zinc-950"
               style={{
                 backgroundColor: "var(--surface-input)",
                 borderColor: "var(--border-normal)",
               }}
             >
-              {author.profileImage ? (
+              {post.userId.profileImage ? (
                 <img
-                  src={author.profileImage}
-                  alt={author.username}
-                  className="w-full h-full object-cover"
+                  src={post.userId.profileImage}
+                  alt={post.userId.username}
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                 />
               ) : (
-                <User size={18} style={{ color: "var(--text-muted)" }} />
+                <User size={18} style={{ color: "var(--text-muted)" }} className="transition-transform duration-300 group-hover:scale-110" />
               )}
             </div>
             <span
-              className="font-bold text-sm"
+              className="font-bold text-sm transition-opacity duration-300 group-hover:opacity-80 group-hover:underline underline-offset-2"
               style={{ color: "var(--text-primary)" }}
             >
-              {author.username}
+              {post.userId.username}
             </span>
           </Link>
         ) : (
@@ -210,9 +200,9 @@ function FeedCard({ post, currentUser, onPostClick, isParentModalOpen }) {
             className="text-sm leading-relaxed"
             style={{ color: "var(--text-secondary)" }}
           >
-            {author && (
+            {post.userId && (
               <strong className="mr-2" style={{ color: "var(--text-primary)" }}>
-                {author.username}
+                {post.userId.username}
               </strong>
             )}
             {post.caption}
@@ -348,6 +338,7 @@ export default function Feed() {
   const [selectedPost, setSelectedPost] = useState(null);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const handleScroll = () => {
       if (window.scrollY > 800) {
         setShowScrollTop(true);

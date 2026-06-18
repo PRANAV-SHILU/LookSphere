@@ -35,11 +35,3 @@ export async function updateOwnProfile(payload) {
   }
 }
 
-export async function getUserDetail(id) {
-  try {
-    const res = await apiClient.get(ENDPOINTS.USER.USER_DETAIL(id));
-    return res.data.data;
-  } catch (err) {
-    throw new Error(err.response?.data?.message || err.message);
-  }
-}

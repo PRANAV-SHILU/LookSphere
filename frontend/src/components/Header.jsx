@@ -49,6 +49,14 @@ export default function Header() {
     }
   }, [isDark]);
 
+  useEffect(() => {
+    const handleThemeEvent = (e) => {
+      setIsDark(e.detail === "dark");
+    };
+    window.addEventListener("theme-changed", handleThemeEvent);
+    return () => window.removeEventListener("theme-changed", handleThemeEvent);
+  }, []);
+
   // Close dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(e) {

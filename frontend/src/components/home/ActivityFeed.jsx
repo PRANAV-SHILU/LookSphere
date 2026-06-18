@@ -3,11 +3,11 @@ import { Zap } from "lucide-react";
 import { HomeAnimation } from "../../utils/animation";
 import { activities } from "../../utils/staticData";
 import { GLASS_SHADOW } from "../../utils/styles";
-import { SectionHeading } from "./Shared";
+import { SectionHeading } from "../../shared-components/SharedHomeComponents";
 
 export default function ActivityFeed() {
   return (
-    <div className="w-full py-12 sm:py-16 md:py-20 px-4 sm:px-8 md:px-12">
+    <div className="w-full py-10 xsm:py-12 sm:py-16 md:py-20 3xl:py-24 px-3 xsm:px-4 sm:px-8 md:px-12">
       <SectionHeading
         icon={Zap}
         title="Live Activity"
@@ -15,13 +15,14 @@ export default function ActivityFeed() {
       />
 
       <Motion.div
-        className="max-w-md mx-auto h-72 overflow-hidden relative rounded-2xl liquid-glass border border-(--border-normal)"
+        className="max-w-md 3xl:max-w-lg mx-auto h-72 overflow-hidden relative rounded-2xl liquid-glass border border-(--border-normal)"
         style={GLASS_SHADOW}
         {...HomeAnimation.activityFeed}
       >
         {/* Very Soon Badge */}
         <div className="absolute top-3 right-3 z-30 px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 text-xs font-bold uppercase tracking-wider backdrop-blur-md border border-blue-500/20 shadow-sm flex items-center gap-1.5">
-          <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" /> Very Soon
+          <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />{" "}
+          Very Soon
         </div>
 
         {/* Fade masks */}
@@ -53,10 +54,7 @@ export default function ActivityFeed() {
                   className="shrink-0 w-8 h-8 flex items-center justify-center rounded-lg"
                   style={{ backgroundColor: "var(--surface-input)" }}
                 >
-                  <ActIcon
-                    size={16}
-                    style={{ color: "var(--primary-500)" }}
-                  />
+                  <ActIcon size={16} style={{ color: "var(--primary-500)" }} />
                 </div>
                 <div className="flex-1 min-w-0">
                   <span className="text-sm text-(--text-primary) font-medium">

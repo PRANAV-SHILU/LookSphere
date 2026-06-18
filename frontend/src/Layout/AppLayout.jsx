@@ -18,7 +18,12 @@ export default function AppLayout() {
           <Outlet key={location.pathname} />
         </AnimatePresence>
       </main>
-      <ToastContainer position="top-right" autoClose={2000} limit={1} theme="dark" />
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        limit={1}
+        theme="dark"
+      />
     </div>
   );
 }

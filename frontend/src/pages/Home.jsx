@@ -9,7 +9,7 @@ import { useState, useEffect } from "react";
 import { PropagateLoader } from "react-spinners";
 import { HomeAnimation } from "../utils/animation";
 
-import { WaveDivider } from "../components/home/Shared";
+import { WaveDivider } from "../shared-components/SharedHomeComponents";
 import HeroSection from "../components/home/HeroSection";
 import WhyLookSphere from "../components/home/WhyLookSphere";
 import HowItWorks from "../components/home/HowItWorks";
@@ -89,7 +89,7 @@ export default function Home() {
       </div>
 
       <Motion.section
-        className="relative z-0 flex flex-col items-center w-full gap-0 mt-4 sm:mt-8 pb-8"
+        className="relative z-0 flex flex-col items-center w-full gap-0 mt-2 xsm:mt-4 sm:mt-8 3xl:mt-12 pb-8"
         {...HomeAnimation.pageTransition}
       >
         <HeroSection user={user} />

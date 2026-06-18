@@ -3,11 +3,11 @@ import { Code2 } from "lucide-react";
 import { HomeAnimation } from "../../utils/animation";
 import { techStack } from "../../utils/staticData";
 import { GLASS_SHADOW } from "../../utils/styles";
-import { SectionHeading } from "./Shared";
+import { SectionHeading } from "../../shared-components/SharedHomeComponents";
 
 export default function TechStack() {
   return (
-    <div className="w-full py-12 sm:py-16 md:py-20 px-4 sm:px-8 md:px-12">
+    <div className="w-full py-10 xsm:py-12 sm:py-16 md:py-20 3xl:py-24 px-3 xsm:px-4 sm:px-8 md:px-12">
       <SectionHeading
         icon={Code2}
         title="Built With the Best"
@@ -15,7 +15,7 @@ export default function TechStack() {
       />
 
       <Motion.div
-        className="flex flex-wrap justify-center gap-3 sm:gap-4 max-w-4xl mx-auto"
+        className="flex flex-wrap justify-center gap-2.5 xsm:gap-3 sm:gap-4 max-w-4xl 3xl:max-w-5xl mx-auto"
         {...HomeAnimation.techStackContainer}
       >
         {techStack.map((tech) => {

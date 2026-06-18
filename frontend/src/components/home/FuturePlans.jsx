@@ -3,18 +3,21 @@ import { Rocket } from "lucide-react";
 import { HomeAnimation } from "../../utils/animation";
 import { futurePlans } from "../../utils/staticData";
 import { CARD_HOVER, GLASS_SHADOW } from "../../utils/styles";
-import { SectionHeading, CardGlow } from "./Shared";
+import {
+  SectionHeading,
+  CardGlow,
+} from "../../shared-components/SharedHomeComponents";
 
 export default function FuturePlans() {
   return (
-    <div className="w-full py-12 sm:py-16 md:py-20 px-4 sm:px-8 md:px-12">
+    <div className="w-full py-10 xsm:py-12 sm:py-16 md:py-20 3xl:py-24 px-3 xsm:px-4 sm:px-8 md:px-12">
       <SectionHeading
         icon={Rocket}
         title="Future Plans"
         subtitle="We're constantly evolving. Here's what's coming next to LookSphere."
       />
 
-      <div className="flex flex-col gap-8 max-w-5xl mx-auto">
+      <div className="flex flex-col gap-6 xsm:gap-8 max-w-5xl 3xl:max-w-6xl mx-auto">
         <Motion.div
           className="glass w-full p-6 sm:p-8 rounded-2xl"
           style={GLASS_SHADOW}
@@ -30,7 +33,7 @@ export default function FuturePlans() {
                 <h3 className="text-lg sm:text-xl font-semibold mb-4 text-(--text-primary)">
                   {group.category}
                 </h3>
-                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {group.items.map((item) => (
                     <li
                       key={item.label}

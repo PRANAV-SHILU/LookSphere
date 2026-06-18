@@ -2,18 +2,21 @@ import { motion as Motion } from "framer-motion";
 import { Shield, Layers } from "lucide-react";
 import { securityFeatures } from "../../utils/staticData";
 import { CARD_HOVER, GLASS_SHADOW } from "../../utils/styles";
-import { SectionHeading, CardGlow } from "./Shared";
+import {
+  SectionHeading,
+  CardGlow,
+} from "../../shared-components/SharedHomeComponents";
 
 export default function SecurityPrivacy() {
   return (
-    <div className="w-full py-12 sm:py-16 md:py-20 px-4 sm:px-8 md:px-12">
+    <div className="w-full py-10 xsm:py-12 sm:py-16 md:py-20 3xl:py-24 px-3 xsm:px-4 sm:px-8 md:px-12">
       <SectionHeading
         icon={Shield}
         title="Security & Privacy"
         subtitle="Your safety is our top priority. Here's how we protect your data at every layer."
       />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl mx-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 xsm:gap-5 max-w-6xl 3xl:max-w-7xl mx-auto">
         {securityFeatures.map((feature, index) => {
           const FeatureIcon = feature.icon;
           return (

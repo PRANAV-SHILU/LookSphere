@@ -4,20 +4,20 @@ import { MessageSquare, ChevronUp, ChevronDown } from "lucide-react";
 import { HomeAnimation } from "../../utils/animation";
 import { faqs } from "../../utils/staticData";
 import { CARD_HOVER_SUBTLE, GLASS_SHADOW } from "../../utils/styles";
-import { SectionHeading } from "./Shared";
+import { SectionHeading } from "../../shared-components/SharedHomeComponents";
 
 export default function FAQSection() {
   const [openFaq, setOpenFaq] = useState(null);
 
   return (
-    <div className="w-full py-12 sm:py-16 md:py-20 px-4 sm:px-8 md:px-12">
+    <div className="w-full py-10 xsm:py-12 sm:py-16 md:py-20 3xl:py-24 px-3 xsm:px-4 sm:px-8 md:px-12">
       <SectionHeading
         icon={MessageSquare}
         title="Frequently Asked Questions"
         subtitle="Got questions? We've got answers."
       />
 
-      <div className="flex flex-col gap-4 max-w-3xl mx-auto">
+      <div className="flex flex-col gap-3 xsm:gap-4 max-w-3xl 3xl:max-w-4xl mx-auto">
         {faqs.map((faq, index) => (
           <Motion.div
             key={index}

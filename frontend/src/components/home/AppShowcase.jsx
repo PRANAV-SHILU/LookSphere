@@ -3,11 +3,11 @@ import { Eye, Video, Image as ImageIcon, User } from "lucide-react";
 import { HomeAnimation } from "../../utils/animation";
 import { fakePosts } from "../../utils/staticData";
 import { GLASS_SHADOW } from "../../utils/styles";
-import { SectionHeading } from "./Shared";
+import { SectionHeading } from "../../shared-components/SharedHomeComponents";
 
 export default function AppShowcase() {
   return (
-    <div className="w-full py-12 sm:py-16 md:py-20 px-4 sm:px-8 md:px-12">
+    <div className="w-full py-10 xsm:py-12 sm:py-16 md:py-20 3xl:py-24 px-3 xsm:px-4 sm:px-8 md:px-12">
       <SectionHeading
         icon={Eye}
         title="Beautiful by Design"
@@ -15,7 +15,7 @@ export default function AppShowcase() {
       />
 
       <Motion.div
-        className="liquid-glass rounded-2xl overflow-hidden max-w-4xl mx-auto"
+        className="liquid-glass rounded-2xl overflow-hidden max-w-4xl 3xl:max-w-5xl mx-auto"
         style={GLASS_SHADOW}
         {...HomeAnimation.showcaseApp}
       >
@@ -37,7 +37,7 @@ export default function AppShowcase() {
         </div>
 
         {/* Content Area — Fake Post Grid */}
-        <div className="p-4 sm:p-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="p-3 xsm:p-4 sm:p-6 grid grid-cols-1 sm:grid-cols-2 gap-3 xsm:gap-4">
           {fakePosts.map((post) => (
             <Motion.div
               key={post.id}

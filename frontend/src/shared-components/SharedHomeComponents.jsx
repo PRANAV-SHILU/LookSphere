@@ -1,5 +1,5 @@
 import { motion as Motion } from "framer-motion";
-import { HomeAnimation } from "../../utils/animation";
+import { HomeAnimation } from "../utils/animation";
 
 export function CardGlow() {
   return (
@@ -15,7 +15,7 @@ export function CardGlow() {
 export function WaveDivider({ flip = false, className = "" }) {
   return (
     <div
-      className={`w-full overflow-hidden pointer-events-none select-none ${flip ? "rotate-180" : ""} ${className}`}
+      className={`w-[90%] mdlg:w-full mx-auto overflow-hidden pointer-events-none select-none ${flip ? "rotate-180" : ""} ${className}`}
       aria-hidden="true"
     >
       <svg
@@ -79,11 +79,11 @@ export function AnimatedText({ text, className, delay = 0, stagger = 0.04, yOffs
 
 export function SectionHeading({ icon: Icon, title, subtitle, badge }) {
   return (
-    <div className="text-center mb-12">
+    <div className="text-center mb-8 xsm:mb-12 3xl:mb-16">
       {Icon && (
         <Motion.div {...HomeAnimation.sectionHeadingIcon}>
           <Icon
-            className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-4"
+          className="w-8 h-8 xsm:w-10 xsm:h-10 sm:w-12 sm:h-12 3xl:w-14 3xl:h-14 mx-auto mb-4"
             style={{ color: "var(--primary-500)" }}
           />
         </Motion.div>
@@ -101,14 +101,14 @@ export function SectionHeading({ icon: Icon, title, subtitle, badge }) {
       )}
       <AnimatedText 
         text={title} 
-        className="hero-text text-3xl sm:text-4xl md:text-5xl font-bold mb-4" 
+        className="hero-text text-2xl xsm:text-3xl sm:text-4xl md:text-5xl 3xl:text-6xl 4xl:text-7xl font-bold mb-4" 
         delay={0}
         stagger={0.03}
       />
       {subtitle && (
         <AnimatedText 
           text={subtitle} 
-          className="text-base sm:text-lg md:text-xl text-(--text-muted) max-w-3xl mx-auto" 
+          className="text-sm xsm:text-base sm:text-lg md:text-xl 3xl:text-2xl text-(--text-muted) max-w-3xl 3xl:max-w-4xl mx-auto" 
           delay={0.2}
           stagger={0.015}
           yOffset={15}

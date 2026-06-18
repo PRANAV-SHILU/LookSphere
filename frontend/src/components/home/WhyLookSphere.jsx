@@ -3,18 +3,21 @@ import { Sparkles } from "lucide-react";
 import { HomeAnimation } from "../../utils/animation";
 import { socialFeatures } from "../../utils/staticData";
 import { CARD_HOVER, GLASS_SHADOW } from "../../utils/styles";
-import { SectionHeading, CardGlow } from "./Shared";
+import {
+  SectionHeading,
+  CardGlow,
+} from "../../shared-components/SharedHomeComponents";
 
 export default function WhyLookSphere() {
   return (
-    <div className="w-full py-12 sm:py-16 md:py-20 px-4 sm:px-8 md:px-12">
+    <div className="w-full py-10 xsm:py-12 sm:py-16 md:py-20 3xl:py-24 px-3 xsm:px-4 sm:px-8 md:px-12">
       <SectionHeading
         icon={Sparkles}
         title="Why LookSphere?"
         subtitle="Designed for creators, built for everyone. Here's what makes us different."
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
+      <div className="grid grid-cols-1 mdlg:grid-cols-3 gap-4 xsm:gap-6 sm:gap-8 max-w-6xl 3xl:max-w-7xl mx-auto">
         {socialFeatures.map((feature, index) => (
           <Motion.div
             key={feature.title}

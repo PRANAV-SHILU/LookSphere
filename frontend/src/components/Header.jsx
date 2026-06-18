@@ -156,9 +156,9 @@ export default function Header() {
               <Search className="w-4.5 h-4.5 3xl:w-5 3xl:h-5 4xl:w-5.5 4xl:h-5.5 transition-transform duration-300 group-hover:scale-110" />{" "}
               Explore
             </NavLink>
-            <NavLink to="/users" className={desktopNavLinkClass}>
+            <NavLink to="/creators" className={desktopNavLinkClass}>
               <Users className="w-4.5 h-4.5 3xl:w-5 3xl:h-5 4xl:w-5.5 4xl:h-5.5 transition-transform duration-300 group-hover:scale-110" />{" "}
-              Users
+              Creators
             </NavLink>
 
             {/* Theme Toggle */}
@@ -341,11 +341,11 @@ export default function Header() {
                   <Search size={20} className="text-inherit" /> Explore
                 </NavLink>
                 <NavLink
-                  to="/users"
+                  to="/creators"
                   onClick={() => setMobileMenuOpen(false)}
                   className={mobileNavLinkClass}
                 >
-                  <Users size={20} className="text-inherit" /> Users
+                  <Users size={20} className="text-inherit" /> Creators
                 </NavLink>
 
                 {/* Divider */}

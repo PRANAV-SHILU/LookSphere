@@ -1,4 +1,4 @@
-export default function UsersSkeleton() {
+export default function CreatorsSkeleton() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6 2xl:gap-8">
       {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
@@ -14,7 +14,7 @@ export default function UsersSkeleton() {
             {/* Avatar Skeleton */}
             <div className="w-16 h-16 4xl:w-[84px] 4xl:h-[84px] shrink-0 rounded-full bg-zinc-200 dark:bg-zinc-800 animate-pulse" />
             
-            {/* User Info Skeleton */}
+            {/* Creator Info Skeleton */}
             <div className="flex-1 mt-1 4xl:mt-3">
               <div className="h-6 4xl:h-8 w-3/4 max-w-[150px] bg-zinc-200 dark:bg-zinc-800 rounded animate-pulse mb-3" />
               <div className="h-4 4xl:h-5 w-full max-w-[200px] bg-zinc-200 dark:bg-zinc-800 rounded animate-pulse" />

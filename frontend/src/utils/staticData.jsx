@@ -61,7 +61,7 @@ export const socialFeatures = [
 export const navLinks = [
   { to: "/feed", icon: ImageIcon, label: "Feed" },
   { to: "/explore", icon: Search, label: "Explore" },
-  { to: "/users", icon: Users, label: "Users" },
+  { to: "/creators", icon: Users, label: "Creators" },
 ];
 
 export const futurePlans = [

@@ -1,6 +1,6 @@
 // Animation variants grouped by page name namespaces
 
-export const Users = {
+export const Creators = {
   pageTransition: {
     initial: { opacity: 0 },
     animate: { opacity: 1 },

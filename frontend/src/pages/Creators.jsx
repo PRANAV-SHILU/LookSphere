@@ -4,18 +4,18 @@ import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import { motion as Motion } from "framer-motion";
 import { User, Eye, ArrowRight, Search, FileText } from "lucide-react";
 import BackButton from "../shared-components/BackButton";
-import { Users as UsersAnimation } from "../utils/animation";
-import UsersSkeleton from "../skeletons/UsersSkeleton";
+import { Creators as CreatorsAnimation } from "../utils/animation";
+import CreatorsSkeleton from "../skeletons/CreatorsSkeleton";
 
-function UsersContent({ usersList }) {
+function CreatorsContent({ creatorsList }) {
   const [query, setQuery] = useState("");
-  const [hoveredUser, setHoveredUser] = useState(null);
+  const [hoveredCreator, setHoveredCreator] = useState(null);
 
-  const filteredUsers = usersList.filter((u) => {
+  const filteredCreators = creatorsList.filter((c) => {
     const q = query.toLowerCase();
     return (
-      u.username.toLowerCase().includes(q) ||
-      (u.tagline || "").toLowerCase().includes(q)
+      c.username.toLowerCase().includes(q) ||
+      (c.tagline || "").toLowerCase().includes(q)
     );
   });
 
@@ -40,43 +40,43 @@ function UsersContent({ usersList }) {
         />
       </div>
 
-      {usersList.length === 0 ? (
+      {creatorsList.length === 0 ? (
         <div
           className="text-center py-20 text-lg font-medium"
           style={{ color: "var(--text-muted)" }}
         >
-          No users found. Register yourself to be the first one.
+          No creators found. Register yourself to be the first one.
         </div>
-      ) : filteredUsers.length === 0 ? (
+      ) : filteredCreators.length === 0 ? (
         <div
           className="text-center py-20 text-lg font-medium"
           style={{ color: "var(--text-muted)" }}
         >
-          No users match &ldquo;{query}&rdquo;.
+          No creators match &ldquo;{query}&rdquo;.
         </div>
       ) : (
         <Motion.div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6 2xl:gap-8"
-          variants={UsersAnimation.containerVariants}
+          variants={CreatorsAnimation.containerVariants}
           initial="hidden"
           animate="show"
         >
-          {filteredUsers.map((user) => (
+          {filteredCreators.map((creator) => (
             <Motion.div
-              key={user.username}
-              variants={UsersAnimation.itemVariants}
+              key={creator.username}
+              variants={CreatorsAnimation.itemVariants}
               className="h-full"
             >
               <Link
-                to={`/profile/${user.username}`}
+                to={`/profile/${creator.username}`}
                 className="group relative flex flex-col h-full p-6 4xl:p-8 rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1"
                 style={{
                   backgroundColor: "var(--surface-card)",
                   border: "1px solid var(--border-normal)",
                   boxShadow: "var(--shadow-card)",
                 }}
-                onMouseEnter={() => setHoveredUser(user.username)}
-                onMouseLeave={() => setHoveredUser(null)}
+                onMouseEnter={() => setHoveredCreator(creator.username)}
+                onMouseLeave={() => setHoveredCreator(null)}
               >
                 {/* Background Glow Effect on Hover */}
                 <div
@@ -93,13 +93,13 @@ function UsersContent({ usersList }) {
                     className="w-16 h-16 4xl:w-21 4xl:h-21 shrink-0 rounded-full overflow-hidden flex items-center justify-center border-2 transition-colors duration-300 shadow-sm"
                     style={{
                       backgroundColor: "var(--surface-input)",
-                      borderColor: hoveredUser === user.username ? "var(--primary-500)" : "transparent"
+                      borderColor: hoveredCreator === creator.username ? "var(--primary-500)" : "transparent"
                     }}
                   >
-                    {user.profileImage ? (
+                    {creator.profileImage ? (
                       <img
-                        src={user.profileImage}
-                        alt={user.username}
+                        src={creator.profileImage}
+                        alt={creator.username}
                         className="w-full h-full object-cover"
                       />
                     ) : (
@@ -111,15 +111,15 @@ function UsersContent({ usersList }) {
                   <div className="flex-1 overflow-hidden">
                     <h2
                       className="text-xl 4xl:text-3xl font-bold truncate transition-colors"
-                      style={{ color: hoveredUser === user.username ? "var(--primary-600)" : "var(--text-primary)" }}
+                      style={{ color: hoveredCreator === creator.username ? "var(--primary-600)" : "var(--text-primary)" }}
                     >
-                      {user.username}
+                      {creator.username}
                     </h2>
                     <p
                       className="text-sm 4xl:text-lg line-clamp-2 mt-1"
                       style={{ color: "var(--text-secondary)" }}
                     >
-                      {user.tagline || "No tagline provided."}
+                      {creator.tagline || "No tagline provided."}
                     </p>
                   </div>
                 </div>
@@ -140,7 +140,7 @@ function UsersContent({ usersList }) {
                       }}
                     >
                       <Eye size={14} className="4xl:size-8" />
-                      <span>{user.profileViewCount || 0} Views</span>
+                      <span>{creator.profileViewCount || 0} Views</span>
                     </div>
                     <div
                       className="flex items-center space-x-1.5 text-xs 4xl:text-base font-semibold px-2.5 py-1.5 4xl:py-2.5  rounded-md"
@@ -150,7 +150,7 @@ function UsersContent({ usersList }) {
                       }}
                     >
                       <FileText size={14} className="4xl:size-8" />
-                      <span>{user.postCount || 0} Posts</span>
+                      <span>{creator.postCount || 0} Posts</span>
                     </div>
                   </div>
 
@@ -174,14 +174,14 @@ function UsersContent({ usersList }) {
   );
 }
 
-export default function Users() {
-  const { usersData } = useLoaderData();
+export default function Creators() {
+  const { creatorsData } = useLoaderData();
   useDocumentMetadata("Creators");
 
   return (
     <Motion.div
       className=""
-      {...UsersAnimation.pageTransition}
+      {...CreatorsAnimation.pageTransition}
     >
       <div className="mb-10 mt-8 4xl:mt-16 gap-4 flex items-start justify-between">
         <div className="text-center md:text-left">
@@ -189,18 +189,18 @@ export default function Users() {
             className="text-4xl xsm:text-5xl text-left font-extrabold mb-3 tracking-tight"
             style={{ color: "var(--text-primary)" }}
           >
-            Community
+            Creators
           </h1>
           <p className="text-base xsm:text-lg text-left" style={{ color: "var(--text-muted)" }}>
-            Discover and connect with other users on LookSphere.
+            Discover and connect with other creators on LookSphere.
           </p>
         </div>
         <BackButton />
       </div>
 
-      <Suspense fallback={<UsersSkeleton />}>
-        <Await resolve={usersData} errorElement={<div className="text-center py-10">Error loading users data.</div>}>
-          {(usersList) => <UsersContent usersList={usersList} />}
+      <Suspense fallback={<CreatorsSkeleton />}>
+        <Await resolve={creatorsData} errorElement={<div className="text-center py-10">Error loading creators data.</div>}>
+          {(creatorsList) => <CreatorsContent creatorsList={creatorsList} />}
         </Await>
       </Suspense>
     </Motion.div>

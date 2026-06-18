@@ -7,7 +7,7 @@ import Home from "../pages/Home.jsx";
 import Login from "../pages/Login.jsx";
 import Register from "../pages/Register.jsx";
 import EditProfile from "../pages/EditProfile.jsx";
-import Users from "../pages/Users.jsx";
+import Creators from "../pages/Creators.jsx";
 import Profile from "../pages/Profile.jsx";
 import Feed from "../pages/Feed.jsx";
 import Explore from "../pages/Explore.jsx";
@@ -21,7 +21,7 @@ import { uploadAction } from "../actions/uploadAction.jsx";
 
 import { authLoader } from "../loaders/authLoader.jsx";
 import { profileLoader } from "../loaders/profileLoader.jsx";
-import { usersLoader } from "../loaders/usersLoader.jsx";
+import { creatorsLoader } from "../loaders/creatorsLoader.jsx";
 import { feedLoader } from "../loaders/feedLoader.jsx";
 import { editProfileLoader } from "../loaders/editProfileLoader.jsx";
 import { redirectIfAuthenticated } from "../loaders/redirectIfAuthenticated.jsx";
@@ -50,7 +50,7 @@ const router = createBrowserRouter(
           action: loginAction,
         },
         { path: "logout", action: logoutAction },
-        { path: "users", Component: Users, loader: usersLoader },
+        { path: "creators", Component: Creators, loader: creatorsLoader },
         { path: "feed", Component: Feed, loader: feedLoader },
         { path: "dashboard", Component: Dashboard, loader: dashboardLoader },
         { path: "explore", Component: Explore, loader: feedLoader },

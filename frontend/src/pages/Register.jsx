@@ -29,18 +29,42 @@ export default function Register() {
     mode: "all",
   });
 
+  const handleKeyDown = (e) => {
+    if (e.key === " ") {
+      const noSpaceFields = ["username", "email", "password", "confirmPassword"];
+      if (noSpaceFields.includes(e.target.name)) {
+        e.preventDefault();
+      }
+    }
+
+    if (e.key === "Enter" && e.target.tagName === "INPUT") {
+      const form = e.currentTarget;
+      const inputs = Array.from(form.querySelectorAll("input:not([type='hidden'])"));
+      const index = inputs.indexOf(e.target);
+      
+      if (index > -1 && index < inputs.length - 1) {
+        e.preventDefault();
+        // Only go to next input if current one has a value and no error
+        const fieldName = e.target.name;
+        if (e.target.value.trim() !== "" && !errors[fieldName]) {
+          inputs[index + 1].focus();
+        }
+      }
+    }
+  };
+
   return (
     <Motion.section
-      className="flex mt-8 flex-col justify-center items-center px-4 w-full min-h-[calc(100vh-120px)]"
+      className="flex my-10 flex-col justify-center items-center px-4 w-full"
       {...RegisterAnimation.pageTransition}
     >
       <Motion.div
         className="card w-full max-w-md py-4 px-0 xsm:p-8 4xl:max-w-xl 4xl:p-14 4xl:rounded-2xl"
         {...RegisterAnimation.cardTransition}
       >
-        <Form method="post">
+        <Form method="post" onKeyDown={handleKeyDown}>
           <div className="text-center">
-            <h2 className="hero-text mx-auto text-2xl xsm:text-4xl 4xl:text-5xl font-extrabold mb-3 bg-gradient-to-r from-(--primary-500) to-purple-500 bg-clip-text text-transparent">Create an account</h2>
+            <h2 className="hero-text mx-auto text-2xl xsm:text-4xl 4xl:text-5xl font-extrabold mb-3 bg-linear-to-r from-(--primary-500) to-purple-500 bg-clip-text text-transparent">Create an account</h2>
             <p className="mb-8  text-sm xsm:text-base 4xl:text-xl ">Join LookSphere today</p>
           </div>
 
@@ -51,9 +75,6 @@ export default function Register() {
               placeholder="Enter your username"
               className="input-field text-sm xsm:text-base 4xl:text-xl 4xl:py-4 4xl:px-6 4xl:rounded-lg"
               autoComplete="username"
-              onKeyDown={(e) => {
-                if (e.key === " ") e.preventDefault();
-              }}
               {...register("username")}
             />
             {errors.username && <p className="text-xs 4xl:text-base mt-1.5" style={{ color: "var(--status-error)" }}>{errors.username.message}</p>}
@@ -66,9 +87,6 @@ export default function Register() {
               placeholder="Enter your email"
               className="input-field text-sm xsm:text-base 4xl:text-xl 4xl:py-4 4xl:px-6 4xl:rounded-lg"
               autoComplete="email"
-              onKeyDown={(e) => {
-                if (e.key === " ") e.preventDefault();
-              }}
               {...register("email")}
             />
             {errors.email && <p className="text-xs 4xl:text-base mt-1.5" style={{ color: "var(--status-error)" }}>{errors.email.message}</p>}
@@ -81,9 +99,6 @@ export default function Register() {
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter your password"
                 className="input-field text-sm xsm:text-base 4xl:text-xl 4xl:py-4 4xl:px-6 4xl:rounded-lg"
-                onKeyDown={(e) => {
-                  if (e.key === " ") e.preventDefault();
-                }}
                 {...register("password")}
                 style={{ paddingRight: "2.5rem" }}
               />

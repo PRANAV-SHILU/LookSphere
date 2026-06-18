@@ -103,7 +103,7 @@ export default function Header() {
               to="/"
               className="text-xl md:text-2xl 3xl:text-3xl font-extrabold no-underline flex items-center gap-2 group"
             >
-              <span className="bg-clip-text text-transparent bg-gradient-to-tr from-[var(--primary-600)] via-[var(--secondary-500)] to-[var(--primary-400)] drop-shadow-[0_2px_10px_rgba(59,130,246,0.3)] transition-all duration-300 group-hover:drop-shadow-[0_4px_15px_rgba(59,130,246,0.5)]">
+              <span className="bg-clip-text text-transparent bg-linear-to-tr from-(--primary-600) via-(--secondary-500) to-(--primary-400) drop-shadow-[0_2px_10px_rgba(59,130,246,0.3)] transition-all duration-300 group-hover:drop-shadow-[0_4px_15px_rgba(59,130,246,0.5)]">
                 LookSphere
               </span>
             </NavLink>
@@ -193,7 +193,7 @@ export default function Header() {
                   onClick={() => setDropdownOpen((prev) => !prev)}
                   whileHover={HeaderAnimation.avatarHover}
                   whileTap={HeaderAnimation.avatarTap}
-                  className="bg-transparent border-none cursor-pointer p-0 flex items-center rounded-full ring-2 ring-transparent transition-all duration-300 hover:ring-(--primary-500) hover:shadow-[0_0_15px_rgba(59,130,246,0.4)] hover:-translate-y-[2px]"
+                  className="bg-transparent border-none cursor-pointer p-0 flex items-center rounded-full ring-2 ring-transparent transition-all duration-300 hover:ring-(--primary-500) hover:shadow-[0_0_15px_rgba(59,130,246,0.4)] hover:translate-y-[-2px]"
                   aria-label="User menu"
                 >
                   {user.profileImage && !imgError ? (

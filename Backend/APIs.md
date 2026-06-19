@@ -1,3 +1,5 @@
+<div align="right">Last Modified: 2026-06-19</div>
+
 # LookSphere — API Documentation
 
 Base URL: `http://BASE_URL/api`

@@ -1,3 +1,5 @@
+<div align="right">Last Modified: 2026-06-19</div>
+
 <div align="center">
 
 # LookSphere Backend

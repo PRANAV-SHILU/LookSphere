@@ -1,17 +1,24 @@
 import { createBrowserRouter } from "react-router-dom";
+import { lazy, Suspense } from "react";
 import AppLayout from "../Layout/AppLayout.jsx";
 import PageNotFound from "../components/PageNotFound.jsx";
 import ErrorBoundary from "../components/ErrorBoundary.jsx";
 
-import Home from "../pages/Home.jsx";
-import Login from "../pages/Login.jsx";
-import Register from "../pages/Register.jsx";
-import EditProfile from "../pages/EditProfile.jsx";
-import Creators from "../pages/Creators.jsx";
-import Profile from "../pages/Profile.jsx";
-import Feed from "../pages/Feed.jsx";
-import Explore from "../pages/Explore.jsx";
-import Dashboard from "../pages/Dashboard.jsx";
+const Home = lazy(() => import("../pages/Home.jsx"));
+const Login = lazy(() => import("../pages/Login.jsx"));
+const Register = lazy(() => import("../pages/Register.jsx"));
+const EditProfile = lazy(() => import("../pages/EditProfile.jsx"));
+const Creators = lazy(() => import("../pages/Creators.jsx"));
+const Profile = lazy(() => import("../pages/Profile.jsx"));
+const Feed = lazy(() => import("../pages/Feed.jsx"));
+const Explore = lazy(() => import("../pages/Explore.jsx"));
+const Dashboard = lazy(() => import("../pages/Dashboard.jsx"));
+
+import FeedSkeleton from "../skeletons/FeedSkeleton.jsx";
+import ExploreSkeleton from "../skeletons/ExploreSkeleton.jsx";
+import ProfileSkeleton from "../skeletons/ProfileSkeleton.jsx";
+import DashboardSkeleton from "../skeletons/DashboardSkeleton.jsx";
+import CreatorsSkeleton from "../skeletons/CreatorsSkeleton.jsx";
 
 import { registerAction } from "../actions/registerAction";
 import { loginAction } from "../actions/loginAction";
@@ -36,33 +43,33 @@ const router = createBrowserRouter(
       loader: authLoader,
       errorElement: <ErrorBoundary />,
       children: [
-        { index: true, Component: Home },
+        { index: true, element: <Suspense fallback={<div className="top-loading-bar" />}><Home /></Suspense> },
         {
           path: "register",
-          Component: Register,
+          element: <Suspense fallback={<div className="top-loading-bar" />}><Register /></Suspense>,
           loader: redirectIfAuthenticated,
           action: registerAction,
         },
         {
           path: "login",
-          Component: Login,
+          element: <Suspense fallback={<div className="top-loading-bar" />}><Login /></Suspense>,
           loader: redirectIfAuthenticated,
           action: loginAction,
         },
         { path: "logout", action: logoutAction },
-        { path: "creators", Component: Creators, loader: creatorsLoader },
-        { path: "feed", Component: Feed, loader: feedLoader },
-        { path: "dashboard", Component: Dashboard, loader: dashboardLoader },
-        { path: "explore", Component: Explore, loader: feedLoader },
+        { path: "creators", element: <Suspense fallback={<CreatorsSkeleton />}><Creators /></Suspense>, loader: creatorsLoader },
+        { path: "feed", element: <Suspense fallback={<FeedSkeleton />}><Feed /></Suspense>, loader: feedLoader },
+        { path: "dashboard", element: <Suspense fallback={<DashboardSkeleton />}><Dashboard /></Suspense>, loader: dashboardLoader },
+        { path: "explore", element: <Suspense fallback={<ExploreSkeleton />}><Explore /></Suspense>, loader: feedLoader },
         {
           path: "profile/:username?",  //optional username means it can be /profile or /profile/:username
-          Component: Profile,
+          element: <Suspense fallback={<ProfileSkeleton />}><Profile /></Suspense>,
           loader: profileLoader,
           action: uploadAction,
         },
         {
           path: "edit-profile",
-          Component: EditProfile,
+          element: <Suspense fallback={<div className="top-loading-bar" />}><EditProfile /></Suspense>,
           loader: editProfileLoader,
           action: editProfileAction,
         },

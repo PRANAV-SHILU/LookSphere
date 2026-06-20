@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -36,6 +37,7 @@ apiClient.interceptors.response.use(
     } else if (error.request) {
       message = "Network error. Please check your connection.";
     }
+    toast.error(message);
 
     return Promise.reject(new Error(message));
   },

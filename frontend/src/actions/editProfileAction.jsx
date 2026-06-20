@@ -11,7 +11,7 @@ export async function editProfileAction({ request }) {
   const bio = formData.get("bio");
   const profileImage = formData.get("profileImage");
 
-  console.log(profileImage);
+  // console.log(profileImage);
 
   try {
     const stored = localStorage.getItem("user");

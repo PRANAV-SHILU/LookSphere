@@ -5,7 +5,7 @@ import { ENDPOINTS } from "./endpoints";
 export async function getFeed() {
   try {
     const res = await apiClient.get(ENDPOINTS.POST.POSTS);
-    console.log("feed posts", res.data);
+    // console.log("feed posts", res.data);
     return res.data;
   } catch (err) {
     throw new Error(err.response?.data?.message || err.message);
@@ -20,7 +20,7 @@ export async function createPost(formData) {
         "Content-Type": "multipart/form-data",
       },
     });
-    console.log("created post", res.data);
+    // console.log("created post", res.data);
     return res.data;
   } catch (err) {
     throw new Error(err.response?.data?.message || err.message);
@@ -31,7 +31,7 @@ export async function createPost(formData) {
 export async function increasePostView(id) {
   try {
     const res = await apiClient.patch(ENDPOINTS.POST.INCREASE_POST_VIEW(id));
-    console.log("post view increased", res.data.data);
+    // console.log("post view increased", res.data.data);
     return res.data.data;
   } catch (err) {
     throw new Error(err.response?.data?.message || err.message);
@@ -42,7 +42,7 @@ export async function increasePostView(id) {
 export async function editPost(id, updateData) {
   try {
     const res = await apiClient.patch(ENDPOINTS.POST.EDIT_POST(id), updateData);
-    console.log("post edited", res.data);
+    // console.log("post edited", res.data);
     return res.data.data;
   } catch (err) {
     throw new Error(err.response?.data?.message || err.message);

@@ -8,7 +8,7 @@ export async function loginAction({ request }) {
     username: formData.get("username"),
     password: formData.get("password"),
   };
-  console.log("Payload", payload);
+  // console.log("Payload", payload);
   try {
     const response = await loginUser(payload);
     const user = response.data;

@@ -11,7 +11,7 @@ export async function registerAction({ request }) {
     password: formData.get("password"),
   };
 
-  console.log("payload", payload);
+  // console.log("payload", payload);
 
   try {
     await registerUser(payload);

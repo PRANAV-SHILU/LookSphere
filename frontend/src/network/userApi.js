@@ -4,7 +4,7 @@ import { ENDPOINTS } from "./endpoints";
 export async function getAllUsers() {
   try {
     const res = await apiClient.get(ENDPOINTS.USER.USERS);
-    console.log("all users", res);
+    // console.log("all users", res);
     return res.data.data;
   } catch (err) {
     throw new Error(err.message);
@@ -14,7 +14,7 @@ export async function getAllUsers() {
 export async function getProfile(username) {
   try {
     const res = await apiClient.get(ENDPOINTS.USER.PROFILE(username));
-    console.log("profile", res.data);
+    // console.log("profile", res.data);
     return res.data;
   } catch (err) {
     throw new Error(err.message);
@@ -28,7 +28,7 @@ export async function updateOwnProfile(payload) {
         "Content-Type": "multipart/form-data",
       },
     });
-    console.log("updated profile", res.data);
+    // console.log("updated profile", res.data);
     return res.data;
   } catch (err) {
     throw new Error(err.message);

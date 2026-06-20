@@ -17,7 +17,7 @@ export async function authLoader({ request }) {
 
     return user;
   } catch (err) {
-    console.log("auth loader error:", err);
+    // console.log("auth loader error:", err);
     throw new Error("Can't authenticate user, try again later");
   }
 }

@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import { ToastContainer } from "react-toastify";
 import { AnimatePresence } from "framer-motion";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function AppLayout() {
@@ -26,6 +27,7 @@ export default function AppLayout() {
         theme="dark"
       />
       <Analytics />
+      <SpeedInsights />
     </div>
   );
 }

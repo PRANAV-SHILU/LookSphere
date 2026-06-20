@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Eye, User } from "lucide-react";
 import PostDetailModal from "../../modals/PostDetailModal";
+import { trackPostView } from "../../services/postService";
 
 function formatTimeAgo(dateString, now) {
   if (!dateString) return "";
@@ -14,10 +15,34 @@ function formatTimeAgo(dateString, now) {
   return `${days}d ago`;
 }
 
-export default function LatestPostsTab({ latestPosts, now }) {
+export default function LatestPostsTab({ latestPosts: initialPosts, now }) {
   const navigate = useNavigate();
+  const [posts, setPosts] = useState(initialPosts);
   const [selectedPost, setSelectedPost] = useState(null);
   const [hoveredPostUser, setHoveredPostUser] = useState(null);
+
+  const handlePostClick = async (post) => {
+    setSelectedPost({
+      ...post,
+      userId: post.userId && typeof post.userId === "object" ? post.userId._id : post.userId
+    });
+
+    if (post._id) {
+      try {
+        await trackPostView(post._id);
+        // Increment the view count in local state so the UI updates instantly
+        setPosts((prevPosts) =>
+          prevPosts.map((p) =>
+            p._id === post._id
+              ? { ...p, postViewCount: (p.postViewCount || 0) + 1 }
+              : p
+          )
+        );
+      } catch (err) {
+        console.error("Failed to track post view:", err);
+      }
+    }
+  };
 
   return (
     <div
@@ -31,23 +56,20 @@ export default function LatestPostsTab({ latestPosts, now }) {
         Latest Posts — Last 7 Days
       </h2>
       <p className="text-sm mb-6" style={{ color: "var(--text-muted)" }}>
-        {latestPosts.length} post{latestPosts.length !== 1 ? "s" : ""} published recently
+        {posts.length} post{posts.length !== 1 ? "s" : ""} published recently
       </p>
 
-      {latestPosts.length === 0 ? (
+      {posts.length === 0 ? (
         <div className="text-center py-16 text-lg font-medium" style={{ color: "var(--text-muted)" }}>
           No posts in the last 7 days.
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {latestPosts.map((post, idx) => (
+          {posts.map((post, idx) => (
             <div
               key={idx}
               className="rounded-xl overflow-hidden transition-all duration-200 hover:-translate-y-1 cursor-pointer"
-              onClick={() => setSelectedPost({
-                ...post,
-                userId: post.userId && typeof post.userId === "object" ? post.userId._id : post.userId
-              })}
+              onClick={() => handlePostClick(post)}
               style={{
                 backgroundColor: "var(--surface-input)",
                 border: "1px solid var(--border-light)",
@@ -57,12 +79,12 @@ export default function LatestPostsTab({ latestPosts, now }) {
               <div className="relative aspect-square bg-black/10 overflow-hidden">
                 {post.mediaType === "Video" ? (
                   <video
-                    src={post.mediaUrl}
-                    className="w-full h-full object-cover"
-                    muted
-                    loop
-                    autoPlay
-                  />
+                     src={post.mediaUrl}
+                     className="w-full h-full object-cover"
+                     muted
+                     loop
+                     autoPlay
+                   />
                 ) : (
                   <img
                     src={post.mediaUrl}
@@ -143,3 +165,4 @@ export default function LatestPostsTab({ latestPosts, now }) {
     </div>
   );
 }
+

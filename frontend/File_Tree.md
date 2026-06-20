@@ -1,6 +1,7 @@
-# File Tree: frontend
+<div align="right">Last Modified: 2026-06-20</div>
 
-**Generated:** 6/19/2026, 10:42:40 PM
+
+# File Tree: frontend
 
 **Root Path:** `LookSphere\frontend`
 
@@ -109,4 +110,11 @@
 └── 📄 vite.config.js
 ```
 
+---
+
+---
+**📚 LookSphere Documentation Index:**
+- **Root:** [Main Readme](../Readme.md) | [File Tree](../File_tree.md) | [Future Plans](../futureplan.md)
+- **Frontend:** [Frontend Readme](./README.md) | [Design Specs](./Design.md) | [Frontend File Tree](./File_Tree.md) | [Improvements](./improvement.md)
+- **Backend:** [Backend Readme](../Backend/Readme.md) | [API Docs](../Backend/APIs.md) | [Backend File Tree](../Backend/File_Tree.md)
 ---

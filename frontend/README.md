@@ -1,4 +1,5 @@
-<div align="right">Last Modified: 2026-06-19</div>
+<div align="right">Last Modified: 2026-06-20</div>
+
 
 <div align="center">
 
@@ -19,7 +20,8 @@
 </div>
 
 
-**🌐 Live Demo:** [LookSphere](http://localhost:5173/)
+**🌐 Live Demo:** [LookSphere](http://localhost:5173/)  
+**🐱 GitHub Profile:** [@PRANAV-SHILU](https://github.com/PRANAV-SHILU)
 
 **⚙️ Backend Repository:** [View Backend](../Backend/Readme.md)
 
@@ -74,29 +76,6 @@ While it is still not a final version and serves primarily as a way to practice 
 - **Yup + React Hook Form (Client-Side Validation):** Schema-based form validation ensures user input is validated before it even reaches the server.
 - **Dotenv (Secret Management):** All sensitive configuration is stored in environment variables, never in source code.
 
-## 🔮 Future Plans
-
-### Communication
-- Contact Us page
-- Live notification page
-- Admin notes to individual users in notifications
-- Detailed FAQ page
-- Mail functionality
-
-### Security & Auth
-- Reset and forgot password
-- Google OAuth
-- Two-step verification
-
-### Community
-- Spotlights (short video feed)
-- Leaderboard — Top posts by views, top creators, most viewed profiles
-- Like, comment, and share profiles & posts
-- Follow & unfollow
-- Save posts — view saved posts in your profile
-- Live Activity feed
-- Text-based posts feed (like Twitter)
-- Delete post/user
 
 ## 📁 Folder Structure
 
@@ -106,4 +85,11 @@ The project has a well-organized, scalable architecture. For a detailed breakdow
 
 ## ⚖️ Copyright & License
 
-**© 2026 LookSphere. All rights reserved.**
+  <b>© 2026 LookSphere. All rights reserved.**
+
+---
+**📚 LookSphere Documentation Index:**
+- **Root:** [Main Readme](../Readme.md) | [File Tree](../File_tree.md) | [Future Plans](../futureplan.md)
+- **Frontend:** [Frontend Readme](./README.md) | [Design Specs](./Design.md) | [Frontend File Tree](./File_Tree.md) | [Improvements](./improvement.md)
+- **Backend:** [Backend Readme](../Backend/Readme.md) | [API Docs](../Backend/APIs.md) | [Backend File Tree](../Backend/File_Tree.md)
+---

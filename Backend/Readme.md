@@ -1,4 +1,5 @@
-<div align="right">Last Modified: 2026-06-19</div>
+<div align="right">Last Modified: 2026-06-20</div>
+
 
 <div align="center">
 
@@ -19,7 +20,8 @@
 
 This is the backend server for **LookSphere**, a modern social media application. Built with **Node.js** and **Express**, it provides a robust REST API for user authentication, profile management, and media-rich post feeds.
 
-**🌐 Live Demo:** [LookSphere](http://localhost:5173/)
+**🌐 Live Demo:** [LookSphere](http://localhost:5173/)  
+**🐱 GitHub Profile:** [@PRANAV-SHILU](https://github.com/PRANAV-SHILU)
 
 **💻 Frontend Repository:** [View Frontend](../frontend/README.md)
 
@@ -91,13 +93,6 @@ The API follows a standardized error response format so the client always knows 
 Check out the detailed [File Tree Overview](File_Tree.md) to understand the directory structure.  
 Check out the detailed [API Documentation](APIs.md) for all available endpoints.
 
-## 🗺️ Future Roadmap / TODOs
-
-- mail sending functionality (utilizing the installed Nodemailer package).
-- implement post/user deletion functionality (remove from DB and Cloudinary).
-- Password reset flow via email (utilizing the installed Nodemailer package).
-- Follow/Unfollow, Commenting and Like system for posts.
-- Chat system using WebSockets.
 
 ---
 
@@ -113,3 +108,10 @@ Built by **Pranav Shilu**
 
 **All Rights Reserved.**  
 This is a private, proprietary repository. No part of this codebase may be reproduced, distributed, or transmitted in any form or by any means without the prior written permission of the owner.
+
+---
+**📚 LookSphere Documentation Index:**
+- **Root:** [Main Readme](../Readme.md) | [File Tree](../File_tree.md) | [Future Plans](../futureplan.md)
+- **Frontend:** [Frontend Readme](../frontend/README.md) | [Design Specs](../frontend/Design.md) | [Frontend File Tree](../frontend/File_Tree.md) | [Improvements](../frontend/improvement.md)
+- **Backend:** [Backend Readme](./Readme.md) | [API Docs](./APIs.md) | [Backend File Tree](./File_Tree.md)
+---

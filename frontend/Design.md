@@ -1,4 +1,5 @@
-<div align="right">Last Modified: 2026-06-19</div>
+<div align="right">Last Modified: 2026-06-20</div>
+
 
 # LookSphere — Visual Design Specification
 
@@ -126,3 +127,10 @@ graph TD
     MotionEasing --> OrbKeyframes["Ambient: Floating Orbs"]
     MotionEasing --> StateFeedback["Feedback: Scale & Glow Hover"]
 ```
+
+---
+**📚 LookSphere Documentation Index:**
+- **Root:** [Main Readme](../Readme.md) | [File Tree](../File_tree.md) | [Future Plans](../futureplan.md)
+- **Frontend:** [Frontend Readme](./README.md) | [Design Specs](./Design.md) | [Frontend File Tree](./File_Tree.md) | [Improvements](./improvement.md)
+- **Backend:** [Backend Readme](../Backend/Readme.md) | [API Docs](../Backend/APIs.md) | [Backend File Tree](../Backend/File_Tree.md)
+---

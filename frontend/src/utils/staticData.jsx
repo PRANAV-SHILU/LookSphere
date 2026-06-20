@@ -89,6 +89,7 @@ export const futurePlans = [
   {
     category: "Community",
     items: [
+      { icon: Sparkles, label: "Spotlights (short video feed)" },
       {
         icon: Trophy,
         label:

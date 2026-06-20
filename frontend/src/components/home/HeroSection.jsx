@@ -38,7 +38,7 @@ export default function HeroSection({ user }) {
           </Motion.h1>
 
           <AnimatedText
-            text="A minimal, secure, and beautiful platform to share your thoughts, images, and videos. Upload media via Cloudinary, discover global posts, and track your profile views in real-time."
+            text="A minimal, secure, and beautiful platform to share your thoughts, images, and videos. Upload media, discover global posts, and track your profile views in real-time."
             className="text-base xsm:text-lg sm:text-xl md:text-2xl 3xl:text-2xl 4xl:text-3xl text-(--text-muted) 4xl:mt-2 max-w-2xl 3xl:max-w-3xl mx-auto mb-6 xsm:mb-8 font-medium leading-relaxed"
             delay={0.2}
             stagger={0.015}

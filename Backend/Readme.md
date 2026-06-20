@@ -19,6 +19,10 @@
 
 This is the backend server for **LookSphere**, a modern social media application. Built with **Node.js** and **Express**, it provides a robust REST API for user authentication, profile management, and media-rich post feeds.
 
+**🌐 Live Demo:** [LookSphere](http://localhost:5173/)
+
+**💻 Frontend Repository:** [View Frontend](../frontend/README.md)
+
 ## ✨ Features Highlight
 
 - **Seamless Media Uploads:** Handles both Images and Videos with auto-optimization and cloud storage via Cloudinary.

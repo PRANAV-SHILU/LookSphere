@@ -39,6 +39,18 @@ export default function UploadMediaModal({
     const file = e.target.files[0];
     if (!file) return;
 
+    if (mediaType === "Image" && !file.type.startsWith("image/")) {
+      toast.error("Please select a valid image file.");
+      e.target.value = "";
+      return;
+    }
+
+    if (mediaType === "Video" && !file.type.startsWith("video/")) {
+      toast.error("Please select a valid video file.");
+      e.target.value = "";
+      return;
+    }
+
     const maxSize = mediaType === "Image" ? 10 * 1024 * 1024 : 100 * 1024 * 1024;
     const maxSizeLabel = mediaType === "Image" ? "10 MB" : "100 MB";
 

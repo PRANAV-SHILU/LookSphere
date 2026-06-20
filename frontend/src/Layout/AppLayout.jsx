@@ -2,6 +2,7 @@ import { Outlet, useLocation, useNavigation } from "react-router-dom";
 import Header from "../components/Header";
 import { ToastContainer } from "react-toastify";
 import { AnimatePresence } from "framer-motion";
+import { Analytics } from "@vercel/analytics/react";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function AppLayout() {
@@ -24,6 +25,7 @@ export default function AppLayout() {
         limit={1}
         theme="dark"
       />
+      <Analytics />
     </div>
   );
 }

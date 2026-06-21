@@ -298,6 +298,18 @@ function ExploreContent({ posts, setSelectedPost }) {
         >
           <AnimatePresence>
             {filteredPosts.map((post) => {
+              const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+              if (isMobile) {
+                return (
+                  <div
+                    key={post._id}
+                    className="relative overflow-hidden cursor-pointer group bg-zinc-900"
+                    onClick={() => handlePostClick(post)}
+                  >
+                    <ExploreCard post={post} />
+                  </div>
+                );
+              }
               return (
                 <Motion.div
                   key={post._id}

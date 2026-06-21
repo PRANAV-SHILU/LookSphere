@@ -148,6 +148,8 @@ html {
   background: var(--page-gradient);
   scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
   scrollbar-width: thin;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
 }
 
 body {
@@ -709,6 +711,34 @@ html:not(.dark) .liquid-glass {
   .post-detail-overlay {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
+  }
+
+  /* GPU Hardware Acceleration on mobile grid media for smooth 60/120fps scrolling */
+  .grid img,
+  .grid video {
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0);
+  }
+
+  /* Disable all CSS transitions and animations globally on mobile devices */
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    transition-property: none !important;
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+    animation: none !important;
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+
+  /* Hide hero section background blur blobs on mobile */
+  .hero-orb-1,
+  .hero-orb-2,
+  .hero-orb-3 {
+    display: none !important;
   }
 }
 

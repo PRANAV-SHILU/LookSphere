@@ -15,7 +15,7 @@ export function CardGlow() {
 export function WaveDivider({ flip = false, className = "" }) {
   return (
     <div
-      className={`w-[90%] mdlg:w-full mx-auto overflow-hidden pointer-events-none select-none ${flip ? "rotate-180" : ""} ${className}`}
+      className={`hidden md:block w-[90%] mdlg:w-full mx-auto overflow-hidden pointer-events-none select-none ${flip ? "rotate-180" : ""} ${className}`}
       aria-hidden="true"
     >
       <svg

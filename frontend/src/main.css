@@ -145,6 +145,7 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 html {
+  background-color: var(--bg-primary);
   scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
   scrollbar-width: thin;
   scroll-behavior: smooth;

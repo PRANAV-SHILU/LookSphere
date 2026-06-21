@@ -361,7 +361,7 @@ export default function Feed() {
 
   return (
     <Motion.div
-      className="max-w-xl mx-auto  mt-6 p-4 md:py-8"
+      className="max-w-xl mx-auto mt-6 px-0 py-4 md:py-8"
       {...FeedAnimation.pageTransition}
     >
       <div className="mb-8 flex items-start justify-between">

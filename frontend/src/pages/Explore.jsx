@@ -347,7 +347,7 @@ function ExploreContent({ posts, setSelectedPost }) {
   
     return (
       <Motion.div
-        className="max-w-6xl xl:max-w-7xl mx-auto p-4 md:p-8"
+        className="max-w-6xl xl:max-w-7xl mx-auto px-0 py-4 md:py-8"
         {...ExploreAnimation.pageTransition}
       >
         <div className="mb-6 mt-6 gap-8 flex items-start justify-between">

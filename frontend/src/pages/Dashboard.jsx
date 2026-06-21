@@ -1,9 +1,7 @@
 import { useState, Suspense } from "react";
 import { useLoaderData, Await } from "react-router-dom";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
-import { motion as Motion } from "framer-motion";
 import { ShieldAlert, BarChart3, Clock, ImageIcon } from "lucide-react";
-import { Dashboard as DashboardAnimation } from "../utils/animation";
 import MetricsTab from "../components/dashboard/MetricsTab";
 import RecentActivityTab from "../components/dashboard/RecentActivityTab";
 import LatestPostsTab from "../components/dashboard/LatestPostsTab";
@@ -62,9 +60,7 @@ export default function Dashboard() {
   useDocumentMetadata("Dashboard");
 
   return (
-    <Motion.div
-      {...DashboardAnimation.pageTransition}
-    >
+    <div className="pb-12 md:pb-16">
       {/* Header */}
       <div className="my-6 text-center md:text-left">
         <h1
@@ -83,6 +79,6 @@ export default function Dashboard() {
           {(data) => <DashboardContent data={data} />}
         </Await>
       </Suspense>
-    </Motion.div>
+    </div>
   );
 }

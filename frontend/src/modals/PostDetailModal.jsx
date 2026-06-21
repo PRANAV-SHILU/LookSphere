@@ -1,11 +1,9 @@
 import { useState, useEffect, useRef } from "react";
-import { motion as Motion, AnimatePresence } from "framer-motion";
 import { X, Info, Eye, MoreVertical, User as UserIcon } from "lucide-react";
 import { modifyPost } from "../services/postService";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { postSchema } from "../schema/postSchema";
-import { PostDetailModal as PostDetailModalAnimation } from "../utils/animation";
 
 export default function PostDetailModal({ isOpen, onClose, post, profileUser }) {
   const navigate = useNavigate();
@@ -131,17 +129,15 @@ export default function PostDetailModal({ isOpen, onClose, post, profileUser }) 
   };
 
   return (
-    <AnimatePresence>
+    <>
       {isOpen && (
-        <Motion.div
+        <div
           ref={overlayRef}
           className="post-detail-overlay"
           onClick={handleOverlayClick}
-          {...PostDetailModalAnimation.backdropTransition}
         >
-          <Motion.div
+          <div
             className="post-detail-container"
-            {...PostDetailModalAnimation.dialogTransition}
           >
             {/* Post Options Menu */}
             {isOwner && (
@@ -176,11 +172,10 @@ export default function PostDetailModal({ isOpen, onClose, post, profileUser }) 
                   <MoreVertical size={20} />
                 </button>
 
-                <AnimatePresence>
+                <>
                   {showMenu && (
-                    <Motion.div
+                    <div
                       className="post-detail-dropdown"
-                      {...PostDetailModalAnimation.dropdownTransition}
                       style={{
                         position: "absolute",
                         top: "42px",
@@ -239,9 +234,9 @@ export default function PostDetailModal({ isOpen, onClose, post, profileUser }) 
                       >
                         {isEditing ? "Cancel Edit" : "Edit Post"}
                       </button>
-                    </Motion.div>
+                    </div>
                   )}
-                </AnimatePresence>
+                </>
               </div>
             )}
 
@@ -334,14 +329,8 @@ export default function PostDetailModal({ isOpen, onClose, post, profileUser }) 
             >
               {!isLoaded && (
                 <div className="post-detail-loader">
-                  <Motion.div
-                    className="post-detail-spinner"
-                    animate={{ rotate: 360 }}
-                    transition={{
-                      repeat: Infinity,
-                      duration: 0.8,
-                      ease: "linear",
-                    }}
+                  <div
+                    className="post-detail-spinner animate-spin"
                   />
                 </div>
               )}
@@ -618,9 +607,9 @@ export default function PostDetailModal({ isOpen, onClose, post, profileUser }) 
                 )}
               </div>
             )}
-          </Motion.div>
-        </Motion.div>
+          </div>
+        </div>
       )}
-    </AnimatePresence>
+    </>
   );
 }

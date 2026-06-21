@@ -1,6 +1,5 @@
 import { useRouteError, isRouteErrorResponse, NavLink } from "react-router-dom";
-import { motion as Motion } from "framer-motion";
-import { ErrorBoundary as ErrorBoundaryAnimation } from "../utils/animation";
+
 import Header from "./Header";
 
 export default function ErrorBoundary() {
@@ -23,9 +22,8 @@ export default function ErrorBoundary() {
   return (
     <>
       <Header />
-      <Motion.div
+      <div
         className="flex gap-2 px-4 lg:gap-8 flex-col items-center justify-center text-center min-h-screen"
-        {...ErrorBoundaryAnimation.containerTransition}
       >
 
       {content}
@@ -37,7 +35,7 @@ export default function ErrorBoundary() {
       >
         Go to Home
       </NavLink>
-    </Motion.div>
+    </div>
     </>
   );
 }

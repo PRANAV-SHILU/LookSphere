@@ -5,9 +5,7 @@ import { Form, NavLink, useActionData, useNavigation } from "react-router-dom";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
-import { motion as Motion } from "framer-motion";
 import { Eye, EyeOff } from "lucide-react";
-import { Register as RegisterAnimation } from "../utils/animation";
 
 export default function Register() {
   useDocumentMetadata("Register");
@@ -56,13 +54,11 @@ export default function Register() {
   };
 
   return (
-    <Motion.section
+    <section
       className="flex my-10 flex-col justify-center items-center px-4 w-full"
-      {...RegisterAnimation.pageTransition}
     >
-      <Motion.div
+      <div
         className="card w-full max-w-md py-4 px-0 xsm:p-8 4xl:max-w-xl 4xl:p-14 4xl:rounded-2xl"
-        {...RegisterAnimation.cardTransition}
       >
         <Form method="post" onKeyDown={handleKeyDown}>
           <div className="text-center">
@@ -163,15 +159,13 @@ export default function Register() {
           </div>
 
           <div className="input-group mt-2">
-            <Motion.button
+            <button
               type="submit"
-              className="btn btn-primary w-full py-2 px-4 xsm:py-2.5 4xl:py-4.5 4xl:text-xl 4xl:rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+              className="btn btn-primary w-full py-2 px-4 xsm:py-2.5 4xl:py-4.5 4xl:text-xl 4xl:rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-transform active:scale-95 hover:scale-[1.02]"
               disabled={!isValid || isSubmitting}
-              whileHover={isValid && !isSubmitting ? RegisterAnimation.buttonHover : {}}
-              whileTap={isValid && !isSubmitting ? RegisterAnimation.buttonTap : {}}
             >
               {isSubmitting ? "Registering…" : "Register"}
-            </Motion.button>
+            </button>
           </div>
 
           <p className="text-center mt-4 xsm:mt-6 text-xs xsm:text-sm 4xl:text-lg">
@@ -181,7 +175,7 @@ export default function Register() {
             </NavLink>
           </p>
         </Form>
-      </Motion.div>
-    </Motion.section>
+      </div>
+    </section>
   );
 }

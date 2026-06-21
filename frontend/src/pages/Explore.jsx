@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef, Suspense } from "react";
 import { useLoaderData, Link, Await, useRevalidator } from "react-router-dom";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
-import { motion as Motion, AnimatePresence } from "framer-motion";
 import {
   Video,
   Image as ImageIcon,
@@ -15,7 +14,6 @@ import BackButton from "../shared-components/BackButton";
 import PostDetailModal from "../modals/PostDetailModal";
 import { trackPostView } from "../services/postService";
 import { STOPWORDS } from "../utils/constants";
-import { Explore as ExploreAnimation } from "../utils/animation";
 import ExploreSkeleton from "../skeletons/ExploreSkeleton";
 
 function ExploreCard({ post }) {
@@ -39,7 +37,7 @@ function ExploreCard({ post }) {
 
   return (
     <div
-      className="relative w-full h-full aspect-[4/5] md:aspect-[3/4] min-h-[220px] sm:min-h-[280px] md:min-h-[350px] overflow-hidden"
+      className="relative w-full h-full aspect-4/5 md:aspect-3/4 min-h-[220px] sm:min-h-[280px] md:min-h-[350px] overflow-hidden"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -233,20 +231,11 @@ function ExploreContent({ posts, setSelectedPost }) {
             border: "1px solid var(--border-normal)",
           }}
         >
-          <Motion.div
-            animate={
-              isRefreshing
-                ? ExploreAnimation.spinnerActive
-                : ExploreAnimation.spinnerInactive
-            }
-            transition={
-              isRefreshing
-                ? ExploreAnimation.spinnerTransitionActive
-                : ExploreAnimation.spinnerTransitionInactive
-            }
+          <div
+            className={isRefreshing ? "animate-spin" : ""}
           >
             <RotateCw size={14} />
-          </Motion.div>
+          </div>
           <span>{isRefreshing ? "Refreshing..." : "Refresh Explorer"}</span>
         </button>
       </div>
@@ -289,43 +278,23 @@ function ExploreContent({ posts, setSelectedPost }) {
           No posts match &ldquo;{searchQuery}&rdquo;.
         </div>
       ) : (
-        <Motion.div
+        <div
           key={postsHash}
           className="grid grid-cols-3 md:grid-cols-4 gap-[2px] sm:gap-[4px]"
-          variants={ExploreAnimation.containerVariants}
-          initial="hidden"
-          animate="show"
         >
-          <AnimatePresence>
-            {filteredPosts.map((post) => {
-              const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
-              if (isMobile) {
-                return (
-                  <div
-                    key={post._id}
-                    className="relative overflow-hidden cursor-pointer group bg-zinc-900"
-                    onClick={() => handlePostClick(post)}
-                  >
-                    <ExploreCard post={post} />
-                  </div>
-                );
-              }
-              return (
-                <Motion.div
+            {filteredPosts.map((post) => (
+                <div
                   key={post._id}
-                  variants={ExploreAnimation.itemVariants}
                   className="relative overflow-hidden cursor-pointer group bg-zinc-900"
                   onClick={() => handlePostClick(post)}
                 >
                   <ExploreCard post={post} />
-                </Motion.div>
-              );
-            })}
-          </AnimatePresence>
+                </div>
+            ))}
               <Link
                 to="/profile"
                 onClick={() => window.scrollTo(0, 0)}
-                className="group aspect-[4/5] md:aspect-[3/4] min-h-[220px] sm:min-h-[280px] md:min-h-[350px] bg-zinc-900 border border-dashed overflow-hidden cursor-pointer relative flex flex-col items-center justify-center hover:bg-zinc-800 transition-colors"
+                className="group aspect-4/5 md:aspect-3/4 min-h-[220px] sm:min-h-[280px] md:min-h-[350px] bg-zinc-900 border border-dashed overflow-hidden cursor-pointer relative flex flex-col items-center justify-center hover:bg-zinc-800 transition-colors"
                 style={{ borderColor: "var(--border-normal)" }}
               >
                 <Plus
@@ -340,7 +309,7 @@ function ExploreContent({ posts, setSelectedPost }) {
                   Share Your Image/Video
                 </span>
               </Link>
-          </Motion.div>
+          </div>
         )}
   
       </>
@@ -357,9 +326,8 @@ function ExploreContent({ posts, setSelectedPost }) {
     }, []);
   
     return (
-      <Motion.div
+      <div
         className="max-w-6xl xl:max-w-7xl mx-auto px-0 py-4 md:py-8"
-        {...ExploreAnimation.pageTransition}
       >
         <div className="mb-6 mt-6 gap-8 flex items-start justify-between">
           <div>
@@ -395,6 +363,6 @@ function ExploreContent({ posts, setSelectedPost }) {
           onClose={() => setSelectedPost(null)}
           post={selectedPost}
         />
-      </Motion.div>
+      </div>
     );
   }

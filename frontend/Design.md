@@ -123,7 +123,7 @@ graph TD
     DesignLanguage --> LayoutGeometry["Rounding: 8px / 12px / 16px"]
     DesignLanguage --> Typography["Font: Inter Sans-Serif"]
 
-    MotionEasing --> FramerSprings["Spring Physics: Framer Motion"]
+    MotionEasing --> FramerSprings["Spring Physics: Native CSS & Tailwind"]
     MotionEasing --> OrbKeyframes["Ambient: Floating Orbs"]
     MotionEasing --> StateFeedback["Feedback: Scale & Glow Hover"]
 ```

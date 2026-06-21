@@ -1,6 +1,4 @@
-import { motion as Motion } from "framer-motion";
 import { Sun, Moon } from "lucide-react";
-import { HomeAnimation } from "../../utils/animation";
 import { SectionHeading } from "../../shared-components/SharedHomeComponents";
 
 export default function ThemePreview() {
@@ -13,7 +11,7 @@ export default function ThemePreview() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 xsm:gap-6 max-w-3xl 3xl:max-w-4xl mx-auto">
         {/* Dark Mode Card */}
-        <Motion.div
+        <div
           onClick={() =>
             window.dispatchEvent(
               new CustomEvent("theme-changed", { detail: "dark" }),
@@ -25,7 +23,6 @@ export default function ThemePreview() {
             borderColor: "#27272A",
             color: "#F8FAFC",
           }}
-          {...HomeAnimation.slideInLeft}
         >
           <div className="flex items-center gap-2 mb-5">
             <div
@@ -79,10 +76,10 @@ export default function ThemePreview() {
               />
             </div>
           </div>
-        </Motion.div>
+        </div>
 
         {/* Light Mode Card */}
-        <Motion.div
+        <div
           onClick={() =>
             window.dispatchEvent(
               new CustomEvent("theme-changed", { detail: "light" }),
@@ -94,7 +91,6 @@ export default function ThemePreview() {
             borderColor: "#E2E8F0",
             color: "#0F172A",
           }}
-          {...HomeAnimation.slideInRight}
         >
           <div className="flex items-center gap-2 mb-5">
             <div
@@ -148,7 +144,7 @@ export default function ThemePreview() {
               />
             </div>
           </div>
-        </Motion.div>
+        </div>
       </div>
     </div>
   );

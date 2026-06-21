@@ -1,6 +1,4 @@
-import { motion as Motion } from "framer-motion";
 import { Eye, Video, Image as ImageIcon, User } from "lucide-react";
-import { HomeAnimation } from "../../utils/animation";
 import { fakePosts } from "../../utils/staticData";
 import { GLASS_SHADOW } from "../../utils/styles";
 import { SectionHeading } from "../../shared-components/SharedHomeComponents";
@@ -14,10 +12,9 @@ export default function AppShowcase() {
         subtitle="A clean, modern interface that looks stunning on every device."
       />
 
-      <Motion.div
+      <div
         className="liquid-glass rounded-2xl overflow-hidden max-w-4xl 3xl:max-w-5xl mx-auto"
         style={GLASS_SHADOW}
-        {...HomeAnimation.showcaseApp}
       >
         {/* Browser Title Bar */}
         <div className="flex items-center gap-2 px-4 py-3 border-b border-white/10">
@@ -39,15 +36,11 @@ export default function AppShowcase() {
         {/* Content Area — Fake Post Grid */}
         <div className="p-3 xsm:p-4 sm:p-6 grid grid-cols-1 sm:grid-cols-2 gap-3 xsm:gap-4">
           {fakePosts.map((post) => (
-            <Motion.div
+            <div
               key={post.id}
-              className={`glass rounded-xl p-4 flex flex-col gap-3 cursor-grab active:cursor-grabbing ${
+              className={`glass rounded-xl p-4 flex flex-col gap-3 transition-transform duration-300 hover:scale-105 ${
                 post.hiddenOnMobile ? "hidden sm:flex" : ""
               }`}
-              whileHover={{ scale: 1.02, rotate: post.rotation }}
-              drag
-              dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
-              dragElastic={0.1}
             >
               {/* Author Info */}
               <div className="flex items-center gap-2">
@@ -95,10 +88,10 @@ export default function AppShowcase() {
                   {post.caption}
                 </p>
               </div>
-            </Motion.div>
+            </div>
           ))}
         </div>
-      </Motion.div>
+      </div>
     </div>
   );
 }

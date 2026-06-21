@@ -335,7 +335,6 @@ export const techStack = [
   { name: "Express Validator", color: "#E23237", icon: ShieldCheck },
   { name: "Dotenv", color: "#ECD53F", icon: FileKey },
   { name: "Nodemailer", color: "#0F9DCE", icon: Send },
-  { name: "Framer Motion", color: "#FF0055", icon: Rocket },
   { name: "React Spinners", color: "#36D7B7", icon: Rocket },
   { name: "React Toastify", color: "#FF9900", icon: Bell },
   { name: "Lucide React", color: "#F56565", icon: Sparkles },

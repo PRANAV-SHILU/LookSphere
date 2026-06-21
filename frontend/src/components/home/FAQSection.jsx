@@ -1,7 +1,5 @@
 import { useState } from "react";
-import { motion as Motion } from "framer-motion";
 import { MessageSquare, ChevronUp, ChevronDown } from "lucide-react";
-import { HomeAnimation } from "../../utils/animation";
 import { faqs } from "../../utils/staticData";
 import { CARD_HOVER_SUBTLE, GLASS_SHADOW } from "../../utils/styles";
 import { SectionHeading } from "../../shared-components/SharedHomeComponents";
@@ -19,11 +17,9 @@ export default function FAQSection() {
 
       <div className="flex flex-col gap-3 xsm:gap-4 max-w-3xl 3xl:max-w-4xl mx-auto">
         {faqs.map((faq, index) => (
-          <Motion.div
+          <div
             key={index}
-            {...HomeAnimation.faqCard}
-            transition={{ delay: index * 0.08 }}
-            className={`${CARD_HOVER_SUBTLE} glass rounded-2xl overflow-hidden`}
+            className={`${CARD_HOVER_SUBTLE} glass rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-lg`}
             style={GLASS_SHADOW}
           >
             <button
@@ -62,7 +58,7 @@ export default function FAQSection() {
                 {faq.answer}
               </p>
             </div>
-          </Motion.div>
+          </div>
         ))}
       </div>
     </div>

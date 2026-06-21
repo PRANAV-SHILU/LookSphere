@@ -9,11 +9,10 @@ import { useRef, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { editProfileSchema } from "../schema/editProfileSchema";
-import { motion as Motion, AnimatePresence } from "framer-motion";
+
 import { User, Camera } from "lucide-react";
 import { toast } from "react-toastify";
 import BackButton from "../shared-components/BackButton";
-import { EditProfile as EditProfileAnimation } from "../utils/animation";
 
 export default function EditProfile() {
   const { data } = useLoaderData();
@@ -56,14 +55,12 @@ export default function EditProfile() {
 
   return (
     <>
-      <AnimatePresence>
         {isSubmitting && (
-          <Motion.div
+          <div
             className="fixed inset-0 z-50 flex flex-col items-center justify-center backdrop-blur-sm"
             style={{ backgroundColor: "rgba(0,0,0,0.55)" }}
-            {...EditProfileAnimation.backdropTransition}
           >
-            <Motion.div
+            <div
               className="flex flex-col items-center gap-4 border p-8 max-w-sm w-full mx-4 text-center"
               style={{
                 backgroundColor: "var(--surface-card)",
@@ -71,16 +68,14 @@ export default function EditProfile() {
                 borderRadius: "var(--radius-lg)",
                 boxShadow: "var(--shadow-card)",
               }}
-              {...EditProfileAnimation.dialogTransition}
             >
               {/* Spinner animation */}
-              <Motion.div
-                className="w-12 h-12 rounded-full border-4"
+              <div
+                className="w-12 h-12 rounded-full border-4 animate-spin"
                 style={{
                   borderColor: "var(--border-light)",
                   borderTopColor: "var(--primary-500)",
                 }}
-                {...EditProfileAnimation.spinnerTransition}
               />
               <div>
                 <h3
@@ -94,14 +89,12 @@ export default function EditProfile() {
                   new profile picture.
                 </p>
               </div>
-            </Motion.div>
-          </Motion.div>
+            </div>
+          </div>
         )}
-      </AnimatePresence>
 
-      <Motion.main
+      <main
         className="w-full max-w-[600px] mx-auto pt-8 pb-16 px-4 md:px-8"
-        {...EditProfileAnimation.pageTransition}
       >
         <div className="flex w-full justify-between items-center mb-8">
           <h1
@@ -277,38 +270,24 @@ export default function EditProfile() {
 
           {/* --- Submit --- */}
           <div className="flex gap-3 mt-2">
-            <Motion.button
+            <button
               type="button"
-              className="btn btn-secondary w-full"
+              className="btn btn-secondary w-full transition-transform active:scale-95 hover:scale-[1.02]"
               onClick={() => navigate("/profile")}
               disabled={isSubmitting}
-              whileHover={
-                !isSubmitting ? EditProfileAnimation.cancelButtonHover : {}
-              }
-              whileTap={!isSubmitting ? EditProfileAnimation.buttonTap : {}}
-              transition={EditProfileAnimation.buttonTransition}
             >
               Cancel
-            </Motion.button>
-            <Motion.button
+            </button>
+            <button
               type="submit"
-              className="btn btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
+              className="btn btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed transition-transform active:scale-95 hover:scale-[1.02]"
               disabled={isSubmitting || !isValid}
-              whileHover={
-                !isSubmitting && isValid
-                  ? EditProfileAnimation.saveButtonHover
-                  : {}
-              }
-              whileTap={
-                !isSubmitting && isValid ? EditProfileAnimation.buttonTap : {}
-              }
-              transition={EditProfileAnimation.buttonTransition}
             >
               {isSubmitting ? "Saving…" : "Save Changes"}
-            </Motion.button>
+            </button>
           </div>
         </Form>
-      </Motion.main>
+      </main>
     </>
   );
 }

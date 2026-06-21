@@ -33,7 +33,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/", (req, res, next) => {
-  console.log(req.method, req.url, req.body);
+  if (req.url !== "/health" && req.url !== "/ping") {
+    console.log(req.method, req.url, req.body);
+  }
   next();
 });
 

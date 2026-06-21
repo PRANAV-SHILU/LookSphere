@@ -1,4 +1,3 @@
-import { motion as Motion } from "framer-motion";
 import { Shield, Layers } from "lucide-react";
 import { securityFeatures } from "../../utils/staticData";
 import { CARD_HOVER, GLASS_SHADOW } from "../../utils/styles";
@@ -16,17 +15,13 @@ export default function SecurityPrivacy() {
         subtitle="Your safety is our top priority. Here's how we protect your data at every layer."
       />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 xsm:gap-5 max-w-6xl 3xl:max-w-7xl mx-auto">
-        {securityFeatures.map((feature, index) => {
+      <div className="grid grid-cols-1 mdlg:grid-cols-2 gap-4 xsm:gap-6 lg:gap-8 max-w-[1000px] mx-auto 3xl:max-w-7xl 3xl:gap-10 mt-8 xsm:mt-12 3xl:mt-16 w-full px-2 sm:px-4">
+        {securityFeatures.map((feature) => {
           const FeatureIcon = feature.icon;
           return (
-            <Motion.div
+            <div
               key={feature.name}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.08 }}
-              className={`${CARD_HOVER} glass flex flex-col p-6 rounded-2xl`}
+              className={`${CARD_HOVER} glass flex flex-col p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-lg group`}
               style={GLASS_SHADOW}
             >
               <CardGlow />
@@ -57,7 +52,7 @@ export default function SecurityPrivacy() {
                 <Layers size={12} style={{ color: "var(--primary-500)" }} />
                 {feature.where}
               </div>
-            </Motion.div>
+            </div>
           );
         })}
       </div>

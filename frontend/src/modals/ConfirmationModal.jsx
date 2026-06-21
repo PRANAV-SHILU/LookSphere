@@ -1,5 +1,3 @@
-import { motion as Motion, AnimatePresence } from "framer-motion";
-import { ConfirmationModal as ConfirmationModalAnimation } from "../utils/animation";
 
 export default function ConfirmationModal({
   isOpen,
@@ -13,14 +11,12 @@ export default function ConfirmationModal({
   cancelButtonClass = "btn btn-secondary",
 }) {
   return (
-    <AnimatePresence>
+    <>
       {isOpen && (
-        <Motion.div
-          {...ConfirmationModalAnimation.backdropTransition}
-          className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/50 backdrop-blur-md"
+        <div
+          className="fixed inset-0 z-1000 flex items-center justify-center bg-black/50 backdrop-blur-md"
         >
-          <Motion.div
-            {...ConfirmationModalAnimation.dialogTransition}
+          <div
             className="w-[90%] max-w-[400px] bg-(--surface-card) p-8 rounded-2xl text-center shadow-[0_10px_30px_rgba(0,0,0,0.2)]"
           >
             {title && <h3 style={{ marginBottom: "1rem", color: "var(--text-primary)" }}>{title}</h3>}
@@ -37,9 +33,9 @@ export default function ConfirmationModal({
                 {confirmText}
               </button>
             </div>
-          </Motion.div>
-        </Motion.div>
+          </div>
+        </div>
       )}
-    </AnimatePresence>
+    </>
   );
 }

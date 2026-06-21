@@ -1,6 +1,3 @@
-import { motion as Motion } from "framer-motion";
-import { HomeAnimation } from "../utils/animation";
-
 export function CardGlow() {
   return (
     <div
@@ -51,74 +48,31 @@ export function HeroBackground() {
   );
 }
 
-export function AnimatedText({ text, className, delay = 0, stagger = 0.04, yOffset = 30, isHero = false }) {
-  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
-
-  if (isMobile && !isHero) {
-    return <div className={className}>{text}</div>;
-  }
-
-  return (
-    <Motion.div
-      className={`flex justify-center flex-wrap ${className}`}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "150px" }}
-      variants={HomeAnimation.getAnimatedTextContainer(stagger, delay)}
-    >
-      {text.split(" ").map((word, wordIndex) => (
-        <span key={wordIndex} className="inline-flex mr-[0.25em]">
-          {word.split("").map((char, charIndex) => (
-            <Motion.span
-              key={charIndex}
-              {...HomeAnimation.getAnimatedTextChild(yOffset)}
-              className="inline-block"
-            >
-              {char}
-            </Motion.span>
-          ))}
-        </span>
-      ))}
-    </Motion.div>
-  );
-}
-
 export function SectionHeading({ icon: Icon, title, subtitle, badge }) {
   return (
     <div className="text-center mb-8 xsm:mb-12 3xl:mb-16">
       {Icon && (
-        <Motion.div {...HomeAnimation.sectionHeadingIcon}>
+        <div>
           <Icon
           className="w-8 h-8 xsm:w-10 xsm:h-10 sm:w-12 sm:h-12 3xl:w-14 3xl:h-14 mx-auto mb-4"
             style={{ color: "var(--primary-500)" }}
           />
-        </Motion.div>
+        </div>
       )}
       {badge && (
-        <Motion.div 
+        <div 
           className="inline-block px-3 py-1 mb-4 rounded-full bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 text-xs sm:text-sm font-semibold tracking-wide uppercase shadow-sm border border-blue-200 dark:border-blue-800"
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.1, duration: 0.5 }}
         >
           {badge}
-        </Motion.div>
+        </div>
       )}
-      <AnimatedText 
-        text={title} 
-        className="hero-text text-2xl xsm:text-3xl sm:text-4xl md:text-5xl 3xl:text-6xl 4xl:text-7xl font-bold mb-4" 
-        delay={0}
-        stagger={0.03}
-      />
+      <div className="hero-text text-2xl xsm:text-3xl sm:text-4xl md:text-5xl 3xl:text-6xl 4xl:text-7xl font-bold mb-4">
+        {title}
+      </div>
       {subtitle && (
-        <AnimatedText 
-          text={subtitle} 
-          className="text-sm xsm:text-base sm:text-lg md:text-xl 3xl:text-2xl text-(--text-muted) max-w-3xl 3xl:max-w-4xl mx-auto" 
-          delay={0.2}
-          stagger={0.015}
-          yOffset={15}
-        />
+        <div className="text-sm xsm:text-base sm:text-lg md:text-xl 3xl:text-2xl text-(--text-muted) max-w-3xl 3xl:max-w-4xl mx-auto">
+          {subtitle}
+        </div>
       )}
     </div>
   );

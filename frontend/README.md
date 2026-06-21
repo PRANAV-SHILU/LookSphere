@@ -10,7 +10,6 @@
 ![Vite](https://img.shields.io/badge/Vite-v7.2.4-2b2b2b?style=flat&logo=vite&logoColor=white&labelColor=BD34FE)
 ![React Router](https://img.shields.io/badge/React_Router-v7.11.0-2b2b2b?style=flat&logo=reactrouter&logoColor=white&labelColor=CA4245)
 ![Axios](https://img.shields.io/badge/Axios-v1.17.0-2b2b2b?style=flat&logo=axios&logoColor=white&labelColor=5A29E4)
-![Framer Motion](https://img.shields.io/badge/Framer_Motion-v12.40.0-2b2b2b?style=flat&logo=framer&logoColor=white&labelColor=0055FF)
 ![React Hook Form](https://img.shields.io/badge/React_Hook_Form-v7.69.0-2b2b2b?style=flat&logo=reacthookform&logoColor=white&labelColor=EC5990)
 ![Yup](https://img.shields.io/badge/Yup-v1.7.1-2b2b2b?style=flat&labelColor=32B768)
 ![Lucide React](https://img.shields.io/badge/Lucide_React-v1.17.0-2b2b2b?style=flat&logo=lucide&logoColor=white&labelColor=F56565)
@@ -43,7 +42,7 @@ While it is still not a final version and serves primarily as a way to practice 
 - **Routing:** React Router
 - **Form Handling:** React Hook Form
 - **Validation:** Yup
-- **Animations:** Framer Motion
+- **Animations:** Native CSS & Tailwind Transitions
 - **Icons:** Lucide React
 - **HTTP Client:** Axios
 - **Notifications:** React Toastify

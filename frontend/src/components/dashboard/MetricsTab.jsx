@@ -1,11 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion as Motion } from "framer-motion";
 import {
   Users, FileText, Image, Video, Calendar, Eye,
   User, ArrowUp, ArrowDown,
 } from "lucide-react";
-import { Dashboard as DashboardAnimation } from "../../utils/animation";
 
 const STAT_CARDS = [
   {
@@ -84,7 +82,7 @@ export default function MetricsTab({ stats, userList }) {
           size={10}
           className={`transition-colors ${
             isActive && sortConfig.direction === "asc"
-              ? "text-[var(--primary-500)]"
+              ? "text-(--primary-500)"
               : "text-gray-400 dark:text-zinc-600"
           }`}
         />
@@ -92,7 +90,7 @@ export default function MetricsTab({ stats, userList }) {
           size={10}
           className={`transition-colors mt-[2px] ${
             isActive && sortConfig.direction === "desc"
-              ? "text-[var(--primary-500)]"
+              ? "text-(--primary-500)"
               : "text-gray-400 dark:text-zinc-600"
           }`}
         />
@@ -103,16 +101,12 @@ export default function MetricsTab({ stats, userList }) {
   return (
     <>
       {/* Stats Grid */}
-      <Motion.div
+      <div
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12"
-        variants={DashboardAnimation.containerVariants}
-        initial="hidden"
-        animate="show"
       >
         {STAT_CARDS.map((card, i) => (
-          <Motion.div
+          <div
             key={i}
-            variants={DashboardAnimation.itemVariants}
             className="p-6 rounded-2xl relative overflow-hidden shadow-lg transition-transform duration-300 hover:-translate-y-1"
             style={{ background: card.gradient, color: "#FFFFFF" }}
           >
@@ -128,9 +122,9 @@ export default function MetricsTab({ stats, userList }) {
               </div>
             </div>
             <h3 className="text-4xl font-extrabold">{stats[card.key] || 0}</h3>
-          </Motion.div>
+          </div>
         ))}
-      </Motion.div>
+      </div>
 
       {/* Users Table */}
       <div
@@ -179,21 +173,21 @@ export default function MetricsTab({ stats, userList }) {
                   <th className="pb-4 font-semibold text-sm" style={{ color: "var(--text-muted)" }}>User</th>
                   <th className="pb-4 font-semibold text-sm" style={{ color: "var(--text-muted)" }}>Email</th>
                   <th
-                    className="pb-4 font-semibold text-sm cursor-pointer hover:text-[var(--primary-500)] transition-colors select-none"
+                    className="pb-4 font-semibold text-sm cursor-pointer hover:text-(--primary-500) transition-colors select-none"
                     onClick={() => handleSort("createdAt")}
                     style={{ color: sortConfig.key === "createdAt" ? "var(--primary-500)" : "var(--text-muted)" }}
                   >
                     <span className="flex items-center">Joined Date {renderSortArrows("createdAt")}</span>
                   </th>
                   <th
-                    className="pb-4 font-semibold text-sm cursor-pointer hover:text-[var(--primary-500)] transition-colors text-center select-none"
+                    className="pb-4 font-semibold text-sm cursor-pointer hover:text-(--primary-500) transition-colors text-center select-none"
                     onClick={() => handleSort("profileViewCount")}
                     style={{ color: sortConfig.key === "profileViewCount" ? "var(--primary-500)" : "var(--text-muted)" }}
                   >
                     <span className="flex items-center justify-center">Profile Views {renderSortArrows("profileViewCount")}</span>
                   </th>
                   <th
-                    className="pb-4 font-semibold text-sm cursor-pointer hover:text-[var(--primary-500)] transition-colors text-center select-none"
+                    className="pb-4 font-semibold text-sm cursor-pointer hover:text-(--primary-500) transition-colors text-center select-none"
                     onClick={() => handleSort("postCount")}
                     style={{ color: sortConfig.key === "postCount" ? "var(--primary-500)" : "var(--text-muted)" }}
                   >
@@ -206,7 +200,7 @@ export default function MetricsTab({ stats, userList }) {
                   <tr
                     key={idx}
                     onClick={() => navigate(`/profile/${userItem.username}`)}
-                    className="group hover:bg-[var(--surface-hover)] transition-colors cursor-pointer"
+                    className="group hover:bg-(--surface-hover) transition-colors cursor-pointer"
                   >
                     <td className="py-4 pr-4">
                       <div className="flex items-center gap-3">
@@ -237,7 +231,7 @@ export default function MetricsTab({ stats, userList }) {
                       </div>
                     </td>
                     <td className="py-4 pr-4 text-center">
-                      <div className="inline-flex items-center gap-1 text-xs font-semibold px-2 py-1 rounded bg-[var(--surface-input)]" style={{ color: "var(--text-secondary)" }}>
+                      <div className="inline-flex items-center gap-1 text-xs font-semibold px-2 py-1 rounded bg-(--surface-input)" style={{ color: "var(--text-secondary)" }}>
                         <Eye size={12} />
                         {userItem.profileViewCount || 0}
                       </div>

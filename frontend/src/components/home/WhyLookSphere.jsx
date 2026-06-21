@@ -1,6 +1,4 @@
-import { motion as Motion } from "framer-motion";
 import { Sparkles } from "lucide-react";
-import { HomeAnimation } from "../../utils/animation";
 import { socialFeatures } from "../../utils/staticData";
 import { CARD_HOVER, GLASS_SHADOW } from "../../utils/styles";
 import {
@@ -17,14 +15,12 @@ export default function WhyLookSphere() {
         subtitle="Designed for creators, built for everyone. Here's what makes us different."
       />
 
-      <div className="grid grid-cols-1 mdlg:grid-cols-3 gap-4 xsm:gap-6 sm:gap-8 max-w-6xl 3xl:max-w-7xl mx-auto">
-        {socialFeatures.map((feature, index) => (
-          <Motion.div
+        <div className="grid grid-cols-1 mdlg:grid-cols-3 gap-4 xsm:gap-6 sm:gap-8 max-w-6xl 3xl:max-w-7xl mx-auto">
+          {socialFeatures.map((feature) => (
+            <div
             key={feature.title}
-            className={`liquid-glass p-6 sm:p-8 rounded-2xl ${CARD_HOVER}`}
+            className={`liquid-glass p-6 sm:p-8 rounded-2xl ${CARD_HOVER} transition-all duration-300 hover:-translate-y-1 hover:shadow-lg`}
             style={GLASS_SHADOW}
-            {...HomeAnimation.featureCard}
-            transition={{ delay: index * 0.1 }}
           >
             <CardGlow />
             <div className="relative">
@@ -46,7 +42,7 @@ export default function WhyLookSphere() {
                 {feature.description}
               </p>
             </div>
-          </Motion.div>
+          </div>
         ))}
       </div>
     </div>

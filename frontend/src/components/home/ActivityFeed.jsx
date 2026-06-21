@@ -1,6 +1,4 @@
-import { motion as Motion } from "framer-motion";
 import { Zap } from "lucide-react";
-import { HomeAnimation } from "../../utils/animation";
 import { activities } from "../../utils/staticData";
 import { GLASS_SHADOW } from "../../utils/styles";
 import { SectionHeading } from "../../shared-components/SharedHomeComponents";
@@ -14,10 +12,9 @@ export default function ActivityFeed() {
         subtitle="See what's happening across the platform right now."
       />
 
-      <Motion.div
+      <div
         className="max-w-md 3xl:max-w-lg mx-auto h-72 overflow-hidden relative rounded-2xl liquid-glass border border-(--border-normal)"
         style={GLASS_SHADOW}
-        {...HomeAnimation.activityFeed}
       >
         {/* Very Soon Badge */}
         <div className="absolute top-3 right-3 z-30 px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 text-xs font-bold uppercase tracking-wider backdrop-blur-md border border-blue-500/20 shadow-sm flex items-center gap-1.5">
@@ -71,7 +68,7 @@ export default function ActivityFeed() {
             );
           })}
         </div>
-      </Motion.div>
+      </div>
     </div>
   );
 }

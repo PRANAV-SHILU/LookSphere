@@ -1,10 +1,8 @@
 import { useState, Suspense } from "react";
 import { useLoaderData, Link, Await } from "react-router-dom";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
-import { motion as Motion } from "framer-motion";
 import { User, Eye, ArrowRight, Search, FileText } from "lucide-react";
 import BackButton from "../shared-components/BackButton";
-import { Creators as CreatorsAnimation } from "../utils/animation";
 import CreatorsSkeleton from "../skeletons/CreatorsSkeleton";
 
 function CreatorsContent({ creatorsList }) {
@@ -55,16 +53,12 @@ function CreatorsContent({ creatorsList }) {
           No creators match &ldquo;{query}&rdquo;.
         </div>
       ) : (
-        <Motion.div
+        <div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6 2xl:gap-8"
-          variants={CreatorsAnimation.containerVariants}
-          initial="hidden"
-          animate="show"
         >
           {filteredCreators.map((creator) => (
-            <Motion.div
+            <div
               key={creator.username}
-              variants={CreatorsAnimation.itemVariants}
               className="h-full"
             >
               <Link
@@ -166,9 +160,9 @@ function CreatorsContent({ creatorsList }) {
                   </div>
                 </div>
               </Link>
-            </Motion.div>
+            </div>
           ))}
-        </Motion.div>
+        </div>
       )}
     </>
   );
@@ -179,9 +173,8 @@ export default function Creators() {
   useDocumentMetadata("Creators");
 
   return (
-    <Motion.div
-      className=""
-      {...CreatorsAnimation.pageTransition}
+    <div
+      className="pb-12 md:pb-16"
     >
       <div className="mb-10 mt-8 4xl:mt-16 gap-4 flex items-start justify-between">
         <div className="text-center md:text-left">
@@ -203,6 +196,6 @@ export default function Creators() {
           {(creatorsList) => <CreatorsContent creatorsList={creatorsList} />}
         </Await>
       </Suspense>
-    </Motion.div>
+    </div>
   );
 }

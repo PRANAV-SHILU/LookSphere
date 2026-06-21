@@ -1,10 +1,8 @@
 import { useState, useEffect, useRef } from "react";
-import { motion as Motion, AnimatePresence } from "framer-motion";
 import { X, Plus, Upload } from "lucide-react";
 import { toast } from "react-toastify";
 
 import { postSchema } from "../schema/postSchema";
-import { UploadMediaModal as UploadMediaModalAnimation } from "../utils/animation";
 
 export default function UploadMediaModal({
   isOpen,
@@ -98,13 +96,12 @@ export default function UploadMediaModal({
   };
 
   return (
-    <AnimatePresence>
-      <Motion.div
+    <>
+      <div
         className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-md"
         style={{ backgroundColor: "rgba(0, 0, 0, 0.65)" }}
-        {...UploadMediaModalAnimation.backdropTransition}
       >
-        <Motion.div
+        <div
           className="relative w-full max-w-lg overflow-hidden border flex flex-col max-h-[90vh]"
           style={{
             backgroundColor: "var(--surface-card)",
@@ -112,7 +109,6 @@ export default function UploadMediaModal({
             borderRadius: "var(--radius-lg)",
             boxShadow: "var(--shadow-card)",
           }}
-          {...UploadMediaModalAnimation.dialogTransition}
         >
           {/* Header */}
           <div
@@ -311,8 +307,8 @@ export default function UploadMediaModal({
               </button>
             </div>
           </form>
-        </Motion.div>
-      </Motion.div>
-    </AnimatePresence>
+        </div>
+      </div>
+    </>
   );
 }

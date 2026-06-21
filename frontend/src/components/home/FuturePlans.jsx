@@ -1,6 +1,4 @@
-import { motion as Motion } from "framer-motion";
 import { Rocket } from "lucide-react";
-import { HomeAnimation } from "../../utils/animation";
 import { futurePlans } from "../../utils/staticData";
 import { CARD_HOVER, GLASS_SHADOW } from "../../utils/styles";
 import {
@@ -18,17 +16,14 @@ export default function FuturePlans() {
       />
 
       <div className="flex flex-col gap-6 xsm:gap-8 max-w-5xl 3xl:max-w-6xl mx-auto">
-        <Motion.div
+        <div
           className="glass w-full p-6 sm:p-8 rounded-2xl"
           style={GLASS_SHADOW}
-          {...HomeAnimation.futurePlanCard}
         >
           <div className="flex flex-col gap-8">
-            {futurePlans.map((group, groupIndex) => (
-              <Motion.div
+            {futurePlans.map((group) => (
+              <div
                 key={group.category}
-                {...HomeAnimation.futurePlanGroup}
-                transition={{ delay: groupIndex * 0.1 }}
               >
                 <h3 className="text-lg sm:text-xl font-semibold mb-4 text-(--text-primary)">
                   {group.category}
@@ -57,10 +52,10 @@ export default function FuturePlans() {
                     </li>
                   ))}
                 </ul>
-              </Motion.div>
+              </div>
             ))}
           </div>
-        </Motion.div>
+        </div>
       </div>
     </div>
   );

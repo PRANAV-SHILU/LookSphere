@@ -5,9 +5,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "react-toastify";
 import { loginSchema } from "../schema/loginSchema";
-import { motion as Motion } from "framer-motion";
 import { Eye, EyeOff } from "lucide-react";
-import { Login as LoginAnimation } from "../utils/animation";
 
 export default function Login() {
   useDocumentMetadata("Login");
@@ -55,13 +53,11 @@ export default function Login() {
   };
 
   return (
-    <Motion.section
+    <section
       className="flex flex-col mt-4 justify-center items-center px-4 w-full min-h-[calc(100vh-120px)]"
-      {...LoginAnimation.pageTransition}
     >
-      <Motion.div
+      <div
         className="card w-full max-w-md px-4! py-8! xsm:p-8! 4xl:max-w-xl 4xl:p-14! 4xl:rounded-2xl"
-        {...LoginAnimation.cardTransition}
       >
         <Form method="post" onKeyDown={handleKeyDown}>
           <div className="text-center">
@@ -134,15 +130,13 @@ export default function Login() {
           </div>
 
           <div className="input-group mt-2">
-            <Motion.button
+            <button
               type="submit"
-              className="btn btn-primary w-full py-2 px-4 xsm:py-2.5 4xl:py-4.5 4xl:text-xl 4xl:rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+              className="btn btn-primary w-full py-2 px-4 xsm:py-2.5 4xl:py-4.5 4xl:text-xl 4xl:rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-transform active:scale-95 hover:scale-[1.02]"
               disabled={!isValid || isSubmitting}
-              whileHover={isValid && !isSubmitting ? LoginAnimation.buttonHover : {}}
-              whileTap={isValid && !isSubmitting ? LoginAnimation.buttonTap : {}}
             >
               {isSubmitting ? "Logging in…" : "Login"}
-            </Motion.button>
+            </button>
           </div>
 
           <p className="text-center mt-4 xsm:mt-6 text-xs xsm:text-sm 4xl:text-lg">
@@ -152,7 +146,7 @@ export default function Login() {
             </NavLink>
           </p>
         </Form>
-      </Motion.div>
-    </Motion.section>
+      </div>
+    </section>
   );
 }

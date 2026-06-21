@@ -9,7 +9,6 @@ import {
 } from "react-router-dom";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import ProfileSkeleton from "../skeletons/ProfileSkeleton";
-import { motion as Motion, AnimatePresence } from "framer-motion";
 import {
   User,
   Plus,
@@ -20,7 +19,6 @@ import BackButton from "../shared-components/BackButton";
 import UploadMediaModal from "../modals/UploadMediaModal";
 import PostDetailModal from "../modals/PostDetailModal";
 import { trackPostView } from "../services/postService";
-import { Profile as ProfileAnimation } from "../utils/animation";
 
 function Bio({ bio, className }) {
   if (!bio) return null;
@@ -155,14 +153,12 @@ function ProfileContent({ data, username, submit }) {
 
   return (
     <>
-      <AnimatePresence>
         {isSubmitting && (
-          <Motion.div
+          <div
             className="fixed inset-0 z-50 flex flex-col items-center justify-center backdrop-blur-sm"
             style={{ backgroundColor: "rgba(0,0,0,0.55)" }}
-            {...ProfileAnimation.backdropTransition}
           >
-            <Motion.div
+            <div
               className="flex flex-col items-center gap-4 border p-8 max-w-sm w-full mx-4 text-center"
               style={{
                 backgroundColor: "var(--surface-card)",
@@ -170,16 +166,14 @@ function ProfileContent({ data, username, submit }) {
                 borderRadius: "var(--radius-lg)",
                 boxShadow: "var(--shadow-card)",
               }}
-              {...ProfileAnimation.dialogTransition}
             >
               {/* Spinner animation */}
-              <Motion.div
-                className="w-12 h-12 rounded-full border-4"
+              <div
+                className="w-12 h-12 rounded-full border-4 animate-spin"
                 style={{
                   borderColor: "var(--border-light)",
                   borderTopColor: "var(--primary-500)",
                 }}
-                {...ProfileAnimation.spinnerTransition}
               />
               <div>
                 <h3
@@ -192,14 +186,12 @@ function ProfileContent({ data, username, submit }) {
                   Please wait, your post is being uploaded and processed.
                 </p>
               </div>
-            </Motion.div>
-          </Motion.div>
+            </div>
+          </div>
         )}
-      </AnimatePresence>
 
-      <Motion.main
+      <main
         className="w-full mx-auto pt-8 pb-16 px-0 md:px-8"
-        {...ProfileAnimation.pageTransition}
       >
         {/* --- Profile Header --- */}
         <section className="max-w-[600px] 4xl:max-w-[1000px] mx-auto flex flex-col items-start gap-3 sm:gap-6 justify-center">
@@ -470,7 +462,7 @@ function ProfileContent({ data, username, submit }) {
           post={selectedPost}
           profileUser={user}
         />
-      </Motion.main>
+      </main>
     </>
   );
 }

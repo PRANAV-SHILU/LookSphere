@@ -21,7 +21,6 @@
 ![Dotenv](https://img.shields.io/badge/Dotenv-Config-ECD53F?logo=dotenv&logoColor=black)
 ![React Router](https://img.shields.io/badge/React_Router-v7.11.0-2b2b2b?style=flat&logo=reactrouter&logoColor=white&labelColor=CA4245)
 ![Axios](https://img.shields.io/badge/Axios-v1.17.0-2b2b2b?style=flat&logo=axios&logoColor=white&labelColor=5A29E4)
-![Framer Motion](https://img.shields.io/badge/Framer_Motion-v12.40.0-2b2b2b?style=flat&logo=framer&logoColor=white&labelColor=0055FF)
 ![React Hook Form](https://img.shields.io/badge/React_Hook_Form-v7.69.0-2b2b2b?style=flat&logo=reacthookform&logoColor=white&labelColor=EC5990)
 ![Yup](https://img.shields.io/badge/Yup-v1.7.1-2b2b2b?style=flat&labelColor=32B768)
 ![Lucide React](https://img.shields.io/badge/Lucide_React-v1.17.0-2b2b2b?style=flat&logo=lucide&logoColor=white&labelColor=F56565)
@@ -37,7 +36,7 @@
 
 **LookSphere** is a modern social media platform built using the MERN stack (MongoDB, Express, React, Node.js). Originally starting as a pure React/JSON-server authentication practice app ("SecureAuth"), it has evolved into a robust, secure, and full-featured social networking application.
 
-It features a dark-theme-first aesthetic, secure JWT authentication, rich media sharing (Cloudinary), and a responsive, dynamic UI built with Tailwind CSS and Framer Motion.
+It features a dark-theme-first aesthetic, secure JWT authentication, rich media sharing (Cloudinary), and a responsive, dynamic UI built with Tailwind CSS.
 
 ---
 
@@ -59,7 +58,7 @@ Explore the detailed documentation for different parts of the project:
 - **Global Community:** Share passions, discover new interests, and explore a global feed of content.
 - **Robust Security:** Passwords hashed via `bcrypt` (12 salt rounds), JWT stateless sessions (JWT Auth Token + Auth Header for CSRF/cross-origin safety), and strict CORS policies.
 - **Rich Media Handling:** Upload images and videos directly. Media is optimized and stored efficiently using Multer and Cloudinary.
-- **Advanced UI/UX:** Built with React 19, Tailwind CSS, Framer Motion for smooth animations, and a focus on accessibility (alt texts).
+- **Advanced UI/UX:** Built with React 19, Tailwind CSS, and native CSS for smooth animations, with a focus on accessibility (alt texts).
 - **Data Integrity:** Strict server-side validation via `express-validator` and robust client-side form validation via `Yup` and `React Hook Form`.
 
 ---
@@ -68,7 +67,7 @@ Explore the detailed documentation for different parts of the project:
 
 ### **Frontend**
 - **Core:** React, Vite, React Router DOM
-- **Styling & UI:** Tailwind CSS, Framer Motion, Lucide React, React Spinners, React Toastify
+- **Styling & UI:** Tailwind CSS, Lucide React, React Spinners, React Toastify
 - **Data & Forms:** Axios, React Hook Form, Yup
 - **Tools & Validation:** ESLint, Yup
 

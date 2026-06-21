@@ -1,7 +1,5 @@
 import { useState } from "react";
-import { motion as Motion, AnimatePresence } from "framer-motion";
 import { Rocket, Check } from "lucide-react";
-import { HomeAnimation } from "../../utils/animation";
 import { capabilities } from "../../utils/staticData";
 import { GLASS_SHADOW } from "../../utils/styles";
 import { SectionHeading } from "../../shared-components/SharedHomeComponents";
@@ -18,10 +16,9 @@ export default function WhatYouCanDo() {
       />
 
       {/* Tab buttons */}
-      <Motion.div
+      <div
         className="tab-container mx-auto mb-10 flex-wrap"
         style={{ padding: "5px" }}
-        {...HomeAnimation.tabContainer}
       >
         {capabilities.map((cap, i) => {
           const TabIcon = cap.icon;
@@ -37,17 +34,15 @@ export default function WhatYouCanDo() {
             </button>
           );
         })}
-      </Motion.div>
+      </div>
 
       {/* Tab content */}
       <div className="max-w-4xl 3xl:max-w-5xl mx-auto">
-        <AnimatePresence mode="wait">
-          <Motion.div
-            key={capabilities[activeCapability].id}
-            className="liquid-glass rounded-2xl p-6 sm:p-8 md:p-10"
-            style={GLASS_SHADOW}
-            {...HomeAnimation.tabContent}
-          >
+        <div
+          key={capabilities[activeCapability].id}
+          className="liquid-glass rounded-2xl p-6 sm:p-8 md:p-10"
+          style={GLASS_SHADOW}
+        >
             <div className="flex flex-col mdlg:flex-row mdlg:gap-8 items-center mdlg:items-start">
               <div className="flex-1 flex flex-col items-center mdlg:items-start text-center mdlg:text-left">
                 <div
@@ -74,13 +69,11 @@ export default function WhatYouCanDo() {
               <div className="w-full mdlg:w-auto mdlg:min-w-[240px]">
                 <ul className="flex flex-row flex-wrap justify-center mdlg:flex-col mdlg:justify-start gap-2 xsm:gap-3">
                   {capabilities[activeCapability].features.map(
-                    (feature, fi) => (
-                      <Motion.li
+                    (feature) => (
+                      <li
                         key={feature}
                         className="glass flex items-center gap-1.5 xsm:gap-2 sm:gap-3 rounded-xl px-2.5 py-1.5 xsm:px-3 xsm:py-2 sm:px-4 sm:py-3 text-[11px] xsm:text-xs sm:text-sm mdlg:text-base text-(--text-secondary) transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-(--primary-500)/10 hover:text-(--primary-600) cursor-default group"
                         style={GLASS_SHADOW}
-                        {...HomeAnimation.featureItem}
-                        transition={{ delay: fi * 0.08 }}
                       >
                         <Check
                           size={16}
@@ -88,14 +81,12 @@ export default function WhatYouCanDo() {
                           style={{ color: "var(--status-success)" }}
                         />
                         {feature}
-                      </Motion.li>
-                    ),
-                  )}
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>
-          </Motion.div>
-        </AnimatePresence>
+        </div>
       </div>
     </div>
   );

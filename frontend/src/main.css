@@ -183,7 +183,6 @@ a:hover {
 /* Base App Container */
 .app-container {
   min-height: 100vh;
-  overflow-x: hidden; /* Contains horizontal overflow here instead of body */
 }
 
 .main-content {
@@ -201,6 +200,8 @@ a:hover {
   background-clip: text;
   display: inline-block;
   padding-bottom: 0.1em; /* Fixes clipping on mobile */
+  transform: translateZ(0); /* Fixes Chrome Android gradient clipping/flashing */
+  -webkit-transform: translateZ(0);
 }
 
 /* Cards */
@@ -741,6 +742,17 @@ html:not(.dark) .liquid-glass {
   .hero-orb-2,
   .hero-orb-3 {
     display: none !important;
+  }
+
+  /* Completely disable text gradients on mobile as they cause severe Chrome rendering glitches */
+  .hero-text {
+    background: none !important;
+    -webkit-background-clip: unset !important;
+    background-clip: unset !important;
+    -webkit-text-fill-color: var(--primary-500) !important;
+    color: var(--primary-500) !important;
+    transform: none !important;
+    -webkit-transform: none !important;
   }
 }
 

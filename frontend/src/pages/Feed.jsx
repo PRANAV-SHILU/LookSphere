@@ -2,7 +2,6 @@ import { useState, useEffect, useRef, Suspense } from "react";
 import { useLoaderData, Link, useRevalidator, Await } from "react-router-dom";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import FeedSkeleton from "../skeletons/FeedSkeleton";
-import { motion as Motion, AnimatePresence } from "framer-motion";
 import {
   User,
   Eye,
@@ -17,7 +16,6 @@ import {
 } from "lucide-react";
 import BackButton from "../shared-components/BackButton";
 import { trackPostView } from "../services/postService";
-import { Feed as FeedAnimation } from "../utils/animation";
 import PostDetailModal from "../modals/PostDetailModal";
 
 // Sub-component for each feed post to fetch user details asynchronously
@@ -272,20 +270,13 @@ function FeedContent({ posts, currentUser, setSelectedPost, selectedPost }) {
   }
 
   return (
-    <Motion.div
+    <div
       key={postsHash}
-      layout
       className="flex flex-col gap-8"
-      variants={FeedAnimation.containerVariants}
-      initial="hidden"
-      animate="show"
     >
-      <AnimatePresence mode="popLayout">
         {posts.map((post) => (
-          <Motion.div
+          <div
             key={post._id}
-            layout
-            variants={FeedAnimation.cardVariants}
           >
             <FeedCard
               post={post}
@@ -293,12 +284,11 @@ function FeedContent({ posts, currentUser, setSelectedPost, selectedPost }) {
               onPostClick={setSelectedPost}
               isParentModalOpen={!!selectedPost}
             />
-          </Motion.div>
+          </div>
         ))}
-      </AnimatePresence>
 
       {/* Add media redirect card */}
-      <Motion.div layout>
+      <div>
         <Link
           to="/profile"
           onClick={() => window.scrollTo(0, 0)}
@@ -323,8 +313,8 @@ function FeedContent({ posts, currentUser, setSelectedPost, selectedPost }) {
             Share Your Own Image or Video
           </span>
         </Link>
-      </Motion.div>
-    </Motion.div>
+      </div>
+    </div>
   );
 }
 
@@ -360,9 +350,8 @@ export default function Feed() {
   };
 
   return (
-    <Motion.div
+    <div
       className="max-w-xl mx-auto mt-6 px-0 py-4 md:py-8"
-      {...FeedAnimation.pageTransition}
     >
       <div className="mb-8 flex items-start justify-between">
         <div>
@@ -389,21 +378,11 @@ export default function Feed() {
             }}
             title="Refresh Feed"
           >
-            <Motion.div
-              animate={
-                isRefreshing
-                  ? FeedAnimation.spinnerActive
-                  : FeedAnimation.spinnerInactive
-              }
-              transition={
-                isRefreshing
-                  ? FeedAnimation.spinnerTransitionActive
-                  : FeedAnimation.spinnerTransitionInactive
-              }
-              className="flex items-center justify-center"
+            <div
+              className={`flex items-center justify-center ${isRefreshing ? "animate-spin" : ""}`}
             >
               <RotateCw size={16} />
-            </Motion.div>
+            </div>
           </button>
         </div>
       </div>
@@ -421,12 +400,10 @@ export default function Feed() {
         </Await>
       </Suspense>
 
-      <AnimatePresence>
-        {showScrollTop && (
-          <Motion.button
+      {showScrollTop && (
+          <button
             onClick={scrollToTop}
             className="flex opacity-50 items-center justify-center cursor-pointer"
-            {...FeedAnimation.scrollTopButton}
             style={{
               position: "fixed",
               bottom: "2.5rem",
@@ -443,14 +420,13 @@ export default function Feed() {
             title="Scroll to Top"
           >
             <ArrowUp size={20} />
-          </Motion.button>
+          </button>
         )}
-      </AnimatePresence>
       <PostDetailModal
         isOpen={!!selectedPost}
         onClose={() => setSelectedPost(null)}
         post={selectedPost}
       />
-    </Motion.div>
+    </div>
   );
 }

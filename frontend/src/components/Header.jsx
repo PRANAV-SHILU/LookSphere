@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import { NavLink, useRouteLoaderData, useSubmit } from "react-router-dom";
-import { motion as Motion, AnimatePresence } from "framer-motion";
 import {
   UserCircle2,
   Sun,
@@ -17,7 +16,6 @@ import {
   ChevronDown,
 } from "lucide-react";
 import ConfirmationModal from "../modals/ConfirmationModal.jsx";
-import { Header as HeaderAnimation } from "../utils/animation";
 import { desktopNavLinkClass, mobileNavLinkClass } from "../utils/styles";
 
 export default function Header() {
@@ -94,11 +92,8 @@ export default function Header() {
   return (
     <>
       <div className="w-full bg-(--header-bg) backdrop-blur-md border-b border-(--border-normal) sticky top-0 z-20">
-        <Motion.header
-          className="max-w-[1980px] w-[94%] mx-auto flex justify-between items-center px-4 md:px-8 py-4 3xl:py-6"
-          {...HeaderAnimation.headerTransition}
-        >
-          <Motion.div {...HeaderAnimation.logoTransition}>
+        <header className="max-w-[1980px] w-[94%] mx-auto flex justify-between items-center px-4 md:px-8 py-4 3xl:py-6">
+          <div>
             <NavLink
               to="/"
               className="text-xl md:text-2xl 3xl:text-3xl font-extrabold no-underline flex items-center gap-2 group"
@@ -107,28 +102,20 @@ export default function Header() {
                 LookSphere
               </span>
             </NavLink>
-          </Motion.div>
+          </div>
 
           {/* Theme Toggle & Burger Menu - Mobile Only */}
           <div className="lg:hidden flex items-center gap-2">
-            <Motion.button
+            <button
               onClick={() => setIsDark(!isDark)}
               aria-label="Toggle theme"
               title={isDark ? "Switch to light mode" : "Switch to dark mode"}
-              whileHover={HeaderAnimation.themeToggleHover}
-              whileTap={HeaderAnimation.themeToggleTap}
-              className="bg-transparent border-none cursor-pointer flex items-center p-2 text-(--text-primary)"
+              className="bg-transparent border-none cursor-pointer flex items-center p-2 text-(--text-primary) transition-transform active:scale-95"
             >
-              <AnimatePresence mode="wait" initial={false}>
-                <Motion.span
-                  key={isDark ? "sun" : "moon"}
-                  {...HeaderAnimation.themeIconTransition}
-                  className="text-xl leading-none"
-                >
-                  {isDark ? <Sun size={20} /> : <Moon size={20} />}
-                </Motion.span>
-              </AnimatePresence>
-            </Motion.button>
+              <span className="text-xl leading-none">
+                {isDark ? <Sun size={20} /> : <Moon size={20} />}
+              </span>
+            </button>
             <button
               className="bg-transparent border-none cursor-pointer p-2 text-(--text-primary) flex items-center"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -138,10 +125,7 @@ export default function Header() {
             </button>
           </div>
 
-          <Motion.nav
-            className="hidden lg:flex lg:gap-6 3xl:gap-8 4xl:gap-10 items-center"
-            {...HeaderAnimation.navTransition}
-          >
+          <nav className="hidden lg:flex lg:gap-6 3xl:gap-8 4xl:gap-10 items-center">
             {user?.role === "admin" && (
               <NavLink to="/dashboard" className={desktopNavLinkClass}>
                 <LayoutDashboard className="w-4.5 h-4.5 3xl:w-5 3xl:h-5 4xl:w-5.5 4xl:h-5.5 transition-transform duration-300 group-hover:scale-110" />{" "}
@@ -162,38 +146,28 @@ export default function Header() {
             </NavLink>
 
             {/* Theme Toggle */}
-            <Motion.button
+            <button
               onClick={() => setIsDark(!isDark)}
               aria-label="Toggle theme"
               title={isDark ? "Switch to light mode" : "Switch to dark mode"}
-              whileHover={HeaderAnimation.themeToggleHover}
-              whileTap={HeaderAnimation.themeToggleTap}
-              className="bg-transparent border-none cursor-pointer flex items-center p-2 rounded-full text-(--text-primary) transition-all duration-300 hover:bg-(--surface-hover) hover:text-(--primary-500) hover:shadow-md hover:-translate-y-0.5"
+              className="bg-transparent border-none cursor-pointer flex items-center p-2 rounded-full text-(--text-primary) transition-all duration-300 hover:bg-(--surface-hover) hover:text-(--primary-500) hover:shadow-md hover:-translate-y-0.5 active:scale-95"
             >
-              <AnimatePresence mode="wait" initial={false}>
-                <Motion.span
-                  key={isDark ? "sun" : "moon"}
-                  {...HeaderAnimation.themeIconTransition}
-                  className="text-xl leading-none flex items-center"
-                >
-                  {isDark ? (
-                    <Sun className="w-5 h-5 3xl:w-6 3xl:h-6 4xl:w-7 4xl:h-7" />
-                  ) : (
-                    <Moon className="w-5 h-5 3xl:w-6 3xl:h-6 4xl:w-7 4xl:h-7" />
-                  )}
-                </Motion.span>
-              </AnimatePresence>
-            </Motion.button>
+              <span className="text-xl leading-none flex items-center">
+                {isDark ? (
+                  <Sun className="w-5 h-5 3xl:w-6 3xl:h-6 4xl:w-7 4xl:h-7" />
+                ) : (
+                  <Moon className="w-5 h-5 3xl:w-6 3xl:h-6 4xl:w-7 4xl:h-7" />
+                )}
+              </span>
+            </button>
 
             {/* Auth: Avatar dropdown OR Login button */}
             {user ? (
               <div ref={dropdownRef} style={{ position: "relative" }}>
                 {/* Avatar button */}
-                <Motion.button
+                <button
                   onClick={() => setDropdownOpen((prev) => !prev)}
-                  whileHover={HeaderAnimation.avatarHover}
-                  whileTap={HeaderAnimation.avatarTap}
-                  className="bg-transparent border-none cursor-pointer p-0 flex items-center rounded-full ring-2 ring-transparent transition-all duration-300 hover:ring-(--primary-500) hover:shadow-[0_0_15px_rgba(59,130,246,0.4)] hover:translate-y-[-2px]"
+                  className="bg-transparent border-none cursor-pointer p-0 flex items-center rounded-full ring-2 ring-transparent transition-all duration-300 hover:ring-(--primary-500) hover:shadow-[0_0_15px_rgba(59,130,246,0.4)] hover:translate-y-[-2px] active:scale-95"
                   aria-label="User menu"
                 >
                   {user.profileImage && !imgError ? (
@@ -206,13 +180,11 @@ export default function Header() {
                   ) : (
                     <UserCircle2 className="w-8.5 h-8.5 3xl:w-10 3xl:h-10 4xl:w-12 4xl:h-12 text-(--text-muted) transition-colors duration-300 hover:text-(--primary-500)" />
                   )}
-                </Motion.button>
+                </button>
 
                 {/* Dropdown */}
-                <AnimatePresence>
-                  {dropdownOpen && (
-                    <Motion.div
-                      {...HeaderAnimation.dropdownTransition}
+                {dropdownOpen && (
+                  <div
                       style={{
                         position: "absolute",
                         top: "calc(100% + 0.5rem)",
@@ -256,9 +228,8 @@ export default function Header() {
                           Logout
                         </div>
                       </button>
-                    </Motion.div>
+                    </div>
                   )}
-                </AnimatePresence>
               </div>
             ) : (
               <div style={{ display: "flex", gap: "0.75rem" }}>
@@ -276,25 +247,20 @@ export default function Header() {
                 </NavLink>
               </div>
             )}
-          </Motion.nav>
+          </nav>
 
-        </Motion.header>
+        </header>
       </div>
 
       {/* Mobile Menu — rendered outside the sticky header to avoid backdrop-filter clipping */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <>
-            {/* Backdrop Blur Overlay */}
-            <Motion.div
-              className="fixed inset-0 bg-black/40 dark:bg-black/60 backdrop-blur-md z-40"
-              {...HeaderAnimation.mobileMenuOverlay}
-              onClick={() => setMobileMenuOpen(false)}
-            />
-            <Motion.div
-              className="mobile-menu-container fixed top-0 right-0 bottom-0 w-2/3 max-w-[280px] bg-(--surface-normal) border-l border-(--border-normal) shadow-2xl z-50 flex flex-col overflow-y-auto liquid-glass"
-              {...HeaderAnimation.mobileMenuContent}
-            >
+      {mobileMenuOpen && (
+        <>
+          {/* Backdrop Blur Overlay */}
+          <div
+            className="fixed inset-0 bg-black/40 dark:bg-black/60 backdrop-blur-md z-40"
+            onClick={() => setMobileMenuOpen(false)}
+          />
+          <div className="mobile-menu-container fixed top-0 right-0 bottom-0 w-2/3 max-w-[280px] bg-(--surface-normal) border-l border-(--border-normal) shadow-2xl z-50 flex flex-col overflow-y-auto liquid-glass">
               <div className="flex flex-col p-4 pt-6 gap-2">
                 {/* Close Button */}
                 <div className="flex justify-end mb-2">
@@ -395,12 +361,8 @@ export default function Header() {
                     </div>
 
                     {/* Profile Submenu */}
-                    <AnimatePresence>
-                      {mobileProfileOpen && (
-                        <Motion.div
-                          {...HeaderAnimation.mobileMenuDropdown}
-                          className="overflow-hidden bg-(--surface-input) rounded-xl mt-2 ml-6 pl-1 border border-(--border-normal) flex flex-col gap-4"
-                        >
+                    {mobileProfileOpen && (
+                      <div className="overflow-hidden bg-(--surface-input) rounded-xl mt-2 ml-6 pl-1 border border-(--border-normal) flex flex-col gap-4">
                           <NavLink
                             to="/profile"
                             onClick={() => {
@@ -421,9 +383,8 @@ export default function Header() {
                           >
                             <LogOut size={18} /> Logout
                           </button>
-                        </Motion.div>
-                      )}
-                    </AnimatePresence>
+                      </div>
+                    )}
                   </>
                 ) : (
                   <div className="flex flex-col gap-2">
@@ -443,11 +404,10 @@ export default function Header() {
                     </NavLink>
                   </div>
                 )}
-              </div>
-            </Motion.div>
-          </>
-        )}
-      </AnimatePresence>
+            </div>
+          </div>
+        </>
+      )}
 
       <ConfirmationModal
         isOpen={showLogoutModal}

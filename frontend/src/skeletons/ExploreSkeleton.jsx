@@ -5,7 +5,7 @@ export default function ExploreSkeleton() {
         return (
           <div
             key={i}
-            className="relative overflow-hidden bg-zinc-900 animate-pulse aspect-[4/5] md:aspect-[3/4] min-h-[220px] sm:min-h-[280px] md:min-h-[350px]"
+            className="relative overflow-hidden bg-zinc-900 animate-pulse aspect-4/5 md:aspect-3/4 min-h-[220px] sm:min-h-[280px] md:min-h-[350px]"
           >
             {/* Base block simulating media */}
             <div className="w-full h-full bg-zinc-200 dark:bg-zinc-800 opacity-20" />

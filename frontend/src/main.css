@@ -145,7 +145,6 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 html {
-  background: var(--page-gradient);
   scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
   scrollbar-width: thin;
   scroll-behavior: smooth;
@@ -155,7 +154,6 @@ html {
 body {
   font-family: 'Inter', sans-serif;
   background: var(--page-gradient);
-  background-attachment: fixed;
   color: var(--text-secondary);
   line-height: 1.6;
   min-height: 100vh;
@@ -184,7 +182,7 @@ a:hover {
 /* Base App Container */
 .app-container {
   min-height: 100vh;
-  background: var(--page-gradient);
+  overflow-x: hidden; /* Contains horizontal overflow here instead of body */
 }
 
 .main-content {
@@ -201,6 +199,7 @@ a:hover {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   display: inline-block;
+  padding-bottom: 0.1em; /* Fixes clipping on mobile */
 }
 
 /* Cards */
@@ -691,6 +690,8 @@ html:not(.dark) .liquid-glass {
   html:not(.dark) .glass {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+    border-color: rgba(128, 128, 128, 0.1) !important;
   }
   
   .liquid-glass {

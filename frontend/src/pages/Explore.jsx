@@ -45,7 +45,8 @@ function ExploreCard({ post }) {
         <div className="relative w-full h-full">
           <video
             ref={videoRef}
-            src={post.mediaUrl}
+            src={`${post.mediaUrl}#t=1.0`}
+            preload="metadata"
             className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
             muted
             loop
@@ -60,6 +61,7 @@ function ExploreCard({ post }) {
           src={post.mediaUrl}
           alt={post.altText || post.caption || "explore post"}
           loading="lazy"
+          decoding="async"
           className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-all duration-300 group-hover:scale-105"
         />
       )}

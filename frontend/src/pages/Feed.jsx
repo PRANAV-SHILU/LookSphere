@@ -143,6 +143,7 @@ function FeedCard({ post, currentUser, onPostClick, isParentModalOpen }) {
           <video
             ref={videoRef}
             src={post.mediaUrl}
+            preload="metadata"
             className="w-full h-auto max-h-[600px] object-contain"
             controls
             controlsList="nodownload"
@@ -155,6 +156,7 @@ function FeedCard({ post, currentUser, onPostClick, isParentModalOpen }) {
             alt={post.altText || post.caption || "post"}
             className="w-full h-auto max-h-[600px] object-contain cursor-pointer hover:opacity-95 transition-opacity"
             loading="lazy"
+            decoding="async"
             onClick={() => onPostClick(post)}
           />
         )}

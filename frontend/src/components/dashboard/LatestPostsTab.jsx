@@ -79,16 +79,20 @@ export default function LatestPostsTab({ latestPosts: initialPosts, now }) {
               <div className="relative aspect-square bg-black/10 overflow-hidden">
                 {post.mediaType === "Video" ? (
                   <video
-                     src={post.mediaUrl}
+                     src={`${post.mediaUrl}#t=1.0`}
+                     preload="metadata"
                      className="w-full h-full object-cover"
                      muted
                      loop
-                     autoPlay
+                     onMouseOver={(e) => e.target.play()}
+                     onMouseOut={(e) => e.target.pause()}
                    />
                 ) : (
                   <img
                     src={post.mediaUrl}
                     alt={post.altText || "Post media"}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover"
                   />
                 )}
@@ -113,7 +117,7 @@ export default function LatestPostsTab({ latestPosts: initialPosts, now }) {
                     style={{ backgroundColor: "var(--surface-card)" }}
                   >
                     {post.userId?.profileImage ? (
-                      <img src={post.userId.profileImage} alt="" className="w-full h-full object-cover" />
+                      <img src={post.userId.profileImage} alt="" className="w-full h-full object-cover" loading="lazy" decoding="async" />
                     ) : (
                       <User size={12} style={{ color: "var(--text-muted)" }} />
                     )}

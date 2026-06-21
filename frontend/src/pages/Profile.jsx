@@ -339,6 +339,8 @@ function ProfileContent({ data, username, submit }) {
                       <img
                         src={post.mediaUrl}
                         alt={post.altText || post.caption || "image"}
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover hover:opacity-90 transition-opacity"
                         draggable={false}
                       />
@@ -403,7 +405,8 @@ function ProfileContent({ data, username, submit }) {
                       onClick={() => handlePostClick(post)}
                     >
                       <video
-                        src={post.mediaUrl}
+                        src={`${post.mediaUrl}#t=1.0`}
+                        preload="metadata"
                         className="w-full h-full object-cover hover:opacity-90 transition-opacity"
                         muted
                         loop

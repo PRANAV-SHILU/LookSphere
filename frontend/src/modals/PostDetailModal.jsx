@@ -338,6 +338,7 @@ export default function PostDetailModal({ isOpen, onClose, post, profileUser }) 
               {isVideo ? (
                 <video
                   src={post.mediaUrl}
+                  preload="metadata"
                   className="post-detail-media"
                   controls
                   controlsList="nodownload"

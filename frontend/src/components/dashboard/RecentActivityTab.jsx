@@ -52,7 +52,7 @@ export default function RecentActivityTab({ recentUsers, now }) {
                 style={{ backgroundColor: "var(--surface-card)", borderColor: "var(--border-light)" }}
               >
                 {userItem.avatar ? (
-                  <img src={userItem.avatar} alt={userItem.username} className="w-full h-full object-cover" />
+                  <img src={userItem.avatar} alt={userItem.username} className="w-full h-full object-cover" loading="lazy" decoding="async" />
                 ) : (
                   <User size={22} style={{ color: "var(--text-muted)" }} />
                 )}

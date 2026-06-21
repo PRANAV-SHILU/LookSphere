@@ -200,6 +200,7 @@ export default function UploadMediaModal({
                     ) : (
                       <video
                         src={previewUrl}
+                        preload="metadata"
                         className="w-full h-full object-cover"
                         controls
                         draggable={false}

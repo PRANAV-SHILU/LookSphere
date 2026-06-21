@@ -1,15 +1,11 @@
 export default function ExploreSkeleton() {
   return (
-    <div className="columns-3 sm:columns-3 lg:columns-3 xl:columns-4 gap-2 sm:gap-4 space-y-2 sm:space-y-4">
-      {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => {
-        // Randomize the height to simulate masonry look
-        const randomHeight = ["h-48", "h-64", "h-80", "h-96"][i % 4];
-
+    <div className="grid grid-cols-3 md:grid-cols-4 gap-[2px] sm:gap-[4px]">
+      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((i) => {
         return (
           <div
             key={i}
-            className={`break-inside-avoid relative rounded-xl overflow-hidden bg-zinc-900 border animate-pulse ${randomHeight}`}
-            style={{ borderColor: "var(--border-normal)" }}
+            className="relative overflow-hidden bg-zinc-900 animate-pulse aspect-[4/5] md:aspect-[3/4] min-h-[220px] sm:min-h-[280px] md:min-h-[350px]"
           >
             {/* Base block simulating media */}
             <div className="w-full h-full bg-zinc-200 dark:bg-zinc-800 opacity-20" />

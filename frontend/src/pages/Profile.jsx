@@ -198,7 +198,7 @@ function ProfileContent({ data, username, submit }) {
       </AnimatePresence>
 
       <Motion.main
-        className="w-full mx-auto pt-8 pb-16 px-4 md:px-8"
+        className="w-full mx-auto pt-8 pb-16 px-0 md:px-8"
         {...ProfileAnimation.pageTransition}
       >
         {/* --- Profile Header --- */}

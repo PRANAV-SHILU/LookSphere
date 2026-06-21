@@ -51,7 +51,13 @@ export function HeroBackground() {
   );
 }
 
-export function AnimatedText({ text, className, delay = 0, stagger = 0.04, yOffset = 30 }) {
+export function AnimatedText({ text, className, delay = 0, stagger = 0.04, yOffset = 30, isHero = false }) {
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+
+  if (isMobile && !isHero) {
+    return <div className={className}>{text}</div>;
+  }
+
   return (
     <Motion.div
       className={`flex justify-center flex-wrap ${className}`}

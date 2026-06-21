@@ -11,13 +11,13 @@ export default function AppLayout() {
   const navigation = useNavigation();
   const isLoading = navigation.state === "loading";
 
-  const isFeedOrExplore = location.pathname === "/feed" || location.pathname === "/explore";
+  const isNoPaddingPage = location.pathname === "/feed" || location.pathname === "/explore" || location.pathname.startsWith("/profile");
 
   return (
     <div className="app-container">
       {isLoading && <div className="top-loading-bar" />}
       <Header />
-      <main className={`main-content ${isFeedOrExplore ? "px-0" : "px-2 sm:px-4 md:px-8"}`}>
+      <main className={`main-content ${isNoPaddingPage ? "px-0" : "px-2 sm:px-4 md:px-8"}`}>
         <AnimatePresence mode="wait">
           <Outlet key={location.pathname} />
         </AnimatePresence>

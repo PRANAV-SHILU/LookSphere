@@ -60,7 +60,7 @@ export default function Login() {
       {...LoginAnimation.pageTransition}
     >
       <Motion.div
-        className="card w-full max-w-md p-4! xsm:p-8! 4xl:max-w-xl 4xl:p-14! 4xl:rounded-2xl"
+        className="card w-full max-w-md px-4! py-8! xsm:p-8! 4xl:max-w-xl 4xl:p-14! 4xl:rounded-2xl"
         {...LoginAnimation.cardTransition}
       >
         <Form method="post" onKeyDown={handleKeyDown}>

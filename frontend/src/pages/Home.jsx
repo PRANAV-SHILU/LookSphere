@@ -40,11 +40,13 @@ export default function Home() {
 
   useEffect(() => {
     if (!isLoading) return;
+    const isMobile = window.innerWidth < 768;
+    const delay = isMobile ? 2400 : 1200;
     // Artificial delay for the cool loading animation
     const timer = setTimeout(() => {
       setIsLoading(false);
       sessionStorage.setItem("hasVisitedHome", "true");
-    }, 1200);
+    }, delay);
     return () => clearTimeout(timer);
   }, [isLoading]);
 

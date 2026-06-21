@@ -39,16 +39,16 @@ function ExploreCard({ post }) {
 
   return (
     <div
-      className="relative w-full h-full"
+      className="relative w-full h-full aspect-[4/5] md:aspect-[3/4] min-h-[220px] sm:min-h-[280px] md:min-h-[350px] overflow-hidden"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       {isVideo ? (
-        <div className="relative">
+        <div className="relative w-full h-full">
           <video
             ref={videoRef}
             src={post.mediaUrl}
-            className="w-full h-auto object-cover opacity-90 group-hover:opacity-100 transition-opacity"
+            className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
             muted
             loop
             playsInline
@@ -62,7 +62,7 @@ function ExploreCard({ post }) {
           src={post.mediaUrl}
           alt={post.altText || post.caption || "explore post"}
           loading="lazy"
-          className="w-full h-auto object-cover opacity-90 group-hover:opacity-100 transition-all duration-300 group-hover:scale-105"
+          className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-all duration-300 group-hover:scale-105"
         />
       )}
 
@@ -291,7 +291,7 @@ function ExploreContent({ posts, setSelectedPost }) {
       ) : (
         <Motion.div
           key={postsHash}
-          className="columns-3 sm:columns-3 lg:columns-3 xl:columns-4 gap-2 sm:gap-4 space-y-2 sm:space-y-4"
+          className="grid grid-cols-3 md:grid-cols-4 gap-[2px] sm:gap-[4px]"
           variants={ExploreAnimation.containerVariants}
           initial="hidden"
           animate="show"
@@ -302,8 +302,7 @@ function ExploreContent({ posts, setSelectedPost }) {
                 <Motion.div
                   key={post._id}
                   variants={ExploreAnimation.itemVariants}
-                  className="break-inside-avoid relative rounded-xl overflow-hidden cursor-pointer group bg-zinc-900 border"
-                  style={{ borderColor: "var(--border-normal)" }}
+                  className="relative overflow-hidden cursor-pointer group bg-zinc-900"
                   onClick={() => handlePostClick(post)}
                 >
                   <ExploreCard post={post} />
@@ -314,7 +313,7 @@ function ExploreContent({ posts, setSelectedPost }) {
               <Link
                 to="/profile"
                 onClick={() => window.scrollTo(0, 0)}
-                className="group aspect-square bg-zinc-900 border border-dashed overflow-hidden cursor-pointer rounded-xl relative flex flex-col items-center justify-center hover:bg-zinc-800 transition-colors"
+                className="group aspect-[4/5] md:aspect-[3/4] min-h-[220px] sm:min-h-[280px] md:min-h-[350px] bg-zinc-900 border border-dashed overflow-hidden cursor-pointer relative flex flex-col items-center justify-center hover:bg-zinc-800 transition-colors"
                 style={{ borderColor: "var(--border-normal)" }}
               >
                 <Plus

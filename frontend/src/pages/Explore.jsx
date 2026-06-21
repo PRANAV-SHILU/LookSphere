@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, Suspense } from "react";
+import { useState, useEffect, useRef, Suspense, useCallback } from "react";
 import { useLoaderData, Link, Await, useRevalidator } from "react-router-dom";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import {
@@ -111,19 +111,67 @@ function ExploreCard({ post }) {
   );
 }
 
+import { fetchFeed } from "../services/postService";
+import { feedRefresher } from "../utils/feedRefresher";
+
 function ExploreContent({ posts, setSelectedPost }) {
+  const [prevPosts, setPrevPosts] = useState(posts);
+  const [allPosts, setAllPosts] = useState(posts);
+  const [page, setPage] = useState(1);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [hasMore, setHasMore] = useState(posts.length === 20);
+
+  if (posts !== prevPosts) {
+    setPrevPosts(posts);
+    setAllPosts(posts);
+    setPage(1);
+    setHasMore(posts.length === 20);
+  }
+
+  const loadMore = useCallback(async () => {
+    if (loadingMore || !hasMore) return;
+    setLoadingMore(true);
+    try {
+      const nextPage = page + 1;
+      const res = await fetchFeed(nextPage, 20);
+      if (res.data.length < 20) setHasMore(false);
+      setAllPosts(prev => {
+        const existingIds = new Set(prev.map(p => p._id));
+        const newPostsRaw = res.data.filter(p => !existingIds.has(p._id));
+        const newPosts = feedRefresher(newPostsRaw);
+        return [...prev, ...newPosts];
+      });
+      setPage(nextPage);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoadingMore(false);
+    }
+  }, [loadingMore, hasMore, page]);
+
+  const observer = useRef();
+  const triggerElementRef = useCallback(node => {
+    if (loadingMore) return;
+    if (observer.current) observer.current.disconnect();
+    observer.current = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting && hasMore) {
+        loadMore();
+      }
+    });
+    if (node) observer.current.observe(node);
+  }, [loadingMore, hasMore, loadMore]);
   const [searchQuery, setSearchQuery] = useState("");
   const [isClearHovered, setIsClearHovered] = useState(false);
   const revalidator = useRevalidator();
   const isRefreshing = revalidator.state === "loading";
 
   const filteredPosts = (() => {
-    if (!searchQuery) return posts;
+    if (!searchQuery) return allPosts;
     const query = searchQuery.toLowerCase().trim();
-    if (!query) return posts;
+    if (!query) return allPosts;
 
     let queryWords = query.split(/[\s\r\n]+/).filter(Boolean);
-    if (queryWords.length === 0) return posts;
+    if (queryWords.length === 0) return allPosts;
 
     const nonStopwords = queryWords.filter((word) => !STOPWORDS.has(word));
     if (nonStopwords.length > 0) {
@@ -132,7 +180,7 @@ function ExploreContent({ posts, setSelectedPost }) {
 
     const scoredPosts = [];
 
-    posts.forEach((post) => {
+    allPosts.forEach((post) => {
       const caption = (post.caption || "").toLowerCase();
       const altText = (post.altText || "").toLowerCase();
 
@@ -180,8 +228,6 @@ function ExploreContent({ posts, setSelectedPost }) {
       setSelectedPost(post);
     }
   };
-
-  const postsHash = posts.map((p) => p._id).join(",");
 
   return (
     <>
@@ -242,7 +288,7 @@ function ExploreContent({ posts, setSelectedPost }) {
         </button>
       </div>
 
-      {posts.length === 0 ? (
+      {allPosts.length === 0 ? (
         <div
           className="text-center py-20 rounded-2xl border border-dashed"
           style={{
@@ -281,18 +327,21 @@ function ExploreContent({ posts, setSelectedPost }) {
         </div>
       ) : (
         <div
-          key={postsHash}
           className="grid grid-cols-3 md:grid-cols-4 gap-[2px] sm:gap-[4px]"
         >
-            {filteredPosts.map((post) => (
-                <div
-                  key={post._id}
-                  className="relative overflow-hidden cursor-pointer group bg-zinc-900"
-                  onClick={() => handlePostClick(post)}
-                >
-                  <ExploreCard post={post} />
-                </div>
-            ))}
+            {filteredPosts.map((post, index) => {
+                const isTriggerElement = index === filteredPosts.length - 9;
+                return (
+                  <div
+                    key={post._id}
+                    ref={isTriggerElement ? triggerElementRef : null}
+                    className="relative overflow-hidden cursor-pointer group bg-zinc-900"
+                    onClick={() => handlePostClick(post)}
+                  >
+                    <ExploreCard post={post} />
+                  </div>
+                );
+            })}
               <Link
                 to="/profile"
                 onClick={() => window.scrollTo(0, 0)}
@@ -313,6 +362,12 @@ function ExploreContent({ posts, setSelectedPost }) {
               </Link>
           </div>
         )}
+
+      {loadingMore && (
+        <div className="flex justify-center py-6 col-span-full">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-zinc-500"></div>
+        </div>
+      )}
   
       </>
     );

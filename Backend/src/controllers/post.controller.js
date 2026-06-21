@@ -3,9 +3,19 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import Post from "../models/posts.model.js";
 
 export const getFeed = asyncHandler("getFeed", async (req, res) => {
-  const posts = await Post.find()
+  let query = Post.find()
     .populate("userId", "username profileImage")
     .sort({ createdAt: -1 });
+
+  const page = parseInt(req.query.page);
+  const limit = parseInt(req.query.limit);
+
+  if (page && limit) {
+    const skip = (page - 1) * limit;
+    query = query.skip(skip).limit(limit);
+  }
+
+  const posts = await query;
 
   return res.status(200).json({
     message: "Posts fetched successfully",

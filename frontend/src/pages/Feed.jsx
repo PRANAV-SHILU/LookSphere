@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, Suspense } from "react";
+import { useState, useEffect, useRef, Suspense, useCallback } from "react";
 import { useLoaderData, Link, useRevalidator, Await } from "react-router-dom";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import FeedSkeleton from "../skeletons/FeedSkeleton";
@@ -219,25 +219,71 @@ function FeedCard({ post, currentUser, onPostClick, isParentModalOpen }) {
 }
 
 // Component that renders when data is loaded
+import { fetchFeed } from "../services/postService";
+import { feedRefresher } from "../utils/feedRefresher";
+
 function FeedContent({ posts, currentUser, setSelectedPost, selectedPost }) {
+  const [prevPosts, setPrevPosts] = useState(posts);
+  const [allPosts, setAllPosts] = useState(posts);
+  const [page, setPage] = useState(1);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [hasMore, setHasMore] = useState(posts.length === 10);
+
+  if (posts !== prevPosts) {
+    setPrevPosts(posts);
+    setAllPosts(posts);
+    setPage(1);
+    setHasMore(posts.length === 10);
+  }
+
+  const loadMore = useCallback(async () => {
+    if (loadingMore || !hasMore) return;
+    setLoadingMore(true);
+    try {
+      const nextPage = page + 1;
+      const res = await fetchFeed(nextPage, 10);
+      if (res.data.length < 10) setHasMore(false);
+      setAllPosts(prev => {
+        const existingIds = new Set(prev.map(p => p._id));
+        const newPostsRaw = res.data.filter(p => !existingIds.has(p._id));
+        const newPosts = feedRefresher(newPostsRaw);
+        return [...prev, ...newPosts];
+      });
+      setPage(nextPage);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoadingMore(false);
+    }
+  }, [loadingMore, hasMore, page]);
+
+  const observer = useRef();
+  const triggerElementRef = useCallback(node => {
+    if (loadingMore) return;
+    if (observer.current) observer.current.disconnect();
+    observer.current = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting && hasMore) {
+        loadMore();
+      }
+    });
+    if (node) observer.current.observe(node);
+  }, [loadingMore, hasMore, loadMore]);
   // Track posts seen in this session
   useEffect(() => {
-    if (posts && posts.length > 0) {
+    if (allPosts && allPosts.length > 0) {
       try {
         const storedSeen = sessionStorage.getItem("seenPostIds");
         const seenIds = storedSeen ? JSON.parse(storedSeen) : [];
-        const currentIds = posts.map((p) => p._id).filter(Boolean);
+        const currentIds = allPosts.map((p) => p._id).filter(Boolean);
         const newSeenIds = Array.from(new Set([...seenIds, ...currentIds]));
         sessionStorage.setItem("seenPostIds", JSON.stringify(newSeenIds));
       } catch (e) {
         console.error("Error writing seenPostIds:", e);
       }
     }
-  }, [posts]);
+  }, [allPosts]);
 
-  const postsHash = posts.map((p) => p._id).join(",");
-
-  if (posts.length === 0) {
+  if (allPosts.length === 0) {
     return (
       <div
         className="text-center py-20 rounded-2xl border border-dashed"
@@ -273,21 +319,30 @@ function FeedContent({ posts, currentUser, setSelectedPost, selectedPost }) {
 
   return (
     <div
-      key={postsHash}
       className="flex flex-col gap-8"
     >
-        {posts.map((post) => (
-          <div
-            key={post._id}
-          >
-            <FeedCard
-              post={post}
-              currentUser={currentUser}
-              onPostClick={setSelectedPost}
-              isParentModalOpen={!!selectedPost}
-            />
-          </div>
-        ))}
+        {allPosts.map((post, index) => {
+          const isTriggerElement = index === allPosts.length - 5;
+          return (
+            <div
+              key={post._id}
+              ref={isTriggerElement ? triggerElementRef : null}
+            >
+              <FeedCard
+                post={post}
+                currentUser={currentUser}
+                onPostClick={setSelectedPost}
+                isParentModalOpen={!!selectedPost}
+              />
+            </div>
+          );
+        })}
+
+      {loadingMore && (
+        <div className="flex justify-center py-4">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-zinc-500"></div>
+        </div>
+      )}
 
       {/* Add media redirect card */}
       <div>

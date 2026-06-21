@@ -34,49 +34,102 @@ import { editProfileLoader } from "../loaders/editProfileLoader.jsx";
 import { redirectIfAuthenticated } from "../loaders/redirectIfAuthenticated.jsx";
 import { dashboardLoader } from "../loaders/dashboardLoader.jsx";
 
-const router = createBrowserRouter(
-  [
-    {
-      id: "root",
-      path: "/",
-      Component: AppLayout,
-      loader: authLoader,
-      errorElement: <ErrorBoundary />,
-      children: [
-        { index: true, element: <Suspense fallback={<div className="top-loading-bar" />}><Home /></Suspense> },
-        {
-          path: "register",
-          element: <Suspense fallback={<div className="top-loading-bar" />}><Register /></Suspense>,
-          loader: redirectIfAuthenticated,
-          action: registerAction,
-        },
-        {
-          path: "login",
-          element: <Suspense fallback={<div className="top-loading-bar" />}><Login /></Suspense>,
-          loader: redirectIfAuthenticated,
-          action: loginAction,
-        },
-        { path: "logout", action: logoutAction },
-        { path: "creators", element: <Suspense fallback={<CreatorsSkeleton />}><Creators /></Suspense>, loader: creatorsLoader },
-        { path: "feed", element: <Suspense fallback={<FeedSkeleton />}><Feed /></Suspense>, loader: feedLoader },
-        { path: "dashboard", element: <Suspense fallback={<DashboardSkeleton />}><Dashboard /></Suspense>, loader: dashboardLoader },
-        { path: "explore", element: <Suspense fallback={<ExploreSkeleton />}><Explore /></Suspense>, loader: feedLoader },
-        {
-          path: "profile/:username?",  //optional username means it can be /profile or /profile/:username
-          element: <Suspense fallback={<ProfileSkeleton />}><Profile /></Suspense>,
-          loader: profileLoader,
-          action: uploadAction,
-        },
-        {
-          path: "edit-profile",
-          element: <Suspense fallback={<div className="top-loading-bar" />}><EditProfile /></Suspense>,
-          loader: editProfileLoader,
-          action: editProfileAction,
-        },
-      ],
-    },
-    { path: "*", Component: PageNotFound },
-  ]
-);
+const router = createBrowserRouter([
+  {
+    id: "root",
+    path: "/",
+    Component: AppLayout,
+    loader: authLoader,
+    errorElement: <ErrorBoundary />,
+    children: [
+      {
+        index: true,
+        element: (
+          <Suspense fallback={<div className="top-loading-bar" />}>
+            <Home />
+          </Suspense>
+        ),
+      },
+      {
+        path: "register",
+        element: (
+          <Suspense fallback={<div className="top-loading-bar" />}>
+            <Register />
+          </Suspense>
+        ),
+        loader: redirectIfAuthenticated,
+        action: registerAction,
+      },
+      {
+        path: "login",
+        element: (
+          <Suspense fallback={<div className="top-loading-bar" />}>
+            <Login />
+          </Suspense>
+        ),
+        loader: redirectIfAuthenticated,
+        action: loginAction,
+      },
+      { path: "logout", action: logoutAction },
+      {
+        path: "creators",
+        element: (
+          <Suspense fallback={<CreatorsSkeleton />}>
+            <Creators />
+          </Suspense>
+        ),
+        loader: creatorsLoader,
+      },
+      {
+        path: "feed",
+        element: (
+          <Suspense fallback={<FeedSkeleton />}>
+            <Feed />
+          </Suspense>
+        ),
+        loader: feedLoader(10),
+      },
+      {
+        path: "dashboard",
+        element: (
+          <Suspense fallback={<DashboardSkeleton />}>
+            <Dashboard />
+          </Suspense>
+        ),
+        loader: dashboardLoader,
+      },
+      {
+        path: "explore",
+        element: (
+          <Suspense fallback={<ExploreSkeleton />}>
+            <Explore />
+          </Suspense>
+        ),
+        loader: feedLoader(20),
+      },
+      {
+        path: "profile/:username?", //optional username means it can be /profile or /profile/:username
+        element: (
+          <Suspense fallback={<ProfileSkeleton />}>
+            <Profile />
+          </Suspense>
+        ),
+        loader: profileLoader,
+        action: uploadAction,
+      },
+      {
+        path: "edit-profile",
+        element: (
+          <Suspense fallback={<div className="top-loading-bar" />}>
+            <EditProfile />
+          </Suspense>
+        ),
+        loader: editProfileLoader,
+        action: editProfileAction,
+      },
+    ],
+  },
+  { path: "*", Component: PageNotFound },
+]);
 
 export default router;

@@ -2,9 +2,10 @@ import apiClient from "./apiClient";
 import { ENDPOINTS } from "./endpoints";
 
 // Feed
-export async function getFeed() {
+export async function getFeed(page, limit) {
   try {
-    const res = await apiClient.get(ENDPOINTS.POST.POSTS);
+    const url = page && limit ? `${ENDPOINTS.POST.POSTS}?page=${page}&limit=${limit}` : ENDPOINTS.POST.POSTS;
+    const res = await apiClient.get(url);
     // console.log("feed posts", res.data);
     return res.data;
   } catch (err) {

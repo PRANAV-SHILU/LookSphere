@@ -1,6 +1,6 @@
 export default function ExploreSkeleton() {
   return (
-    <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4 space-y-4">
+    <div className="columns-3 sm:columns-3 lg:columns-3 xl:columns-4 gap-2 sm:gap-4 space-y-2 sm:space-y-4">
       {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => {
         // Randomize the height to simulate masonry look
         const randomHeight = ["h-48", "h-64", "h-80", "h-96"][i % 4];

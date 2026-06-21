@@ -291,7 +291,7 @@ function ExploreContent({ posts, setSelectedPost }) {
       ) : (
         <Motion.div
           key={postsHash}
-          className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4 space-y-4"
+          className="columns-3 sm:columns-3 lg:columns-3 xl:columns-4 gap-2 sm:gap-4 space-y-2 sm:space-y-4"
           variants={ExploreAnimation.containerVariants}
           initial="hidden"
           animate="show"

@@ -9,7 +9,10 @@ export function feedLoader(limit = 10) {
     const feedPromise = fetchFeed(1, limit, search)
       .then(res => {
         const posts = res.data || [];
-        return feedRefresher(posts);
+        return {
+          posts: feedRefresher(posts),
+          total: res.total || 0
+        };
       })
       .catch(err => {
         console.error("feedLoader error:", err);

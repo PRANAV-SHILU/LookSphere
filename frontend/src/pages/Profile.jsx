@@ -19,6 +19,7 @@ import BackButton from "../shared-components/BackButton";
 import UploadMediaModal from "../modals/UploadMediaModal";
 import PostDetailModal from "../modals/PostDetailModal";
 import { trackPostView } from "../services/postService";
+import { getOptimizedMediaUrl, getVideoPosterUrl } from "../utils/cloudinaryOptimizer";
 
 function Bio({ bio, className }) {
   if (!bio) return null;
@@ -339,7 +340,7 @@ function ProfileContent({ data, username, submit }) {
                       onClick={() => handlePostClick(post)}
                     >
                       <img
-                        src={post.mediaUrl}
+                        src={getOptimizedMediaUrl(post.mediaUrl, { width: 300 })}
                         alt={post.altText || post.caption || "image"}
                         loading="lazy"
                         decoding="async"
@@ -408,6 +409,7 @@ function ProfileContent({ data, username, submit }) {
                     >
                       <video
                         src={`${post.mediaUrl}#t=1.0`}
+                        poster={getVideoPosterUrl(post.mediaUrl, 300)}
                         preload="metadata"
                         className="w-full h-full object-cover hover:opacity-90 transition-opacity"
                         muted

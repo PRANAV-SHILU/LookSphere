@@ -31,10 +31,12 @@ export const getFeed = asyncHandler("getFeed", async (req, res) => {
   }
 
   const posts = await query;
+  const total = await Post.countDocuments(filter);
 
   return res.status(200).json({
     message: "Posts fetched successfully",
     data: posts,
+    total,
   });
 });
 

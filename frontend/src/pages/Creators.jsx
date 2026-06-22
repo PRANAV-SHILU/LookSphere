@@ -1,41 +1,35 @@
 import { useState, Suspense, useEffect, useRef } from "react";
-import { useLoaderData, Link, Await, useRevalidator } from "react-router-dom";
+import { useLoaderData, Link, Await, useSearchParams } from "react-router-dom";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
-import { User, Eye, ArrowRight, Search, FileText } from "lucide-react";
+import { User, Eye, ArrowRight, Search, FileText, X } from "lucide-react";
 import BackButton from "../shared-components/BackButton";
 import CreatorsSkeleton from "../skeletons/CreatorsSkeleton";
 
 function CreatorsContent({ creatorsList }) {
-  const [query, setQuery] = useState(() => {
-    const params = new URLSearchParams(window.location.search);
-    return params.get("search") || "";
-  });
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [query, setQuery] = useState(searchParams.get("search") || "");
   const [hoveredCreator, setHoveredCreator] = useState(null);
-  const revalidator = useRevalidator();
+  const [isClearHovered, setIsClearHovered] = useState(false);
   const searchTimeoutRef = useRef(null);
 
   useEffect(() => {
     if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
 
     searchTimeoutRef.current = setTimeout(() => {
-      const currentParams = new URLSearchParams(window.location.search);
-      const currentQuery = currentParams.get("search") || "";
+      const currentQuery = searchParams.get("search") || "";
       if (query.trim() !== currentQuery.trim()) {
-        const newParams = new URLSearchParams(window.location.search);
         if (query.trim()) {
-          newParams.set("search", query.trim());
+          setSearchParams({ search: query.trim() }, { replace: true });
         } else {
-          newParams.delete("search");
+          setSearchParams({}, { replace: true });
         }
-        window.history.replaceState({}, "", `${window.location.pathname}?${newParams.toString()}`);
-        revalidator.revalidate();
       }
     }, 400);
 
     return () => {
       if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
     };
-  }, [query, revalidator]);
+  }, [query, searchParams, setSearchParams]);
 
   return (
     <>
@@ -50,12 +44,28 @@ function CreatorsContent({ creatorsList }) {
         <Search size={18} style={{ color: "var(--text-muted)" }} />
         <input
           type="text"
-          placeholder="Search by username or tagline..."
+          placeholder="Search creators..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           className="bg-transparent outline-none w-full text-sm"
           style={{ color: "var(--text-primary)" }}
         />
+        {query && (
+          <button
+            onClick={() => setQuery("")}
+            className="transition-colors p-0.5 rounded-full hover:bg-zinc-800/80"
+            style={{
+              color: isClearHovered
+                ? "var(--text-primary)"
+                : "var(--text-muted)",
+            }}
+            onMouseEnter={() => setIsClearHovered(true)}
+            onMouseLeave={() => setIsClearHovered(false)}
+            title="Clear search"
+          >
+            <X size={16} />
+          </button>
+        )}
       </div>
 
       {creatorsList.length === 0 && !query ? (

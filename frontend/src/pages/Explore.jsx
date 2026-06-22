@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, Suspense, useCallback } from "react";
-import { useLoaderData, Link, Await, useRevalidator } from "react-router-dom";
+import { useLoaderData, Link, Await, useRevalidator, useSearchParams } from "react-router-dom";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import {
   Video,
@@ -15,16 +15,25 @@ import PostDetailModal from "../modals/PostDetailModal";
 import { trackPostView } from "../services/postService";
 import ExploreSkeleton from "../skeletons/ExploreSkeleton";
 
+import { getOptimizedMediaUrl, getVideoPosterUrl } from "../utils/cloudinaryOptimizer";
+
 const ExploreCard = React.memo(function ExploreCard({ post }) {
   const videoRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
   const isVideo =
     post.mediaType === "Video" ||
     (post.mediaUrl && post.mediaUrl.match(/\.(mp4|webm|ogg)$/i)) ||
     (post.mediaUrl && post.mediaUrl.includes("video/upload"));
 
   const handleMouseEnter = () => {
-    if (videoRef.current) {
-      videoRef.current.play().catch(() => {});
+    if (isVideo) {
+      setIsPlaying(true);
+      // Wait for React to render the video element and set the ref
+      requestAnimationFrame(() => {
+        if (videoRef.current) {
+          videoRef.current.play().catch(() => {});
+        }
+      });
     }
   };
 
@@ -32,7 +41,11 @@ const ExploreCard = React.memo(function ExploreCard({ post }) {
     if (videoRef.current) {
       videoRef.current.pause();
     }
+    setIsPlaying(false);
   };
+
+  const optimizedPoster = isVideo ? getVideoPosterUrl(post.mediaUrl, 400) : "";
+  const optimizedImage = !isVideo ? getOptimizedMediaUrl(post.mediaUrl, { width: 400 }) : "";
 
   return (
     <div
@@ -42,22 +55,33 @@ const ExploreCard = React.memo(function ExploreCard({ post }) {
     >
       {isVideo ? (
         <div className="relative w-full h-full">
-          <video
-            ref={videoRef}
-            src={`${post.mediaUrl}#t=1.0`}
-            preload="metadata"
-            className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
-            muted
-            loop
-            playsInline
-          />
+          {isPlaying ? (
+            <video
+              ref={videoRef}
+              src={`${post.mediaUrl}#t=1.0`}
+              preload="auto"
+              className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
+              muted
+              loop
+              playsInline
+              autoPlay
+            />
+          ) : (
+            <img
+              src={optimizedPoster}
+              alt={post.altText || post.caption || "video thumbnail"}
+              loading="lazy"
+              decoding="async"
+              className="w-full h-full object-cover opacity-90 group-hover:opacity-100"
+            />
+          )}
           <div className="absolute top-2 right-2 bg-black/50 p-1.5 rounded-md text-white backdrop-blur-sm">
             <Video size={14} />
           </div>
         </div>
       ) : (
         <img
-          src={post.mediaUrl}
+          src={optimizedImage}
           alt={post.altText || post.caption || "explore post"}
           loading="lazy"
           decoding="async"
@@ -113,7 +137,7 @@ const ExploreCard = React.memo(function ExploreCard({ post }) {
 import { fetchFeed } from "../services/postService";
 import { feedRefresher } from "../utils/feedRefresher";
 
-function ExploreContent({ posts, setSelectedPost }) {
+function ExploreContent({ posts, total, setSelectedPost }) {
   const [prevPosts, setPrevPosts] = useState(posts);
   const [allPosts, setAllPosts] = useState(posts);
   const [page, setPage] = useState(1);
@@ -132,7 +156,9 @@ function ExploreContent({ posts, setSelectedPost }) {
     setLoadingMore(true);
     try {
       const nextPage = page + 1;
-      const res = await fetchFeed(nextPage, 20);
+      const currentParams = new URLSearchParams(window.location.search);
+      const currentSearch = currentParams.get("search") || "";
+      const res = await fetchFeed(nextPage, 20, currentSearch);
       if (res.data.length < 20) setHasMore(false);
       setAllPosts(prev => {
         const existingIds = new Set(prev.map(p => p._id));
@@ -159,10 +185,8 @@ function ExploreContent({ posts, setSelectedPost }) {
     });
     if (node) observer.current.observe(node);
   }, [loadingMore, hasMore, loadMore]);
-  const [searchQuery, setSearchQuery] = useState(() => {
-    const params = new URLSearchParams(window.location.search);
-    return params.get("search") || "";
-  });
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchQuery, setSearchQuery] = useState(searchParams.get("search") || "");
   const [isClearHovered, setIsClearHovered] = useState(false);
   const revalidator = useRevalidator();
   const isRefreshing = revalidator.state === "loading";
@@ -173,26 +197,20 @@ function ExploreContent({ posts, setSelectedPost }) {
     if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
     
     searchTimeoutRef.current = setTimeout(() => {
-      const currentParams = new URLSearchParams(window.location.search);
-      const currentQuery = currentParams.get("search") || "";
+      const currentQuery = searchParams.get("search") || "";
       if (searchQuery.trim() !== currentQuery.trim()) {
-        const newParams = new URLSearchParams(window.location.search);
         if (searchQuery.trim()) {
-          newParams.set("search", searchQuery.trim());
+          setSearchParams({ search: searchQuery.trim() }, { replace: true });
         } else {
-          newParams.delete("search");
+          setSearchParams({}, { replace: true });
         }
-        // Use history.replaceState to avoid adding unnecessary entries to the history stack,
-        // and trigger revalidation to reload loader data
-        window.history.replaceState({}, "", `${window.location.pathname}?${newParams.toString()}`);
-        revalidator.revalidate();
       }
     }, 400);
 
     return () => {
       if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
     };
-  }, [searchQuery, revalidator]);
+  }, [searchQuery, searchParams, setSearchParams]);
 
   const handlePostClick = async (post) => {
     if (post._id) {
@@ -248,10 +266,13 @@ function ExploreContent({ posts, setSelectedPost }) {
 
       <div className="mb-8 flex justify-between items-center text-sm">
         <span style={{ color: "var(--text-muted)" }}>
-          {allPosts.length} posts found
+          {searchQuery ? `${total} posts found` : ""}
         </span>
         <button
-          onClick={() => revalidator.revalidate()}
+          onClick={() => {
+            setSearchQuery("");
+            revalidator.revalidate();
+          }}
           disabled={isRefreshing}
           className="flex items-center cursor-pointer gap-2 px-3.5 py-2 rounded-lg text-sm font-semibold transition-all hover:bg-zinc-800 disabled:opacity-50"
           style={{
@@ -387,9 +408,10 @@ function ExploreContent({ posts, setSelectedPost }) {
   
         <Suspense fallback={<ExploreSkeleton />}>
           <Await resolve={feedData} errorElement={<div className="text-center py-10">Error loading explore data.</div>}>
-            {(posts) => (
+            {({ posts, total }) => (
               <ExploreContent 
                 posts={posts} 
+                total={total}
                 setSelectedPost={setSelectedPost} 
               />
             )}

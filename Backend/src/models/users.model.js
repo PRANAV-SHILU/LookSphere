@@ -54,7 +54,6 @@ const userSchema = new mongoose.Schema(
 );
 
 // Indexes for query optimization
-userSchema.index({ username: 1 });
 userSchema.index({ role: 1 });
 userSchema.index({ profileViewCount: -1 });
 

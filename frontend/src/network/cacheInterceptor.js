@@ -11,8 +11,11 @@ function getCacheKey(config) {
 export function setupCachingInterceptor(apiClient) {
   apiClient.interceptors.request.use(
     (config) => {
+      // Bypass cache for search queries to ensure real-time results
+      const isSearchQuery = config.params?.search || (config.url && config.url.includes("search="));
+
       // Only cache safe GET requests to protect write operations
-      if (config.method.toLowerCase() === "get") {
+      if (config.method.toLowerCase() === "get" && !isSearchQuery) {
         const cacheKey = getCacheKey(config);
         const cached = cache.get(cacheKey);
 
@@ -46,7 +49,9 @@ export function setupCachingInterceptor(apiClient) {
   apiClient.interceptors.response.use(
     (response) => {
       const config = response.config;
-      if (config.method.toLowerCase() === "get") {
+      const isSearchQuery = config.params?.search || (config.url && config.url.includes("search="));
+
+      if (config.method.toLowerCase() === "get" && !isSearchQuery) {
         const cacheKey = getCacheKey(config);
         cache.set(cacheKey, {
           data: response.data,

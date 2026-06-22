@@ -448,7 +448,7 @@ export default function Feed() {
 
       <Suspense fallback={<FeedSkeleton />}>
         <Await resolve={feedData} errorElement={<div className="text-center py-10">Error loading feed.</div>}>
-          {(posts) => (
+          {({ posts }) => (
             <FeedContent 
               posts={posts} 
               currentUser={currentUser} 

@@ -89,7 +89,7 @@ const ExploreCard = React.memo(function ExploreCard({ post }) {
         />
       )}
 
-      <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-white">
+      <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden md:flex flex-col justify-end p-4 text-white">
         <div className="flex items-center gap-2 mb-2">
           {post.userId ? (
             <Link

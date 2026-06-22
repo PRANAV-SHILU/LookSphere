@@ -1,8 +1,58 @@
-import { useState } from "react";
+import React, { useState, useRef, memo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Eye, User } from "lucide-react";
 import PostDetailModal from "../../modals/PostDetailModal";
 import { trackPostView } from "../../services/postService";
+import { getVideoPosterUrl } from "../../utils/cloudinaryOptimizer";
+
+const DashboardVideoCard = memo(function DashboardVideoCard({ post }) {
+  const videoRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsPlaying(true);
+    requestAnimationFrame(() => {
+      if (videoRef.current) {
+        videoRef.current.play().catch(() => {});
+      }
+    });
+  };
+
+  const handleMouseLeave = () => {
+    if (videoRef.current) {
+      videoRef.current.pause();
+    }
+    setIsPlaying(false);
+  };
+
+  return (
+    <div 
+      className="w-full h-full"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      {isPlaying ? (
+        <video
+          ref={videoRef}
+          src={`${post.mediaUrl}#t=1.0`}
+          className="w-full h-full object-cover"
+          muted
+          loop
+          playsInline
+          autoPlay
+        />
+      ) : (
+        <img
+          src={getVideoPosterUrl(post.mediaUrl, 300)}
+          alt={post.altText || "Video thumbnail"}
+          loading="lazy"
+          decoding="async"
+          className="w-full h-full object-cover"
+        />
+      )}
+    </div>
+  );
+});
 
 function formatTimeAgo(dateString, now) {
   if (!dateString) return "";
@@ -78,15 +128,7 @@ export default function LatestPostsTab({ latestPosts: initialPosts, now }) {
               {/* Media preview */}
               <div className="relative aspect-square bg-black/10 overflow-hidden">
                 {post.mediaType === "Video" ? (
-                  <video
-                     src={`${post.mediaUrl}#t=1.0`}
-                     preload="metadata"
-                     className="w-full h-full object-cover"
-                     muted
-                     loop
-                     onMouseOver={(e) => e.target.play()}
-                     onMouseOut={(e) => e.target.pause()}
-                   />
+                  <DashboardVideoCard post={post} />
                 ) : (
                   <img
                     src={post.mediaUrl}

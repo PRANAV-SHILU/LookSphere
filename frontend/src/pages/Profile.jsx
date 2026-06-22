@@ -21,6 +21,59 @@ import PostDetailModal from "../modals/PostDetailModal";
 import { trackPostView } from "../services/postService";
 import { getOptimizedMediaUrl, getVideoPosterUrl } from "../utils/cloudinaryOptimizer";
 
+const ProfileVideoCard = React.memo(function ProfileVideoCard({ post, onClick }) {
+  const videoRef = React.useRef(null);
+  const [isPlaying, setIsPlaying] = React.useState(false);
+
+  const handleMouseEnter = () => {
+    setIsPlaying(true);
+    requestAnimationFrame(() => {
+      if (videoRef.current) {
+        videoRef.current.play().catch(() => {});
+      }
+    });
+  };
+
+  const handleMouseLeave = () => {
+    if (videoRef.current) {
+      videoRef.current.pause();
+    }
+    setIsPlaying(false);
+  };
+
+  return (
+    <div
+      className="aspect-square bg-zinc-800 overflow-hidden cursor-pointer"
+      style={{ borderRadius: "var(--radius-sm)" }}
+      onClick={() => onClick(post)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      {isPlaying ? (
+        <video
+          ref={videoRef}
+          src={`${post.mediaUrl}#t=1.0`}
+          className="w-full h-full object-cover hover:opacity-90 transition-opacity"
+          muted
+          loop
+          playsInline
+          autoPlay
+          draggable={false}
+        />
+      ) : (
+        <img
+          src={getVideoPosterUrl(post.mediaUrl, 300)}
+          alt={post.caption || "video thumbnail"}
+          loading="lazy"
+          decoding="async"
+          className="w-full h-full object-cover hover:opacity-90 transition-opacity"
+          draggable={false}
+        />
+      )}
+    </div>
+  );
+});
+
 function Bio({ bio, className }) {
   if (!bio) return null;
   return (
@@ -401,25 +454,11 @@ function ProfileContent({ data, username, submit }) {
                     </div>
                   )}
                   {videos.map((post) => (
-                    <div
+                    <ProfileVideoCard
                       key={post._id}
-                      className="aspect-square bg-zinc-800 overflow-hidden cursor-pointer"
-                      style={{ borderRadius: "var(--radius-sm)" }}
-                      onClick={() => handlePostClick(post)}
-                    >
-                      <video
-                        src={`${post.mediaUrl}#t=1.0`}
-                        poster={getVideoPosterUrl(post.mediaUrl, 300)}
-                        preload="metadata"
-                        className="w-full h-full object-cover hover:opacity-90 transition-opacity"
-                        muted
-                        loop
-                        playsInline
-                        draggable={false}
-                        onMouseOver={(e) => e.target.play()}
-                        onMouseOut={(e) => e.target.pause()}
-                      />
-                    </div>
+                      post={post}
+                      onClick={handlePostClick}
+                    />
                   ))}
                 </>
               ) : isOwnProfile ? (

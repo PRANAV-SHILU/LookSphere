@@ -18,7 +18,7 @@ import {
 import BackButton from "../shared-components/BackButton";
 import { trackPostView } from "../services/postService";
 import PostDetailModal from "../modals/PostDetailModal";
-
+import { getVideoPosterUrl } from "../utils/cloudinaryOptimizer";
 // Sub-component for each feed post to fetch user details asynchronously
 const FeedCard = React.memo(function FeedCard({ post, currentUser, onPostClick, isParentModalOpen }) {
   const cardRef = useRef(null);
@@ -27,6 +27,7 @@ const FeedCard = React.memo(function FeedCard({ post, currentUser, onPostClick, 
   const isVideo = post.mediaType === "Video";
   const [isIntersecting, setIsIntersecting] = useState(false);
   const [isMaximizeHovered, setIsMaximizeHovered] = useState(false);
+  const isPlaying = isVideo && isIntersecting && !isParentModalOpen;
   const postDate = post.createdAt
     ? new Date(post.createdAt).toLocaleString(undefined, {
         month: "short",
@@ -66,16 +67,12 @@ const FeedCard = React.memo(function FeedCard({ post, currentUser, onPostClick, 
     };
   }, [post._id, currentUser, post.userId]);
 
-  // Control video play/pause based on intersection and modal state
+  // Control video play when it mounts
   useEffect(() => {
-    if (isVideo && videoRef.current) {
-      if (isIntersecting && !isParentModalOpen) {
-        videoRef.current.play().catch(() => {});
-      } else {
-        videoRef.current.pause();
-      }
+    if (isPlaying && videoRef.current) {
+      videoRef.current.play().catch(() => {});
     }
-  }, [isIntersecting, isParentModalOpen, isVideo]);
+  }, [isPlaying]);
 
   return (
     <div
@@ -141,16 +138,31 @@ const FeedCard = React.memo(function FeedCard({ post, currentUser, onPostClick, 
       {/* Body: Media */}
       <div className="relative bg-zinc-950 overflow-hidden flex items-center justify-center w-full">
         {isVideo ? (
-          <video
-            ref={videoRef}
-            src={post.mediaUrl}
-            preload="metadata"
-            className="w-full h-auto max-h-[600px] object-contain"
-            controls
-            controlsList="nodownload"
-            loop
-            playsInline
-          />
+          isPlaying ? (
+            <video
+              ref={videoRef}
+              src={post.mediaUrl}
+              preload="metadata"
+              className="w-full h-auto max-h-[600px] object-contain"
+              controls
+              controlsList="nodownload"
+              loop
+              playsInline
+            />
+          ) : (
+            <div className="relative w-full flex items-center justify-center cursor-pointer" onClick={() => onPostClick(post)}>
+              <img
+                src={getVideoPosterUrl(post.mediaUrl, 600)}
+                alt={post.altText || post.caption || "video thumbnail"}
+                className="w-full h-auto max-h-[600px] object-contain hover:opacity-95 transition-opacity"
+                loading="lazy"
+                decoding="async"
+              />
+              <div className="absolute bg-black/50 p-3 rounded-full text-white backdrop-blur-sm shadow-lg pointer-events-none">
+                <Video size={24} />
+              </div>
+            </div>
+          )
         ) : (
           <img
             src={post.mediaUrl}

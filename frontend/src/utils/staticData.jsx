@@ -236,30 +236,6 @@ export const activities = [
     time: "12m ago",
     icon: Search,
   },
-  {
-    user: "Michael",
-    action: "shared a new photo",
-    time: "15m ago",
-    icon: ImageIcon,
-  },
-  {
-    user: "Sophie",
-    action: "joined LookSphere",
-    time: "18m ago",
-    icon: UserPlus,
-  },
-  {
-    user: "Daniel",
-    action: "viewed the explore page",
-    time: "22m ago",
-    icon: Eye,
-  },
-  {
-    user: "Olivia",
-    action: "updated their profile",
-    time: "25m ago",
-    icon: User,
-  },
 ];
 
 export const securityFeatures = [

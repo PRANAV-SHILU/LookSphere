@@ -1,54 +1,64 @@
-<div align="right">Last Modified: 2026-06-20</div>
-
+<div align="right">Last Modified: 2026-06-22</div>
 
 # File Tree: LookSphere
 
 **Root Path:** `LookSphere`
 
-```
+```text
+├── ⚙️ .gitignore
 ├── 📁 Backend
-│   ├── 📁 src
-│   │   ├── 📁 config
-│   │   │   ├── 📄 cloudinaryConfig.js
-│   │   │   └── 📄 db.js
-│   │   ├── 📁 controllers
-│   │   │   ├── 📄 admin.controller.js
-│   │   │   ├── 📄 auth.controller.js
-│   │   │   ├── 📄 post.controller.js
-│   │   │   └── 📄 user.controller.js
-│   │   ├── 📁 middlewares
-│   │   │   ├── 📄 auth.middleware.js
-│   │   │   ├── 📄 role.middleware.js
-│   │   │   └── 📄 upload.middleware.js
-│   │   ├── 📁 models
-│   │   │   ├── 📄 posts.model.js
-│   │   │   └── 📄 users.model.js
-│   │   ├── 📁 routes
-│   │   │   ├── 📄 admin.route.js
-│   │   │   ├── 📄 auth.routes.js
-│   │   │   ├── 📄 post.routes.js
-│   │   │   └── 📄 user.routes.js
-│   │   ├── 📁 utils
-│   │   │   ├── 📄 asyncHandler.js
-│   │   │   ├── 📄 cloudinaryUpload.js
-│   │   │   └── 📄 errorHandler.js
-│   │   ├── 📁 validators
-│   │   │   ├── 📄 auth.validator.js
-│   │   │   ├── 📄 post.validator.js
-│   │   │   └── 📄 user.validator.js
-│   │   └── 📄 index.js
+│   ├── ⚙️ .env.example
 │   ├── ⚙️ .gitignore
 │   ├── 📝 APIs.md
 │   ├── 📝 File_Tree.md
-│   ├── 📝 Readme.md
 │   ├── ⚙️ package-lock.json
-│   └── ⚙️ package.json
+│   ├── ⚙️ package.json
+│   ├── 📝 Readme.md
+│   └── 📁 src
+│       ├── 📁 config
+│       │   ├── 📄 cloudinaryConfig.js
+│       │   └── 📄 db.js
+│       ├── 📁 controllers
+│       │   ├── 📄 admin.controller.js
+│       │   ├── 📄 auth.controller.js
+│       │   ├── 📄 post.controller.js
+│       │   └── 📄 user.controller.js
+│       ├── 📄 index.js
+│       ├── 📁 middlewares
+│       │   ├── 📄 auth.middleware.js
+│       │   ├── 📄 role.middleware.js
+│       │   └── 📄 upload.middleware.js
+│       ├── 📁 models
+│       │   ├── 📄 posts.model.js
+│       │   └── 📄 users.model.js
+│       ├── 📁 routes
+│       │   ├── 📄 admin.route.js
+│       │   ├── 📄 auth.routes.js
+│       │   ├── 📄 post.routes.js
+│       │   └── 📄 user.routes.js
+│       ├── 📁 utils
+│       │   ├── 📄 asyncHandler.js
+│       │   ├── 📄 cloudinaryUpload.js
+│       │   └── 📄 errorHandler.js
+│       └── 📁 validators
+│           ├── 📄 auth.validator.js
+│           ├── 📄 post.validator.js
+│           └── 📄 user.validator.js
+├── 📝 File_Tree.md
 ├── 📁 frontend
+│   ├── ⚙️ .env.example
+│   ├── ⚙️ .gitignore
+│   ├── 📝 Design.md
+│   ├── 📄 eslint.config.js
+│   ├── 📝 File_Tree.md
+│   ├── 📝 improvement.md
+│   ├── 🌐 index.html
+│   ├── ⚙️ package-lock.json
+│   ├── ⚙️ package.json
 │   ├── 📁 public
 │   │   └── 🖼️ favicon.png
+│   ├── 📝 README.md
 │   ├── 📁 src
-│   │   ├── 📁 Layout
-│   │   │   └── 📄 AppLayout.jsx
 │   │   ├── 📁 actions
 │   │   │   ├── 📄 editProfileAction.jsx
 │   │   │   ├── 📄 loginAction.jsx
@@ -60,6 +70,8 @@
 │   │   │   │   ├── 📄 LatestPostsTab.jsx
 │   │   │   │   ├── 📄 MetricsTab.jsx
 │   │   │   │   └── 📄 RecentActivityTab.jsx
+│   │   │   ├── 📄 ErrorBoundary.jsx
+│   │   │   ├── 📄 Header.jsx
 │   │   │   ├── 📁 home
 │   │   │   │   ├── 📄 ActivityFeed.jsx
 │   │   │   │   ├── 📄 AppShowcase.jsx
@@ -74,11 +86,11 @@
 │   │   │   │   ├── 📄 ThemePreview.jsx
 │   │   │   │   ├── 📄 WhatYouCanDo.jsx
 │   │   │   │   └── 📄 WhyLookSphere.jsx
-│   │   │   ├── 📄 ErrorBoundary.jsx
-│   │   │   ├── 📄 Header.jsx
 │   │   │   └── 📄 PageNotFound.jsx
 │   │   ├── 📁 hooks
 │   │   │   └── 📄 useDocumentMetadata.js
+│   │   ├── 📁 Layout
+│   │   │   └── 📄 AppLayout.jsx
 │   │   ├── 📁 loaders
 │   │   │   ├── 📄 authLoader.jsx
 │   │   │   ├── 📄 creatorsLoader.jsx
@@ -87,6 +99,8 @@
 │   │   │   ├── 📄 feedLoader.jsx
 │   │   │   ├── 📄 profileLoader.jsx
 │   │   │   └── 📄 redirectIfAuthenticated.jsx
+│   │   ├── 🎨 main.css
+│   │   ├── 📄 main.jsx
 │   │   ├── 📁 modals
 │   │   │   ├── 📄 ConfirmationModal.jsx
 │   │   │   ├── 📄 PostDetailModal.jsx
@@ -95,6 +109,7 @@
 │   │   │   ├── 📄 adminApi.js
 │   │   │   ├── 📄 apiClient.js
 │   │   │   ├── 📄 authApi.js
+│   │   │   ├── 📄 cacheInterceptor.js
 │   │   │   ├── 📄 endpoints.js
 │   │   │   ├── 📄 postApi.js
 │   │   │   └── 📄 userApi.js
@@ -129,31 +144,21 @@
 │   │   │   ├── 📄 ExploreSkeleton.jsx
 │   │   │   ├── 📄 FeedSkeleton.jsx
 │   │   │   └── 📄 ProfileSkeleton.jsx
-│   │   ├── 📁 utils
-│   │   │   ├── 📄 animation.js
-│   │   │   ├── 📄 constants.js
-│   │   │   ├── 📄 feedRefresher.js
-│   │   │   ├── 📄 staticData.jsx
-│   │   │   └── 📄 styles.js
-│   │   ├── 🎨 main.css
-│   │   └── 📄 main.jsx
-│   ├── ⚙️ .gitignore
-│   ├── 📝 Design.md
-│   ├── 📝 File_Tree.md
-│   ├── 📝 README.md
-│   ├── 📄 eslint.config.js
-│   ├── 📝 improvement.md
-│   ├── 🌐 index.html
-│   ├── ⚙️ package-lock.json
-│   ├── ⚙️ package.json
+│   │   └── 📁 utils
+│   │       ├── 📄 cloudinaryOptimizer.js
+│   │       ├── 📄 feedRefresher.js
+│   │       ├── 📄 staticData.jsx
+│   │       └── 📄 styles.js
+│   ├── 📄 vercel.json
 │   └── 📄 vite.config.js
-├── ⚙️ .gitignore
+├── 📝 futureplan.md
 └── 📝 Readme.md
+
 ```
 
 ---
 
-_Generated by FileTree Pro Extension_
+_Generated by Antigravity IDE_
 
 ---
 **📚 LookSphere Documentation Index:**

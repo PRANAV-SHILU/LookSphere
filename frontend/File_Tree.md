@@ -1,16 +1,23 @@
-<div align="right">Last Modified: 2026-06-20</div>
+<div align="right">Last Modified: 2026-06-22</div>
 
+# File Tree: Frontend
 
-# File Tree: frontend
+**Root Path:** `LookSphere/frontend`
 
-**Root Path:** `LookSphere\frontend`
-
-```
+```text
+├── ⚙️ .env.example
+├── ⚙️ .gitignore
+├── 📝 Design.md
+├── 📄 eslint.config.js
+├── 📝 File_Tree.md
+├── 📝 improvement.md
+├── 🌐 index.html
+├── ⚙️ package-lock.json
+├── ⚙️ package.json
 ├── 📁 public
 │   └── 🖼️ favicon.png
+├── 📝 README.md
 ├── 📁 src
-│   ├── 📁 Layout
-│   │   └── 📄 AppLayout.jsx
 │   ├── 📁 actions
 │   │   ├── 📄 editProfileAction.jsx
 │   │   ├── 📄 loginAction.jsx
@@ -22,6 +29,8 @@
 │   │   │   ├── 📄 LatestPostsTab.jsx
 │   │   │   ├── 📄 MetricsTab.jsx
 │   │   │   └── 📄 RecentActivityTab.jsx
+│   │   ├── 📄 ErrorBoundary.jsx
+│   │   ├── 📄 Header.jsx
 │   │   ├── 📁 home
 │   │   │   ├── 📄 ActivityFeed.jsx
 │   │   │   ├── 📄 AppShowcase.jsx
@@ -36,11 +45,11 @@
 │   │   │   ├── 📄 ThemePreview.jsx
 │   │   │   ├── 📄 WhatYouCanDo.jsx
 │   │   │   └── 📄 WhyLookSphere.jsx
-│   │   ├── 📄 ErrorBoundary.jsx
-│   │   ├── 📄 Header.jsx
 │   │   └── 📄 PageNotFound.jsx
 │   ├── 📁 hooks
 │   │   └── 📄 useDocumentMetadata.js
+│   ├── 📁 Layout
+│   │   └── 📄 AppLayout.jsx
 │   ├── 📁 loaders
 │   │   ├── 📄 authLoader.jsx
 │   │   ├── 📄 creatorsLoader.jsx
@@ -49,6 +58,8 @@
 │   │   ├── 📄 feedLoader.jsx
 │   │   ├── 📄 profileLoader.jsx
 │   │   └── 📄 redirectIfAuthenticated.jsx
+│   ├── 🎨 main.css
+│   ├── 📄 main.jsx
 │   ├── 📁 modals
 │   │   ├── 📄 ConfirmationModal.jsx
 │   │   ├── 📄 PostDetailModal.jsx
@@ -57,6 +68,7 @@
 │   │   ├── 📄 adminApi.js
 │   │   ├── 📄 apiClient.js
 │   │   ├── 📄 authApi.js
+│   │   ├── 📄 cacheInterceptor.js
 │   │   ├── 📄 endpoints.js
 │   │   ├── 📄 postApi.js
 │   │   └── 📄 userApi.js
@@ -91,30 +103,12 @@
 │   │   ├── 📄 ExploreSkeleton.jsx
 │   │   ├── 📄 FeedSkeleton.jsx
 │   │   └── 📄 ProfileSkeleton.jsx
-│   ├── 📁 utils
-│   │   ├── 📄 animation.js
-│   │   ├── 📄 constants.js
-│   │   ├── 📄 feedRefresher.js
-│   │   ├── 📄 staticData.jsx
-│   │   └── 📄 styles.js
-│   ├── 🎨 main.css
-│   └── 📄 main.jsx
-├── ⚙️ .gitignore
-├── 📝 Design.md
-├── 📝 README.md
-├── 📝 SecureAuth.md
-├── 📄 eslint.config.js
-├── 🌐 index.html
-├── ⚙️ package-lock.json
-├── ⚙️ package.json
+│   └── 📁 utils
+│       ├── 📄 cloudinaryOptimizer.js
+│       ├── 📄 feedRefresher.js
+│       ├── 📄 staticData.jsx
+│       └── 📄 styles.js
+├── 📄 vercel.json
 └── 📄 vite.config.js
+
 ```
-
----
-
----
-**📚 LookSphere Documentation Index:**
-- **Root:** [Main Readme](../Readme.md) | [File Tree](../File_tree.md) | [Future Plans](../futureplan.md)
-- **Frontend:** [Frontend Readme](./README.md) | [Design Specs](./Design.md) | [Frontend File Tree](./File_Tree.md) | [Improvements](./improvement.md)
-- **Backend:** [Backend Readme](../Backend/Readme.md) | [API Docs](../Backend/APIs.md) | [Backend File Tree](../Backend/File_Tree.md)
----

@@ -19,7 +19,7 @@ export default function FAQSection() {
         {faqs.map((faq, index) => (
           <div
             key={index}
-            className={`${CARD_HOVER_SUBTLE} glass rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-lg`}
+            className={`${CARD_HOVER_SUBTLE} glass rounded-2xl overflow-hidden transition-all duration-300 md:hover:-translate-y-1 md:hover:shadow-lg`}
             style={GLASS_SHADOW}
           >
             <button

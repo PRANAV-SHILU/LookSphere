@@ -72,7 +72,7 @@ export default function WhatYouCanDo() {
                     (feature) => (
                       <li
                         key={feature}
-                        className="glass flex items-center gap-1.5 xsm:gap-2 sm:gap-3 rounded-xl px-2.5 py-1.5 xsm:px-3 xsm:py-2 sm:px-4 sm:py-3 text-[11px] xsm:text-xs sm:text-sm mdlg:text-base text-(--text-secondary) transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-(--primary-500)/10 hover:text-(--primary-600) cursor-default group"
+                        className="glass flex items-center gap-1.5 xsm:gap-2 sm:gap-3 rounded-xl px-2.5 py-1.5 xsm:px-3 xsm:py-2 sm:px-4 sm:py-3 text-[11px] xsm:text-xs sm:text-sm mdlg:text-base text-(--text-secondary) transition-all duration-300 md:hover:-translate-y-1 md:hover:shadow-lg md:hover:shadow-(--primary-500)/10 md:hover:text-(--primary-600) cursor-default group"
                         style={GLASS_SHADOW}
                       >
                         <Check

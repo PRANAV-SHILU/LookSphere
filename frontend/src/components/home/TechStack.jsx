@@ -20,7 +20,7 @@ export default function TechStack() {
           return (
             <div
               key={tech.name}
-              className="glass rounded-full px-4 sm:px-5 py-2.5 flex items-center gap-2 cursor-default transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+              className="glass rounded-full px-4 sm:px-5 py-2.5 flex items-center gap-2 cursor-default transition-all duration-300 md:hover:-translate-y-1 md:hover:shadow-lg"
               style={GLASS_SHADOW}
             >
               <TechIcon size={18} style={{ color: tech.color }} />

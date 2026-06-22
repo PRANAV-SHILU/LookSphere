@@ -19,7 +19,7 @@ export default function WhyLookSphere() {
           {socialFeatures.map((feature) => (
             <div
             key={feature.title}
-            className={`liquid-glass p-6 sm:p-8 rounded-2xl ${CARD_HOVER} transition-all duration-300 hover:-translate-y-1 hover:shadow-lg`}
+            className={`liquid-glass p-6 sm:p-8 rounded-2xl ${CARD_HOVER} transition-all duration-300 md:hover:-translate-y-1 md:hover:shadow-lg`}
             style={GLASS_SHADOW}
           >
             <CardGlow />

@@ -38,9 +38,9 @@ export default function ActivityFeed() {
           }}
         />
 
-        {/* Scrolling track — duplicated for seamless loop */}
-        <div className="feed-scroll-track px-4 pt-4">
-          {[...activities, ...activities].map((activity, i) => {
+        {/* Activity list */}
+        <div className="px-4 pt-4">
+          {activities.map((activity, i) => {
             const ActIcon = activity.icon;
             return (
               <div

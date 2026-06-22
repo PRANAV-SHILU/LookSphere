@@ -17,7 +17,7 @@ export default function HowItWorks() {
           return (
             <div
               key={step.title}
-              className={`glass flex-1 p-6 sm:p-8 rounded-2xl relative ${CARD_HOVER_SUBTLE} transition-all duration-300 hover:-translate-y-1 hover:shadow-lg`}
+              className={`glass flex-1 p-6 sm:p-8 rounded-2xl relative ${CARD_HOVER_SUBTLE} transition-all duration-300 md:hover:-translate-y-1 md:hover:shadow-lg`}
               style={GLASS_SHADOW}
             >
               <div className="absolute -top-4 -right-4 w-12 h-12 rounded-xl bg-(--primary-500) text-white flex items-center justify-center font-bold text-xl shadow-lg rotate-12">

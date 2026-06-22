@@ -640,6 +640,14 @@ a:hover {
 .explore-card-wrapper {
   content-visibility: auto;
   contain-intrinsic-size: 0 400px;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.explore-card-wrapper img,
+.explore-card-wrapper video {
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 
 /* ─── Glassmorphism ─── */

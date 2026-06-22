@@ -21,7 +21,7 @@ export default function SecurityPrivacy() {
           return (
             <div
               key={feature.name}
-              className={`${CARD_HOVER} glass flex flex-col p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-lg group`}
+              className={`${CARD_HOVER} glass flex flex-col p-6 rounded-2xl transition-all duration-300 md:hover:-translate-y-1 md:hover:shadow-lg group`}
               style={GLASS_SHADOW}
             >
               <CardGlow />

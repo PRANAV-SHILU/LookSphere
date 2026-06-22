@@ -17,7 +17,7 @@ export default function ThemePreview() {
               new CustomEvent("theme-changed", { detail: "dark" }),
             )
           }
-          className="rounded-2xl p-6 border overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-lg cursor-pointer"
+          className="rounded-2xl p-6 border overflow-hidden transition-all duration-300 md:hover:-translate-y-1 md:hover:shadow-lg cursor-pointer"
           style={{
             background: "#18181B",
             borderColor: "#27272A",
@@ -85,7 +85,7 @@ export default function ThemePreview() {
               new CustomEvent("theme-changed", { detail: "light" }),
             )
           }
-          className="rounded-2xl p-6 border overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-lg cursor-pointer"
+          className="rounded-2xl p-6 border overflow-hidden transition-all duration-300 md:hover:-translate-y-1 md:hover:shadow-lg cursor-pointer"
           style={{
             background: "#FFFFFF",
             borderColor: "#E2E8F0",

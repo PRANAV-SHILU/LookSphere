@@ -1,8 +1,8 @@
 import { getAllUsers, getProfile, updateOwnProfile } from "../network/userApi";
 
-export async function fetchAllUsers() {
+export async function fetchAllUsers(search) {
   try {
-    const res = await getAllUsers();
+    const res = await getAllUsers(search);
     return res;
   } catch (err) {
     throw new Error(err.message);

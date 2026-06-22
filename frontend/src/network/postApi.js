@@ -2,9 +2,15 @@ import apiClient from "./apiClient";
 import { ENDPOINTS } from "./endpoints";
 
 // Feed
-export async function getFeed(page, limit) {
+export async function getFeed(page, limit, search) {
   try {
-    const url = page && limit ? `${ENDPOINTS.POST.POSTS}?page=${page}&limit=${limit}` : ENDPOINTS.POST.POSTS;
+    const params = new URLSearchParams();
+    if (page) params.append("page", page);
+    if (limit) params.append("limit", limit);
+    if (search) params.append("search", search);
+
+    const queryString = params.toString();
+    const url = queryString ? `${ENDPOINTS.POST.POSTS}?${queryString}` : ENDPOINTS.POST.POSTS;
     const res = await apiClient.get(url);
     // console.log("feed posts", res.data);
     return res.data;

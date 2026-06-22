@@ -98,7 +98,7 @@ export default function Header() {
               to="/"
               className="text-xl md:text-2xl 3xl:text-3xl font-extrabold no-underline flex items-center gap-2 group"
             >
-              <span className="bg-clip-text text-transparent bg-linear-to-tr from-(--primary-600) via-(--secondary-500) to-(--primary-400) drop-shadow-[0_2px_10px_rgba(59,130,246,0.3)] transition-all duration-300 group-hover:drop-shadow-[0_4px_15px_rgba(59,130,246,0.5)]">
+              <span className="bg-clip-text text-transparent bg-linear-to-tr from-(--primary-600) via-(--secondary-500) to-(--primary-400) drop-shadow-[0_2px_10px_rgba(59,130,246,0.3)] transition-[filter,drop-shadow] duration-300 group-hover:drop-shadow-[0_4px_15px_rgba(59,130,246,0.5)]">
                 LookSphere
               </span>
             </NavLink>
@@ -150,7 +150,7 @@ export default function Header() {
               onClick={() => setIsDark(!isDark)}
               aria-label="Toggle theme"
               title={isDark ? "Switch to light mode" : "Switch to dark mode"}
-              className="bg-transparent border-none cursor-pointer flex items-center p-2 rounded-full text-(--text-primary) transition-all duration-300 hover:bg-(--surface-hover) hover:text-(--primary-500) hover:shadow-md hover:-translate-y-0.5 active:scale-95"
+              className="bg-transparent border-none cursor-pointer flex items-center p-2 rounded-full text-(--text-primary) transition-[background-color,color,transform] duration-300 hover:bg-(--surface-hover) hover:text-(--primary-500) hover:shadow-md hover:-translate-y-0.5 active:scale-95"
             >
               <span className="text-xl leading-none flex items-center">
                 {isDark ? (
@@ -167,7 +167,7 @@ export default function Header() {
                 {/* Avatar button */}
                 <button
                   onClick={() => setDropdownOpen((prev) => !prev)}
-                  className="bg-transparent border-none cursor-pointer p-0 flex items-center rounded-full ring-2 ring-transparent transition-all duration-300 hover:ring-(--primary-500) hover:shadow-[0_0_15px_rgba(59,130,246,0.4)] hover:translate-y-[-2px] active:scale-95"
+                  className="bg-transparent border-none cursor-pointer p-0 flex items-center rounded-full ring-2 ring-transparent transition-[box-shadow,transform] duration-300 hover:ring-(--primary-500) hover:shadow-[0_0_15px_rgba(59,130,246,0.4)] hover:translate-y-[-2px] active:scale-95"
                   aria-label="User menu"
                 >
                   {user.profileImage && !imgError ? (
@@ -175,7 +175,8 @@ export default function Header() {
                       src={user.profileImage}
                       alt={user.username}
                       onError={() => setImgError(true)}
-                      className="w-[2.1rem] h-[2.1rem] 3xl:w-10 3xl:h-10 4xl:w-12 4xl:h-12 rounded-full object-cover transition-all duration-300"
+                      loading="lazy"
+                      className="w-[2.1rem] h-[2.1rem] 3xl:w-10 3xl:h-10 4xl:w-12 4xl:h-12 rounded-full object-cover transition-[transform,opacity] duration-300"
                     />
                   ) : (
                     <UserCircle2 className="w-8.5 h-8.5 3xl:w-10 3xl:h-10 4xl:w-12 4xl:h-12 text-(--text-muted) transition-colors duration-300 hover:text-(--primary-500)" />

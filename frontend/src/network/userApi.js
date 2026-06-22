@@ -1,9 +1,10 @@
 import apiClient from "./apiClient";
 import { ENDPOINTS } from "./endpoints";
 
-export async function getAllUsers() {
+export async function getAllUsers(search) {
   try {
-    const res = await apiClient.get(ENDPOINTS.USER.USERS);
+    const url = search ? `${ENDPOINTS.USER.USERS}?search=${encodeURIComponent(search)}` : ENDPOINTS.USER.USERS;
+    const res = await apiClient.get(url);
     // console.log("all users", res);
     return res.data.data;
   } catch (err) {

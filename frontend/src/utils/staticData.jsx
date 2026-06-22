@@ -154,9 +154,9 @@ export const faqs = [
       "Yes! We use stateless JSON Web Tokens (JWT) configured to expire after 1 year. Your token is generated uniquely using a secret key on our server, ensuring tamper-proof authentication.",
   },
   {
-    question: "Can I use LookSphere on mobile?",
+    question: "How does LookSphere optimize network usage?",
     answer:
-      "Absolutely! LookSphere is fully responsive and works seamlessly on all devices - desktop, tablet, and mobile.",
+      "We use Brotli and Gzip compression middleware on our Express backend to compress API responses, saving up to 80% bandwidth over the network. In addition, images are lazy-loaded and decoded asynchronously in the browser.",
   },
   {
     question: "How do I report inappropriate content?",
@@ -339,6 +339,7 @@ export const techStack = [
   { name: "React Toastify", color: "#FF9900", icon: Bell },
   { name: "Lucide React", color: "#F56565", icon: Sparkles },
   { name: "CORS", color: "#1A73E8", icon: Shield },
+  { name: "Compression", color: "#00F2FE", icon: Zap },
 ];
 
 export const fakePosts = [

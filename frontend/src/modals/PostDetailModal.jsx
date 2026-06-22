@@ -355,6 +355,7 @@ export default function PostDetailModal({ isOpen, onClose, post, profileUser }) 
                   className="post-detail-media"
                   draggable={false}
                   onLoad={handleImageLoad}
+                  decoding="async"
                   style={{ opacity: isLoaded ? 1 : 0 }}
                 />
               )}

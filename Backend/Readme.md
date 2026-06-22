@@ -14,6 +14,7 @@
 ![bcrypt](https://img.shields.io/badge/bcrypt-Security-red)
 ![Nodemailer](https://img.shields.io/badge/Nodemailer-Email-14B32E)
 ![Dotenv](https://img.shields.io/badge/Dotenv-Config-ECD53F?logo=dotenv&logoColor=black)
+![Compression](https://img.shields.io/badge/Compression-GZIP%20%2F%20Brotli-00F2FE?logo=googlecloud&logoColor=white)
 ![License](https://img.shields.io/badge/License-Private-red)
 
 </div>
@@ -44,7 +45,7 @@ This is the backend server for **LookSphere**, a modern social media application
 - **Validation:** Express-Validator
 - **Security & Password Hashing:** bcrypt
 - **Email Services:** Nodemailer
-- **Middleware:** CORS (Cross-Origin Resource Sharing)
+- **Middleware:** CORS (Cross-Origin Resource Sharing), Compression (GZIP/Brotli payload compression)
 - **Environment Management:** Dotenv
 - **Development Tool:** Nodemon
 

@@ -1,4 +1,4 @@
-import { useState, Suspense, useEffect } from "react";
+import React, { useState, Suspense, useEffect } from "react";
 import {
   useLoaderData,
   useParams,
@@ -35,7 +35,7 @@ function Bio({ bio, className }) {
   );
 }
 
-function ProfileStats({
+const ProfileStats = React.memo(function ProfileStats({
   postCount,
   profileViewCount,
   totalPostViews,
@@ -75,10 +75,10 @@ function ProfileStats({
       </span>
     </div>
   );
-}
+});
 
 
-function ProfileEmptyState({ icon, title, description }) {
+const ProfileEmptyState = React.memo(function ProfileEmptyState({ icon, title, description }) {
   const IconComponent = icon;
   return (
     <div className="col-span-2 md:col-span-3 flex flex-col items-center justify-center pt-6 pb-16 text-center mx-auto w-[70%]">
@@ -99,7 +99,7 @@ function ProfileEmptyState({ icon, title, description }) {
       </p>
     </div>
   );
-}
+});
 
 function ProfileContent({ data, username, submit }) {
   const profileDataObj = data?.data || data || {};
@@ -231,6 +231,8 @@ function ProfileContent({ data, username, submit }) {
                   alt="Profile"
                   className="w-full"
                   draggable={false}
+                  loading="lazy"
+                  decoding="async"
                   style={{
                     borderRadius: "100%",
                     objectFit: "cover",
@@ -313,7 +315,7 @@ function ProfileContent({ data, username, submit }) {
         <section className="w-full">
           {/* Image Feed */}
           {activeTab === "images" && (
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-1">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-1 profile-grid">
               {images.length > 0 ? (
                 <>
                   {isOwnProfile && (
@@ -381,7 +383,7 @@ function ProfileContent({ data, username, submit }) {
 
           {/* Video Feed */}
           {activeTab === "videos" && (
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-1">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-1 profile-grid">
               {videos.length > 0 ? (
                 <>
                   {isOwnProfile && (
@@ -410,6 +412,7 @@ function ProfileContent({ data, username, submit }) {
                         className="w-full h-full object-cover hover:opacity-90 transition-opacity"
                         muted
                         loop
+                        playsInline
                         draggable={false}
                         onMouseOver={(e) => e.target.play()}
                         onMouseOut={(e) => e.target.pause()}

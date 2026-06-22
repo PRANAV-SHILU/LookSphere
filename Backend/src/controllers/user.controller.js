@@ -4,7 +4,23 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import jwt from "jsonwebtoken";
 
 export const getUsers = asyncHandler("getUsers", async (req, res) => {
-  const users = await User.find({ role: { $ne: "admin" } })
+  const { search } = req.query;
+  const filter = { role: { $ne: "admin" } };
+
+  if (search) {
+    const searchString = search.trim();
+    // Case-insensitive Mongoose search configuration:
+    const searchMatch = { $regex: searchString, $options: "i" };
+
+    // Matches if EITHER the username, tagline, OR bio contains the search string
+    filter.$or = [
+      { username: searchMatch },
+      { tagline: searchMatch },
+      { bio: searchMatch },
+    ];
+  }
+
+  const users = await User.find(filter)
     .select({
       profileImage: 1,
       username: 1,

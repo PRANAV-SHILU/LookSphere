@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, Suspense, useCallback } from "react";
+import React, { useState, useEffect, useRef, Suspense, useCallback } from "react";
 import { useLoaderData, Link, Await, useRevalidator } from "react-router-dom";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import {
@@ -13,10 +13,9 @@ import {
 import BackButton from "../shared-components/BackButton";
 import PostDetailModal from "../modals/PostDetailModal";
 import { trackPostView } from "../services/postService";
-import { STOPWORDS } from "../utils/constants";
 import ExploreSkeleton from "../skeletons/ExploreSkeleton";
 
-function ExploreCard({ post }) {
+const ExploreCard = React.memo(function ExploreCard({ post }) {
   const videoRef = useRef(null);
   const isVideo =
     post.mediaType === "Video" ||
@@ -62,7 +61,7 @@ function ExploreCard({ post }) {
           alt={post.altText || post.caption || "explore post"}
           loading="lazy"
           decoding="async"
-          className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-all duration-300 group-hover:scale-105"
+          className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-[transform,opacity] duration-300 group-hover:scale-105"
         />
       )}
 
@@ -109,7 +108,7 @@ function ExploreCard({ post }) {
       </div>
     </div>
   );
-}
+});
 
 import { fetchFeed } from "../services/postService";
 import { feedRefresher } from "../utils/feedRefresher";
@@ -160,58 +159,40 @@ function ExploreContent({ posts, setSelectedPost }) {
     });
     if (node) observer.current.observe(node);
   }, [loadingMore, hasMore, loadMore]);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(() => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get("search") || "";
+  });
   const [isClearHovered, setIsClearHovered] = useState(false);
   const revalidator = useRevalidator();
   const isRefreshing = revalidator.state === "loading";
+  const searchTimeoutRef = useRef(null);
 
-  const filteredPosts = (() => {
-    if (!searchQuery) return allPosts;
-    const query = searchQuery.toLowerCase().trim();
-    if (!query) return allPosts;
-
-    let queryWords = query.split(/[\s\r\n]+/).filter(Boolean);
-    if (queryWords.length === 0) return allPosts;
-
-    const nonStopwords = queryWords.filter((word) => !STOPWORDS.has(word));
-    if (nonStopwords.length > 0) {
-      queryWords = nonStopwords;
-    }
-
-    const scoredPosts = [];
-
-    allPosts.forEach((post) => {
-      const caption = (post.caption || "").toLowerCase();
-      const altText = (post.altText || "").toLowerCase();
-
-      let score = 0;
-
-      // 1. Check for entire query matching caption/alttext (gives heavy priority boost)
-      const isExactMatch = caption.includes(query) || altText.includes(query);
-      if (isExactMatch) {
-        score += 1000;
-      }
-
-      // 2. Count how many individual words match
-      let matchedWords = 0;
-      queryWords.forEach((word) => {
-        if (caption.includes(word) || altText.includes(word)) {
-          matchedWords++;
+  // Trigger search on query change with a slight debounce
+  useEffect(() => {
+    if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
+    
+    searchTimeoutRef.current = setTimeout(() => {
+      const currentParams = new URLSearchParams(window.location.search);
+      const currentQuery = currentParams.get("search") || "";
+      if (searchQuery.trim() !== currentQuery.trim()) {
+        const newParams = new URLSearchParams(window.location.search);
+        if (searchQuery.trim()) {
+          newParams.set("search", searchQuery.trim());
+        } else {
+          newParams.delete("search");
         }
-      });
-
-      score += matchedWords * 10;
-
-      if (score > 0) {
-        scoredPosts.push({ post, score });
+        // Use history.replaceState to avoid adding unnecessary entries to the history stack,
+        // and trigger revalidation to reload loader data
+        window.history.replaceState({}, "", `${window.location.pathname}?${newParams.toString()}`);
+        revalidator.revalidate();
       }
-    });
+    }, 400);
 
-    // Sort descending by score to put the most relevant matches first
-    scoredPosts.sort((a, b) => b.score - a.score);
-
-    return scoredPosts.map((sp) => sp.post);
-  })();
+    return () => {
+      if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
+    };
+  }, [searchQuery, revalidator]);
 
   const handlePostClick = async (post) => {
     if (post._id) {
@@ -267,7 +248,7 @@ function ExploreContent({ posts, setSelectedPost }) {
 
       <div className="mb-8 flex justify-between items-center text-sm">
         <span style={{ color: "var(--text-muted)" }}>
-          {filteredPosts.length} posts found
+          {allPosts.length} posts found
         </span>
         <button
           onClick={() => revalidator.revalidate()}
@@ -318,7 +299,7 @@ function ExploreContent({ posts, setSelectedPost }) {
             Go to Profile
           </Link>
         </div>
-      ) : filteredPosts.length === 0 ? (
+      ) : searchQuery && allPosts.length === 0 ? (
         <div
           className="text-center py-20 text-lg font-medium"
           style={{ color: "var(--text-muted)" }}
@@ -327,15 +308,15 @@ function ExploreContent({ posts, setSelectedPost }) {
         </div>
       ) : (
         <div
-          className="grid grid-cols-3 md:grid-cols-4 gap-[2px] sm:gap-[4px]"
+          className="grid grid-cols-3 md:grid-cols-4 gap-[2px] sm:gap-[4px] explore-grid"
         >
-            {filteredPosts.map((post, index) => {
-                const isTriggerElement = index === filteredPosts.length - 9;
+            {allPosts.map((post, index) => {
+                const isTriggerElement = index === allPosts.length - 9;
                 return (
                   <div
                     key={post._id}
                     ref={isTriggerElement ? triggerElementRef : null}
-                    className="relative overflow-hidden cursor-pointer group bg-zinc-900"
+                    className="relative overflow-hidden cursor-pointer group bg-zinc-900 explore-card-wrapper"
                     onClick={() => handlePostClick(post)}
                   >
                     <ExploreCard post={post} />

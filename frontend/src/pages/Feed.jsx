@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, Suspense, useCallback } from "react";
+import React from "react";
 import { useLoaderData, Link, useRevalidator, Await } from "react-router-dom";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import FeedSkeleton from "../skeletons/FeedSkeleton";
@@ -19,7 +20,7 @@ import { trackPostView } from "../services/postService";
 import PostDetailModal from "../modals/PostDetailModal";
 
 // Sub-component for each feed post to fetch user details asynchronously
-function FeedCard({ post, currentUser, onPostClick, isParentModalOpen }) {
+const FeedCard = React.memo(function FeedCard({ post, currentUser, onPostClick, isParentModalOpen }) {
   const cardRef = useRef(null);
   const videoRef = useRef(null);
   const hasTrackedView = useRef(false);
@@ -98,7 +99,7 @@ function FeedCard({ post, currentUser, onPostClick, isParentModalOpen }) {
             className="flex items-center gap-3 group"
           >
             <div
-              className="w-9 h-9 rounded-full overflow-hidden flex items-center justify-center border transition-all duration-300 group-hover:scale-105 group-hover:ring-2 group-hover:ring-zinc-600/50 group-hover:ring-offset-2 group-hover:ring-offset-zinc-950"
+              className="w-9 h-9 rounded-full overflow-hidden flex items-center justify-center border transition-[transform,box-shadow] duration-300 group-hover:scale-105 group-hover:ring-2 group-hover:ring-zinc-600/50 group-hover:ring-offset-2 group-hover:ring-offset-zinc-950"
               style={{
                 backgroundColor: "var(--surface-input)",
                 borderColor: "var(--border-normal)",
@@ -216,7 +217,7 @@ function FeedCard({ post, currentUser, onPostClick, isParentModalOpen }) {
       </div>
     </div>
   );
-}
+});
 
 // Component that renders when data is loaded
 import { fetchFeed } from "../services/postService";
@@ -319,7 +320,7 @@ function FeedContent({ posts, currentUser, setSelectedPost, selectedPost }) {
 
   return (
     <div
-      className="flex flex-col gap-8"
+      className="flex flex-col gap-8 feed-grid"
     >
         {allPosts.map((post, index) => {
           const isTriggerElement = index === allPosts.length - 5;
@@ -327,6 +328,7 @@ function FeedContent({ posts, currentUser, setSelectedPost, selectedPost }) {
             <div
               key={post._id}
               ref={isTriggerElement ? triggerElementRef : null}
+              className="feed-card-wrapper"
             >
               <FeedCard
                 post={post}

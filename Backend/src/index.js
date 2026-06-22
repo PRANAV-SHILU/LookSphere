@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dns from "dns";
 import dotenv from "dotenv";
+import compression from "compression";
 
 import authRoutes from "./routes/auth.routes.js";
 import userRoutes from "./routes/user.routes.js";
@@ -24,6 +25,7 @@ dotenv.config();
 // Connect DB with retry logic
 retryWithBackoff(() => connectDB(), 5, 5000, "Database connection");
 
+app.use(compression());
 app.use(
   cors({
     origin: process.env.FRONTEND_URL,

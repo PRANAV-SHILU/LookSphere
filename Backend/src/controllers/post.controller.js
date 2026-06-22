@@ -3,16 +3,31 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import Post from "../models/posts.model.js";
 
 export const getFeed = asyncHandler("getFeed", async (req, res) => {
-  let query = Post.find()
+  const { page, limit, search } = req.query;
+  const filter = {};
+
+  if (search) {
+    const searchString = search.trim();
+    // Case-insensitive Mongoose search configuration:
+    const searchMatch = { $regex: searchString, $options: "i" };
+
+    // Matches if EITHER the caption OR the altText contains the search string
+    filter.$or = [
+      { caption: searchMatch },
+      { altText: searchMatch },
+    ];
+  }
+
+  let query = Post.find(filter)
     .populate("userId", "username profileImage")
     .sort({ createdAt: -1 });
 
-  const page = parseInt(req.query.page);
-  const limit = parseInt(req.query.limit);
+  const parsedPage = parseInt(page);
+  const parsedLimit = parseInt(limit);
 
-  if (page && limit) {
-    const skip = (page - 1) * limit;
-    query = query.skip(skip).limit(limit);
+  if (parsedPage && parsedLimit) {
+    const skip = (parsedPage - 1) * parsedLimit;
+    query = query.skip(skip).limit(parsedLimit);
   }
 
   const posts = await query;

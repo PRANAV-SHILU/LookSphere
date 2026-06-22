@@ -11,9 +11,9 @@ export async function uploadUserPost(payload) {
 }
 
 // Feed posts
-export async function fetchFeed(page, limit) {
+export async function fetchFeed(page, limit, search) {
   try {
-    return await getFeed(page, limit);
+    return await getFeed(page, limit, search);
   } catch (err) {
     throw new Error(err.message);
   }

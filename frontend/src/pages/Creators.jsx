@@ -1,21 +1,41 @@
-import { useState, Suspense } from "react";
-import { useLoaderData, Link, Await } from "react-router-dom";
+import { useState, Suspense, useEffect, useRef } from "react";
+import { useLoaderData, Link, Await, useRevalidator } from "react-router-dom";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import { User, Eye, ArrowRight, Search, FileText } from "lucide-react";
 import BackButton from "../shared-components/BackButton";
 import CreatorsSkeleton from "../skeletons/CreatorsSkeleton";
 
 function CreatorsContent({ creatorsList }) {
-  const [query, setQuery] = useState("");
-  const [hoveredCreator, setHoveredCreator] = useState(null);
-
-  const filteredCreators = creatorsList.filter((c) => {
-    const q = query.toLowerCase();
-    return (
-      c.username.toLowerCase().includes(q) ||
-      (c.tagline || "").toLowerCase().includes(q)
-    );
+  const [query, setQuery] = useState(() => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get("search") || "";
   });
+  const [hoveredCreator, setHoveredCreator] = useState(null);
+  const revalidator = useRevalidator();
+  const searchTimeoutRef = useRef(null);
+
+  useEffect(() => {
+    if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
+
+    searchTimeoutRef.current = setTimeout(() => {
+      const currentParams = new URLSearchParams(window.location.search);
+      const currentQuery = currentParams.get("search") || "";
+      if (query.trim() !== currentQuery.trim()) {
+        const newParams = new URLSearchParams(window.location.search);
+        if (query.trim()) {
+          newParams.set("search", query.trim());
+        } else {
+          newParams.delete("search");
+        }
+        window.history.replaceState({}, "", `${window.location.pathname}?${newParams.toString()}`);
+        revalidator.revalidate();
+      }
+    }, 400);
+
+    return () => {
+      if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
+    };
+  }, [query, revalidator]);
 
   return (
     <>
@@ -38,14 +58,14 @@ function CreatorsContent({ creatorsList }) {
         />
       </div>
 
-      {creatorsList.length === 0 ? (
+      {creatorsList.length === 0 && !query ? (
         <div
           className="text-center py-20 text-lg font-medium"
           style={{ color: "var(--text-muted)" }}
         >
           No creators found. Register yourself to be the first one.
         </div>
-      ) : filteredCreators.length === 0 ? (
+      ) : creatorsList.length === 0 ? (
         <div
           className="text-center py-20 text-lg font-medium"
           style={{ color: "var(--text-muted)" }}
@@ -56,7 +76,7 @@ function CreatorsContent({ creatorsList }) {
         <div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6 2xl:gap-8"
         >
-          {filteredCreators.map((creator) => (
+          {creatorsList.map((creator) => (
             <div
               key={creator.username}
               className="h-full"

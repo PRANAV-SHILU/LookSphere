@@ -53,6 +53,11 @@ const userSchema = new mongoose.Schema(
   { timestamps: true, versionKey: false },
 );
 
+// Indexes for query optimization
+userSchema.index({ username: 1 });
+userSchema.index({ role: 1 });
+userSchema.index({ profileViewCount: -1 });
+
 // Instance method to compare provided password with the hashed password in the database
 userSchema.methods.comparePassword = async function (password) {
   return await bcrypt.compare(password, this.hashedPassword);

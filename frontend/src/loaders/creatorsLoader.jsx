@@ -1,7 +1,10 @@
 import { fetchAllUsers } from "../services/userService.js";
 
-export function creatorsLoader() {
-  const creatorsPromise = fetchAllUsers()
+export function creatorsLoader({ request }) {
+  const url = new URL(request.url);
+  const search = url.searchParams.get("search") || "";
+
+  const creatorsPromise = fetchAllUsers(search)
     .then((res) => {
       // const storedUser = localStorage.getItem("user");
       // const existingUser = storedUser ? JSON.parse(storedUser) : null;
@@ -14,8 +17,7 @@ export function creatorsLoader() {
       // return filteredCreators;
       return res;
     })
-    .catch((err) => {
-      // console.log("creators loader error:", err);
+    .catch(() => {
       throw new Error("Failed to fetch creators. Please try again later.");
     });
 

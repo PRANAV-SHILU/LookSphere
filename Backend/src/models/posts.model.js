@@ -39,6 +39,8 @@ const postSchema = new mongoose.Schema(
 );
 
 postSchema.index({ userId: 1, createdAt: -1 }); // Compound index for efficient querying of posts by user and creation time
+postSchema.index({ createdAt: -1 }); // Index for global feed sorting
+postSchema.index({ mediaType: 1, userId: 1 }); // Index for profile type-filtering queries
 
 const Post = mongoose.model("posts", postSchema);
 

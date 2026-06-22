@@ -1,5 +1,6 @@
 import axios from "axios";
 import { toast } from "react-toastify";
+import { setupCachingInterceptor } from "./cacheInterceptor";
 
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -7,6 +8,8 @@ const apiClient = axios.create({
     "Content-Type": "application/json",
   },
 });
+
+setupCachingInterceptor(apiClient);
 
 apiClient.interceptors.request.use(
   (config) => {

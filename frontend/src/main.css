@@ -429,6 +429,7 @@ a:hover {
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   overflow-y: auto;
+  will-change: opacity, transform;
 }
 
 .post-detail-container {
@@ -628,17 +629,30 @@ a:hover {
   animation-play-state: paused;
 }
 
+/* Performance Optimizations: Contain & Content Visibility */
+.feed-grid,
+.explore-grid,
+.profile-grid {
+  contain: content;
+}
+
+.feed-card-wrapper,
+.explore-card-wrapper {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 400px;
+}
+
 /* ─── Glassmorphism ─── */
 .glass {
   background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(10px) saturate(180%);
+  -webkit-backdrop-filter: blur(10px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 html:not(.dark) .glass {
   background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(20px) saturate(200%);
-  -webkit-backdrop-filter: blur(20px) saturate(200%);
+  backdrop-filter: blur(12px) saturate(200%);
+  -webkit-backdrop-filter: blur(12px) saturate(200%);
   border: 1px solid rgba(255, 255, 255, 0.8);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
 }
@@ -646,8 +660,8 @@ html:not(.dark) .glass {
 /* ─── Liquid Glass ─── */
 .liquid-glass {
   background: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(24px) saturate(200%);
-  -webkit-backdrop-filter: blur(24px) saturate(200%);
+  backdrop-filter: blur(12px) saturate(200%);
+  -webkit-backdrop-filter: blur(12px) saturate(200%);
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.08),
@@ -655,8 +669,8 @@ html:not(.dark) .glass {
 }
 html:not(.dark) .liquid-glass {
   background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(30px) saturate(220%);
-  -webkit-backdrop-filter: blur(30px) saturate(220%);
+  backdrop-filter: blur(16px) saturate(220%);
+  -webkit-backdrop-filter: blur(16px) saturate(220%);
   border: 1px solid rgba(255, 255, 255, 1);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 1),

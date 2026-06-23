@@ -707,7 +707,7 @@ html:not(.dark) .liquid-glass {
   animation: buzzer 0.4s ease-in-out infinite;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 768px), (pointer: coarse) {
   .liquid-glass, 
   html:not(.dark) .liquid-glass,
   .glass,

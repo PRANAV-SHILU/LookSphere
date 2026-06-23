@@ -760,10 +760,10 @@ html:not(.dark) .liquid-glass {
     -webkit-transform: translate3d(0, 0, 0);
   }
 
-  /* Disable all CSS transitions and animations globally on mobile devices */
-  *,
-  *::before,
-  *::after {
+  /* Disable all CSS transitions and animations globally on mobile devices, EXCEPT react-toastify */
+  *:not([class*="Toastify"]),
+  *:not([class*="Toastify"])::before,
+  *:not([class*="Toastify"])::after {
     transition: none !important;
     transition-property: none !important;
     transition-duration: 0s !important;
@@ -799,15 +799,10 @@ html:not(.dark) .liquid-glass {
     transform: translateX(-50%) !important;
     margin-right: 0 !important;
     padding: 0 !important;
-    pointer-events: none !important; /* Absolutely prevents touch events from pausing the timer */
   }
   .Toastify__toast {
     border-radius: var(--radius-md) !important;
     margin-bottom: 10px !important;
-    pointer-events: none !important;
-  }
-  .Toastify__close-button {
-    pointer-events: auto !important; /* Allow the close button to be clicked */
   }
 }
 

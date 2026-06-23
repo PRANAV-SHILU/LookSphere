@@ -88,11 +88,12 @@ The `displayUser` hover overlays on Explore cards were triggering accidentally o
 ### 2.4 Mobile Toast Notification Sticking
 **Files:** `frontend/src/Layout/AppLayout.jsx`, `frontend/src/main.css`
 
-Toast notifications (`react-toastify`) were getting stuck on mobile devices and refusing to auto-close. This occurs because touch events trigger the library's `pauseOnHover` and `draggable` behaviors. On touch devices, slight scroll movements are often interpreted as a "drag" on the toast, permanently pausing the auto-close timer.
+Toast notifications (`react-toastify`) were getting permanently stuck on mobile devices and refusing to auto-close, while working perfectly on desktop. The root cause was the global `* { animation: none !important; }` performance CSS reset applied to mobile devices. `react-toastify` heavily relies on the CSS `animationend` event from its progress bar to tell its JavaScript when to close the toast. By stripping the animation, the lifecycle event never fired, causing infinite hanging.
 
 **Fix:** 
-1. Disabled `pauseOnHover={false}`, `pauseOnFocusLoss={false}`, and `draggable={false}` on the `<ToastContainer>`.
-2. Applied `pointer-events: none !important` to the toast container exclusively in the mobile media query. This effectively makes the toast a "ghost" element to the browser, ensuring mobile touch events physically cannot hijack the timer. Toasts now consistently disappear after exactly 2000ms.
+1. Re-wrote the global mobile CSS reset selector to use `*:not([class*="Toastify"])`. This specifically excludes all toast elements from the performance reset, allowing their native animations (and thus, their auto-close lifecycle events) to run normally.
+2. Disabled `pauseOnHover={false}`, `pauseOnFocusLoss={false}`, and `draggable={false}` on the `<ToastContainer>` to prevent normal touch gestures from erroneously pausing the timer.
+3. The toast can now correctly auto-close after 2000ms, and its close (X) button is fully clickable again.
 
 ---
 **📚 LookSphere Documentation Index:**

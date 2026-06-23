@@ -719,16 +719,24 @@ html:not(.dark) .liquid-glass {
     contain: paint !important;
   }
   
-  .liquid-glass {
-    background: rgba(20, 20, 23, 0.9) !important;
-  }
+  .liquid-glass,
   html:not(.dark) .liquid-glass {
-    background: rgba(255, 255, 255, 0.95) !important;
+    background: var(--bg-secondary) !important;
+  }
+  
+  .glass,
+  html:not(.dark) .glass {
+    background: var(--bg-tertiary) !important;
   }
   
   /* Completely disable card hover gradient glow on mobile to prevent screen-wide GPU rasterization glitches */
   .card-glow {
     display: none !important;
+  }
+  
+  /* Disable body-wide gradient background on mobile to prevent fullscreen tiling rasterization errors during scroll */
+  body {
+    background: var(--bg-primary) !important;
   }
   
   /* Disable sticky header blur and make it solid on mobile */

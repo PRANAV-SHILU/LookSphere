@@ -12,12 +12,6 @@ This document records the major bugs, UI glitches, and functional issues that ha
   - [1.1 GPU Rasterization Glitch Mitigation](#11-gpu-rasterization-glitch-mitigation)
   - [1.2 Chrome Mobile Blur Bug Fix](#12-chrome-mobile-blur-bug-fix)
   - [1.3 Mobile Hover Effect Removal](#13-mobile-hover-effect-removal)
-- [2. Functional & Logic Fixes](#2-functional--logic-fixes)
-  - [2.1 Infinite Scroll Array Duplication](#21-infinite-scroll-array-duplication)
-  - [2.2 Search Revalidation & Empty State](#22-search-revalidation--empty-state)
-  - [2.3 Accidental Mobile Clicks](#23-accidental-mobile-clicks)
-  - [2.4 Mobile Toast Notification Sticking](#24-mobile-toast-notification-sticking)
-
 ---
 
 ## 1. Visual & Rendering Glitches
@@ -56,46 +50,7 @@ On mobile devices, CSS `:hover` states behave unpredictably — they "stick" aft
 
 ---
 
-## 2. Functional & Logic Fixes
 
-### 2.1 Infinite Scroll Array Duplication
-**File:** `frontend/src/components/home/ActivityFeed.jsx`
-
-The activity feed occasionally appended duplicate items when fetching the next page of results during infinite scroll.
-
-**Fix:** Implemented duplicate prevention logic by maintaining a `Set` of existing IDs and filtering new incoming data against it before updating the state.
-
----
-
-### 2.2 Search Revalidation & Empty State
-**Files:** `frontend/src/pages/Explore.jsx`, `frontend/src/pages/Creators.jsx`
-
-Clearing the search input did not correctly re-fetch the default feed data, leaving the user stuck with previous search results.
-
-**Fix:** Search input is now synced with URL parameters. Clearing the search explicitly triggers a refetch of the default un-filtered feed. Added a 'clear search' cross icon to search bars to quickly reset the state.
-
----
-
-### 2.3 Accidental Mobile Clicks
-**File:** `frontend/src/pages/Explore.jsx`
-
-The `displayUser` hover overlays on Explore cards were triggering accidentally on touch devices while scrolling.
-
-**Fix:** Hid the user overlay on mobile devices to prevent unintentional profile navigation during feed scroll.
-
----
-
-### 2.4 Mobile Toast Notification Sticking
-**Files:** `frontend/src/Layout/AppLayout.jsx`, `frontend/src/main.css`
-
-Toast notifications (`react-toastify`) were getting permanently stuck on mobile devices and refusing to auto-close, while working perfectly on desktop. The root cause was the global `* { animation: none !important; }` performance CSS reset applied to mobile devices. `react-toastify` heavily relies on the CSS `animationend` event from its progress bar to tell its JavaScript when to close the toast. By stripping the animation, the lifecycle event never fired, causing infinite hanging.
-
-**Fix:** 
-1. Re-wrote the global mobile CSS reset selector to use `*:not([class*="Toastify"])`. This specifically excludes all toast elements from the performance reset, allowing their native animations (and thus, their auto-close lifecycle events) to run normally.
-2. Disabled `pauseOnHover={false}`, `pauseOnFocusLoss={false}`, and `draggable={false}` on the `<ToastContainer>` to prevent normal touch gestures from erroneously pausing the timer.
-3. The toast can now correctly auto-close after 2000ms, and its close (X) button is fully clickable again.
-
----
 **📚 LookSphere Documentation Index:**
 - **Root:** [Main Readme](./Readme.md) | [File Tree](./File_Tree.md) | [Future Plans](./futureplan.md) | [Performance](./performance_optimization.md) | [Resolved Issues](./resolved_issues.md)
 - **Frontend:** [Frontend Readme](./frontend/README.md) | [Design Specs](./frontend/Design.md) | [Frontend File Tree](./frontend/File_Tree.md) | [Improvements](./frontend/improvement.md)

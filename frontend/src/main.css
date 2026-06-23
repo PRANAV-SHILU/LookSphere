@@ -760,17 +760,17 @@ html:not(.dark) .liquid-glass {
     -webkit-transform: translate3d(0, 0, 0);
   }
 
-  /* Disable all CSS transitions and animations globally on mobile devices, EXCEPT react-toastify */
-  *:not([class*="Toastify"]),
-  *:not([class*="Toastify"])::before,
-  *:not([class*="Toastify"])::after {
+  /* Disable heavy continuous animations on mobile home page to save GPU */
+  .feed-scroll-track,
+  .pulse-glow,
+  .animate-buzzer {
+    animation: none !important;
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
     transition: none !important;
     transition-property: none !important;
     transition-duration: 0s !important;
     transition-delay: 0s !important;
-    animation: none !important;
-    animation-duration: 0s !important;
-    animation-delay: 0s !important;
   }
 
   /* Hide hero section background blur blobs on mobile */

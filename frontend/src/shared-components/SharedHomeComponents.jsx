@@ -1,7 +1,7 @@
 export function CardGlow() {
   return (
     <div
-      className="absolute inset-0 opacity-0 group-hover:opacity-[0.06] transition-opacity duration-300 pointer-events-none"
+      className="card-glow absolute inset-0 opacity-0 group-hover:opacity-[0.06] transition-opacity duration-300 pointer-events-none"
       style={{
         background: "linear-gradient(135deg, var(--primary-500), transparent)",
       }}

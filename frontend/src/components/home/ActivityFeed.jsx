@@ -24,14 +24,14 @@ export default function ActivityFeed() {
 
         {/* Fade masks */}
         <div
-          className="absolute top-0 left-0 right-0 h-16 z-10 pointer-events-none"
+          className="absolute top-0 left-0 right-0 h-16 z-10 pointer-events-none hidden md:block"
           style={{
             background:
               "linear-gradient(to bottom, var(--bg-primary), transparent)",
           }}
         />
         <div
-          className="absolute bottom-0 left-0 right-0 h-16 z-10 pointer-events-none"
+          className="absolute bottom-0 left-0 right-0 h-16 z-10 pointer-events-none hidden md:block"
           style={{
             background:
               "linear-gradient(to top, var(--bg-primary), transparent)",

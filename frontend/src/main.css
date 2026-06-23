@@ -716,6 +716,7 @@ html:not(.dark) .liquid-glass {
     -webkit-backdrop-filter: none !important;
     box-shadow: none !important;
     border-color: rgba(128, 128, 128, 0.1) !important;
+    contain: paint !important;
   }
   
   .liquid-glass {
@@ -723,6 +724,11 @@ html:not(.dark) .liquid-glass {
   }
   html:not(.dark) .liquid-glass {
     background: rgba(255, 255, 255, 0.95) !important;
+  }
+  
+  /* Completely disable card hover gradient glow on mobile to prevent screen-wide GPU rasterization glitches */
+  .card-glow {
+    display: none !important;
   }
   
   /* Disable sticky header blur and make it solid on mobile */

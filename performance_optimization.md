@@ -26,9 +26,11 @@ A comprehensive record of every performance optimization applied to LookSphere, 
   - [4.1 Component Memoization](#41-component-memoization)
   - [4.2 Derived State over setState-in-Effects](#42-derived-state-over-setstate-in-effects)
   - [4.3 IntersectionObserver-Based Scrolling](#43-intersectionobserver-based-scrolling)
-  - [4.4 Feed Refresher Algorithm](#44-feed-refresher-algorithm)
+  - [4.4 Activity Feed Cleanup](#44-activity-feed-cleanup)
+  - [4.5 Feed Refresher Algorithm](#45-feed-refresher-algorithm)
 - [5. Search & Data Fetching](#5-search--data-fetching)
   - [5.1 Debounced Search with URL Params](#51-debounced-search-with-url-params)
+  - [5.2 Search Revalidation Fix](#52-search-revalidation-fix)
 - [Summary of Affected Files](#summary-of-affected-files)
 
 ---
@@ -37,7 +39,7 @@ A comprehensive record of every performance optimization applied to LookSphere, 
 
 ### 1.1 Response Compression (Backend)
 
-**File:** [`Backend/src/index.js`](./Backend/src/index.js)
+**File:** [`Backend/src/index.js`](../Backend/src/index.js)
 
 The Express backend uses the `compression` middleware, applied as the very first middleware in the stack. This automatically gzip/brotli compresses all JSON responses before sending them over the network, drastically reducing payload size — especially for large feed arrays containing 20+ posts with nested user objects.
 
@@ -52,7 +54,7 @@ app.use(compression());
 
 ### 1.2 Cloudinary Preconnect (Frontend)
 
-**File:** [`frontend/index.html`](./frontend/index.html)
+**File:** [`frontend/index.html`](./index.html)
 
 A `<link rel="preconnect">` tag was added to `index.html` so the browser establishes the DNS lookup, TCP handshake, and TLS negotiation with Cloudinary's CDN immediately on page load — before any images are actually requested.
 
@@ -66,14 +68,16 @@ A `<link rel="preconnect">` tag was added to `index.html` so the browser establi
 
 ### 1.3 In-Memory Request Caching (Frontend)
 
-**File:** [`frontend/src/network/cacheInterceptor.js`](./frontend/src/network/cacheInterceptor.js)
+**File:** [`frontend/src/network/cacheInterceptor.js`](./src/network/cacheInterceptor.js)
 
 An Axios request/response interceptor implements a lightweight in-memory `Map` cache with a 5-second TTL. This prevents redundant API calls when:
+
 - React Router re-runs loaders during navigation.
 - The user rapidly switches between tabs.
 - A component re-mounts due to Suspense boundaries.
 
 Key design decisions:
+
 - **Search queries are excluded** from caching (`?search=` bypasses the cache) to ensure real-time results.
 - **Any mutation** (POST, PATCH, DELETE) immediately invalidates the entire cache to guarantee data consistency.
 - Cached responses are deep-cloned (`JSON.parse(JSON.stringify(...))`) to prevent shared-reference mutation bugs.
@@ -92,9 +96,10 @@ if (config.method.toLowerCase() === "get" && !isSearchQuery) { ... }
 
 ### 2.1 Cloudinary On-the-Fly Image Resizing
 
-**File:** [`frontend/src/utils/cloudinaryOptimizer.js`](./frontend/src/utils/cloudinaryOptimizer.js)
+**File:** [`frontend/src/utils/cloudinaryOptimizer.js`](./src/utils/cloudinaryOptimizer.js)
 
 A `getOptimizedMediaUrl()` utility dynamically injects Cloudinary transformation parameters into image URLs. Instead of serving the original 3000×4000px upload, images are automatically:
+
 - **Resized** to the width needed by the container (typically 300–400px for grid thumbnails).
 - **Converted** to WebP/AVIF via `f_auto` (the browser's most efficient format).
 - **Quality-optimized** via `q_auto` (Cloudinary's perceptual quality algorithm).
@@ -112,14 +117,18 @@ const transformation = `w_${width},c_scale,q_${quality},f_${format}/`;
 
 ### 2.2 Video Poster Thumbnails
 
-**File:** [`frontend/src/utils/cloudinaryOptimizer.js`](./frontend/src/utils/cloudinaryOptimizer.js)
+**File:** [`frontend/src/utils/cloudinaryOptimizer.js`](./src/utils/cloudinaryOptimizer.js)
 
 A `getVideoPosterUrl()` utility generates lightweight JPEG thumbnails from video URLs by replacing the video extension (`.mp4`) with `.jpg` and applying the same resize transformations. This is used instead of loading the actual video file just to show a preview frame.
 
 ```javascript
 // Converts: .../upload/v123/video.mp4 → .../upload/w_300,c_scale,q_auto,f_jpg/v123/video.jpg
 const posterUrl = url.replace(/\.(mp4|webm|ogg|mov)$/i, ".jpg");
-return getOptimizedMediaUrl(posterUrl, { width, quality: "auto", format: "jpg" });
+return getOptimizedMediaUrl(posterUrl, {
+  width,
+  quality: "auto",
+  format: "jpg",
+});
 ```
 
 **Impact:** Video thumbnails load as tiny ~15KB JPEGs instead of downloading megabytes of video data just to display a poster frame.
@@ -128,25 +137,37 @@ return getOptimizedMediaUrl(posterUrl, { width, quality: "auto", format: "jpg" }
 
 ### 2.3 Deferred Video DOM Rendering
 
-**Files:** [`frontend/src/pages/Explore.jsx`](./frontend/src/pages/Explore.jsx), [`frontend/src/pages/Profile.jsx`](./frontend/src/pages/Profile.jsx), [`frontend/src/pages/Feed.jsx`](./frontend/src/pages/Feed.jsx), [`frontend/src/components/dashboard/LatestPostsTab.jsx`](./frontend/src/components/dashboard/LatestPostsTab.jsx)
+**Files:** [`Explore.jsx`](./src/pages/Explore.jsx), [`Profile.jsx`](./src/pages/Profile.jsx), [`Feed.jsx`](./src/pages/Feed.jsx), [`LatestPostsTab.jsx`](./src/components/dashboard/LatestPostsTab.jsx)
 
 This is one of the most impactful optimizations. Previously, every video post rendered a full `<video>` element into the DOM at all times — even when off-screen or not playing. Each `<video>` tag forces the browser to allocate a media decoder, buffer memory, and a compositing layer.
 
 **The fix:** All video grids now use a **poster-first pattern**:
+
 - By default, videos render as a lightweight `<img>` tag showing the Cloudinary poster thumbnail.
 - The actual `<video>` element is only mounted into the DOM when the user explicitly interacts (hover on desktop grids, or auto-play when scrolled into view in the Feed).
 - When the video scrolls out of view or the user stops hovering, the `<video>` is unmounted and replaced by the `<img>` poster again.
 
 **Explore page (hover-to-play):**
+
 ```jsx
-{isPlaying ? (
-  <video ref={videoRef} src={`${post.mediaUrl}#t=1.0`} muted loop playsInline autoPlay />
-) : (
-  <img src={optimizedPoster} loading="lazy" decoding="async" />
-)}
+{
+  isPlaying ? (
+    <video
+      ref={videoRef}
+      src={`${post.mediaUrl}#t=1.0`}
+      muted
+      loop
+      playsInline
+      autoPlay
+    />
+  ) : (
+    <img src={optimizedPoster} loading="lazy" decoding="async" />
+  );
+}
 ```
 
 **Feed page (intersection-based with derived state):**
+
 ```jsx
 const isPlaying = isVideo && isIntersecting && !isParentModalOpen;
 // Video is only in the DOM when isPlaying is true
@@ -158,14 +179,15 @@ const isPlaying = isVideo && isIntersecting && !isParentModalOpen;
 
 ### 2.4 Lazy Loading & Async Decoding
 
-**Files:** All pages rendering images (`frontend/src/pages/Explore.jsx`, `frontend/src/pages/Profile.jsx`, `frontend/src/pages/Feed.jsx`, `frontend/src/components/dashboard/LatestPostsTab.jsx`)
+**Files:** All pages rendering images (`Explore.jsx`, `Profile.jsx`, `Feed.jsx`, `LatestPostsTab.jsx`)
 
 Every `<img>` tag in the application includes:
+
 - `loading="lazy"` — The browser only downloads the image when it's about to scroll into view.
 - `decoding="async"` — Image data is decoded on a background thread, preventing the main UI thread from stuttering during scroll.
 
 ```html
-<img src={url} loading="lazy" decoding="async" />
+<img src="{url}" loading="lazy" decoding="async" />
 ```
 
 **Impact:** Initial page load only downloads images visible in the viewport. Scrolling is smoother because image decoding doesn't block the rendering pipeline.
@@ -176,7 +198,7 @@ Every `<img>` tag in the application includes:
 
 ### 3.1 GPU Hardware Acceleration
 
-**File:** [`frontend/src/main.css`](./frontend/src/main.css)
+**File:** [`frontend/src/main.css`](./src/main.css)
 
 Feed and Explore card wrappers are forced onto their own GPU compositing layers via `transform: translateZ(0)` and `will-change: transform`. This means the browser can scroll these elements by simply repositioning the GPU layer, without recalculating CSS layout or repainting pixels.
 
@@ -200,7 +222,7 @@ Feed and Explore card wrappers are forced onto their own GPU compositing layers 
 
 ### 3.2 Content Visibility & Containment
 
-**File:** [`frontend/src/main.css`](./frontend/src/main.css)
+**File:** [`frontend/src/main.css`](./src/main.css)
 
 Two powerful CSS containment strategies are applied:
 
@@ -209,11 +231,14 @@ Two powerful CSS containment strategies are applied:
 2. **`content-visibility: auto`** on individual card wrappers — This is the single most impactful CSS property for scroll performance. It instructs the browser to completely skip layout, paint, and style calculations for any card that isn't currently in the viewport. The `contain-intrinsic-size` provides an estimated height so scrollbar calculations remain accurate.
 
 ```css
-.feed-grid, .explore-grid, .profile-grid {
+.feed-grid,
+.explore-grid,
+.profile-grid {
   contain: content;
 }
 
-.feed-card-wrapper, .explore-card-wrapper {
+.feed-card-wrapper,
+.explore-card-wrapper {
   content-visibility: auto;
   contain-intrinsic-size: 0 400px;
 }
@@ -225,9 +250,10 @@ Two powerful CSS containment strategies are applied:
 
 ### 3.3 Mobile Hover Effect Removal
 
-**File:** [`frontend/src/utils/styles.js`](./frontend/src/utils/styles.js)
+**File:** [`frontend/src/utils/styles.js`](./src/utils/styles.js)
 
 On mobile devices, CSS `:hover` states behave unpredictably — they "stick" after a tap and trigger during scroll. The shared `CARD_HOVER` utility class was updated to restrict all hover transforms and shadows to the `md:` breakpoint (768px+), ensuring mobile users never experience:
+
 - Cards "jumping up" (`-translate-y-1`) when accidentally scrolled over.
 - Phantom box-shadow flickers during fast scroll gestures.
 
@@ -243,7 +269,7 @@ export const CARD_HOVER =
 
 ### 3.4 Chrome Mobile Blur Bug Fix
 
-**File:** [`frontend/src/shared-components/SharedHomeComponents.jsx`](./frontend/src/shared-components/SharedHomeComponents.jsx)
+**File:** [`frontend/src/shared-components/SharedHomeComponents.jsx`](./src/shared-components/SharedHomeComponents.jsx)
 
 A persistent Chrome mobile rendering bug caused thin horizontal glitch lines to appear across Home page sections (TechStack, FAQ, Security, WhatYouCanDo). The root cause was a `blur-md` CSS filter on the `<CardGlow />` component — when combined with a `linear-gradient` background and hardware-accelerated transforms, Chrome's mobile compositor produced sub-pixel bleeding artifacts at layer boundaries.
 
@@ -257,9 +283,10 @@ A persistent Chrome mobile rendering bug caused thin horizontal glitch lines to 
 
 ### 4.1 Component Memoization
 
-**Files:** [`frontend/src/pages/Explore.jsx`](./frontend/src/pages/Explore.jsx), [`frontend/src/pages/Feed.jsx`](./frontend/src/pages/Feed.jsx), [`frontend/src/pages/Profile.jsx`](./frontend/src/pages/Profile.jsx), [`frontend/src/components/dashboard/LatestPostsTab.jsx`](./frontend/src/components/dashboard/LatestPostsTab.jsx)
+**Files:** [`Explore.jsx`](./src/pages/Explore.jsx), [`Feed.jsx`](./src/pages/Feed.jsx), [`Profile.jsx`](./src/pages/Profile.jsx), [`LatestPostsTab.jsx`](./src/components/dashboard/LatestPostsTab.jsx)
 
 All heavy card components are wrapped with `React.memo()`:
+
 - `ExploreCard` — Prevents re-render when sibling cards update.
 - `FeedCard` — Prevents re-render when other posts' intersection states change.
 - `ProfileVideoCard` — Prevents re-render when the parent Profile component re-renders.
@@ -278,7 +305,7 @@ const DashboardVideoCard = memo(function DashboardVideoCard({ post }) { ... });
 
 ### 4.2 Derived State over setState-in-Effects
 
-**File:** [`frontend/src/pages/Feed.jsx`](./frontend/src/pages/Feed.jsx)
+**File:** [`frontend/src/pages/Feed.jsx`](./src/pages/Feed.jsx)
 
 The `FeedCard` component originally used a `useState` + `useEffect` pattern to track whether a video should be playing, which triggered cascading renders:
 
@@ -303,27 +330,43 @@ const isPlaying = isVideo && isIntersecting && !isParentModalOpen;
 
 ### 4.3 IntersectionObserver-Based Scrolling
 
-**Files:** [`frontend/src/pages/Feed.jsx`](./frontend/src/pages/Feed.jsx), [`frontend/src/pages/Explore.jsx`](./frontend/src/pages/Explore.jsx)
+**Files:** [`Feed.jsx`](./src/pages/Feed.jsx), [`Explore.jsx`](./src/pages/Explore.jsx)
 
 All infinite scroll triggers use `IntersectionObserver` instead of listening to raw `scroll` events. The observer is attached to a "trigger element" positioned 5–9 posts from the bottom of the current list, initiating the next page fetch before the user reaches the end.
 
 ```javascript
-observer.current = new IntersectionObserver(entries => {
+observer.current = new IntersectionObserver((entries) => {
   if (entries[0].isIntersecting && hasMore) loadMore();
 });
 ```
 
 Duplicate prevention is built in:
+
 ```javascript
-const existingIds = new Set(prev.map(p => p._id));
-const newPostsRaw = res.data.filter(p => !existingIds.has(p._id));
+const existingIds = new Set(prev.map((p) => p._id));
+const newPostsRaw = res.data.filter((p) => !existingIds.has(p._id));
 ```
 
 **Impact:** `scroll` events fire 60+ times per second and require manual throttling. `IntersectionObserver` fires exactly once when the threshold is crossed, using zero CPU during passive scrolling.
 
-### 4.4 Feed Refresher Algorithm
+---
 
-**File:** [`frontend/src/utils/feedRefresher.js`](./frontend/src/utils/feedRefresher.js)
+### 4.4 Activity Feed Cleanup
+
+**Files:** [`ActivityFeed.jsx`](./src/components/home/ActivityFeed.jsx), [`staticData.jsx`](./src/utils/staticData.jsx)
+
+The Live Activity section previously used an infinite-scrolling CSS animation (`scroll-feed`) that required the activities array to be duplicated (`[...activities, ...activities]`) to create a seamless loop illusion. After the animation was disabled:
+
+- The array duplication code was removed.
+- The `activities` static data was trimmed from 8 entries to 4, reducing the DOM node count and the JavaScript bundle size.
+
+**Impact:** Halved the DOM nodes in the Activity Feed section. Removed unnecessary array allocation on every render.
+
+---
+
+### 4.5 Feed Refresher Algorithm
+
+**File:** [`frontend/src/utils/feedRefresher.js`](./src/utils/feedRefresher.js)
 
 A Fisher-Yates shuffle algorithm ensures the feed feels "fresh" on every page load. Posts the user has already seen (tracked via `sessionStorage`) are deprioritized to the end of the list, while unseen posts are shuffled to the top.
 
@@ -337,14 +380,14 @@ return [...shuffle(unseen), ...shuffle(seen)];
 
 ---
 
-
 ## 5. Search & Data Fetching
 
 ### 5.1 Debounced Search with URL Params
 
-**File:** [`frontend/src/pages/Explore.jsx`](./frontend/src/pages/Explore.jsx)
+**File:** [`frontend/src/pages/Explore.jsx`](./src/pages/Explore.jsx)
 
 Search input is debounced by 400ms using `setTimeout`. The search query is synced with the URL via React Router's `useSearchParams` instead of manually manipulating `window.history`. This ensures:
+
 - The browser back button correctly restores the previous search state.
 - React Router's loader re-runs with the correct search param, triggering a proper data fetch.
 
@@ -360,31 +403,55 @@ searchTimeoutRef.current = setTimeout(() => {
 
 **Impact:** Prevents rapid-fire API calls while typing. Clearing the search correctly triggers a full re-fetch of the default feed data (previously broken when using `window.history.replaceState`).
 
+---
 
+### 5.2 Search Revalidation Fix
+
+**Files:** [`Explore.jsx`](./src/pages/Explore.jsx), [`Creators.jsx`](./src/pages/Creators.jsx)
+
+Added clear/cross (`X`) icons to search bars. Clicking the icon clears the search query and revalidates the data loader to restore the default unfiltered results.
+
+```jsx
+{
+  searchQuery && (
+    <button onClick={() => setSearchQuery("")}>
+      <X size={16} />
+    </button>
+  );
+}
+```
+
+**Impact:** Users can instantly reset search results with one tap instead of manually deleting text. The revalidation ensures correct data is always displayed after clearing.
+
+---
 
 ## Summary of Affected Files
 
-| File | Optimizations Applied |
-|---|---|
-| [`Backend/src/index.js`](./Backend/src/index.js) | `compression` middleware |
-| [`frontend/index.html`](./frontend/index.html) | Cloudinary preconnect |
-| [`frontend/src/main.css`](./frontend/src/main.css) | GPU acceleration, content-visibility, containment |
-| [`frontend/src/utils/cloudinaryOptimizer.js`](./frontend/src/utils/cloudinaryOptimizer.js) | Image resizing, video poster generation |
-| [`frontend/src/utils/styles.js`](./frontend/src/utils/styles.js) | Mobile hover removal |
-| [`frontend/src/utils/feedRefresher.js`](./frontend/src/utils/feedRefresher.js) | Fisher-Yates shuffle, seen-post deprioritization |
-| [`frontend/src/network/cacheInterceptor.js`](./frontend/src/network/cacheInterceptor.js) | In-memory GET cache with TTL |
-| [`frontend/src/network/apiClient.js`](./frontend/src/network/apiClient.js) | Cache interceptor activation |
-| [`frontend/src/pages/Explore.jsx`](./frontend/src/pages/Explore.jsx) | Deferred video DOM, React.memo, debounced search, IntersectionObserver |
-| [`frontend/src/pages/Feed.jsx`](./frontend/src/pages/Feed.jsx) | Derived state, deferred video DOM, React.memo, IntersectionObserver, poster fallback |
-| [`frontend/src/pages/Profile.jsx`](./frontend/src/pages/Profile.jsx) | ProfileVideoCard with poster-first pattern, React.memo |
-| [`frontend/src/components/dashboard/LatestPostsTab.jsx`](./frontend/src/components/dashboard/LatestPostsTab.jsx) | DashboardVideoCard with poster-first pattern |
-
-| [`frontend/src/shared-components/SharedHomeComponents.jsx`](./frontend/src/shared-components/SharedHomeComponents.jsx) | Removed blur-md from CardGlow |
+| File                                                                                                          | Optimizations Applied                                                                |
+| ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| [`Backend/src/index.js`](../Backend/src/index.js)                                                             | `compression` middleware                                                             |
+| [`frontend/index.html`](./index.html)                                                                         | Cloudinary preconnect                                                                |
+| [`frontend/src/main.css`](./src/main.css)                                                                     | GPU acceleration, content-visibility, containment                                    |
+| [`frontend/src/utils/cloudinaryOptimizer.js`](./src/utils/cloudinaryOptimizer.js)                             | Image resizing, video poster generation                                              |
+| [`frontend/src/utils/styles.js`](./src/utils/styles.js)                                                       | Mobile hover removal                                                                 |
+| [`frontend/src/utils/feedRefresher.js`](./src/utils/feedRefresher.js)                                         | Fisher-Yates shuffle, seen-post deprioritization                                     |
+| [`frontend/src/network/cacheInterceptor.js`](./src/network/cacheInterceptor.js)                               | In-memory GET cache with TTL                                                         |
+| [`frontend/src/network/apiClient.js`](./src/network/apiClient.js)                                             | Cache interceptor activation                                                         |
+| [`frontend/src/pages/Explore.jsx`](./src/pages/Explore.jsx)                                                   | Deferred video DOM, React.memo, debounced search, IntersectionObserver               |
+| [`frontend/src/pages/Feed.jsx`](./src/pages/Feed.jsx)                                                         | Derived state, deferred video DOM, React.memo, IntersectionObserver, poster fallback |
+| [`frontend/src/pages/Profile.jsx`](./src/pages/Profile.jsx)                                                   | ProfileVideoCard with poster-first pattern, React.memo                               |
+| [`frontend/src/pages/Creators.jsx`](./src/pages/Creators.jsx)                                                 | Search clear icon, revalidation fix                                                  |
+| [`frontend/src/components/dashboard/LatestPostsTab.jsx`](./src/components/dashboard/LatestPostsTab.jsx)       | DashboardVideoCard with poster-first pattern                                         |
+| [`frontend/src/components/home/ActivityFeed.jsx`](./src/components/home/ActivityFeed.jsx)                     | Removed array duplication                                                            |
+| [`frontend/src/utils/staticData.jsx`](./src/utils/staticData.jsx)                                             | Trimmed activity data to 4 entries                                                   |
+| [`frontend/src/shared-components/SharedHomeComponents.jsx`](./src/shared-components/SharedHomeComponents.jsx) | Removed blur-md from CardGlow                                                        |
 
 ---
 
 **📚 LookSphere Documentation Index:**
-- **Root:** [Main Readme](./Readme.md) | [File Tree](./File_Tree.md) | [Future Plans](./futureplan.md) | [Performance](./performance_optimization.md)
-- **Frontend:** [Frontend Readme](./frontend/README.md) | [Design Specs](./frontend/Design.md) | [Frontend File Tree](./frontend/File_Tree.md) | [Improvements](./frontend/improvement.md)
-- **Backend:** [Backend Readme](./Backend/Readme.md) | [API Docs](./Backend/APIs.md) | [Backend File Tree](./Backend/File_Tree.md)
+
+- **Root:** [Main Readme](../Readme.md) | [File Tree](../File_tree.md) | [Future Plans](../futureplan.md)
+- **Frontend:** [Frontend Readme](./README.md) | [Design Specs](./Design.md) | [Frontend File Tree](./File_Tree.md) | [Improvements](./improvement.md)
+- **Backend:** [Backend Readme](../Backend/Readme.md) | [API Docs](../Backend/APIs.md) | [Backend File Tree](../Backend/File_Tree.md)
+
 ---

@@ -11,14 +11,9 @@
 ![Node.js](https://img.shields.io/badge/Node.js-v18+-green?logo=node.js)
 ![Express.js](https://img.shields.io/badge/Express.js-Backend-lightgrey?logo=express)
 ![MongoDB](https://img.shields.io/badge/MongoDB-Database-47A248?logo=mongodb&logoColor=white)
+![Mongoose](https://img.shields.io/badge/Mongoose-ODM-880000?logo=mongoose&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4.3.1-2b2b2b?style=flat&logo=tailwindcss&logoColor=white&labelColor=06B6D4)
 ![Vite](https://img.shields.io/badge/Vite-v7.2.4-2b2b2b?style=flat&logo=vite&logoColor=white&labelColor=BD34FE)
-![JWT](https://img.shields.io/badge/JWT-Auth-black?logo=jsonwebtokens&logoColor=white)
-![Cloudinary](https://img.shields.io/badge/Cloudinary-Media-3448C5?logo=cloudinary&logoColor=white)
-![Multer](https://img.shields.io/badge/Multer-Uploads-orange)
-![bcrypt](https://img.shields.io/badge/bcrypt-Security-red)
-![Nodemailer](https://img.shields.io/badge/Nodemailer-Email-14B32E)
-![Dotenv](https://img.shields.io/badge/Dotenv-Config-ECD53F?logo=dotenv&logoColor=black)
 ![React Router](https://img.shields.io/badge/React_Router-v7.11.0-2b2b2b?style=flat&logo=reactrouter&logoColor=white&labelColor=CA4245)
 ![Axios](https://img.shields.io/badge/Axios-v1.17.0-2b2b2b?style=flat&logo=axios&logoColor=white&labelColor=5A29E4)
 ![React Hook Form](https://img.shields.io/badge/React_Hook_Form-v7.69.0-2b2b2b?style=flat&logo=reacthookform&logoColor=white&labelColor=EC5990)
@@ -26,6 +21,16 @@
 ![Lucide React](https://img.shields.io/badge/Lucide_React-v1.17.0-2b2b2b?style=flat&logo=lucide&logoColor=white&labelColor=F56565)
 ![React Spinners](https://img.shields.io/badge/React_Spinners-v0.17.0-2b2b2b?style=flat&labelColor=36D7B7)
 ![React Toastify](https://img.shields.io/badge/React_Toastify-v11.0.5-2b2b2b?style=flat&labelColor=FF9900)
+![JWT](https://img.shields.io/badge/JWT-Auth-black?logo=jsonwebtokens&logoColor=white)
+![Cloudinary](https://img.shields.io/badge/Cloudinary-Media-3448C5?logo=cloudinary&logoColor=white)
+![Multer](https://img.shields.io/badge/Multer-Uploads-orange)
+![bcrypt](https://img.shields.io/badge/bcrypt-Security-red)
+![Nodemailer](https://img.shields.io/badge/Nodemailer-Email-14B32E)
+![Express Validator](https://img.shields.io/badge/Express_Validator-Validation-41315F)
+![Dotenv](https://img.shields.io/badge/Dotenv-Config-ECD53F?logo=dotenv&logoColor=black)
+![CORS](https://img.shields.io/badge/CORS-Protection-purple)
+![Compression](https://img.shields.io/badge/Compression-GZIP%20%2F%20Brotli-00F2FE?logo=googlecloud&logoColor=white)
+![Nodemon](https://img.shields.io/badge/Nodemon-Dev_Tool-76D04B?logo=nodemon&logoColor=white)
 
 </div>
 
@@ -44,6 +49,13 @@ It features a dark-theme-first aesthetic, secure JWT authentication, rich media 
 
 Explore the detailed documentation for different parts of the project:
 
+**Root Documentation:**
+- 🗂️ **[Project File Tree](./File_Tree.md)** - Overall repository structure.
+- 🚀 **[Performance Optimizations](./performance_optimization.md)** - Details about mobile GPU rendering fixes, state optimization, and performance tuning.
+- 🔮 **[Future Plans](./futureplan.md)** - Roadmap and upcoming feature pipeline.
+- ✅ **[Resolved Issues](./resolved_issues.md)** - Log of major bug fixes and structural platform improvements.
+
+**Frontend & Backend:**
 - 🎨 **[Frontend Documentation](./frontend/README.md)** - Details about the React & Vite frontend architecture, libraries, and UI design.
 - ⚙️ **[Backend Documentation](./Backend/Readme.md)** - Details about the Node.js/Express server, MongoDB schemas, and security practices.
 - 📡 **[API Reference](./Backend/APIs.md)** - Comprehensive documentation of all available REST API endpoints.

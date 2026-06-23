@@ -8,13 +8,17 @@
 ![Node.js](https://img.shields.io/badge/Node.js-v18+-green?logo=node.js)
 ![Express.js](https://img.shields.io/badge/Express.js-Backend-lightgrey?logo=express)
 ![MongoDB](https://img.shields.io/badge/MongoDB-Database-47A248?logo=mongodb&logoColor=white)
+![Mongoose](https://img.shields.io/badge/Mongoose-ODM-880000?logo=mongoose&logoColor=white)
 ![JWT](https://img.shields.io/badge/JWT-Auth-black?logo=jsonwebtokens&logoColor=white)
 ![Cloudinary](https://img.shields.io/badge/Cloudinary-Media-3448C5?logo=cloudinary&logoColor=white)
 ![Multer](https://img.shields.io/badge/Multer-Uploads-orange)
 ![bcrypt](https://img.shields.io/badge/bcrypt-Security-red)
 ![Nodemailer](https://img.shields.io/badge/Nodemailer-Email-14B32E)
+![Express Validator](https://img.shields.io/badge/Express_Validator-Validation-41315F)
 ![Dotenv](https://img.shields.io/badge/Dotenv-Config-ECD53F?logo=dotenv&logoColor=black)
+![CORS](https://img.shields.io/badge/CORS-Protection-purple)
 ![Compression](https://img.shields.io/badge/Compression-GZIP%20%2F%20Brotli-00F2FE?logo=googlecloud&logoColor=white)
+![Nodemon](https://img.shields.io/badge/Nodemon-Dev_Tool-76D04B?logo=nodemon&logoColor=white)
 ![License](https://img.shields.io/badge/License-Private-red)
 
 </div>

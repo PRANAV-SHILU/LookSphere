@@ -316,6 +316,7 @@ export const techStack = [
   { name: "Lucide React", color: "#F56565", icon: Sparkles },
   { name: "CORS", color: "#1A73E8", icon: Shield },
   { name: "Compression", color: "#00F2FE", icon: Zap },
+  { name: "Nodemon", color: "#76D04B", icon: Server },
 ];
 
 export const fakePosts = [

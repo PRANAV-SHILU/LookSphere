@@ -88,7 +88,7 @@ The project has a well-organized, scalable architecture. For a detailed breakdow
 
 ---
 **📚 LookSphere Documentation Index:**
-- **Root:** [Main Readme](../Readme.md) | [File Tree](../File_Tree.md) | [Future Plans](../futureplan.md) | [Performance](../performance_optimization.md)
+- **Root:** [Main Readme](../Readme.md) | [File Tree](../File_Tree.md) | [Future Plans](../futureplan.md) | [Performance](../performance_optimization.md) | [Resolved Issues](../resolved_issues.md)
 - **Frontend:** [Frontend Readme](./README.md) | [Design Specs](./Design.md) | [Frontend File Tree](./File_Tree.md) | [Improvements](./improvement.md)
 - **Backend:** [Backend Readme](../Backend/Readme.md) | [API Docs](../Backend/APIs.md) | [Backend File Tree](../Backend/File_Tree.md)
 ---

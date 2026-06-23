@@ -87,7 +87,18 @@ Colors automatically transition based on the `.dark` class on the `<html>` eleme
 - **`.glass`**: Backlight blur overlay `blur(16px)` / `saturate(180%)` with soft borders.
 - **`.liquid-glass`**: High-blur background `blur(24px)` / `saturate(200%)` with translucent inset shadows for menus, dropdowns, and cards.
 
-### D. Animations & Easing
+### D. Touch & Mobile Device Constraints (GPU Rasterization)
+
+Due to rendering constraints on mid-tier mobile processors (specifically the Mali-G52 GPU family) and Chrome's GPU Rasterization engine, the standard glassmorphism UI degrades into horizontal tearing and black artifacts during scroll. To ensure visual stability, the following design overrides are applied to all touch-capable devices via `@media (pointer: coarse)`:
+
+1. **Backdrop Filters Disabled**: `backdrop-filter: blur(...)` and `saturate(...)` are entirely removed from `.glass` and `.liquid-glass` utilities.
+2. **Solid Background Fallbacks**: Transparent `rgba` colors are overridden with 100% opaque, solid background colors (`var(--bg-secondary)`, `var(--surface-card)`) to prevent the GPU from calculating alpha-blending across complex underlying `linear-gradient` orbs.
+3. **Border Removal**: Vector borders (specifically translucent 1px borders) are disabled on all feed cards and layout wrappers, as sub-pixel anti-aliasing during scrolling causes compositor layout thrashing.
+4. **Animation Simplification**: Hover animations (like `-translate-y-1` floating cards) are disabled, and heavy `blur-md` effects on `CardGlow` components are replaced with simple opacity transitions.
+
+*Design Principle for Touch:* On touch interfaces, prioritize solid, high-contrast surfaces over layered translucency to maintain a 60fps scroll experience without visual artifacting.
+
+### E. Animations & Easing
 
 - **Background Floating Orbs**: Three ambient blurred gradient divs (electric blue, violet, cyan) orbiting at opacities of `0.15` (dark) and `0.06` (light) using `float-orb-1`, `float-orb-2`, and `float-orb-3` keyframes.
 - **Scroll Parallax**: Scroll-driven y-transform offsets for background layers.
@@ -130,7 +141,7 @@ graph TD
 
 ---
 **📚 LookSphere Documentation Index:**
-- **Root:** [Main Readme](../Readme.md) | [File Tree](../File_Tree.md) | [Future Plans](../futureplan.md) | [Performance](../performance_optimization.md)
+- **Root:** [Main Readme](../Readme.md) | [File Tree](../File_Tree.md) | [Future Plans](../futureplan.md) | [Performance](../performance_optimization.md) | [Resolved Issues](../resolved_issues.md)
 - **Frontend:** [Frontend Readme](./README.md) | [Design Specs](./Design.md) | [Frontend File Tree](./File_Tree.md) | [Improvements](./improvement.md)
 - **Backend:** [Backend Readme](../Backend/Readme.md) | [API Docs](../Backend/APIs.md) | [Backend File Tree](../Backend/File_Tree.md)
 ---

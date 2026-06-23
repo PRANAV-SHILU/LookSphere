@@ -17,8 +17,8 @@ export default function ActivityFeed() {
         style={GLASS_SHADOW}
       >
         {/* Very Soon Badge */}
-        <div className="absolute top-3 right-3 z-30 px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 text-xs font-bold uppercase tracking-wider backdrop-blur-md border border-blue-500/20 shadow-sm flex items-center gap-1.5">
-          <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />{" "}
+        <div className="absolute top-3 right-3 z-30 px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 text-xs font-bold uppercase tracking-wider border-none md:border md:border-blue-500/20 shadow-sm flex items-center gap-1.5">
+          <span className="w-1.5 h-1.5 rounded-full bg-blue-500 md:animate-pulse" />{" "}
           Very Soon
         </div>
 

@@ -1,4 +1,4 @@
-<div align="right">Last Modified: 2026-06-20</div>
+<div align="right">Last Modified: 2026-06-23</div>
 
 
 <div align="center">
@@ -87,7 +87,7 @@ Explore the detailed documentation for different parts of the project:
 
 ---
 **📚 LookSphere Documentation Index:**
-- **Root:** [Main Readme](./Readme.md) | [File Tree](./File_tree.md) | [Future Plans](./futureplan.md)
+- **Root:** [Main Readme](./Readme.md) | [File Tree](./File_Tree.md) | [Future Plans](./futureplan.md) | [Performance](./performance_optimization.md)
 - **Frontend:** [Frontend Readme](./frontend/README.md) | [Design Specs](./frontend/Design.md) | [Frontend File Tree](./frontend/File_Tree.md) | [Improvements](./frontend/improvement.md)
 - **Backend:** [Backend Readme](./Backend/Readme.md) | [API Docs](./Backend/APIs.md) | [Backend File Tree](./Backend/File_Tree.md)
 ---

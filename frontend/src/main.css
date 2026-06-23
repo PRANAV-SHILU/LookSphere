@@ -790,5 +790,19 @@ html:not(.dark) .liquid-glass {
     transform: none !important;
     -webkit-transform: none !important;
   }
+
+  /* Decrease toast width and center on mobile */
+  .Toastify__toast-container {
+    width: max-content !important;
+    max-width: 85vw !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    margin-right: 0 !important;
+    padding: 0 !important;
+  }
+  .Toastify__toast {
+    border-radius: var(--radius-md) !important;
+    margin-bottom: 10px !important;
+  }
 }
 

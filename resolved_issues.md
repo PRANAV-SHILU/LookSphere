@@ -88,9 +88,9 @@ The `displayUser` hover overlays on Explore cards were triggering accidentally o
 ### 2.4 Mobile Toast Notification Sticking
 **File:** `frontend/src/Layout/AppLayout.jsx`
 
-Toast notifications (`react-toastify`) were getting stuck on mobile devices and refusing to auto-close. This occurs because touch events trigger the library's `pauseOnHover` behavior, and without a `mouseleave` event on mobile, the timer remains permanently paused.
+Toast notifications (`react-toastify`) were getting stuck on mobile devices and refusing to auto-close. This occurs because touch events trigger the library's `pauseOnHover` and `draggable` behaviors. On touch devices, slight scroll movements are often interpreted as a "drag" on the toast, permanently pausing the auto-close timer.
 
-**Fix:** Disabled `pauseOnHover={false}` and `pauseOnFocusLoss={false}` on the `<ToastContainer>` to ensure toasts consistently disappear after their designated timeout, regardless of screen taps.
+**Fix:** Disabled `pauseOnHover={false}`, `pauseOnFocusLoss={false}`, and crucially `draggable={false}` on the `<ToastContainer>`. This prevents mobile touch events from hijacking the timer, ensuring toasts always disappear after exactly 2000ms.
 
 ---
 **📚 LookSphere Documentation Index:**

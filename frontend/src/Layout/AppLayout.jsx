@@ -26,6 +26,8 @@ export default function AppLayout() {
         theme="dark"
         pauseOnHover={false}
         pauseOnFocusLoss={false}
+        draggable={false}
+        closeOnClick={true}
       />
       <Analytics />
       <SpeedInsights />

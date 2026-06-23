@@ -6,6 +6,20 @@ This document records the major bugs, UI glitches, and functional issues that ha
 
 ---
 
+## Table of Contents
+
+- [1. Visual & Rendering Glitches](#1-visual--rendering-glitches)
+  - [1.1 GPU Rasterization Glitch Mitigation](#11-gpu-rasterization-glitch-mitigation)
+  - [1.2 Chrome Mobile Blur Bug Fix](#12-chrome-mobile-blur-bug-fix)
+  - [1.3 Mobile Hover Effect Removal](#13-mobile-hover-effect-removal)
+- [2. Functional & Logic Fixes](#2-functional--logic-fixes)
+  - [2.1 Infinite Scroll Array Duplication](#21-infinite-scroll-array-duplication)
+  - [2.2 Search Revalidation & Empty State](#22-search-revalidation--empty-state)
+  - [2.3 Accidental Mobile Clicks](#23-accidental-mobile-clicks)
+  - [2.4 Mobile Toast Notification Sticking](#24-mobile-toast-notification-sticking)
+
+---
+
 ## 1. Visual & Rendering Glitches
 
 ### 1.1 GPU Rasterization Glitch Mitigation
@@ -68,6 +82,15 @@ Clearing the search input did not correctly re-fetch the default feed data, leav
 The `displayUser` hover overlays on Explore cards were triggering accidentally on touch devices while scrolling.
 
 **Fix:** Hid the user overlay on mobile devices to prevent unintentional profile navigation during feed scroll.
+
+---
+
+### 2.4 Mobile Toast Notification Sticking
+**File:** `frontend/src/Layout/AppLayout.jsx`
+
+Toast notifications (`react-toastify`) were getting stuck on mobile devices and refusing to auto-close. This occurs because touch events trigger the library's `pauseOnHover` behavior, and without a `mouseleave` event on mobile, the timer remains permanently paused.
+
+**Fix:** Disabled `pauseOnHover={false}` and `pauseOnFocusLoss={false}` on the `<ToastContainer>` to ensure toasts consistently disappear after their designated timeout, regardless of screen taps.
 
 ---
 **📚 LookSphere Documentation Index:**

@@ -24,6 +24,8 @@ export default function AppLayout() {
         autoClose={2000}
         limit={1}
         theme="dark"
+        pauseOnHover={false}
+        pauseOnFocusLoss={false}
       />
       <Analytics />
       <SpeedInsights />

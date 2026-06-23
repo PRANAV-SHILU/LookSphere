@@ -54,26 +54,26 @@ export default function Home() {
       )}
 
       <section className="relative z-0 flex flex-col items-center w-full gap-0 mt-2 xsm:mt-4 sm:mt-8 3xl:mt-12 pb-8">
-        <HeroSection user={user} />
+        <div className="homepage-section w-full"><HeroSection user={user} /></div>
 
-        <WhyLookSphere />
-        <HowItWorks />
-        <WhatYouCanDo />
+        <div className="homepage-section w-full"><WhyLookSphere /></div>
+        <div className="homepage-section w-full"><HowItWorks /></div>
+        <div className="homepage-section w-full"><WhatYouCanDo /></div>
         <WaveDivider className="mt-4" />
 
-        <AppShowcase />
-        <ThemePreview />
-        <ActivityFeed />
+        <div className="homepage-section w-full"><AppShowcase /></div>
+        <div className="homepage-section w-full"><ThemePreview /></div>
+        <div className="homepage-section w-full"><ActivityFeed /></div>
         <WaveDivider className="mt-4" />
 
-        <TechStack />
-        <SecurityPrivacy />
-        <FAQSection />
+        <div className="homepage-section w-full"><TechStack /></div>
+        <div className="homepage-section w-full"><SecurityPrivacy /></div>
+        <div className="homepage-section w-full"><FAQSection /></div>
         <WaveDivider className="mt-4" />
 
-        <FuturePlans />
-        <CTASection user={user} />
-        <ThankYouSection />
+        <div className="homepage-section w-full"><FuturePlans /></div>
+        <div className="homepage-section w-full"><CTASection user={user} /></div>
+        <div className="homepage-section w-full"><ThankYouSection /></div>
       </section>
     </>
   );

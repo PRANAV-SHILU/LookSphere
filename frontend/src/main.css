@@ -716,7 +716,6 @@ html:not(.dark) .liquid-glass {
     -webkit-backdrop-filter: none !important;
     box-shadow: none !important;
     border-color: rgba(128, 128, 128, 0.1) !important;
-    contain: paint !important;
   }
   
   .liquid-glass,
@@ -737,6 +736,12 @@ html:not(.dark) .liquid-glass {
   /* Disable body-wide gradient background on mobile to prevent fullscreen tiling rasterization errors during scroll */
   body {
     background: var(--bg-primary) !important;
+  }
+  
+  /* Force a GPU composite layer on each major homepage section on mobile to isolate rasterization tasks and prevent screen tearing */
+  .homepage-section {
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
   }
   
   /* Disable sticky header blur and make it solid on mobile */

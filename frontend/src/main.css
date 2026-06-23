@@ -793,16 +793,21 @@ html:not(.dark) .liquid-glass {
 
   /* Decrease toast width and center on mobile */
   .Toastify__toast-container {
-    width: max-content !important;
-    max-width: 85vw !important;
+    width: 92vw !important;
+    max-width: 92vw !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
     margin-right: 0 !important;
     padding: 0 !important;
+    pointer-events: none !important; /* Absolutely prevents touch events from pausing the timer */
   }
   .Toastify__toast {
     border-radius: var(--radius-md) !important;
     margin-bottom: 10px !important;
+    pointer-events: none !important;
+  }
+  .Toastify__close-button {
+    pointer-events: auto !important; /* Allow the close button to be clicked */
   }
 }
 

@@ -20,6 +20,7 @@ LookSphere is continuously evolving. Here is a breakdown of upcoming features an
 - Follow & Unfollow system
 - Comprehensive Like, Comment, and Share mechanics for profiles & posts
 - Spotlights (Short video feed)
+- Background optimistic operations (non-blocking global UI for media uploads & post edits, edit profile)
 - Text-based posts feed (similar to Twitter)
 - Leaderboard (Top posts by views, top creators, most viewed profiles)
 - Save posts functionality (view saved posts in profile)

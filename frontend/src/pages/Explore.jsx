@@ -1,5 +1,17 @@
-import React, { useState, useEffect, useRef, Suspense, useCallback } from "react";
-import { useLoaderData, Link, Await, useRevalidator, useSearchParams } from "react-router-dom";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  Suspense,
+  useCallback,
+} from "react";
+import {
+  useLoaderData,
+  Link,
+  Await,
+  useRevalidator,
+  useSearchParams,
+} from "react-router-dom";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import {
   Video,
@@ -15,7 +27,10 @@ import PostDetailModal from "../modals/PostDetailModal";
 import { trackPostView } from "../services/postService";
 import ExploreSkeleton from "../skeletons/ExploreSkeleton";
 
-import { getOptimizedMediaUrl, getVideoPosterUrl } from "../utils/cloudinaryOptimizer";
+import {
+  getOptimizedMediaUrl,
+  getVideoPosterUrl,
+} from "../utils/cloudinaryOptimizer";
 
 const ExploreCard = React.memo(function ExploreCard({ post }) {
   const videoRef = useRef(null);
@@ -45,7 +60,9 @@ const ExploreCard = React.memo(function ExploreCard({ post }) {
   };
 
   const optimizedPoster = isVideo ? getVideoPosterUrl(post.mediaUrl, 400) : "";
-  const optimizedImage = !isVideo ? getOptimizedMediaUrl(post.mediaUrl, { width: 400 }) : "";
+  const optimizedImage = !isVideo
+    ? getOptimizedMediaUrl(post.mediaUrl, { width: 400 })
+    : "";
 
   return (
     <div
@@ -160,9 +177,9 @@ function ExploreContent({ posts, total, setSelectedPost }) {
       const currentSearch = currentParams.get("search") || "";
       const res = await fetchFeed(nextPage, 20, currentSearch);
       if (res.data.length < 20) setHasMore(false);
-      setAllPosts(prev => {
-        const existingIds = new Set(prev.map(p => p._id));
-        const newPostsRaw = res.data.filter(p => !existingIds.has(p._id));
+      setAllPosts((prev) => {
+        const existingIds = new Set(prev.map((p) => p._id));
+        const newPostsRaw = res.data.filter((p) => !existingIds.has(p._id));
         const newPosts = feedRefresher(newPostsRaw);
         return [...prev, ...newPosts];
       });
@@ -175,18 +192,23 @@ function ExploreContent({ posts, total, setSelectedPost }) {
   }, [loadingMore, hasMore, page]);
 
   const observer = useRef();
-  const triggerElementRef = useCallback(node => {
-    if (loadingMore) return;
-    if (observer.current) observer.current.disconnect();
-    observer.current = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting && hasMore) {
-        loadMore();
-      }
-    });
-    if (node) observer.current.observe(node);
-  }, [loadingMore, hasMore, loadMore]);
+  const triggerElementRef = useCallback(
+    (node) => {
+      if (loadingMore) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          loadMore();
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [loadingMore, hasMore, loadMore],
+  );
   const [searchParams, setSearchParams] = useSearchParams();
-  const [searchQuery, setSearchQuery] = useState(searchParams.get("search") || "");
+  const [searchQuery, setSearchQuery] = useState(
+    searchParams.get("search") || "",
+  );
   const [isClearHovered, setIsClearHovered] = useState(false);
   const revalidator = useRevalidator();
   const isRefreshing = revalidator.state === "loading";
@@ -195,7 +217,7 @@ function ExploreContent({ posts, total, setSelectedPost }) {
   // Trigger search on query change with a slight debounce
   useEffect(() => {
     if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
-    
+
     searchTimeoutRef.current = setTimeout(() => {
       const currentQuery = searchParams.get("search") || "";
       if (searchQuery.trim() !== currentQuery.trim()) {
@@ -218,7 +240,7 @@ function ExploreContent({ posts, total, setSelectedPost }) {
       if (updatedPost) {
         setSelectedPost({
           ...post,
-          postViewCount: updatedPost.postViewCount
+          postViewCount: updatedPost.postViewCount,
         });
       } else {
         setSelectedPost(post);
@@ -281,9 +303,7 @@ function ExploreContent({ posts, total, setSelectedPost }) {
             border: "1px solid var(--border-normal)",
           }}
         >
-          <div
-            className={isRefreshing ? "animate-spin" : ""}
-          >
+          <div className={isRefreshing ? "animate-spin" : ""}>
             <RotateCw size={14} />
           </div>
           <span>{isRefreshing ? "Refreshing..." : "Refresh Explorer"}</span>
@@ -328,101 +348,101 @@ function ExploreContent({ posts, total, setSelectedPost }) {
           No posts match &ldquo;{searchQuery}&rdquo;.
         </div>
       ) : (
-        <div
-          className="grid grid-cols-3 md:grid-cols-4 gap-[2px] sm:gap-[4px] explore-grid"
-        >
-            {allPosts.map((post, index) => {
-                const isTriggerElement = index === allPosts.length - 9;
-                return (
-                  <div
-                    key={post._id}
-                    ref={isTriggerElement ? triggerElementRef : null}
-                    className="relative overflow-hidden cursor-pointer group bg-zinc-900 explore-card-wrapper"
-                    onClick={() => handlePostClick(post)}
-                  >
-                    <ExploreCard post={post} />
-                  </div>
-                );
-            })}
-              <Link
-                to="/profile"
-                onClick={() => window.scrollTo(0, 0)}
-                className="group aspect-4/5 md:aspect-3/4 min-h-[220px] sm:min-h-[280px] md:min-h-[350px] bg-zinc-900 border border-dashed overflow-hidden cursor-pointer relative flex flex-col items-center justify-center hover:bg-zinc-800 transition-colors"
-                style={{ borderColor: "var(--border-normal)" }}
+        <div className="grid grid-cols-3 md:grid-cols-4 gap-[2px] sm:gap-[4px] explore-grid">
+          {allPosts.map((post, index) => {
+            const isTriggerElement = index === allPosts.length - 9;
+            return (
+              <div
+                key={post._id}
+                ref={isTriggerElement ? triggerElementRef : null}
+                className="relative overflow-hidden cursor-pointer group bg-zinc-900 explore-card-wrapper"
+                onClick={() => handlePostClick(post)}
               >
-                <Plus
-                  size={32}
-                  className="mb-2"
-                  style={{ color: "var(--text-secondary)" }}
-                />
-                <span
-                  className="font-medium px-0.5 xsm:px-0 text-center text-xs md:text-sm"
-                  style={{ color: "var(--text-secondary)" }}
-                >
-                  Share Your Image/Video
-                </span>
-              </Link>
-          </div>
-        )}
+                <ExploreCard post={post} />
+              </div>
+            );
+          })}
+          <Link
+            to="/profile"
+            onClick={() => window.scrollTo(0, 0)}
+            className="group aspect-4/5 md:aspect-3/4 min-h-[220px] sm:min-h-[280px] md:min-h-[350px] bg-zinc-900 border border-dashed overflow-hidden cursor-pointer relative flex flex-col items-center justify-center hover:bg-zinc-800 transition-colors"
+            style={{ borderColor: "var(--border-normal)" }}
+          >
+            <Plus
+              size={32}
+              className="mb-2"
+              style={{ color: "var(--text-secondary)" }}
+            />
+            <span
+              className="font-medium px-0.5 xsm:px-0 text-center text-xs md:text-sm"
+              style={{ color: "var(--text-secondary)" }}
+            >
+              Share Your Image/Video
+            </span>
+          </Link>
+        </div>
+      )}
 
       {loadingMore && (
         <div className="flex justify-center py-6 col-span-full">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-zinc-500"></div>
         </div>
       )}
-  
-      </>
-    );
-  }
-  
-  export default function Explore() {
-    const { feedData } = useLoaderData();
-    const [selectedPost, setSelectedPost] = useState(null);
-    useDocumentMetadata("Explore");
+    </>
+  );
+}
 
-    useEffect(() => {
-      window.scrollTo(0, 0);
-    }, []);
-  
-    return (
-      <div
-        className="max-w-6xl xl:max-w-7xl mx-auto px-0 py-4 md:py-8"
-      >
-        <div className="mb-6 mt-6 gap-8 flex items-start justify-between">
-          <div>
-            <h1
-              className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-3 tracking-tight"
-              style={{ color: "var(--text-primary)" }}
-            >
-              Explore Community
-            </h1>
-            <p
-              className="text-base sm:text-lg"
-              style={{ color: "var(--text-muted)" }}
-            >
-              Explore latest photos and videos shared by the community.
-            </p>
-          </div>
-          <BackButton />
+export default function Explore() {
+  const { feedData } = useLoaderData();
+  const [selectedPost, setSelectedPost] = useState(null);
+  useDocumentMetadata("Explore");
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  return (
+    <div className="max-w-6xl xl:max-w-7xl mx-auto px-0 py-4 md:py-8">
+      <div className="mb-6 mt-6 gap-8 flex items-start justify-between">
+        <div>
+          <h1
+            className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-3 tracking-tight"
+            style={{ color: "var(--text-primary)" }}
+          >
+            Explore Community
+          </h1>
+          <p
+            className="text-base sm:text-lg"
+            style={{ color: "var(--text-muted)" }}
+          >
+            Explore latest photos and videos shared by the community.
+          </p>
         </div>
-  
-        <Suspense fallback={<ExploreSkeleton />}>
-          <Await resolve={feedData} errorElement={<div className="text-center py-10">Error loading explore data.</div>}>
-            {({ posts, total }) => (
-              <ExploreContent 
-                posts={posts} 
-                total={total}
-                setSelectedPost={setSelectedPost} 
-              />
-            )}
-          </Await>
-        </Suspense>
-  
-        <PostDetailModal
-          isOpen={!!selectedPost}
-          onClose={() => setSelectedPost(null)}
-          post={selectedPost}
-        />
+        <BackButton />
       </div>
-    );
-  }
+
+      <Suspense fallback={<ExploreSkeleton />}>
+        <Await
+          resolve={feedData}
+          errorElement={
+            <div className="text-center py-10">Error loading explore data.</div>
+          }
+        >
+          {({ posts, total }) => (
+            <ExploreContent
+              posts={posts}
+              total={total}
+              setSelectedPost={setSelectedPost}
+            />
+          )}
+        </Await>
+      </Suspense>
+
+      <PostDetailModal
+        isOpen={!!selectedPost}
+        onClose={() => setSelectedPost(null)}
+        post={selectedPost}
+      />
+    </div>
+  );
+}

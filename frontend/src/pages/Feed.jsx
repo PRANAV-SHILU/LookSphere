@@ -20,7 +20,12 @@ import { trackPostView } from "../services/postService";
 import PostDetailModal from "../modals/PostDetailModal";
 import { getVideoPosterUrl } from "../utils/cloudinaryOptimizer";
 // Sub-component for each feed post to fetch user details asynchronously
-const FeedCard = React.memo(function FeedCard({ post, currentUser, onPostClick, isParentModalOpen }) {
+const FeedCard = React.memo(function FeedCard({
+  post,
+  currentUser,
+  onPostClick,
+  isParentModalOpen,
+}) {
   const cardRef = useRef(null);
   const videoRef = useRef(null);
   const hasTrackedView = useRef(false);
@@ -109,7 +114,11 @@ const FeedCard = React.memo(function FeedCard({ post, currentUser, onPostClick, 
                   className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                 />
               ) : (
-                <User size={18} style={{ color: "var(--text-muted)" }} className="transition-transform duration-300 group-hover:scale-110" />
+                <User
+                  size={18}
+                  style={{ color: "var(--text-muted)" }}
+                  className="transition-transform duration-300 group-hover:scale-110"
+                />
               )}
             </div>
             <span
@@ -150,7 +159,10 @@ const FeedCard = React.memo(function FeedCard({ post, currentUser, onPostClick, 
               playsInline
             />
           ) : (
-            <div className="relative w-full flex items-center justify-center cursor-pointer" onClick={() => onPostClick(post)}>
+            <div
+              className="relative w-full flex items-center justify-center cursor-pointer"
+              onClick={() => onPostClick(post)}
+            >
               <img
                 src={getVideoPosterUrl(post.mediaUrl, 600)}
                 alt={post.altText || post.caption || "video thumbnail"}
@@ -256,9 +268,9 @@ function FeedContent({ posts, currentUser, setSelectedPost, selectedPost }) {
       const nextPage = page + 1;
       const res = await fetchFeed(nextPage, 10);
       if (res.data.length < 10) setHasMore(false);
-      setAllPosts(prev => {
-        const existingIds = new Set(prev.map(p => p._id));
-        const newPostsRaw = res.data.filter(p => !existingIds.has(p._id));
+      setAllPosts((prev) => {
+        const existingIds = new Set(prev.map((p) => p._id));
+        const newPostsRaw = res.data.filter((p) => !existingIds.has(p._id));
         const newPosts = feedRefresher(newPostsRaw);
         return [...prev, ...newPosts];
       });
@@ -271,16 +283,19 @@ function FeedContent({ posts, currentUser, setSelectedPost, selectedPost }) {
   }, [loadingMore, hasMore, page]);
 
   const observer = useRef();
-  const triggerElementRef = useCallback(node => {
-    if (loadingMore) return;
-    if (observer.current) observer.current.disconnect();
-    observer.current = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting && hasMore) {
-        loadMore();
-      }
-    });
-    if (node) observer.current.observe(node);
-  }, [loadingMore, hasMore, loadMore]);
+  const triggerElementRef = useCallback(
+    (node) => {
+      if (loadingMore) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          loadMore();
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [loadingMore, hasMore, loadMore],
+  );
   // Track posts seen in this session
   useEffect(() => {
     if (allPosts && allPosts.length > 0) {
@@ -331,26 +346,24 @@ function FeedContent({ posts, currentUser, setSelectedPost, selectedPost }) {
   }
 
   return (
-    <div
-      className="flex flex-col gap-8 feed-grid"
-    >
-        {allPosts.map((post, index) => {
-          const isTriggerElement = index === allPosts.length - 5;
-          return (
-            <div
-              key={post._id}
-              ref={isTriggerElement ? triggerElementRef : null}
-              className="feed-card-wrapper"
-            >
-              <FeedCard
-                post={post}
-                currentUser={currentUser}
-                onPostClick={setSelectedPost}
-                isParentModalOpen={!!selectedPost}
-              />
-            </div>
-          );
-        })}
+    <div className="flex flex-col gap-8 feed-grid">
+      {allPosts.map((post, index) => {
+        const isTriggerElement = index === allPosts.length - 5;
+        return (
+          <div
+            key={post._id}
+            ref={isTriggerElement ? triggerElementRef : null}
+            className="feed-card-wrapper"
+          >
+            <FeedCard
+              post={post}
+              currentUser={currentUser}
+              onPostClick={setSelectedPost}
+              isParentModalOpen={!!selectedPost}
+            />
+          </div>
+        );
+      })}
 
       {loadingMore && (
         <div className="flex justify-center py-4">
@@ -421,9 +434,7 @@ export default function Feed() {
   };
 
   return (
-    <div
-      className="max-w-xl mx-auto mt-6 px-0 py-4 md:py-8"
-    >
+    <div className="max-w-xl mx-auto mt-6 px-0 py-4 md:py-8">
       <div className="mb-8 flex items-start justify-between">
         <div>
           <h1
@@ -459,40 +470,45 @@ export default function Feed() {
       </div>
 
       <Suspense fallback={<FeedSkeleton />}>
-        <Await resolve={feedData} errorElement={<div className="text-center py-10">Error loading feed.</div>}>
+        <Await
+          resolve={feedData}
+          errorElement={
+            <div className="text-center py-10">Error loading feed.</div>
+          }
+        >
           {({ posts }) => (
-            <FeedContent 
-              posts={posts} 
-              currentUser={currentUser} 
-              setSelectedPost={setSelectedPost} 
-              selectedPost={selectedPost} 
+            <FeedContent
+              posts={posts}
+              currentUser={currentUser}
+              setSelectedPost={setSelectedPost}
+              selectedPost={selectedPost}
             />
           )}
         </Await>
       </Suspense>
 
       {showScrollTop && (
-          <button
-            onClick={scrollToTop}
-            className="flex opacity-50 items-center justify-center cursor-pointer"
-            style={{
-              position: "fixed",
-              bottom: "2.5rem",
-              right: "2.5rem",
-              zIndex: 100,
-              backgroundColor: "var(--primary-500)",
-              color: "#fff",
-              border: "none",
-              borderRadius: "50%",
-              width: "3rem",
-              height: "3rem",
-              boxShadow: "var(--shadow-card)",
-            }}
-            title="Scroll to Top"
-          >
-            <ArrowUp size={20} />
-          </button>
-        )}
+        <button
+          onClick={scrollToTop}
+          className="flex opacity-50 items-center justify-center cursor-pointer"
+          style={{
+            position: "fixed",
+            bottom: "2.5rem",
+            right: "2.5rem",
+            zIndex: 100,
+            backgroundColor: "var(--primary-500)",
+            color: "#fff",
+            border: "none",
+            borderRadius: "50%",
+            width: "3rem",
+            height: "3rem",
+            boxShadow: "var(--shadow-card)",
+          }}
+          title="Scroll to Top"
+        >
+          <ArrowUp size={20} />
+        </button>
+      )}
       <PostDetailModal
         isOpen={!!selectedPost}
         onClose={() => setSelectedPost(null)}

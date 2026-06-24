@@ -26,13 +26,7 @@
 
 LookSphere is a modern social media platform designed to help you look into your surrounding sphere. It is reliable, consistent, and privacy-first. We believe in protecting your privacy—your data is never shared or leaked. We support both light and dark themes, with a dark-theme-first approach.
 
-## 🗺️ The Journey
-
-LookSphere originally started as **SecureAuth**, a modern authentication app built with pure React.js and a JSON-server API deployed on Render. I built SecureAuth to practice when I first learned React. As I learned new technologies like Node.js, Express, MongoDB, Mongoose, and various other libraries, I wanted a real-world project to apply everything I was learning.
-
-I decided to upgrade SecureAuth, converting it from a simple JSON-server API into a fully-fledged MERN stack web application. I was really enjoying the process, and I thought, "Why not build something we use every day?" So, I decided to build a social media platform. That led to the creation of LookSphere, and here it is today!
-
-While it is still not a final version and serves primarily as a way to practice full-stack development, this has been the incredible journey from SecureAuth to LookSphere. And rest assured, LookSphere is now even more secure than its predecessor.
+The frontend is crafted with React 19 and Vite for a lightning-fast development and production experience. Every screen — from the global feed to user profiles — is built with reusable, modular components and styled using Tailwind CSS for a sleek, dark-theme-first aesthetic. Forms are powered by React Hook Form and validated with Yup schemas on the client side before any data touches the network, keeping the experience smooth and secure. Lucide React provides a clean, consistent icon set, while React Toastify and React Spinners handle real-time feedback so users always know what's happening. The result is an interface that feels responsive, polished, and purpose-built for social interaction.
 
 ## 🚀 Tech Stack & Libraries
 

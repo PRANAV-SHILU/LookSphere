@@ -1,7 +1,5 @@
 import { useRouteLoaderData } from "react-router-dom";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
-
-
 import { WaveDivider } from "../shared-components/SharedHomeComponents";
 import HeroSection from "../components/home/HeroSection";
 import WhyLookSphere from "../components/home/WhyLookSphere";
@@ -17,17 +15,12 @@ import FuturePlans from "../components/home/FuturePlans";
 import CTASection from "../components/home/CTASection";
 import ThankYouSection from "../components/home/ThankYouSection";
 
-
 export default function Home() {
   const user = useRouteLoaderData("root");
   useDocumentMetadata("Home");
 
-
-
   return (
     <>
-
-
       <section className="relative z-0 flex flex-col items-center w-full gap-0 mt-2 xsm:mt-4 sm:mt-8 3xl:mt-12 pb-8">
         <HeroSection user={user} />
 

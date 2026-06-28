@@ -14,7 +14,7 @@ const Feed = lazy(() => import("../pages/Feed.jsx"));
 const Explore = lazy(() => import("../pages/Explore.jsx"));
 const Dashboard = lazy(() => import("../pages/Dashboard.jsx"));
 const PrivacyPolicy = lazy(() => import("../pages/PrivacyPolicy.jsx"));
-const TermsAndCondition = lazy(() => import("../pages/TermsAndCondition.jsx"));
+const TermsAndConditions = lazy(() => import("../pages/TermsAndConditions.jsx"));
 
 import FeedSkeleton from "../skeletons/FeedSkeleton.jsx";
 import ExploreSkeleton from "../skeletons/ExploreSkeleton.jsx";
@@ -138,10 +138,10 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "terms-and-condition",
+        path: "terms-and-conditions",
         element: (
           <Suspense fallback={<div className="top-loading-bar" />}>
-            <TermsAndCondition />
+            <TermsAndConditions />
           </Suspense>
         ),
       },

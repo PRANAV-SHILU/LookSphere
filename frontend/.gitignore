@@ -26,6 +26,3 @@ dist-ssr
 
 # sensitive files
 .env
-
-# personal - delete later
-improvement.md

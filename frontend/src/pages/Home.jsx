@@ -1,7 +1,6 @@
 import { useRouteLoaderData } from "react-router-dom";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
-import { useState, useEffect } from "react";
-import { PropagateLoader } from "react-spinners";
+
 
 import { WaveDivider } from "../shared-components/SharedHomeComponents";
 import HeroSection from "../components/home/HeroSection";
@@ -23,35 +22,11 @@ export default function Home() {
   const user = useRouteLoaderData("root");
   useDocumentMetadata("Home");
 
-  const [isLoading, setIsLoading] = useState(() => {
-    return !sessionStorage.getItem("hasVisitedHome");
-  });
 
-  useEffect(() => {
-    if (!isLoading) return;
-    const delay = 1200;
-    // Artificial delay for the cool loading animation
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-      sessionStorage.setItem("hasVisitedHome", "true");
-    }, delay);
-    return () => clearTimeout(timer);
-  }, [isLoading]);
 
   return (
     <>
-      {isLoading && (
-        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-(--bg-primary) liquid-glass">
-          <PropagateLoader
-            color="var(--primary-500)"
-            size={15}
-            speedMultiplier={1.5}
-          />
-          <p className="mt-12 text-(--primary-500) font-semibold tracking-widest uppercase text-sm">
-            Loading LookSphere
-          </p>
-        </div>
-      )}
+
 
       <section className="relative z-0 flex flex-col items-center w-full gap-0 mt-2 xsm:mt-4 sm:mt-8 3xl:mt-12 pb-8">
         <HeroSection user={user} />

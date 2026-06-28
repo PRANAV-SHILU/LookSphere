@@ -172,9 +172,14 @@ export const TNC_SECTIONS = [
           "If you have any questions about these Terms and Conditions or the LookSphere project, please feel free to reach out.",
         links: [
           {
-            label: "GitHub",
-            display: "github.com/PRANAV-SHILU",
-            href: "https://github.com/PRANAV-SHILU",
+            label: "Contact Us",
+            href: "/contact-us",
+            display: "Contact Form",
+          },
+          {
+            label: "Email",
+            display: "pranavshilu@zohomail.in",
+            href: "mailto:pranavshilu@zohomail.in",
           },
           {
             label: "LinkedIn",
@@ -182,9 +187,9 @@ export const TNC_SECTIONS = [
             href: "https://www.linkedin.com/in/pranavshilu/",
           },
           {
-            label: "Email",
-            display: "pranavshilu@zohomail.in",
-            href: "mailto:pranavshilu@zohomail.in",
+            label: "GitHub",
+            display: "github.com/PRANAV-SHILU",
+            href: "https://github.com/PRANAV-SHILU",
           },
         ],
       },

@@ -268,9 +268,14 @@ export const PRIVACY_SECTIONS = [
         table: null,
         links: [
           {
-            label: "GitHub",
-            href: "https://github.com/PRANAV-SHILU",
-            display: "github.com/PRANAV-SHILU",
+            label: "Contact Us",
+            href: "/contact-us",
+            display: "Contact Form",
+          },
+          {
+            label: "Email",
+            href: "mailto:pranavshilu@zohomail.in",
+            display: "pranavshilu@zohomail.in",
           },
           {
             label: "LinkedIn",
@@ -278,9 +283,9 @@ export const PRIVACY_SECTIONS = [
             display: "linkedin.com/in/pranavshilu",
           },
           {
-            label: "Email",
-            href: "mailto:pranavshilu@zohomail.in",
-            display: "pranavshilu@zohomail.in",
+            label: "GitHub",
+            href: "https://github.com/PRANAV-SHILU",
+            display: "github.com/PRANAV-SHILU",
           },
         ],
       },

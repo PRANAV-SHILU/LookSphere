@@ -132,39 +132,6 @@ export const howItWorks = [
   },
 ];
 
-export const faqs = [
-  {
-    question: "Is LookSphere free to use?",
-    answer:
-      "Yes! LookSphere is completely free to use. We offer all features and a premium experience free for everyone.",
-  },
-  {
-    question: "How do I protect my privacy?",
-    answer:
-      "We prioritize your privacy. LookSphere never exposes your sensitive info—our backend strictly strips out hashed passwords before sending data. We also enforce strict CORS origin policies to block unauthorized websites from accessing the API.",
-  },
-  {
-    question: "How is my password stored?",
-    answer:
-      "We never store plain text passwords. We utilize bcrypt with 12 computational salt rounds to hash your password securely before it is ever saved to our database.",
-  },
-  {
-    question: "Are my login sessions secure?",
-    answer:
-      "Yes! We use stateless JSON Web Tokens (JWT) configured to expire after 1 year. Your token is generated uniquely using a secret key on our server, ensuring tamper-proof authentication.",
-  },
-  {
-    question: "How does LookSphere optimize network usage?",
-    answer:
-      "We use Brotli and Gzip compression middleware on our Express backend to compress API responses, saving up to 80% bandwidth over the network. In addition, images are lazy-loaded and decoded asynchronously in the browser.",
-  },
-  {
-    question: "How do I report inappropriate content?",
-    answer:
-      "You can report to us on the contact page and we will look into it as soon as possible. You will receive an answer on the notification page.",
-  },
-];
-
 export const capabilities = [
   {
     id: "post",

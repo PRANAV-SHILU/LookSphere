@@ -22,39 +22,79 @@ export default function CTASection({ user }) {
             : "Jump back in to discover trending posts, connect with friends, and share your latest updates."}
         </div>
 
-        {!user ? (
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <div>
-              <NavLink to="/register" className={`${BTN_LINK} btn-primary transition-transform active:scale-95 hover:scale-105`}>
-                Create Free Account
-              </NavLink>
-            </div>
-            <div>
-              <NavLink to="/login" className={`${BTN_LINK} btn-secondary transition-transform active:scale-95 hover:scale-105`}>
-                Sign In
-              </NavLink>
-            </div>
-          </div>
-        ) : (
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        {/* Conditional Auth Buttons (Top) */}
+        <div className="mb-6 flex flex-wrap justify-center items-center gap-4">
+          {!user ? (
+            <>
+              <div>
+                <NavLink to="/register" className={`${BTN_LINK} btn-primary transition-transform active:scale-95 hover:scale-105`}>
+                  Create Free Account
+                </NavLink>
+              </div>
+              <div>
+                <NavLink to="/login" className={`${BTN_LINK} btn-secondary transition-transform active:scale-95 hover:scale-105`}>
+                  Sign In
+                </NavLink>
+              </div>
+            </>
+          ) : (
             <div>
               <NavLink
                 to="/profile"
                 className={`${BTN_LINK} btn-primary shadow-lg shadow-(--primary-500)/30 bg-(--primary-500) text-white hover:bg-(--primary-600) transition-transform active:scale-95 hover:scale-105`}
               >
-                Update Profile
+                Profile
               </NavLink>
             </div>
-            <div>
-              <NavLink
-                to="/explore"
-                className={`${BTN_LINK} btn-secondary border border-(--border-normal) bg-(--surface-input) text-(--text-primary) hover:bg-(--surface-hover) transition-transform active:scale-95 hover:scale-105`}
-              >
-                Explore
-              </NavLink>
-            </div>
+          )}
+        </div>
+
+        {/* Permanent Navigation Buttons (Below) */}
+        <div className="flex flex-wrap gap-4 justify-center items-center">
+          <div>
+            <NavLink
+              to="/feed"
+              className={`${BTN_LINK} btn-secondary border border-(--border-normal) bg-(--surface-input) text-(--text-primary) hover:bg-(--surface-hover) transition-transform active:scale-95 hover:scale-105`}
+            >
+              Feed
+            </NavLink>
           </div>
-        )}
+          <div>
+            <NavLink
+              to="/explore"
+              className={`${BTN_LINK} btn-secondary border border-(--border-normal) bg-(--surface-input) text-(--text-primary) hover:bg-(--surface-hover) transition-transform active:scale-95 hover:scale-105`}
+            >
+              Explore
+            </NavLink>
+          </div>
+          <div>
+            <NavLink
+              to="/creators"
+              className={`${BTN_LINK} btn-secondary border border-(--border-normal) bg-(--surface-input) text-(--text-primary) hover:bg-(--surface-hover) transition-transform active:scale-95 hover:scale-105`}
+            >
+              Creators
+            </NavLink>
+          </div>
+        </div>
+
+        {/* Secondary Links */}
+        <div className="mt-12 flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs sm:text-sm font-bold text-(--text-muted)">
+          <NavLink to="/whats-new" className="hover:text-(--primary-500) transition-colors no-underline">
+            What's New
+          </NavLink>
+          <span className="text-white/10 dark:text-white/10 select-none">•</span>
+          <NavLink to="/roadmap" className="hover:text-(--primary-500) transition-colors no-underline">
+            Roadmap
+          </NavLink>
+          <span className="text-white/10 dark:text-white/10 select-none">•</span>
+          <NavLink to="/faq" className="hover:text-(--primary-500) transition-colors no-underline">
+            FAQ
+          </NavLink>
+          <span className="text-white/10 dark:text-white/10 select-none">•</span>
+          <NavLink to="/about-us" className="hover:text-(--primary-500) transition-colors no-underline">
+            About Us
+          </NavLink>
+        </div>
       </div>
     </div>
   );

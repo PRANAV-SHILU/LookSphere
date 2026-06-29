@@ -9,6 +9,8 @@ import WhatYouCanDo from "../components/home/WhatYouCanDo";
 import AppShowcase from "../components/home/AppShowcase";
 import ThemePreview from "../components/home/ThemePreview";
 import ActivityFeed from "../components/home/ActivityFeed";
+import ReleasesAndVision from "../components/home/ReleasesAndVision";
+import SupportAndPolicies from "../components/home/SupportAndPolicies";
 import TechStack from "../components/home/TechStack";
 import CTASection from "../components/home/CTASection";
 
@@ -24,6 +26,7 @@ export default function Home() {
         <WhyLookSphere />
         <HowItWorks />
         <WhatYouCanDo />
+        <ReleasesAndVision />
         <WaveDivider className="mt-4" />
 
         <AppShowcase />
@@ -33,8 +36,8 @@ export default function Home() {
 
         <TechStack />
         <SecurityPrivacy />
+        <SupportAndPolicies />
 
-        <WaveDivider className="mt-4" />
         <CTASection user={user} />
       </section>
     </>

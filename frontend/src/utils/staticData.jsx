@@ -35,6 +35,10 @@ import {
   ShieldCheck,
   FileKey,
   FileText,
+  Compass,
+  Info,
+  ShieldAlert,
+  HelpCircle,
 } from "lucide-react";
 
 export const socialFeatures = [
@@ -295,5 +299,59 @@ export const fakePosts = [
     caption: "Coffee breaks are mandatory for survival. Who agrees? ☕💻",
     rotation: 1,
     hiddenOnMobile: true,
+  },
+];
+
+export const releasesAndVisionData = [
+  {
+    title: "What's New",
+    description: "Explore the latest features, releases, and platform enhancements we've shipped recently.",
+    link: "/whats-new",
+    icon: Sparkles,
+    color: "#f59e0b",
+    badge: "Updates",
+  },
+  {
+    title: "Feature Roadmap",
+    description: "Get a sneak peek at upcoming enhancements, design systems, and future release cycles.",
+    link: "/roadmap",
+    icon: Compass,
+    color: "#3b82f6",
+    badge: "Upcoming",
+  },
+  {
+    title: "About Us",
+    description: "Discover our mission, our values, and the story of how LookSphere was created to bridge connections.",
+    link: "/about-us",
+    icon: Info,
+    color: "#a855f7",
+    badge: "Our Story",
+  },
+];
+
+export const supportAndPoliciesData = [
+  {
+    title: "Help & FAQ",
+    description: "Browse our frequently asked questions, security details, and get quick answers.",
+    link: "/faq",
+    icon: HelpCircle,
+    color: "#10b981",
+    badge: "Support",
+  },
+  {
+    title: "Privacy Policy",
+    description: "Learn how we safeguard your personal data, manage cookies, and respect your privacy rights.",
+    link: "/privacy-policy",
+    icon: ShieldAlert,
+    color: "#ec4899",
+    badge: "Security",
+  },
+  {
+    title: "Terms & Conditions",
+    description: "Understand the terms of service, user guidelines, and rules for using the LookSphere platform.",
+    link: "/terms-and-conditions",
+    icon: FileText,
+    color: "#64748b",
+    badge: "Guidelines",
   },
 ];

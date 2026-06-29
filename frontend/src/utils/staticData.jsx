@@ -343,7 +343,7 @@ export const supportAndPoliciesData = [
     description: "Learn how we safeguard your personal data, manage cookies, and respect your privacy rights.",
     link: "/privacy-policy",
     icon: ShieldAlert,
-    color: "#ec4899",
+    color: "#f43f5e",
     badge: "Security",
   },
   {
@@ -351,7 +351,7 @@ export const supportAndPoliciesData = [
     description: "Understand the terms of service, user guidelines, and rules for using the LookSphere platform.",
     link: "/terms-and-conditions",
     icon: FileText,
-    color: "#64748b",
-    badge: "Guidelines",
+    color: "#6366f1",
+    badge: "Terms",
   },
 ];

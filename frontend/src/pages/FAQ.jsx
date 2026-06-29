@@ -321,7 +321,7 @@ export default function FAQ() {
         <div className="grid grid-cols-1 xsm:grid-cols-2 sm:flex sm:flex-row gap-1.5 xsm:gap-2 sm:gap-3 w-full justify-center">
           <Link
             to="/contact-us"
-            className="w-full sm:w-auto flex items-center justify-center gap-1 xsm:gap-2 text-xs font-bold uppercase tracking-wider border border-(--border-normal) hover:border-(--primary-500) text-(--text-secondary) hover:text-(--primary-500) bg-(--surface-input) px-1 md:px-5 py-1.5 xsm:py-2.5 sm:py-3.5 rounded-xl transition-all duration-200 hover:shadow-md cursor-pointer hover:-translate-y-0.5 group"
+            className="w-full sm:w-auto flex items-center justify-center gap-1 xsm:gap-2 text-xs font-bold uppercase tracking-wider border border-(--border-normal) hover:border-(--primary-500) text-(--text-secondary) hover:text-(--primary-500) bg-(--surface-input) px-1 md:px-5 py-1.5 xsm:py-2.5 sm:py-3.5 rounded-xl transition-all duration-200 md:hover:shadow-md cursor-pointer md:hover:-translate-y-0.5 group"
             style={{ textDecoration: "none" }}
           >
             <MessageSquare
@@ -332,7 +332,7 @@ export default function FAQ() {
           </Link>
           <a
             href="mailto:pranavshilu@zohomail.in"
-            className="w-full sm:w-auto flex items-center justify-center gap-1 xsm:gap-2 text-xs font-bold uppercase tracking-wider border border-(--border-normal) hover:border-(--primary-500) text-(--text-secondary) hover:text-(--primary-500) bg-(--surface-input) px-1 md:px-5 py-1.5 xsm:py-2.5 sm:py-3.5 rounded-xl transition-all duration-200 hover:shadow-md cursor-pointer hover:-translate-y-0.5 group"
+            className="w-full sm:w-auto flex items-center justify-center gap-1 xsm:gap-2 text-xs font-bold uppercase tracking-wider border border-(--border-normal) hover:border-(--primary-500) text-(--text-secondary) hover:text-(--primary-500) bg-(--surface-input) px-1 md:px-5 py-1.5 xsm:py-2.5 sm:py-3.5 rounded-xl transition-all duration-200 md:hover:shadow-md cursor-pointer md:hover:-translate-y-0.5 group"
             style={{ textDecoration: "none" }}
           >
             <Mail
@@ -347,17 +347,17 @@ export default function FAQ() {
             href="https://www.linkedin.com/in/pranavshilu/"
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full sm:w-auto flex items-center justify-center gap-1 xsm:gap-2 text-xs font-bold uppercase tracking-wider border border-(--border-normal) hover:border-(--primary-500) text-(--text-secondary) hover:text-(--primary-500) bg-(--surface-input) px-1 md:px-5 py-1.5 xsm:py-2.5 sm:py-3.5 rounded-xl transition-all duration-200 hover:shadow-md cursor-pointer hover:-translate-y-0.5 group"
+            className="w-full sm:w-auto flex items-center justify-center gap-1 xsm:gap-2 text-xs font-bold uppercase tracking-wider border border-(--border-normal) hover:border-(--primary-500) text-(--text-secondary) hover:text-(--primary-500) bg-(--surface-input) px-1 md:px-5 py-1.5 xsm:py-2.5 sm:py-3.5 rounded-xl transition-all duration-200 md:hover:shadow-md cursor-pointer md:hover:-translate-y-0.5 group"
             style={{ textDecoration: "none" }}
           >
             <LinkedinIcon size={16} />
             <span className="transition-colors duration-200">LinkedIn</span>
           </a>
           <a
-            href="https://github.com/PRANAV-SHILU"
+            href="https://x.com/pranavshilu"
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full sm:w-auto flex items-center justify-center gap-1 xsm:gap-2 text-xs font-bold uppercase tracking-wider border border-(--border-normal) hover:border-(--primary-500) text-(--text-secondary) hover:text-(--primary-500) bg-(--surface-input) px-1 md:px-5 py-1.5 xsm:py-2.5 sm:py-3.5 rounded-xl transition-all duration-200 hover:shadow-md cursor-pointer hover:-translate-y-0.5 group"
+            className="w-full sm:w-auto flex items-center justify-center gap-1 xsm:gap-2 text-xs font-bold uppercase tracking-wider border border-(--border-normal) hover:border-(--primary-500) text-(--text-secondary) hover:text-(--primary-500) bg-(--surface-input) px-1 md:px-5 py-1.5 xsm:py-2.5 sm:py-3.5 rounded-xl transition-all duration-200 md:hover:shadow-md cursor-pointer md:hover:-translate-y-0.5 group"
             style={{ textDecoration: "none" }}
           >
             <GithubIcon size={16} />

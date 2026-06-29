@@ -89,6 +89,9 @@ export default function Footer() {
               <NavLink to="/faq" className="text-(--text-secondary) hover:text-(--primary-500) transition-colors text-sm">
                 FAQ
               </NavLink>
+              <NavLink to="/about-us" className="text-(--text-secondary) hover:text-(--primary-500) transition-colors text-sm">
+                About Us
+              </NavLink>
               <NavLink to="/privacy-policy" className="text-(--text-secondary) hover:text-(--primary-500) transition-colors text-sm">
                 Privacy Policy
               </NavLink>

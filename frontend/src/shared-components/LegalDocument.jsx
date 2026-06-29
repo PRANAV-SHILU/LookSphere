@@ -128,7 +128,7 @@ function ContactLinks({ links }) {
         const isInternal = link.href.startsWith("/");
         const linkProps = {
           key: link.label,
-          className: "flex items-center gap-2.5 px-4 py-3 rounded-xl border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md group",
+          className: "flex items-center gap-2.5 px-4 py-3 rounded-xl border transition-all duration-200 md:hover:-translate-y-0.5 md:hover:shadow-md group",
           style: {
             backgroundColor: "var(--surface-input)",
             borderColor: "var(--border-normal)",

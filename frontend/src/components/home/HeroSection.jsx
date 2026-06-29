@@ -17,9 +17,11 @@ export default function HeroSection({ user }) {
         <CardGlow />
         <div className="relative ">
           <h1
-            className="hero-text text-3xl xsm:text-5xl sm:text-5xl md:text-6xl lg:text-7xl 3xl:text-8xl 4xl:text-9xl font-extrabold mb-4 tracking-tight flex justify-center gap-1 flex-wrap"
+            className="text-3xl xsm:text-5xl sm:text-5xl md:text-6xl lg:text-7xl 3xl:text-8xl 4xl:text-9xl font-extrabold mb-4 tracking-tight flex justify-center gap-1 flex-wrap text-(--text-primary)"
           >
-            LookSphere
+            <span className="hero-text drop-shadow-[0_2px_10px_rgba(59,130,246,0.3)]">
+              LookSphere
+            </span>
           </h1>
 
           <div className="text-base xsm:text-lg sm:text-xl md:text-2xl 3xl:text-2xl 4xl:text-3xl text-(--text-muted) 4xl:mt-2 max-w-2xl 3xl:max-w-3xl mx-auto mb-6 xsm:mb-8 font-medium leading-relaxed">

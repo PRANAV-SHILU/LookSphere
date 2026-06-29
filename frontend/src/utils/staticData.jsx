@@ -64,49 +64,7 @@ export const navLinks = [
   { to: "/creators", icon: Users, label: "Creators" },
 ];
 
-export const futurePlans = [
-  {
-    category: "Communication",
-    items: [
-      { icon: Mail, label: "Contact Us page" },
-      { icon: Bell, label: "Live notification page" },
-      {
-        icon: MessageSquare,
-        label: "Admin notes to individual users in notifications",
-      },
-      { icon: MessageSquare, label: "Detailed FAQ page" },
-      { icon: Mail, label: "Mail functionality" },
-    ],
-  },
-  {
-    category: "Security & Auth",
-    items: [
-      { icon: KeyRound, label: "Reset and forgot password" },
-      { icon: Shield, label: "Google OAuth" },
-      { icon: Fingerprint, label: "Two-step verification" },
-    ],
-  },
-  {
-    category: "Community",
-    items: [
-      { icon: Sparkles, label: "Spotlights (short video feed)" },
-      {
-        icon: Trophy,
-        label:
-          "Leaderboard — Top posts by views, top creators, most viewed profiles",
-      },
-      { icon: ThumbsUp, label: "Like, comment, and share profiles & posts" },
-      { icon: UserPlus, label: "Follow & unfollow" },
-      {
-        icon: Bookmark,
-        label: "Save posts — view saved posts in your profile",
-      },
-      { icon: Zap, label: "Live Activity feed" },
-      { icon: FileText, label: "Text-based posts feed (like Twitter)" },
-      { icon: Trash2, label: "Delete post/user" },
-    ],
-  },
-];
+
 
 export const howItWorks = [
   {

@@ -107,6 +107,9 @@ export default function Footer() {
                 <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
                 What's New
               </NavLink>
+              <NavLink to="/roadmap" className="text-(--text-secondary) hover:text-(--primary-500) transition-colors text-sm">
+                Roadmap
+              </NavLink>
             </div>
           </div>
         </div>

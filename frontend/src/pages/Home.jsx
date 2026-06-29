@@ -10,7 +10,6 @@ import AppShowcase from "../components/home/AppShowcase";
 import ThemePreview from "../components/home/ThemePreview";
 import ActivityFeed from "../components/home/ActivityFeed";
 import TechStack from "../components/home/TechStack";
-import FuturePlans from "../components/home/FuturePlans";
 import CTASection from "../components/home/CTASection";
 
 export default function Home() {
@@ -34,7 +33,6 @@ export default function Home() {
 
         <TechStack />
         <SecurityPrivacy />
-        <FuturePlans />
 
         <WaveDivider className="mt-4" />
         <CTASection user={user} />

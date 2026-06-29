@@ -1,4 +1,4 @@
-<div align="right">Last Modified: 2026-06-23</div>
+<div align="right">Last Modified: 2026-07-01</div>
 
 
 # LookSphere — Visual Design Specification
@@ -117,7 +117,39 @@ Due to rendering constraints on mid-tier mobile processors (specifically the Mal
 
 ---
 
-## 4. Visual Identity Hierarchy
+## 4. Page-Specific Design Guidelines
+
+To maintain consistency across our standalone pages, use the following layout rules:
+
+1. **Back Navigation**: Every standalone secondary page (About Us, Roadmap, What's New, FAQ, Privacy Policy, Terms & Conditions) must include the shared `<BackButton />` at the top left of the main content container.
+2. **Roadmap Bento Box**: The Roadmap page features a bento-style 2-column responsive layout (`grid-cols-1 lg:grid-cols-2`) mapping high-contrast categories using Lucide icons.
+3. **Timeline Changelog**: The What's New page uses a vertical timeline layout. The central line is anchored on the container's left border (`border-l-2 border-(--border-light)`) and uses `left-[-11px]` to perfectly center the timeline circle dot.
+4. **Legal Document Layout**: Privacy Policy and Terms & Conditions render utilizing the shared `<LegalDocument />` layout wrapper, which provides consistent section headings, lists, tables, and standard typographic flow.
+
+---
+
+## 5. Badge System Specification
+
+Badges are designed to be translucent, border-anchored, and highly readable in both light and dark themes.
+
+### Style Formula
+- **Background**: `bg-[color]-500/10` (10% opacity)
+- **Border**: `border border-[color]-500/20` (20% opacity)
+- **Text Color**: `text-[color]-600 dark:text-[color]-400`
+- **Icon integration**: Lucide React icons matching the text color, scaled to `size={16}`.
+
+### Standard Tag/Badge Colors
+
+| Type | Badge Styling Classes | Applied Usage |
+| :--- | :--- | :--- |
+| **Feature** | `bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 border border-yellow-500/20` | New major capabilities / additions |
+| **Bugfix** | `bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/20` | Issue resolutions, hotfixes |
+| **Enhancement** | `bg-green-500/10 text-green-600 dark:text-green-400 border border-green-500/20` | Performance gains, styling polish |
+| **General Info** | `bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20` | Core sections (e.g. Roadmap, FAQ, Help Center) |
+
+---
+
+## 6. Visual Identity Hierarchy
 
 ```mermaid
 graph TD

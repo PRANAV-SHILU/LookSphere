@@ -74,9 +74,9 @@ export const ROADMAP_CATEGORIES = [
       },
       {
         icon: MessageCircle,
-        title: "Dynamic Contact & FAQ",
+        title: "Dynamic Contact Forms",
         description:
-          "New modal-based contact forms with categorized dropdowns (support, suggestions) synced to the admin panel, plus a detailed FAQ structure.",
+          "New modal-based contact forms with categorized dropdowns (support, suggestions) synced to the admin panel.",
       },
     ],
   },

@@ -79,13 +79,13 @@ function DocumentTable({ table }) {
 // List component
 function DocumentList({ list }) {
   const badgeColors = [
-    { bg: "bg-blue-50 dark:bg-blue-950/30", text: "text-blue-600 dark:text-blue-400" },
-    { bg: "bg-emerald-50 dark:bg-emerald-950/30", text: "text-emerald-600 dark:text-emerald-400" },
-    { bg: "bg-purple-50 dark:bg-purple-950/30", text: "text-purple-600 dark:text-purple-400" },
-    { bg: "bg-amber-50 dark:bg-amber-950/30", text: "text-amber-600 dark:text-amber-400" },
-    { bg: "bg-indigo-50 dark:bg-indigo-950/30", text: "text-indigo-600 dark:text-indigo-400" },
-    { bg: "bg-cyan-50 dark:bg-cyan-950/30", text: "text-cyan-600 dark:text-cyan-400" },
-    { bg: "bg-pink-50 dark:bg-pink-950/30", text: "text-pink-600 dark:text-pink-400" },
+    { bg: "bg-blue-500/10 border-blue-500/20", text: "text-blue-600 dark:text-blue-400" },
+    { bg: "bg-emerald-500/10 border-emerald-500/20", text: "text-emerald-600 dark:text-emerald-400" },
+    { bg: "bg-purple-500/10 border-purple-500/20", text: "text-purple-600 dark:text-purple-400" },
+    { bg: "bg-amber-500/10 border-amber-500/20", text: "text-amber-600 dark:text-amber-400" },
+    { bg: "bg-indigo-500/10 border-indigo-500/20", text: "text-indigo-600 dark:text-indigo-400" },
+    { bg: "bg-cyan-500/10 border-cyan-500/20", text: "text-cyan-600 dark:text-cyan-400" },
+    { bg: "bg-pink-500/10 border-pink-500/20", text: "text-pink-600 dark:text-pink-400" },
   ];
 
   return (
@@ -102,7 +102,7 @@ function DocumentList({ list }) {
             }}
           >
             <span
-              className={`shrink-0 text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded-md w-fit ${color.bg} ${color.text}`}
+              className={`shrink-0 text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded-md w-fit border ${color.bg} ${color.text}`}
             >
               {item.label}
             </span>

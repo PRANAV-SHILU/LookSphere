@@ -60,12 +60,7 @@ export default function FAQ() {
         <div className="flex items-center justify-between mb-8">
           <BackButton />
           <span
-            className="text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full border"
-            style={{
-              borderColor: "var(--border-normal)",
-              backgroundColor: "var(--surface-input)",
-              color: "var(--text-muted)",
-            }}
+            className="text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full border border-blue-500/20 bg-blue-500/10 text-blue-600 dark:text-blue-400"
           >
             Help Center
           </span>
@@ -87,12 +82,7 @@ export default function FAQ() {
             details, and roadmap plans for LookSphere.
           </p>
           <p
-            className="text-[10px] sm:text-xs font-semibold mt-3.5 uppercase tracking-wider px-3 py-1 rounded-full border"
-            style={{
-              borderColor: "var(--border-light)",
-              backgroundColor: "var(--surface-input)",
-              color: "var(--text-muted)",
-            }}
+            className="text-[10px] sm:text-xs font-semibold mt-3.5 uppercase tracking-wider px-3 py-1 rounded-full border border-blue-500/20 bg-blue-500/10 text-blue-600 dark:text-blue-400"
           >
             Last Updated: {LAST_UPDATED}
           </p>
@@ -354,7 +344,7 @@ export default function FAQ() {
             <span className="transition-colors duration-200">LinkedIn</span>
           </a>
           <a
-            href="https://x.com/pranavshilu"
+            href="https://github.com/PRANAV-SHILU"
             target="_blank"
             rel="noopener noreferrer"
             className="w-full sm:w-auto flex items-center justify-center gap-1 xsm:gap-2 text-xs font-bold uppercase tracking-wider border border-(--border-normal) hover:border-(--primary-500) text-(--text-secondary) hover:text-(--primary-500) bg-(--surface-input) px-1 md:px-5 py-1.5 xsm:py-2.5 sm:py-3.5 rounded-xl transition-all duration-200 md:hover:shadow-md cursor-pointer md:hover:-translate-y-0.5 group"

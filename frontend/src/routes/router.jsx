@@ -15,6 +15,7 @@ const Explore = lazy(() => import("../pages/Explore.jsx"));
 const Dashboard = lazy(() => import("../pages/Dashboard.jsx"));
 const PrivacyPolicy = lazy(() => import("../pages/PrivacyPolicy.jsx"));
 const TermsAndConditions = lazy(() => import("../pages/TermsAndConditions.jsx"));
+const WhatsNew = lazy(() => import("../pages/WhatsNew.jsx"));
 const FAQ = lazy(() => import("../pages/FAQ.jsx"));
 const About = lazy(() => import("../pages/About.jsx"));
 const Roadmap = lazy(() => import("../pages/Roadmap.jsx"));
@@ -161,6 +162,14 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<div className="top-loading-bar" />}>
             <About />
+          </Suspense>
+        ),
+      },
+      {
+        path: "whats-new",
+        element: (
+          <Suspense fallback={<div className="top-loading-bar" />}>
+            <WhatsNew />
           </Suspense>
         ),
       },

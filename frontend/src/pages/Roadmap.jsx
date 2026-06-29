@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { ROADMAP_CATEGORIES } from "../utils/roadmapData";
 import { GLASS_SHADOW } from "../utils/styles";
 import { HeroBackground, CardGlow } from "../shared-components/SharedHomeComponents";
+import BackButton from "../shared-components/BackButton";
 
 export default function Roadmap() {
   useEffect(() => {
@@ -13,9 +14,14 @@ export default function Roadmap() {
       <HeroBackground />
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 xsm:px-6 lg:px-8">
         
+        {/* Back Button */}
+        <div className="mb-6 md:mb-10 w-full flex justify-start">
+          <BackButton />
+        </div>
+
         {/* Header */}
         <div className="text-center mb-12 md:mb-20">
-          <div className="inline-block px-3 py-1 mb-4 xsm:mb-6 rounded-full bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 text-xs sm:text-sm font-semibold tracking-wide uppercase shadow-sm border border-blue-200 dark:border-blue-800">
+          <div className="inline-block px-3 py-1 mb-4 xsm:mb-6 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 text-xs sm:text-sm font-semibold tracking-wide uppercase shadow-sm">
             Roadmap
           </div>
           <h1 className="text-3xl xsm:text-4xl sm:text-5xl md:text-6xl font-extrabold mb-4 tracking-tight text-(--text-primary)">

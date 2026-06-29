@@ -16,8 +16,8 @@ export default function AboutHero() {
         <CardGlow />
         <div className="relative">
           {/* Badge */}
-          <div className="inline-block px-3 py-1 mb-4 xsm:mb-6 rounded-full bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 text-xs sm:text-sm font-semibold tracking-wide uppercase shadow-sm border border-blue-200 dark:border-blue-800">
-            {ABOUT_HERO.badge}
+          <div className="inline-block px-3 py-1 mb-4 xsm:mb-6 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 text-xs sm:text-sm font-semibold tracking-wide uppercase shadow-sm">
+            About Us
           </div>
 
           {/* Title */}

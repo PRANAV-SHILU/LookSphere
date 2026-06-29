@@ -1,4 +1,4 @@
-<div align="right">Last Modified: 2026-06-23</div>
+<div align="right">Last Modified: 2026-07-01</div>
 
 
 # LookSphere — API Documentation
@@ -111,7 +111,7 @@ headers: {
 
 ---
 **📚 LookSphere Documentation Index:**
-- **Root:** [Main Readme](../Readme.md) | [File Tree](../File_Tree.md) | [Future Plans](../futureplan.md) | [Performance](../performance_optimization.md) | [Resolved Issues](../resolved_issues.md)
-- **Frontend:** [Frontend Readme](../frontend/README.md) | [Design Specs](../frontend/Design.md) | [Frontend File Tree](../frontend/File_Tree.md) | [Improvements](../frontend/improvement.md)
+- **Root:** [Main Readme](../Readme.md) | [File Tree](../File_Tree.md) | [Roadmap](../roadmap.md) | [Performance](../performance_optimization.md) | [Resolved Issues](../resolved_issues.md)
+- **Frontend:** [Frontend Readme](../frontend/README.md) | [Design Specs](../frontend/Design.md) | [Frontend File Tree](../frontend/File_Tree.md)
 - **Backend:** [Backend Readme](./Readme.md) | [API Docs](./APIs.md) | [Backend File Tree](./File_Tree.md)
 ---

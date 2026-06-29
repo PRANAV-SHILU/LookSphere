@@ -1,4 +1,4 @@
-<div align="right">Last Modified: 2026-06-23</div>
+<div align="right">Last Modified: 2026-07-01</div>
 
 
 <div align="center">
@@ -82,7 +82,7 @@ The project has a well-organized, scalable architecture. For a detailed breakdow
 
 ---
 **📚 LookSphere Documentation Index:**
-- **Root:** [Main Readme](../Readme.md) | [File Tree](../File_Tree.md) | [Future Plans](../futureplan.md) | [Performance](../performance_optimization.md) | [Resolved Issues](../resolved_issues.md)
-- **Frontend:** [Frontend Readme](./README.md) | [Design Specs](./Design.md) | [Frontend File Tree](./File_Tree.md) | [Improvements](./improvement.md)
+- **Root:** [Main Readme](../Readme.md) | [File Tree](../File_Tree.md) | [Roadmap](../roadmap.md) | [Performance](../performance_optimization.md) | [Resolved Issues](../resolved_issues.md)
+- **Frontend:** [Frontend Readme](./README.md) | [Design Specs](./Design.md) | [Frontend File Tree](./File_Tree.md)
 - **Backend:** [Backend Readme](../Backend/Readme.md) | [API Docs](../Backend/APIs.md) | [Backend File Tree](../Backend/File_Tree.md)
 ---

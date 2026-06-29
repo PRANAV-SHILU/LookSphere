@@ -1,7 +1,7 @@
-<div align="right">Last Modified: 2026-06-23</div>
+<div align="right">Last Modified: 2026-07-01</div>
 
 
-# 🔮 Future Plans
+# 🔮 Roadmap
 
 LookSphere is continuously evolving. Here is a breakdown of upcoming features and improvements:
 
@@ -12,7 +12,7 @@ LookSphere is continuously evolving. Here is a breakdown of upcoming features an
 
 ### 💬 Communication
 - Real-time chat system using WebSockets
-- Contact Us page & Detailed FAQ page
+- Contact Us page modal
 - Live notification page (including Admin notes to individual users)
 - General mail sending functionality
 
@@ -29,7 +29,7 @@ LookSphere is continuously evolving. Here is a breakdown of upcoming features an
 
 ---
 **📚 LookSphere Documentation Index:**
-- **Root:** [Main Readme](./Readme.md) | [File Tree](./File_Tree.md) | [Future Plans](./futureplan.md) | [Performance](./performance_optimization.md) | [Resolved Issues](./resolved_issues.md)
-- **Frontend:** [Frontend Readme](./frontend/README.md) | [Design Specs](./frontend/Design.md) | [Frontend File Tree](./frontend/File_Tree.md) | [Improvements](./frontend/improvement.md)
+- **Root:** [Main Readme](./Readme.md) | [File Tree](./File_Tree.md) | [Roadmap](./roadmap.md) | [Performance](./performance_optimization.md) | [Resolved Issues](./resolved_issues.md)
+- **Frontend:** [Frontend Readme](./frontend/README.md) | [Design Specs](./frontend/Design.md) | [Frontend File Tree](./frontend/File_Tree.md)
 - **Backend:** [Backend Readme](./Backend/Readme.md) | [API Docs](./Backend/APIs.md) | [Backend File Tree](./Backend/File_Tree.md)
 ---

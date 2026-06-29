@@ -13,6 +13,12 @@ const Profile = lazy(() => import("../pages/Profile.jsx"));
 const Feed = lazy(() => import("../pages/Feed.jsx"));
 const Explore = lazy(() => import("../pages/Explore.jsx"));
 const Dashboard = lazy(() => import("../pages/Dashboard.jsx"));
+const PrivacyPolicy = lazy(() => import("../pages/PrivacyPolicy.jsx"));
+const TermsAndConditions = lazy(() => import("../pages/TermsAndConditions.jsx"));
+const WhatsNew = lazy(() => import("../pages/WhatsNew.jsx"));
+const FAQ = lazy(() => import("../pages/FAQ.jsx"));
+const About = lazy(() => import("../pages/About.jsx"));
+const Roadmap = lazy(() => import("../pages/Roadmap.jsx"));
 
 import FeedSkeleton from "../skeletons/FeedSkeleton.jsx";
 import ExploreSkeleton from "../skeletons/ExploreSkeleton.jsx";
@@ -126,6 +132,54 @@ const router = createBrowserRouter([
         ),
         loader: editProfileLoader,
         action: editProfileAction,
+      },
+      {
+        path: "privacy-policy",
+        element: (
+          <Suspense fallback={<div className="top-loading-bar" />}>
+            <PrivacyPolicy />
+          </Suspense>
+        ),
+      },
+      {
+        path: "terms-and-conditions",
+        element: (
+          <Suspense fallback={<div className="top-loading-bar" />}>
+            <TermsAndConditions />
+          </Suspense>
+        ),
+      },
+      {
+        path: "faq",
+        element: (
+          <Suspense fallback={<div className="top-loading-bar" />}>
+            <FAQ />
+          </Suspense>
+        ),
+      },
+      {
+        path: "about-us",
+        element: (
+          <Suspense fallback={<div className="top-loading-bar" />}>
+            <About />
+          </Suspense>
+        ),
+      },
+      {
+        path: "whats-new",
+        element: (
+          <Suspense fallback={<div className="top-loading-bar" />}>
+            <WhatsNew />
+          </Suspense>
+        ),
+      },
+      {
+        path: "roadmap",
+        element: (
+          <Suspense fallback={<div className="top-loading-bar" />}>
+            <Roadmap />
+          </Suspense>
+        ),
       },
     ],
   },

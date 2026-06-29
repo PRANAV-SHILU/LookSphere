@@ -1,4 +1,4 @@
-<div align="right">Last Modified: 2026-06-23</div>
+<div align="right">Last Modified: 2026-07-01</div>
 
 
 <div align="center">
@@ -62,7 +62,7 @@ Explore the detailed documentation for different parts of the project:
 **Root Documentation:**
 - 🗂️ **[Project File Tree](./File_Tree.md)** - Overall repository structure.
 - 🚀 **[Performance Optimizations](./performance_optimization.md)** - Details about mobile GPU rendering fixes, state optimization, and performance tuning.
-- 🔮 **[Future Plans](./futureplan.md)** - Roadmap and upcoming feature pipeline.
+- 🔮 **[Roadmap](./roadmap.md)** - Roadmap and upcoming feature pipeline.
 - ✅ **[Resolved Issues](./resolved_issues.md)** - Log of major bug fixes and structural platform improvements.
 
 **Frontend & Backend:**
@@ -109,7 +109,7 @@ Explore the detailed documentation for different parts of the project:
 
 ---
 **📚 LookSphere Documentation Index:**
-- **Root:** [Main Readme](./Readme.md) | [File Tree](./File_Tree.md) | [Future Plans](./futureplan.md) | [Performance](./performance_optimization.md) | [Resolved Issues](./resolved_issues.md)
-- **Frontend:** [Frontend Readme](./frontend/README.md) | [Design Specs](./frontend/Design.md) | [Frontend File Tree](./frontend/File_Tree.md) | [Improvements](./frontend/improvement.md)
+- **Root:** [Main Readme](./Readme.md) | [File Tree](./File_Tree.md) | [Roadmap](./roadmap.md) | [Performance](./performance_optimization.md) | [Resolved Issues](./resolved_issues.md)
+- **Frontend:** [Frontend Readme](./frontend/README.md) | [Design Specs](./frontend/Design.md) | [Frontend File Tree](./frontend/File_Tree.md)
 - **Backend:** [Backend Readme](./Backend/Readme.md) | [API Docs](./Backend/APIs.md) | [Backend File Tree](./Backend/File_Tree.md)
 ---

@@ -1,4 +1,4 @@
-<div align="right">Last Modified: 2026-06-22</div>
+<div align="right">Last Modified: 2026-07-01</div>
 
 # File Tree: Frontend
 
@@ -36,7 +36,6 @@
 │   │   │   ├── 📄 AppShowcase.jsx
 │   │   │   ├── 📄 CTASection.jsx
 │   │   │   ├── 📄 FAQSection.jsx
-│   │   │   ├── 📄 FuturePlans.jsx
 │   │   │   ├── 📄 HeroSection.jsx
 │   │   │   ├── 📄 HowItWorks.jsx
 │   │   │   ├── 📄 SecurityPrivacy.jsx
@@ -73,15 +72,22 @@
 │   │   ├── 📄 postApi.js
 │   │   └── 📄 userApi.js
 │   ├── 📁 pages
+│   │   ├── 📄 About.jsx
 │   │   ├── 📄 Creators.jsx
 │   │   ├── 📄 Dashboard.jsx
 │   │   ├── 📄 EditProfile.jsx
 │   │   ├── 📄 Explore.jsx
+│   │   ├── 📄 FAQ.jsx
 │   │   ├── 📄 Feed.jsx
 │   │   ├── 📄 Home.jsx
 │   │   ├── 📄 Login.jsx
+│   │   ├── 📄 PrivacyPolicy.jsx
 │   │   ├── 📄 Profile.jsx
-│   │   └── 📄 Register.jsx
+│   │   ├── 📄 Register.jsx
+│   │   ├── 📄 Roadmap.jsx
+│   │   ├── 📄 TermsAndConditions.jsx
+│   │   └── 📄 WhatsNew.jsx
+
 │   ├── 📁 routes
 │   │   └── 📄 router.jsx
 │   ├── 📁 schema
@@ -104,10 +110,16 @@
 │   │   ├── 📄 FeedSkeleton.jsx
 │   │   └── 📄 ProfileSkeleton.jsx
 │   └── 📁 utils
+│       ├── 📄 aboutData.js
 │       ├── 📄 cloudinaryOptimizer.js
+│       ├── 📄 faqData.js
 │       ├── 📄 feedRefresher.js
+│       ├── 📄 privacyPolicyData.js
+│       ├── 📄 roadmapData.js
 │       ├── 📄 staticData.jsx
-│       └── 📄 styles.js
+│       ├── 📄 styles.js
+│       ├── 📄 termsAndConditionsData.js
+│       └── 📄 whatsNewData.js
 ├── 📄 vercel.json
 └── 📄 vite.config.js
 

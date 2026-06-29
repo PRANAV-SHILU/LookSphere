@@ -14,6 +14,7 @@ import {
   Menu,
   X,
   ChevronDown,
+  Sparkles,
 } from "lucide-react";
 import ConfirmationModal from "../modals/ConfirmationModal.jsx";
 import { desktopNavLinkClass, mobileNavLinkClass } from "../utils/styles";
@@ -132,6 +133,13 @@ export default function Header() {
                 Dashboard
               </NavLink>
             )}
+            <NavLink to="/whats-new" className={desktopNavLinkClass}>
+              <Sparkles className="w-4.5 h-4.5 3xl:w-5 3xl:h-5 4xl:w-5.5 4xl:h-5.5 transition-transform duration-300 group-hover:scale-110" />
+              <div className="relative">
+                What's New
+                <span className="absolute -top-0.5 -right-2.5 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+              </div>
+            </NavLink>
             <NavLink to="/feed" className={desktopNavLinkClass}>
               <ImageIcon className="w-4.5 h-4.5 3xl:w-5 3xl:h-5 4xl:w-5.5 4xl:h-5.5 transition-transform duration-300 group-hover:scale-110" />{" "}
               Feed
@@ -313,6 +321,17 @@ export default function Header() {
                   className={mobileNavLinkClass}
                 >
                   <Users size={20} className="text-inherit" /> Creators
+                </NavLink>
+                <NavLink
+                  to="/whats-new"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={mobileNavLinkClass}
+                >
+                  <Sparkles size={20} className="text-inherit" />
+                  <div className="relative">
+                    What's New
+                    <span className="absolute -top-0.5 -right-2.5 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+                  </div>
                 </NavLink>
 
                 {/* Divider */}

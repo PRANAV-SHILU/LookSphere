@@ -5,6 +5,7 @@ import {
   HelpCircle,
   Mail,
   MessageSquare,
+  X,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
@@ -98,7 +99,7 @@ export default function FAQ() {
           placeholder="Search questions, keywords, or topics..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full pl-12 pr-4 py-3.5 rounded-2xl border text-sm font-medium transition-all focus:outline-none focus:ring-2"
+          className="w-full pl-12 pr-12 py-3.5 rounded-2xl border text-sm font-medium transition-all focus:outline-none focus:ring-2"
           style={{
             backgroundColor: "var(--surface-input)",
             borderColor: "var(--border-normal)",
@@ -114,6 +115,15 @@ export default function FAQ() {
             e.target.style.boxShadow = "none";
           }}
         />
+        {searchQuery && (
+          <button
+            onClick={() => setSearchQuery("")}
+            className="absolute inset-y-0 right-0 pr-4 flex items-center text-(--text-muted) hover:text-(--primary-500) transition-colors cursor-pointer border-none bg-transparent"
+            aria-label="Clear search"
+          >
+            <X size={20} />
+          </button>
+        )}
       </div>
 
       {/* ── Category Pill Filters ── */}

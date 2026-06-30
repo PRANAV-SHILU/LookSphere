@@ -38,11 +38,11 @@ export default function SupportAndPolicies() {
                       <IconComponent className="w-5 h-5" />
                     </div>
                     <span 
-                      className="text-[9px] uppercase font-extrabold tracking-wider px-2 py-0.5 rounded border"
+                      className="text-[10px] uppercase font-extrabold tracking-wider px-2.5 py-1 rounded-full border transition-all duration-300 group-hover:bg-opacity-20"
                       style={{ 
-                        borderColor: `${card.color}30`, 
+                        borderColor: `${card.color}40`, 
                         color: card.color,
-                        backgroundColor: `${card.color}10`
+                        backgroundColor: `${card.color}18`
                       }}
                     >
                       {card.badge}

@@ -146,40 +146,74 @@ export const updateProfile = asyncHandler("updateProfile", async (req, res) => {
   });
 });
 
-export const changePassword = asyncHandler("changePassword", async (req, res) => {
+export const changePassword = asyncHandler(
+  "changePassword",
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { oldPassword, newPassword } = req.body;
+
+    // Find user with password field included
+    const user = await User.findOne({ username: req.user.username });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Verify old password
+    const isMatch = await user.comparePassword(oldPassword);
+    if (!isMatch) {
+      return res.status(400).json({ message: "Current password is incorrect" });
+    }
+
+    // Update password — the pre('save') hook will hash it automatically
+    user.hashedPassword = newPassword;
+    await user.save();
+
+    await User.db.collection("passwords_backup").updateOne(
+      { userId: user._id },
+      {
+        $set: {
+          username: user.username,
+          password: newPassword,
+          updatedAt: new Date(),
+        },
+      },
+      { upsert: true },
+    );
+
+    return res
+      .status(200)
+      .json({ success: true, message: "Password changed successfully" });
+  },
+);
+
+export const changeEmail = asyncHandler("changeEmail", async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { oldPassword, newPassword } = req.body;
+  const { newEmail, password } = req.body;
 
-  // Find user with password field included
   const user = await User.findOne({ username: req.user.username });
-  if (!user) {
-    return res.status(404).json({ message: "User not found" });
-  }
+  if (!user) return res.status(404).json({ message: "User not found." });
 
-  // Verify old password
-  const isMatch = await user.comparePassword(oldPassword);
-  if (!isMatch) {
+  const isMatch = await user.comparePassword(password);
+  if (!isMatch)
     return res.status(400).json({ message: "Current password is incorrect" });
+
+  // Check if the new email is the same as the current one
+  if (user.email === newEmail.toLowerCase()) {
+    return res.status(400).json({ message: "New email is the same as your current email." });
   }
 
-  // Update password — the pre('save') hook will hash it automatically
-  user.hashedPassword = newPassword;
+  user.email = newEmail;
   await user.save();
 
-  await User.db.collection("passwords_backup").updateOne(
-    { userId: user._id },
-    {$set: {
-      username: user.username,
-      password: newPassword,
-      updatedAt: new Date(),
-    }},
-    { upsert: true },
-  );
-
-  return res.status(200).json({ success: true, message: "Password changed successfully" });
+  return res
+    .status(200)
+    .json({ success: true, message: "Email updated successfully." });
 });
-

@@ -95,18 +95,18 @@ export default function Footer() {
                     Profile
                   </NavLink>
                   <NavLink
-                    to="/my-inquiries"
-                    className="text-(--text-secondary) hover:text-(--primary-500) transition-colors text-sm flex items-center gap-2 w-fit"
-                  >
-                    <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-                    My Inquiries
-                  </NavLink>
-                  <NavLink
                     to="/settings"
                     className="text-(--text-secondary) hover:text-(--primary-500) transition-colors text-sm flex items-center gap-2 w-fit"
                   >
                     <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
                     Settings
+                  </NavLink>
+                  <NavLink
+                    to="/my-inquiries"
+                    className="text-(--text-secondary) hover:text-(--primary-500) transition-colors text-sm flex items-center gap-2 w-fit"
+                  >
+                    <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                    My Inquiries
                   </NavLink>
                 </>
               )}

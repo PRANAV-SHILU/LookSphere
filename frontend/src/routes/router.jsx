@@ -14,7 +14,9 @@ const Feed = lazy(() => import("../pages/Feed.jsx"));
 const Explore = lazy(() => import("../pages/Explore.jsx"));
 const Dashboard = lazy(() => import("../pages/Dashboard.jsx"));
 const PrivacyPolicy = lazy(() => import("../pages/PrivacyPolicy.jsx"));
-const TermsAndConditions = lazy(() => import("../pages/TermsAndConditions.jsx"));
+const TermsAndConditions = lazy(
+  () => import("../pages/TermsAndConditions.jsx"),
+);
 const WhatsNew = lazy(() => import("../pages/WhatsNew.jsx"));
 const FAQ = lazy(() => import("../pages/FAQ.jsx"));
 const About = lazy(() => import("../pages/About.jsx"));
@@ -24,6 +26,7 @@ const AdminContact = lazy(() => import("../pages/AdminContact.jsx"));
 const MyInquiries = lazy(() => import("../pages/MyInquiries.jsx"));
 const Settings = lazy(() => import("../pages/Settings.jsx"));
 const ChangePassword = lazy(() => import("../pages/ChangePassword.jsx"));
+const ChangeEmail = lazy(() => import("../pages/ChangeEmail.jsx"));
 const PostDetail = lazy(() => import("../pages/PostDetail.jsx"));
 
 import FeedSkeleton from "../skeletons/FeedSkeleton.jsx";
@@ -40,6 +43,7 @@ import { editProfileAction } from "../actions/editProfileAction.jsx";
 import { uploadAction } from "../actions/uploadAction.jsx";
 import { contactAction } from "../actions/contactAction.jsx";
 import { changePasswordAction } from "../actions/changePasswordAction.jsx";
+import { changeEmailAction } from "../actions/changeEmailAction.jsx";
 
 import { authLoader } from "../loaders/authLoader.jsx";
 import { profileLoader } from "../loaders/profileLoader.jsx";
@@ -245,6 +249,15 @@ const router = createBrowserRouter([
           </Suspense>
         ),
         action: changePasswordAction,
+      },
+      {
+        path: "settings/change-email",
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <ChangeEmail />
+          </Suspense>
+        ),
+        action: changeEmailAction,
       },
     ],
   },

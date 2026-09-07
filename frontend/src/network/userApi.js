@@ -45,3 +45,12 @@ export async function changePassword(payload) {
   }
 }
 
+export async function changeEmail(payload) {
+  try {
+    const res = await apiClient.patch(ENDPOINTS.USER.CHANGE_EMAIL, payload);
+    return res.data;
+  } catch (err) {
+    throw new Error(err.message);
+  }
+}
+

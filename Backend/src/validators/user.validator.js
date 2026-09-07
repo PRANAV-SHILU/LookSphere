@@ -61,6 +61,15 @@ export const changePasswordValidation = [
       minSymbols: 1,
     })
     .withMessage(
-      "Password must include at least one uppercase letter, one lowercase letter, one digit, and one special character"
+      "Password must include at least one uppercase letter, one lowercase letter, one digit, and one special character",
     ),
+];
+
+export const changeEmailSchema = [
+  check("newEmail").trim().toLowerCase().isEmail().withMessage("email is invalid"),
+
+  check("password")
+    .trim()
+    .notEmpty()
+    .withMessage("Current password is required"),
 ];

@@ -8,6 +8,7 @@ export const ENDPOINTS = {
     USERS: "/users",
     PROFILE: (username) => username ? `/users/profile/${username}` : "/users/profile",
     CHANGE_PASSWORD: "/users/change-password",
+    CHANGE_EMAIL: "/users/change-email",
   },
   POST: {
     POSTS: "/posts",

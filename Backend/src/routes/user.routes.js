@@ -4,11 +4,12 @@ import {
   getProfile,
   updateProfile,
   changePassword,
+  changeEmail
 } from "../controllers/user.controller.js";
 import { verifyToken, verifyTokenOptional } from "../middlewares/auth.middleware.js";
 import { upload, checkMediaSize, uploadToCloudinaryMiddleware } from "../middlewares/upload.middleware.js";
 
-import { updateProfileValidation, changePasswordValidation } from "../validators/user.validator.js";
+import { updateProfileValidation, changePasswordValidation, changeEmailSchema } from "../validators/user.validator.js";
 
 const userRoutes = express.Router();
 
@@ -18,6 +19,9 @@ userRoutes.get("/", getUsers);
 
 // change password
 userRoutes.patch("/change-password", verifyToken, changePasswordValidation, changePassword);
+
+// change email
+userRoutes.patch("/change-email",verifyToken,changeEmailSchema,changeEmail)
 
 
 userRoutes.get("/profile", verifyToken, getProfile);

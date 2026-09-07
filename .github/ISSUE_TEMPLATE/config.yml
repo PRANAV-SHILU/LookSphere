@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 General Question
+    url: https://github.com/PRANAV-SHILU/LookSphere/discussions
+    about: Ask questions and discuss ideas in GitHub Discussions
+  - name: 🌐 Contact Us Form
+    url: https://looksphere.vercel.app/contact-us
+    about: Submit feedback or report issues through the LookSphere website
+  - name: 📧 Email
+    url: mailto:pranavshilu@zohomail.in
+    about: Reach out directly via email
+  - name: 💼 LinkedIn
+    url: https://www.linkedin.com/in/pranavshilu/
+    about: Connect with Pranav Shilu on LinkedIn

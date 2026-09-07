@@ -32,6 +32,7 @@ const SETTINGS_SECTIONS = [
       {
         key: "update-email",
         label: "Update Email",
+        showBadge: true,
         description: "Change the email linked to your account",
         icon: Mail,
       },
@@ -273,12 +274,13 @@ export default function Settings() {
                     <div className="flex flex-col gap-2 py-1">
                       {section.subItems.map((sub) => {
                         const SubIcon = sub.icon;
-                        const isImplemented = sub.key === "change-password";
+                        const isImplemented = sub.key === "change-password" || sub.key === "update-email";
                         return (
                           <button
                             key={sub.key}
                             onClick={() => {
-                              if (isImplemented) navigate("/settings/change-password");
+                              if (sub.key === "change-password") navigate("/settings/change-password");
+                              if (sub.key === "update-email") navigate("/settings/change-email");
                             }}
                             disabled={!isImplemented}
                             className={`w-full flex items-center gap-3 p-3 sm:p-4 rounded-xl border border-(--border-normal) text-left transition-all duration-300 bg-(--surface-card) ${

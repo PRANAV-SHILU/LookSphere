@@ -10,12 +10,6 @@ export const editProfileSchema = yup.object({
     .test("no-spaces", "Username cannot contain spaces", (value) => !value || !value.includes(" "))
     .test("no-capitals", "Username cannot contain capital letters", (value) => !value || !/[A-Z]/.test(value)),
 
-  email: yup
-    .string()
-    .trim()
-    .required("Email is required")
-    .email("Enter a valid email address"),
-
   tagline: yup
     .string()
     .trim()

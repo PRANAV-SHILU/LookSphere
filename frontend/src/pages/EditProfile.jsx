@@ -1,5 +1,6 @@
 import {
   Form,
+  Link,
   useLoaderData,
   useNavigation,
   useNavigate,
@@ -10,7 +11,7 @@ import { useForm, useWatch } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { editProfileSchema } from "../schema/editProfileSchema";
 
-import { User, Camera } from "lucide-react";
+import { User, Camera, Mail, Lock, ArrowRight } from "lucide-react";
 import { toast } from "react-toastify";
 import BackButton from "../shared-components/BackButton";
 
@@ -33,7 +34,6 @@ export default function EditProfile() {
   } = useForm({
     defaultValues: {
       username: user?.username || "",
-      email: user?.email || "",
       tagline: user?.tagline || "",
       bio: user?.bio || "",
     },
@@ -194,26 +194,7 @@ export default function EditProfile() {
             )}
           </div>
 
-          {/* --- Email --- */}
-          <div className="input-group">
-            <label className="input-label">Email</label>
-            <input
-              type="email"
-              className="input-field"
-              {...register("email")}
-            />
-            {errors.email && (
-              <p
-                style={{
-                  color: "var(--status-error)",
-                  fontSize: "0.8rem",
-                  marginTop: "0.5rem",
-                }}
-              >
-                {errors.email.message}
-              </p>
-            )}
-          </div>
+
 
           {/* --- Tagline --- */}
           <div className="input-group">
@@ -314,6 +295,53 @@ export default function EditProfile() {
             </button>
           </div>
         </Form>
+
+          {/* --- Account Security Links --- */}
+          <div className="mt-8 flex flex-col gap-3">
+            <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--text-muted)" }}>
+              Account Security
+            </p>
+            <Link
+              to="/settings/change-email"
+              className="flex items-center gap-3 p-3.5 rounded-xl border transition-colors duration-200 group"
+              style={{
+                backgroundColor: "var(--surface-card)",
+                borderColor: "var(--border-normal)",
+              }}
+            >
+              <div
+                className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0"
+                style={{ backgroundColor: "rgba(59, 130, 246, 0.1)" }}
+              >
+                <Mail size={18} style={{ color: "var(--primary-500)" }} />
+              </div>
+              <div className="flex flex-col min-w-0">
+                <span className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>Change Email</span>
+                <span className="text-xs" style={{ color: "var(--text-muted)" }}>Update the email linked to your account</span>
+              </div>
+              <ArrowRight size={16} className="ml-auto shrink-0 transition-transform duration-200 group-hover:translate-x-1" style={{ color: "var(--text-muted)" }} />
+            </Link>
+            <Link
+              to="/settings"
+              className="flex items-center gap-3 p-3.5 rounded-xl border transition-colors duration-200 group"
+              style={{
+                backgroundColor: "var(--surface-card)",
+                borderColor: "var(--border-normal)",
+              }}
+            >
+              <div
+                className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0"
+                style={{ backgroundColor: "rgba(139, 92, 246, 0.1)" }}
+              >
+                <Lock size={18} style={{ color: "#8b5cf6" }} />
+              </div>
+              <div className="flex flex-col min-w-0">
+                <span className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>Change Password</span>
+                <span className="text-xs" style={{ color: "var(--text-muted)" }}>Update your current password</span>
+              </div>
+              <ArrowRight size={16} className="ml-auto shrink-0 transition-transform duration-200 group-hover:translate-x-1" style={{ color: "var(--text-muted)" }} />
+            </Link>
+          </div>
       </main>
     </>
   );

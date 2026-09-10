@@ -6,7 +6,6 @@ export async function editProfileAction({ request }) {
   const formData = await request.formData();
 
   const username = formData.get("username");
-  const email = formData.get("email");
   const tagline = formData.get("tagline");
   const bio = formData.get("bio");
   const profileImage = formData.get("profileImage");
@@ -21,9 +20,6 @@ export async function editProfileAction({ request }) {
 
     if (username && username !== existing.username) {
       payload.append("username", username);
-    }
-    if (email && email !== existing.email) {
-      payload.append("email", email);
     }
     if (tagline !== undefined && tagline !== (existing.tagline || "")) {
       payload.append("tagline", tagline);

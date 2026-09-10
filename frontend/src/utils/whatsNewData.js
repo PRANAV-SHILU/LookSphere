@@ -26,9 +26,16 @@ export const WHATS_NEW_DATA = [
   {
     id: "aug-15-2026",
     date: "15 August 2026",
-    title: "Support & Inquiries System, Password Management",
-    description: "A complete support system — submit inquiries with categories and media, track their status, and receive admin responses.",
+    title: "Support & Inquiries System, Password & Email Management",
+    description: "A complete support system — submit inquiries with categories and media, track their status, and receive admin responses. Plus secure account management for passwords and email.",
     updates: [
+      {
+        tag: "Feature",
+        page: "Settings",
+        title: "Change Email Address",
+        description: "A brand-new Change Email page lets you securely update your account email. It requires password verification for security, and includes real-time validation — matching confirmation, duplicate detection, and format checks.",
+        link: "/settings/change-email",
+      },
       {
         tag: "Feature",
         page: "Settings",

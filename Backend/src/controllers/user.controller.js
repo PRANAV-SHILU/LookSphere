@@ -88,7 +88,7 @@ export const getProfile = asyncHandler("getProfile", async (req, res) => {
 });
 
 export const updateProfile = asyncHandler("updateProfile", async (req, res) => {
-  const { username, email, tagline, bio } = req.body;
+  const { username, tagline, bio } = req.body;
   const updateData = {};
 
   // console.log("req.body:", req.body);
@@ -102,7 +102,6 @@ export const updateProfile = asyncHandler("updateProfile", async (req, res) => {
       return res.status(400).json({ message: "Username already exists" });
     updateData.username = username;
   }
-  if (email) updateData.email = email;
   if (tagline !== undefined) updateData.tagline = tagline;
   if (bio !== undefined) updateData.bio = bio;
 

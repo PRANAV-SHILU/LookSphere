@@ -16,13 +16,6 @@ export const updateProfileValidation = [
       return true;
     }),
 
-  check("email")
-    .optional()
-    .trim()
-    .toLowerCase()
-    .isEmail()
-    .withMessage("email is invalid"),
-
   check("tagline")
     .optional()
     .trim()

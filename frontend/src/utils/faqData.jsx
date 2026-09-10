@@ -78,7 +78,7 @@ export const FAQ_CATEGORIES = [
         q: "How can I edit my profile information?",
         a: (
           <span>
-            Once logged in, click your avatar or username to visit your profile page, then click the <Link to="/edit-profile" className="text-(--primary-500) hover:underline">'Edit Profile'</Link> button. From there, you can upload a new profile picture, customize your bio/tagline, update your contact links, and change your registered username and email address directly.
+            Once logged in, click your avatar or username to visit your profile page, then click the <Link to="/edit-profile" className="text-(--primary-500) hover:underline">'Edit Profile'</Link> button. From there, you can upload a new profile picture, customize your bio/tagline, update your contact links, and change your registered username.
           </span>
         ),
       },
@@ -86,7 +86,15 @@ export const FAQ_CATEGORIES = [
         q: "How can I change my password?",
         a: (
           <span>
-            To change your password, open the profile dropdown menu in the top navigation bar and select <Link to="/settings" className="text-(--primary-500) hover:underline">'Settings'</Link>. Under the 'Account' section, click on <Link to="/settings/change-password" className="text-(--primary-500) hover:underline">'Change Password'</Link> to securely update your current password.
+            To change your password, go to <Link to="/settings/change-password" className="text-(--primary-500) hover:underline">Settings → Change Password</Link>. You'll need to enter your current password and set a new one that meets our security requirements.
+          </span>
+        ),
+      },
+      {
+        q: "How can I change my email address?",
+        a: (
+          <span>
+            To update your email, go to <Link to="/settings/change-email" className="text-(--primary-500) hover:underline">Settings → Change Email</Link>. You'll need to enter your new email address, confirm it, and verify your current password for security.
           </span>
         ),
       },

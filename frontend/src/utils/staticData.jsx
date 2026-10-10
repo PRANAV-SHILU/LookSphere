@@ -142,13 +142,13 @@ export const capabilities = [
 
 export const activities = [
   {
-    user: "Alex",
+    user: "Pranav",
     action: "shared a new photo",
     time: "2m ago",
     icon: ImageIcon,
   },
   {
-    user: "Sarah",
+    user: "Sara",
     action: "joined LookSphere",
     time: "5m ago",
     icon: UserPlus,
@@ -160,8 +160,8 @@ export const activities = [
     icon: User,
   },
   {
-    user: "Emily",
-    action: "explored trending posts",
+    user: "Alex",
+    action: "added their feedback on contact us page",
     time: "12m ago",
     icon: Search,
   },

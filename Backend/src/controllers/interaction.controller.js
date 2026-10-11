@@ -3,51 +3,89 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 
 export const getInteractionByUserId = asyncHandler(
   "getInteractionByUserId",
-  (req, res) => {
-    const userId = req.params.userId;
-    const currentUserId = req.user.userId;
+  async (req, res) => {
+    const { userId } = req.params;
     const { action } = req.query;
+    const currentUserId = req.user?.userId;
 
-    // check this proerply
-    if (action != "repost" && userId != currentUserId)
-      return res.status(401).status("unauthorize access");
+    // like and save are private — only the owner can view them
+    if (action === "like" || action === "save") {
+      if (!currentUserId) {
+        return res.status(401).json({
+          success: false,
+          message: "Authentication required to view private interactions.",
+        });
+      }
+      if (userId.toString() !== currentUserId.toString()) {
+        return res.status(403).json({
+          success: false,
+          message:
+            "You are not authorized to view another user's private interactions.",
+        });
+      }
+    }
 
-    // .populate("poster-userId", "username, profileImage, posturl"); for each post
-    const data = interaction.find({ userId, action });
+    const data = await interaction
+      .find({ userId, action })
+      .sort({ createdAt: -1 })
+      .populate({
+        path: "postId",
+        select: "mediaUrl mediaType caption altText userId createdAt",
+        populate: { path: "userId", select: "username profileImage" },
+      });
 
-    return res.status(200).json({ success: true });
+    return res.status(200).json({
+      success: true,
+      total: data.length,
+      data,
+    });
   },
 );
 
 export const getInteractionByPostId = asyncHandler(
   "getInteractionByPostId",
-  (req, res) => {
-    const postId = req.params.postId;
+  async (req, res) => {
+    const { postId } = req.params;
     const { action } = req.query;
 
-    // .populate("userId", "username profileImage"); for each user
-    const data = interaction.find({ postId, action });
+    const data = await interaction
+      .find({ postId, action })
+      .sort({ createdAt: -1 })
+      .populate("userId", "username profileImage");
 
-    return res.status(200).json({ success: true });
+    return res.status(200).json({
+      success: true,
+      total: data.length,
+      data,
+    });
   },
 );
 
-export const addInteraction = asyncHandler("addInteraction", (req, res) => {
-  const userId = req.user.userId;
-  const { postId, action } = req.body;
+export const addInteraction = asyncHandler(
+  "addInteraction",
+  async (req, res) => {
+    const userId = req.user.userId;
+    const { postId, action } = req.body;
 
-  const isExists = interaction.findOne({ userId, postId, action });
+    const existingInteraction = await interaction.findOne({
+      userId,
+      postId,
+      action,
+    });
 
-  if (isExists) {
-    interaction.deleteOne(isExists);
-    return res.status(200).json({
-      message: `post un${action} successfully.`,
+    if (existingInteraction) {
+      await existingInteraction.deleteOne();
+      return res.status(200).json({ success: true });
+    }
+
+    const newInteraction = await interaction.create({
+      userId,
+      postId,
+      action,
+    });
+
+    return res.status(201).json({
       success: true,
     });
-  }
-
-  interaction.insertOne({ userId, postId, action });
-  return res
-    .status(200)
-    .json({ message: `post ${action} successfully.`, success: true });
-});
+  },
+);

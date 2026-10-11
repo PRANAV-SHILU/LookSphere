@@ -28,11 +28,10 @@ export const register = asyncHandler("register", async (req, res) => {
     createdAt: new Date(),
   });
 
-  // Exclude hashedPassword from response — never send it to the client
-  const { hashedPassword, ...userData } = newUser.toObject();
-
-  // why send data - just message
-  res.status(201).json({ success: true, data: userData });
+  res.status(201).json({
+    success: true,
+    message: "User registered successfully",
+  });
 });
 
 export const login = asyncHandler("login", async (req, res) => {

@@ -31,7 +31,7 @@ System and database connection health check
 ### POST /auth/register
 Register a new user account
 - **Body:** `{ username, email, password, confirmPassword }`
-- **Response:** `201` `{ success, data }` | `400` | `500`
+- **Response:** `201` `{ success, message }` | `400` | `500`
 
 ### POST /auth/login
 Authenticate user and return JWT token

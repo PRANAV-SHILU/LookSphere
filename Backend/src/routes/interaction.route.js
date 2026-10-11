@@ -1,20 +1,17 @@
 import express from "express";
-import { verifyToken } from "../middlewares/auth.middleware";
-import { addInteraction, getInteractionByPostId, getInteractionByUserId } from "../controllers/interaction.controller";
+import { verifyToken, verifyTokenOptional } from "../middlewares/auth.middleware.js";
+import { addInteraction, getInteractionByPostId, getInteractionByUserId } from "../controllers/interaction.controller.js";
 
 
 const interactionRouter = express.Router();
 
 
 // get interaction for user :
-//------------------------------------------------------------------
-//  need optional vlaidator for like and saved because only he can see this
-//------------------------------------------------------------------
-
-interactionRouter.get("/:userId?action", getInteractionByUserId);
+// repost is public, like and save are private (only the owner can see in profile)
+interactionRouter.get("/user/:userId", verifyTokenOptional, getInteractionByUserId);
 
 // get interaction for post 
-interactionRouter.get("/:postId?action", getInteractionByPostId);
+interactionRouter.get("/post/:postId", getInteractionByPostId);
 
 // add interaction (like,save,repost)
 interactionRouter.post("/", verifyToken, addInteraction);

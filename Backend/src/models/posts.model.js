@@ -38,9 +38,13 @@ const postSchema = new mongoose.Schema(
   },
 );
 
-postSchema.index({ userId: 1, createdAt: -1 }); // Compound index for efficient querying of posts by user and creation time
-postSchema.index({ createdAt: -1 }); // Index for global feed sorting
-postSchema.index({ mediaType: 1, userId: 1 }); // Index for profile type-filtering queries
+postSchema.index({ createdAt: -1 });
+postSchema.index({ userId: 1, mediaType: 1, createdAt: -1 });
+
+// on cascade delete — delete all interactions when a post is deleted
+postSchema.pre("deleteOne", { document: true, query: false }, async function () {
+  await mongoose.model("interactions").deleteMany({ postId: this._id });
+});
 
 const Post = mongoose.model("posts", postSchema);
 

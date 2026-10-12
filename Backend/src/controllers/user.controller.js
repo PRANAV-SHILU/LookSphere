@@ -4,6 +4,8 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { validationResult } from "express-validator";
 import jwt from "jsonwebtoken";
 
+import { enrichPostsWithInteractions } from "../utils/postHelper.js";
+
 export const getUsers = asyncHandler("getUsers", async (req, res) => {
   const { search } = req.query;
   const filter = { role: { $ne: "admin" } };
@@ -81,9 +83,13 @@ export const getProfile = asyncHandler("getProfile", async (req, res) => {
   ]);
   user.totalPostViews = viewCountResult?.totalViews || 0;
 
+  const currentUserId = req.user?.userId;
+  const enrichedImages = await enrichPostsWithInteractions(images, currentUserId);
+  const enrichedVideos = await enrichPostsWithInteractions(videos, currentUserId);
+
   return res.status(200).json({
     message: "Profile fetched successfully",
-    data: { user, images, videos },
+    data: { user, images: enrichedImages, videos: enrichedVideos },
   });
 });
 
@@ -167,6 +173,10 @@ export const changePassword = asyncHandler(
       return res.status(400).json({ message: "Current password is incorrect" });
     }
 
+    if (oldPassword === newPassword) {
+      return res.status(400).json({ message: "New password cannot be the same as your current password" });
+    }
+
     // Update password — the pre('save') hook will hash it automatically
     user.hashedPassword = newPassword;
     await user.save();
@@ -204,8 +214,10 @@ export const changeEmail = asyncHandler("changeEmail", async (req, res) => {
   if (!isMatch)
     return res.status(400).json({ message: "Current password is incorrect" });
 
+  const targetEmail = newEmail.toLowerCase().trim();
+
   // Check if the new email is the same as the current one
-  if (user.email === newEmail.toLowerCase()) {
+  if (user.email === targetEmail) {
     return res.status(400).json({ message: "New email is the same as your current email." });
   }
 

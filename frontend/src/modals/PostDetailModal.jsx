@@ -7,6 +7,7 @@ import {
   User as UserIcon,
   Link2,
   Check,
+  Clock,
 } from "lucide-react";
 import { modifyPost } from "../services/postService";
 import { toast } from "react-toastify";
@@ -91,10 +92,7 @@ export default function PostDetailModal({
     const structuredData = {
       "@context": "https://schema.org",
       "@type": "SocialMediaPosting",
-      headline:
-        displayCaption ||
-        displayAltText ||
-        "Post on LookSphere",
+      headline: displayCaption || displayAltText || "Post on LookSphere",
       articleBody: displayCaption
         ? displayAltText
           ? `${displayCaption} (Alt: ${displayAltText})`
@@ -691,7 +689,7 @@ export default function PostDetailModal({
                           style={{
                             display: "flex",
                             alignItems: "center",
-                            gap: "6px",
+                            gap: "2px",
                           }}
                         >
                           <Eye size={16} />
@@ -701,24 +699,30 @@ export default function PostDetailModal({
                           </span>
                         </div>
                         {post.createdAt && (
-                          <span
+                          <div
                             style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "2px",
                               fontSize: "0.8rem",
                               color: "var(--text-muted)",
                             }}
                           >
-                            {new Date(post.createdAt).toLocaleString(
-                              undefined,
-                              {
-                                year: "numeric",
-                                month: "short",
-                                day: "numeric",
-                                hour: "2-digit",
-                                minute: "2-digit",
-                                second: "2-digit",
-                              },
-                            )}
-                          </span>
+                            <Clock size={12} />
+                            <span>
+                              {new Date(post.createdAt).toLocaleString(
+                                undefined,
+                                {
+                                  year: "numeric",
+                                  month: "short",
+                                  day: "numeric",
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                  second: "2-digit",
+                                },
+                              )}
+                            </span>
+                          </div>
                         )}
                       </div>
                     )}

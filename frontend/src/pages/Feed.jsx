@@ -16,8 +16,11 @@ import {
   Maximize2,
   Link2,
   Check,
+  Zap,
+  Repeat2,
 } from "lucide-react";
 import BackButton from "../shared-components/BackButton";
+import PostInteractions from "../components/post/PostInteractions";
 import { trackPostView } from "../services/postService";
 import PostDetailModal from "../modals/PostDetailModal";
 import { getVideoPosterUrl } from "../utils/cloudinaryOptimizer";
@@ -37,21 +40,18 @@ const FeedCard = React.memo(function FeedCard({
   const captionRef = useRef(null);
   const hasTrackedView = useRef(false);
   const isVideo = post.mediaType === "Video";
-  const [isMaximizeHovered, setIsMaximizeHovered] = useState(false);
-  const [isLinkHovered, setIsLinkHovered] = useState(false);
-  const [isCopied, setIsCopied] = useState(false);
   const [isCaptionExpanded, setIsCaptionExpanded] = useState(false);
   const [showViewMore, setShowViewMore] = useState(false);
   const isPlaying = isVideo && activeVideoId === post._id && !isParentModalOpen;
   const postDate = post.createdAt
     ? new Date(post.createdAt).toLocaleString(undefined, {
-        month: "short",
-        day: "numeric",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-      })
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    })
     : "";
 
   // Track post view and notify parent about video intersection
@@ -64,7 +64,7 @@ const FeedCard = React.memo(function FeedCard({
         if (entry.isIntersecting) {
           // Increment view count exactly once
           if (!isOwnPost && post._id && !hasTrackedView.current) {
-            trackPostView(post._id).catch(() => {});
+            trackPostView(post._id).catch(() => { });
             hasTrackedView.current = true;
           }
           // Notify parent this video is now in view
@@ -107,7 +107,7 @@ const FeedCard = React.memo(function FeedCard({
       vid.play().catch(() => {
         // Browser blocked unmuted autoplay — fallback to muted
         vid.muted = true;
-        vid.play().catch(() => {});
+        vid.play().catch(() => { });
       });
     } else {
       videoRef.current.pause();
@@ -256,53 +256,25 @@ const FeedCard = React.memo(function FeedCard({
 
       {/* Footer: Details */}
       <div className="p-4 flex flex-col gap-2.5">
-        <div
-          className="flex items-center justify-between text-xs"
-          style={{ color: "var(--text-muted)" }}
-        >
-          <span className="font-medium flex items-center gap-1">
-            <Eye size={13} />
-            {post.postViewCount || 0} views
-          </span>
-          <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={() => {
-                navigator.clipboard.writeText(
-                  `${window.location.origin}/posts/${post._id}`,
-                );
-                setIsCopied(true);
-                setTimeout(() => setIsCopied(false), 3000);
-              }}
-              className="flex items-center justify-center p-1.5 rounded-lg hover:bg-(--surface-hover) transition-all cursor-pointer border-none bg-transparent"
-              style={{
-                color: isCopied
-                  ? "#22c55e"
-                  : isLinkHovered
-                    ? "var(--text-primary)"
-                    : "var(--text-muted)",
-              }}
-              onMouseEnter={() => setIsLinkHovered(true)}
-              onMouseLeave={() => setIsLinkHovered(false)}
-              title="Copy link"
-            >
-              {isCopied ? <Check size={19} /> : <Link2 size={19} />}
-            </button>
-            <button
-              type="button"
-              onClick={() => onPostClick(post)}
-              className="flex items-center justify-center p-1.5 rounded-lg hover:bg-(--surface-hover) transition-all cursor-pointer border-none bg-transparent"
-              style={{
-                color: isMaximizeHovered
-                  ? "var(--text-primary)"
-                  : "var(--text-muted)",
-              }}
-              onMouseEnter={() => setIsMaximizeHovered(true)}
-              onMouseLeave={() => setIsMaximizeHovered(false)}
-              title="View in full screen"
-            >
-              <Maximize2 size={15} />
-            </button>
+        <PostInteractions key={post._id} post={post} onMaximize={() => onPostClick(post)} />
+
+        <div style={{ alignItems: 'center', display: 'flex', justifyContent: 'space-between' }}>
+
+          <div
+            className="flex items-center text-xs flex-wrap gap-3"
+            style={{ color: "var(--text-muted)" }}
+          >
+            <span className="font-medium flex items-center gap-1">
+              <Eye size={13} />
+              {post.postViewCount || 0} views
+            </span>
+          </div>
+          <div
+            className="items-center gap-1.5 text-xs flex"
+            style={{ color: "var(--text-muted)" }}
+          >
+            <Clock size={12} />
+            <span>{postDate}</span>
           </div>
         </div>
 

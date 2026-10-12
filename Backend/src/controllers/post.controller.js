@@ -2,6 +2,8 @@ import User from "../models/users.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import Post from "../models/posts.model.js";
 
+import { enrichPostsWithInteractions } from "../utils/postHelper.js";
+
 export const getPostById = asyncHandler("getPostById", async(req,res)=>{
   const {id} = req.params;
 
@@ -9,7 +11,9 @@ export const getPostById = asyncHandler("getPostById", async(req,res)=>{
 
   if(!post) return res.status(404).json({message: "Post not found"});
   
-  return res.status(200).json({message: "Post fetched successfully", data: post});
+  const enrichedPost = await enrichPostsWithInteractions(post, req.user?.userId);
+
+  return res.status(200).json({message: "Post fetched successfully", data: enrichedPost});
 })
 
 export const getFeed = asyncHandler("getFeed", async (req, res) => {
@@ -43,9 +47,11 @@ export const getFeed = asyncHandler("getFeed", async (req, res) => {
   const posts = await query;
   const total = await Post.countDocuments(filter);
 
+  const enrichedPosts = await enrichPostsWithInteractions(posts, req.user?.userId);
+
   return res.status(200).json({
     message: "Posts fetched successfully",
-    data: posts,
+    data: enrichedPosts,
     total,
   });
 });

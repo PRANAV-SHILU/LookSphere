@@ -17,10 +17,13 @@ const interactionSchema = new mongoose.Schema(
     action: {
       type: String,
       required: true,
-      enum: ["like", "save", "repost"],
+      enum: ["spark", "archive", "reshare"],
     },
   },
-  { timestamps: true, versionKey: false },
+  {
+    timestamps: { createdAt: true, updatedAt: false },
+    versionKey: false,
+  },
 );
 
 // compound index to ensure only one interaction of each type per user per post

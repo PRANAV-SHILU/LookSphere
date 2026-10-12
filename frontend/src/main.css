@@ -599,6 +599,12 @@ a:hover {
   box-shadow: var(--shadow-card);
 }
 
+@media (max-width: 540px) {
+  .post-detail-caption {
+    padding: 14px 10px;
+  }
+}
+
 .post-detail-caption p {
   color: var(--text-secondary);
   font-size: 0.925rem;

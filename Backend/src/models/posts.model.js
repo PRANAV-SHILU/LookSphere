@@ -31,6 +31,12 @@ const postSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    counts: {
+      spark: { type: Number, default: 0 },
+      archive: { type: Number, default: 0 },
+      reshare: { type: Number, default: 0 },
+      comment: { type: Number, default: 0 },
+    },
   },
   {
     timestamps: true,

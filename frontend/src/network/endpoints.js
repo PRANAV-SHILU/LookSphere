@@ -26,5 +26,10 @@ export const ENDPOINTS = {
     GET_CONTACTS: (isResponded) => isResponded !== null && isResponded !== undefined ? `/contact_support?isResponded=${isResponded}` : "/contact_support",
     RESPOND: (id) => `/contact_support/${id}/respond`,
   },
+  INTERACTION: {
+    TOGGLE: "/interaction",
+    BY_USER: (userId, action) => action ? `/interaction/user/${userId}?action=${action}` : `/interaction/user/${userId}`,
+    BY_POST: (postId, action) => action ? `/interaction/post/${postId}?action=${action}` : `/interaction/post/${postId}`,
+  },
 };
 

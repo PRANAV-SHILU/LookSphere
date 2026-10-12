@@ -1,4 +1,5 @@
 import interaction from "../models/interaction.model.js";
+import Post from "../models/posts.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
 export const getInteractionByUserId = asyncHandler(
@@ -8,8 +9,8 @@ export const getInteractionByUserId = asyncHandler(
     const { action } = req.query;
     const currentUserId = req.user?.userId;
 
-    // like and save are private — only the owner can view them
-    if (action === "like" || action === "save") {
+    // spark and archive are private — only the owner can view them
+    if (action === "spark" || action === "archive") {
       if (!currentUserId) {
         return res.status(401).json({
           success: false,
@@ -75,17 +76,25 @@ export const addInteraction = asyncHandler(
 
     if (existingInteraction) {
       await existingInteraction.deleteOne();
-      return res.status(200).json({ success: true });
+      await Post.findByIdAndUpdate(postId, {
+        $inc: { [`counts.${action}`]: -1 },
+      });
+      return res.status(200).json({ success: true, action: "removed" });
     }
 
-    const newInteraction = await interaction.create({
+    await interaction.create({
       userId,
       postId,
       action,
     });
 
+    await Post.findByIdAndUpdate(postId, {
+      $inc: { [`counts.${action}`]: 1 },
+    });
+
     return res.status(201).json({
       success: true,
+      action: "added",
     });
   },
 );

@@ -69,10 +69,7 @@ function PostCard({ post }) {
     const structuredData = {
       "@context": "https://schema.org",
       "@type": "SocialMediaPosting",
-      headline:
-        post.caption ||
-        post.altText ||
-        "Post on LookSphere",
+      headline: post.caption || post.altText || "Post on LookSphere",
       articleBody: post.caption
         ? post.altText
           ? `${post.caption} (Alt: ${post.altText})`

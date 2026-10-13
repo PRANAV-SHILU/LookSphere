@@ -44,13 +44,14 @@ export async function createPost(formData) {
   }
 }
 
-// increase post view count
-export async function increasePostView(id) {
+// increase post impression count
+export async function increasePostImpression(id) {
   try {
-    const res = await apiClient.patch(ENDPOINTS.POST.INCREASE_POST_VIEW(id));
-    // console.log("post view increased", res.data.data);
+    const res = await apiClient.patch(ENDPOINTS.POST.INCREASE_POST_IMPRESSION(id));
+    // console.log("post impression increased", res.data.data);
     return res.data.data;
   } catch (err) {
+    console.error("[postApi] Error in increasePostImpression for post", id, ":", err.response?.data || err.message);
     throw new Error(err.response?.data?.message || err.message);
   }
 }

@@ -31,7 +31,7 @@ export const getInteractionByUserId = asyncHandler(
       .sort({ createdAt: -1 })
       .populate({
         path: "postId",
-        select: "mediaUrl mediaType caption altText userId createdAt",
+        select: "mediaUrl mediaType caption altText userId counts createdAt",
         populate: { path: "userId", select: "username profileImage" },
       });
 
@@ -67,6 +67,10 @@ export const addInteraction = asyncHandler(
   async (req, res) => {
     const userId = req.user.userId;
     const { postId, action } = req.body;
+
+    if (!["spark", "archive", "reshare"].includes(action)) {
+      return res.status(400).json({ message: "Invalid interaction action" });
+    }
 
     const existingInteraction = await interaction.findOne({
       userId,

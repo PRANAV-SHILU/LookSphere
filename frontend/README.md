@@ -53,12 +53,12 @@ The frontend is crafted with React 19 and Vite for a lightning-fast development 
 
 1. **Secure Signup:** Your password is encrypted with 12 salt rounds before hitting our database.
 2. **Upload Media:** Share images or videos with custom captions and alt-text for accessibility.
-3. **Discover & Engage:** Explore the Feed, search for specific users, open dedicated post URLs (`/posts/:id`), and see your view counts grow.
+3. **Discover & Engage:** Explore the Feed, search for specific users, open dedicated post URLs (`/posts/:id`), and see your impression counts grow.
 4. **Get Support:** Submit inquiries or feedback directly through the Contact Us desk (`/contact-us`). You will receive admin responses directly on your My Inquiries page (`/my-inquiries`) and get notified via email.
 
 ## 🎯 What You Can Do
 
-- **Post & Share:** Express yourself! Upload photos & media, write captions & stories, add alt text for accessibility, share direct post links, reach a global audience, and see real-time post view counts.
+- **Post & Share:** Express yourself! Upload photos & media, write captions & stories, add alt text for accessibility, share direct post links, reach a global audience, and see real-time post impression counts.
 - **Explore & Discover:** Never miss a thing. Browse a global post feed, use smart search & filters, discover new creators, and get curated recommendations.
 - **Support & Inquiries:** Reach out directly through the interactive Contact Us form (`/contact-us`), attach screenshots or video clips, track submitted requests under My Inquiries (`/my-inquiries`), receive official admin response messages, and receive email notifications.
 - **Secure Profile:** Keep your data protected. Manage your profile, enjoy JWT stateless sessions, bcrypt password hashing, securely change and reset your password, and profile view tracking.

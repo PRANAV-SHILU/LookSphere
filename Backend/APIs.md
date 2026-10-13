@@ -1,4 +1,4 @@
-<div align="right">Last Modified: 1-Sep-2026</div>
+<div align="right">Last Modified: 11-Oct-2026</div>
 
 
 # LookSphere — API Documentation
@@ -55,12 +55,12 @@ Fetch all non-admin users sorted by profile views
 ### GET /users/profile
 Get the logged-in user's own full profile with posts
 - **Auth:** Required
-- **Response:** `200` `{ message, data: { user, images, videos } }` | `401` | `500`
+- **Response:** `200` `{ message, data: { user, images, videos } }` (includes `totalPostImpressions` and `profileViewCount`) | `401` | `500`
 
 ### GET /users/profile/:username
 Get a public user's profile by username
 - **Auth:** Optional
-- **Response:** `200` `{ message, data: { user, images, videos } }` | `404` | `500`
+- **Response:** `200` `{ message, data: { user, images, videos } }` (includes `totalPostImpressions` and `profileViewCount`) | `404` | `500`
 
 ### PATCH /users/profile
 Update the logged-in user's profile details or avatar
@@ -69,13 +69,30 @@ Update the logged-in user's profile details or avatar
 - **Fields:** `username, email, tagline, bio, profileImage` (all optional)
 - **Response:** `200` `{ message, data }` | `400` | `401` | `404` | `500`
 
+### PATCH /users/change-password
+Change the logged-in user's password
+- **Auth:** Required
+- **Body:** `{ oldPassword, newPassword }` (min 6 chars, required)
+- **Response:** `200` `{ success: true, message: "Password changed successfully" }` | `400` | `401` | `404` | `500`
+
+### PATCH /users/change-email
+Update the logged-in user's registered email address with password verification
+- **Auth:** Required
+- **Body:** `{ newEmail, password }` (valid email, required)
+- **Response:** `200` `{ success: true, message: "Email updated successfully." }` | `400` | `401` | `404` | `500`
+
 ---
 
 ## Posts
 
 ### GET /posts
 Fetch all posts for the feed sorted by newest first
-- **Response:** `200` `{ message, data }` | `500`
+- **Response:** `200` `{ message, data }` (each post includes `counts: { spark, archive, reshare, comment, impression }`) | `500`
+
+### GET /posts/:id
+Fetch single post by ID
+- **Auth:** Optional
+- **Response:** `200` `{ message, data }` (includes `counts: { spark, archive, reshare, comment, impression }`) | `404` | `500`
 
 ### POST /posts
 Upload and create a new media post
@@ -84,8 +101,8 @@ Upload and create a new media post
 - **Fields:** `media` (required file), `mediaType`, `altText`, `caption`
 - **Response:** `201` `{ message, post }` | `400` | `401` | `500`
 
-### PATCH /posts/:id/increment-view
-Increment a post's view count by one
+### PATCH /posts/:id/increment-impression
+Increment a post's impression count by one
 - **Response:** `200` `{ message, data }` | `404` | `500`
 
 ### PATCH /posts/:id
@@ -93,6 +110,36 @@ Edit a post's caption or alt text
 - **Auth:** Required
 - **Body:** `{ caption, altText }` (optional)
 - **Response:** `200` `{ message, data }` | `401` | `403` | `404` | `500`
+
+---
+
+## Interactions
+
+Manages user engagement actions on posts including sparks (likes), archives (bookmarks), and reshares.
+
+### POST /interaction
+Toggle a post interaction. If the user already performed this action on the post, it is removed and the post counter is decremented; otherwise, it is created and the counter is incremented.
+- **Auth:** Required
+- **Body:**
+  - `postId` (string / ObjectId, required)
+  - `action` (`"spark"` | `"archive"` | `"reshare"`, required)
+- **Response:**
+  - `201` `{ success: true, action: "added" }`
+  - `200` `{ success: true, action: "removed" }` | `400` | `401` | `500`
+
+### GET /interaction/user/:userId
+Get all post interactions performed by a specific user (used for profile tabs). Reshares are public; sparks and archives are private and only viewable by the account owner.
+- **Auth:** Optional for public actions; Required when requesting private actions (`spark` or `archive`)
+- **Query Params:**
+  - `action` (`"spark"` | `"archive"` | `"reshare"`, required)
+- **Response:** `200` `{ success: true, total: number, data: [...] }` | `401` | `403` | `500`
+
+### GET /interaction/post/:postId
+Get all interactions and user details for a specific post.
+- **Auth:** None (Public)
+- **Query Params:**
+  - `action` (`"spark"` | `"archive"` | `"reshare"`, optional)
+- **Response:** `200` `{ success: true, total: number, data: [...] }` | `500`
 
 ---
 

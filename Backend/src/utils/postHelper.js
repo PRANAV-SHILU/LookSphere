@@ -32,15 +32,16 @@ export const enrichPostsWithInteractions = async (posts, currentUserId) => {
     return {
       ...postObj,
       counts: {
-        spark: postObj.counts?.spark || 0,
-        archive: postObj.counts?.archive || 0,
-        reshare: postObj.counts?.reshare || 0,
-        comment: postObj.counts?.comment || 0,
+        spark: postObj.counts?.spark ?? 0,
+        archive: postObj.counts?.archive ?? 0,
+        reshare: postObj.counts?.reshare ?? 0,
+        comment: postObj.counts?.comment ?? 0,
+        impression: postObj.counts?.impression ?? 0,
       },
       has: {
-        sparked: Boolean(userActions.spark),
-        archived: Boolean(userActions.archive),
-        reshared: Boolean(userActions.reshare),
+        sparked: Boolean(userActions.spark) ?? false,
+        archived: Boolean(userActions.archive) ?? false,
+        reshared: Boolean(userActions.reshare) ?? false,
       },
     };
   });

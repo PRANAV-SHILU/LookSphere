@@ -2,7 +2,7 @@ import express from "express";
 import {
   createPost,
   getFeed,
-  increasePostView,
+  increasePostImpression,
   editPost,
   getPostById,
 } from "../controllers/post.controller.js";
@@ -19,8 +19,8 @@ const postRoutes = express.Router();
 // get single post
 postRoutes.get("/:id", verifyTokenOptional, getPostById);
 
-// increase post view count
-postRoutes.patch("/:id/increment-view", increasePostView);
+// increase post impression count
+postRoutes.patch("/:id/increment-impression", increasePostImpression);
 
 // get all posts from all users - for feed
 postRoutes.get("/", verifyTokenOptional, getFeed);

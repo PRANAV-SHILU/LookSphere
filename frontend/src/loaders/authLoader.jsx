@@ -21,7 +21,11 @@ export async function authLoader({ request }) {
 
     const path = url.pathname || "/";
 
-    if (!user && !publicRoutes.includes(path)) {
+    const isPublicRoute =
+      publicRoutes.includes(path) ||
+      path.startsWith("/posts/");
+
+    if (!user && !isPublicRoute) {
       return redirect("/login");
     }
 

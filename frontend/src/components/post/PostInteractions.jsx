@@ -7,6 +7,8 @@ import {
   Link2,
   Check,
   Maximize2,
+  Eye,
+  Clock,
 } from "lucide-react";
 import { toast } from "react-toastify";
 import { interactionService } from "../../services/interactionService";
@@ -27,8 +29,28 @@ const PostInteractions = ({ post, onMaximize }) => {
     archived: Boolean(post?.has?.archived),
   });
 
+  const impressionCount = post?.counts?.impression ?? 0;
+  const postDate = post?.createdAt
+    ? new Date(post.createdAt).toLocaleString(undefined, {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      })
+    : "";
+
   // Local state toggle function with promise-based API call (no await, no rollback)
   const handleInteraction = (action) => {
+    const token = localStorage.getItem("jwtToken");
+    const storedUser = localStorage.getItem("user");
+
+    if (!token || !storedUser) {
+      toast.info("You need to log in to interact with posts.");
+      return;
+    }
+
     const actionConfig = {
       spark: { stateKey: "sparked", countKey: "spark" },
       sparked: { stateKey: "sparked", countKey: "spark" },
@@ -57,7 +79,7 @@ const PostInteractions = ({ post, onMaximize }) => {
     }));
 
     // Promise-based API call without async/await or rollback
-    const postId = post?._id || post?.id;
+    const postId = post?._id;
     if (postId) {
       const apiAction =
         action === "sparked"
@@ -68,17 +90,17 @@ const PostInteractions = ({ post, onMaximize }) => {
               ? "archive"
               : action;
 
-      interactionService.toggleInteraction(postId, apiAction).catch(() => {});
+      interactionService.toggleInteraction(postId, apiAction).catch(() => { });
     }
   };
 
   return (
-    <div className="w-full flex items-center justify-between pt-2">
+    <div className="w-full flex flex-col gap-2.5">
+      <div className="w-full flex items-center justify-between pt-2">
       {/* Left side: Spark, Comment, Reshare */}
       <div
-        className={`flex items-center xsm:gap-6 ${
-          counts.spark > 0 || counts.reshare > 0 ? "gap-3" : "gap-5"
-        }`}
+        className={`flex items-center xsm:gap-6 ${counts.spark > 0 || counts.reshare > 0 ? "gap-3" : "gap-5"
+          }`}
       >
         {/* Spark */}
         <button
@@ -89,36 +111,34 @@ const PostInteractions = ({ post, onMaximize }) => {
             <Sparkles
               size={22}
               fill={has.sparked ? "currentColor" : "none"}
-              className={`transition-all duration-500 ease-in-out ${
-                has.sparked
+              className={`transition-all duration-500 ease-in-out ${has.sparked
                   ? "text-yellow-400 scale-110"
                   : "text-(--text-muted) scale-100 group-hover:text-yellow-400"
-              }`}
+                }`}
             />
             {counts.spark > 0 && (
               <span
-                className={`text-[13px] font-medium transition-colors duration-500 ease-in-out ${
-                  has.sparked
+                className={`text-[13px] font-medium transition-colors duration-500 ease-in-out ${has.sparked
                     ? "text-yellow-400"
                     : "text-(--text-muted) group-hover:text-yellow-400"
-                }`}
+                  }`}
               >
                 {counts.spark}
               </span>
             )}
           </div>
           <span
-            className={`hidden xsm:inline text-[10px] font-medium transition-colors duration-500 ease-in-out ${
-              has.sparked
+            className={`hidden xsm:inline text-[10px] font-medium transition-colors duration-500 ease-in-out ${has.sparked
                 ? "text-yellow-400"
                 : "text-(--text-muted) group-hover:text-yellow-400"
-            }`}
+              }`}
           >
             Spark
           </span>
         </button>
 
         {/* Comment */}
+        {/* 
         <button className="flex flex-col items-center gap-1 bg-transparent border-none cursor-pointer group active:scale-90 transition-transform duration-200">
           <div className="flex items-center gap-0.5 xsm:gap-1.5">
             <MessageCircle
@@ -135,6 +155,7 @@ const PostInteractions = ({ post, onMaximize }) => {
             Comment
           </span>
         </button>
+        */}
 
         {/* Reshare */}
         <button
@@ -144,39 +165,33 @@ const PostInteractions = ({ post, onMaximize }) => {
           <div className="flex items-center gap-0.5 xsm:gap-1.5">
             <Repeat2
               size={22}
-              className={`transition-all duration-500 ease-in-out ${
-                has.reshared
+              className={`transition-all duration-500 ease-in-out ${has.reshared
                   ? "text-blue-400 scale-110 rotate-180"
                   : "text-(--text-muted) scale-100 rotate-0 group-hover:text-blue-400"
-              }`}
+                }`}
             />
             {counts.reshare > 0 && (
               <span
-                className={`text-[13px] font-medium transition-colors duration-500 ease-in-out ${
-                  has.reshared
+                className={`text-[13px] font-medium transition-colors duration-500 ease-in-out ${has.reshared
                     ? "text-blue-400"
                     : "text-(--text-muted) group-hover:text-blue-400"
-                }`}
+                  }`}
               >
                 {counts.reshare}
               </span>
             )}
           </div>
           <span
-            className={`hidden xsm:inline text-[10px] font-medium transition-colors duration-500 ease-in-out ${
-              has.reshared
+            className={`hidden xsm:inline text-[10px] font-medium transition-colors duration-500 ease-in-out ${has.reshared
                 ? "text-blue-400"
                 : "text-(--text-muted) group-hover:text-blue-400"
-            }`}
+              }`}
           >
             Reshare
           </span>
         </button>
-      </div>
 
-      {/* Right side: Share & Archive */}
-      <div className="flex items-center gap-3 xsm:gap-6">
-        {/* Share (Copy Link) */}
+            {/* Share (Copy Link) */}
         <button
           className="flex flex-col items-center gap-1 bg-transparent border-none cursor-pointer group active:scale-90 transition-transform duration-200"
           onClick={() => {
@@ -203,15 +218,20 @@ const PostInteractions = ({ post, onMaximize }) => {
             )}
           </div>
           <span
-            className={`hidden xsm:inline text-[10px] font-medium transition-colors duration-300 ${
-              isCopied
+            className={`hidden xsm:inline text-[10px] font-medium transition-colors duration-300 ${isCopied
                 ? "text-green-500"
                 : "text-(--text-muted) group-hover:text-blue-400"
-            }`}
+              }`}
           >
             {isCopied ? "Copied" : "Share"}
           </span>
         </button>
+        
+      </div>
+
+      {/* Right side: Share & Archive */}
+      <div className="flex items-center gap-3 xsm:gap-6">
+    
 
         {/* Maximize */}
         {onMaximize && (
@@ -241,34 +261,54 @@ const PostInteractions = ({ post, onMaximize }) => {
             <Bookmark
               size={22}
               fill={has.archived ? "currentColor" : "none"}
-              className={`transition-all duration-500 ease-in-out ${
-                has.archived
+              className={`transition-all duration-500 ease-in-out ${has.archived
                   ? "text-emerald-400 scale-110"
                   : "text-(--text-muted) scale-100 group-hover:text-emerald-400"
-              }`}
+                }`}
             />
             {counts.archive > 0 && (
               <span
-                className={`text-[13px] font-medium transition-colors duration-500 ease-in-out ${
-                  has.archived
+                className={`text-[13px] font-medium transition-colors duration-500 ease-in-out ${has.archived
                     ? "text-emerald-400"
                     : "text-(--text-muted) group-hover:text-emerald-400"
-                }`}
+                  }`}
               >
                 {counts.archive}
               </span>
             )}
           </div>
           <span
-            className={`hidden xsm:inline text-[10px] font-medium transition-colors duration-500 ease-in-out ${
-              has.archived
+            className={`hidden xsm:inline text-[10px] font-medium transition-colors duration-500 ease-in-out ${has.archived
                 ? "text-emerald-400"
                 : "text-(--text-muted) group-hover:text-emerald-400"
-            }`}
+              }`}
           >
             Archive
           </span>
         </button>
+      </div>
+    </div>
+
+      {/* Impressions & Created Date */}
+      <div
+        className="flex items-center justify-between text-xs"
+        style={{ color: "var(--text-muted)" }}
+      >
+        <div className="font-medium flex items-center gap-1">
+          <Eye size={13} />
+          <span>
+            {impressionCount} {impressionCount === 1 ? "impression" : "impressions"}
+          </span>
+        </div>
+        {postDate && (
+          <div
+            className="items-center gap-1.5 text-xs flex"
+            style={{ color: "var(--text-muted)" }}
+          >
+            <Clock size={12} />
+            <span>{postDate}</span>
+          </div>
+        )}
       </div>
     </div>
   );

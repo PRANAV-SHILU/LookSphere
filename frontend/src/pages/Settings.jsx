@@ -44,7 +44,7 @@ const SETTINGS_SECTIONS = [
         icon: Lock,
       },
     ],
-  },
+  }, 
   {
     key: "privacy",
     label: "Privacy & Security",

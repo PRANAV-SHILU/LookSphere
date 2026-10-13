@@ -614,7 +614,7 @@ a:hover {
   margin: 0;
 }
 
-.post-detail-views {
+.post-detail-impressions {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -624,7 +624,7 @@ a:hover {
   margin-bottom: 8px;
 }
 
-.post-detail-views + p {
+.post-detail-impressions + p {
   padding-top: 8px;
   border-top: 1px solid var(--border-light);
 }

@@ -44,7 +44,7 @@ export const getMatrics = asyncHandler("getMatrics", async (req, res) => {
   // Latest posts — created in the last 7 days
   const latestPosts = await Post.find(
     { createdAt: { $gte: sevenDaysAgo } },
-    "userId mediaUrl mediaType caption postViewCount createdAt altText",
+    "userId mediaUrl mediaType caption counts createdAt altText",
   )
     .sort({ createdAt: -1 })
     .populate("userId", "username profileImage")

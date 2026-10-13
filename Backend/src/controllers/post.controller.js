@@ -82,20 +82,24 @@ export const createPost = asyncHandler("createPost", async (req, res) => {
   });
 });
 
-export const increasePostView = asyncHandler(
-  "increasePostView",
+export const increasePostImpression = asyncHandler(
+  "increasePostImpression",
   async (req, res) => {
     const { id } = req.params;
     const post = await Post.findByIdAndUpdate(
       id,
-      { $inc: { postViewCount: 1 } },
+      {
+        $inc: {
+          "counts.impression": 1,
+        },
+      },
       { returnDocument: "after" },
-    );
+    ).populate("userId", "username profileImage");
 
     if (!post) return res.status(404).json({ message: "Post not found" });
 
     return res.status(200).json({
-      message: "Post view increased successfully",
+      message: "Post impression increased successfully",
       data: post,
     });
   },

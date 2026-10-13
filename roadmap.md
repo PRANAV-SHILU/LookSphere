@@ -23,7 +23,7 @@ LookSphere is continuously evolving. Here is a breakdown of upcoming features an
 - Spotlights (Short video feed)
 - Background optimistic operations (non-blocking global UI for media uploads & post edits, edit profile)
 - Text-based posts feed (similar to Twitter)
-- Leaderboard (Top posts by views, top creators, most viewed profiles)
+- Leaderboard (Top posts by impressions, top creators, most viewed profiles)
 - Save posts functionality (view saved posts in profile)
 - Live Activity feed
 - Implement post/user deletion functionality (complete removal from DB and Cloudinary)

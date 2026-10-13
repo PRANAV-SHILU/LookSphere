@@ -5,7 +5,6 @@ import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import FeedSkeleton from "../skeletons/FeedSkeleton";
 import {
   User,
-  Eye,
   Clock,
   Video,
   Image as ImageIcon,
@@ -21,7 +20,7 @@ import {
 } from "lucide-react";
 import BackButton from "../shared-components/BackButton";
 import PostInteractions from "../components/post/PostInteractions";
-import { trackPostView } from "../services/postService";
+import { trackPostImpression } from "../services/postService";
 import PostDetailModal from "../modals/PostDetailModal";
 import { getVideoPosterUrl } from "../utils/cloudinaryOptimizer";
 // Sub-component for each feed post to fetch user details asynchronously
@@ -38,7 +37,7 @@ const FeedCard = React.memo(function FeedCard({
   const cardRef = useRef(null);
   const videoRef = useRef(null);
   const captionRef = useRef(null);
-  const hasTrackedView = useRef(false);
+  const hasTrackedImpression = useRef(false);
   const isVideo = post.mediaType === "Video";
   const [isCaptionExpanded, setIsCaptionExpanded] = useState(false);
   const [showViewMore, setShowViewMore] = useState(false);
@@ -62,10 +61,12 @@ const FeedCard = React.memo(function FeedCard({
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          // Increment view count exactly once
-          if (!isOwnPost && post._id && !hasTrackedView.current) {
-            trackPostView(post._id).catch(() => { });
-            hasTrackedView.current = true;
+          // Increment impression count exactly once
+          if (!isOwnPost && post._id && !hasTrackedImpression.current) {
+            trackPostImpression(post._id).catch((err) => {
+              console.error("[Feed] Error tracking post impression:", err);
+            });
+            hasTrackedImpression.current = true;
           }
           // Notify parent this video is now in view
           if (isVideo && onVideoIntersect) {
@@ -257,26 +258,6 @@ const FeedCard = React.memo(function FeedCard({
       {/* Footer: Details */}
       <div className="p-4 flex flex-col gap-2.5">
         <PostInteractions key={post._id} post={post} onMaximize={() => onPostClick(post)} />
-
-        <div style={{ alignItems: 'center', display: 'flex', justifyContent: 'space-between' }}>
-
-          <div
-            className="flex items-center text-xs flex-wrap gap-3"
-            style={{ color: "var(--text-muted)" }}
-          >
-            <span className="font-medium flex items-center gap-1">
-              <Eye size={13} />
-              {post.postViewCount || 0} views
-            </span>
-          </div>
-          <div
-            className="items-center gap-1.5 text-xs flex"
-            style={{ color: "var(--text-muted)" }}
-          >
-            <Clock size={12} />
-            <span>{postDate}</span>
-          </div>
-        </div>
 
         {post.caption && (
           <div className="flex flex-col">
@@ -615,6 +596,7 @@ export default function Feed() {
         </button>
       )}
       <PostDetailModal
+        key={selectedPost?._id}
         isOpen={!!selectedPost}
         onClose={() => setSelectedPost(null)}
         post={selectedPost}

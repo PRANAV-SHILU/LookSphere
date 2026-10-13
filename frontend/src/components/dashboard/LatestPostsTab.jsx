@@ -2,7 +2,7 @@ import React, { useState, useRef, memo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Eye, User } from "lucide-react";
 import PostDetailModal from "../../modals/PostDetailModal";
-import { trackPostView } from "../../services/postService";
+import { trackPostImpression } from "../../services/postService";
 import { getVideoPosterUrl } from "../../utils/cloudinaryOptimizer";
 
 const DashboardVideoCard = memo(function DashboardVideoCard({ post }) {
@@ -72,23 +72,37 @@ export default function LatestPostsTab({ latestPosts: initialPosts, now }) {
   const [selectedPost, setSelectedPost] = useState(null);
   const [hoveredPostUser, setHoveredPostUser] = useState(null);
 
-  const handlePostClick = async (post) => {
-    setSelectedPost(post);
+  const handlePostClick = (post) => {
+    // Open modal with incremented impression count instantly
+    const optimisticPost = {
+      ...post,
+      counts: {
+        ...post.counts,
+        impression: (post.counts?.impression ?? 0) + 1,
+      },
+    };
+    setSelectedPost(optimisticPost);
 
     if (post._id) {
-      try {
-        await trackPostView(post._id);
-        // Increment the view count in local state so the UI updates instantly
-        setPosts((prevPosts) =>
-          prevPosts.map((p) =>
-            p._id === post._id
-              ? { ...p, postViewCount: (p.postViewCount || 0) + 1 }
-              : p
-          )
-        );
-      } catch (err) {
-        console.error("Failed to track post view:", err);
-      }
+      // Increment the impression count in local list state immediately
+      setPosts((prevPosts) =>
+        prevPosts.map((p) =>
+          p._id === post._id
+            ? {
+                ...p,
+                counts: {
+                  ...p.counts,
+                  impression: (p.counts?.impression ?? 0) + 1,
+                },
+              }
+            : p
+        )
+      );
+
+      // Fire async impression tracking in background without awaiting
+      trackPostImpression(post._id).catch((err) => {
+        console.error("Failed to track post impression:", err);
+      });
     }
   };
 
@@ -187,7 +201,7 @@ export default function LatestPostsTab({ latestPosts: initialPosts, now }) {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1 text-xs" style={{ color: "var(--text-muted)" }}>
                     <Eye size={12} />
-                    {post.postViewCount || 0}
+                    {post.counts?.impression ?? 0}
                   </div>
                   <span className="text-xs" style={{ color: "var(--text-muted)" }}>
                     {formatTimeAgo(post.createdAt, now)}
@@ -201,6 +215,7 @@ export default function LatestPostsTab({ latestPosts: initialPosts, now }) {
 
       {selectedPost && (
         <PostDetailModal
+          key={selectedPost._id}
           isOpen={!!selectedPost}
           onClose={() => setSelectedPost(null)}
           post={selectedPost}

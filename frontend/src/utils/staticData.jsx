@@ -107,7 +107,7 @@ export const capabilities = [
       "Write captions & stories",
       "Add alt text for accessibility",
       "Reach a global audience",
-      "Real-time post view counts",
+      "Real-time post impression counts",
     ],
   },
   {
@@ -255,7 +255,7 @@ export const fakePosts = [
     avatarColors: "from-blue-400 to-purple-500",
     mediaColors: "from-blue-500/20 to-purple-500/20",
     mediaType: "Image",
-    views: "128",
+    impressions: "128",
     date: "Oct 24, 10:30 AM",
     caption:
       "Just captured this amazing sunset over the city skyline. The colors are incredible! 🌇✨",
@@ -268,7 +268,7 @@ export const fakePosts = [
     avatarColors: "from-emerald-400 to-cyan-500",
     mediaColors: "from-emerald-500/20 to-cyan-500/20",
     mediaType: "Video",
-    views: "2,451",
+    impressions: "2,451",
     date: "Oct 24, 02:15 PM",
     caption:
       "A quick vlog from today's hiking adventure. Nature is simply the best therapy. 🌲🏔️",
@@ -281,7 +281,7 @@ export const fakePosts = [
     avatarColors: "from-orange-400 to-rose-500",
     mediaColors: "from-orange-500/20 to-rose-500/20",
     mediaType: "Video",
-    views: "89",
+    impressions: "89",
     date: "Oct 23, 08:45 PM",
     caption:
       "First time trying out this new recipe. It turned out absolutely delicious! 🍳🥗",
@@ -294,7 +294,7 @@ export const fakePosts = [
     avatarColors: "from-violet-400 to-fuchsia-500",
     mediaColors: "from-violet-500/20 to-fuchsia-500/20",
     mediaType: "Image",
-    views: "512",
+    impressions: "512",
     date: "Oct 23, 11:12 AM",
     caption: "Coffee breaks are mandatory for survival. Who agrees? ☕💻",
     rotation: 1,

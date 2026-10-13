@@ -24,7 +24,7 @@ import {
 } from "lucide-react";
 import BackButton from "../shared-components/BackButton";
 import PostDetailModal from "../modals/PostDetailModal";
-import { trackPostView } from "../services/postService";
+import { trackPostImpression } from "../services/postService";
 import ExploreSkeleton from "../skeletons/ExploreSkeleton";
 
 import {
@@ -241,17 +241,19 @@ function ExploreContent({ posts, total, setSelectedPost }) {
     };
   }, [searchQuery, searchParams, setSearchParams]);
 
-  const handlePostClick = async (post) => {
+  const handlePostClick = (post) => {
     if (post._id) {
-      const updatedPost = await trackPostView(post._id).catch(() => {});
-      if (updatedPost) {
-        setSelectedPost({
-          ...post,
-          postViewCount: updatedPost.postViewCount,
-        });
-      } else {
-        setSelectedPost(post);
-      }
+      // Optimistically update impression count locally and open modal immediately
+      setSelectedPost({
+        ...post,
+        counts: {
+          ...post.counts,
+          impression: (post.counts?.impression ?? 0) + 1,
+        },
+      });
+
+      // Passive fire-and-forget impression tracking in background
+      trackPostImpression(post._id).catch(() => {});
     } else {
       setSelectedPost(post);
     }
@@ -449,6 +451,7 @@ export default function Explore() {
       </Suspense>
 
       <PostDetailModal
+        key={selectedPost?._id}
         isOpen={!!selectedPost}
         onClose={() => setSelectedPost(null)}
         post={selectedPost}

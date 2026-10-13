@@ -2,17 +2,14 @@ import { useState, useEffect, useRef, useMemo } from "react";
 import {
   X,
   Info,
-  Eye,
   MoreVertical,
   User as UserIcon,
-  Link2,
-  Check,
-  Clock,
 } from "lucide-react";
 import { modifyPost } from "../services/postService";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { postSchema } from "../schema/postSchema";
+import PostInteractions from "../components/post/PostInteractions";
 
 export default function PostDetailModal({
   isOpen,
@@ -28,7 +25,6 @@ export default function PostDetailModal({
   const [isLoaded, setIsLoaded] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [isCopied, setIsCopied] = useState(false);
   const [editCaption, setEditCaption] = useState("");
   const [editAltText, setEditAltText] = useState("");
   const [isSaving, setIsSaving] = useState(false);
@@ -48,15 +44,21 @@ export default function PostDetailModal({
   const storedUser = localStorage.getItem("user");
   const currentUser = storedUser ? JSON.parse(storedUser) : null;
   const postAuthor = useMemo(() => {
-    return post?.userId &&
-      typeof post.userId === "object" &&
-      post.userId.username
-      ? post.userId
-      : profileUser
-        ? profileUser
-        : post?.userId
-          ? { _id: post.userId, username: "Unknown User", profileImage: null }
-          : null;
+    if (post?.userId && typeof post.userId === "object" && post.userId.username) {
+      return post.userId;
+    }
+    if (post?.author && typeof post.author === "object" && post.author.username) {
+      return post.author;
+    }
+    if (post?.user && typeof post.user === "object" && post.user.username) {
+      return post.user;
+    }
+    if (profileUser) {
+      return profileUser;
+    }
+    return post?.userId
+      ? { _id: post.userId, username: "Unknown User", profileImage: null }
+      : null;
   }, [post, profileUser]);
   const isOwner =
     post &&
@@ -65,6 +67,7 @@ export default function PostDetailModal({
 
   const [displayCaption, setDisplayCaption] = useState("");
   const [displayAltText, setDisplayAltText] = useState("");
+  const impressionCount = post?.counts?.impression;
 
   // Reset state when post changes (ref-based, no setState in effect)
   const postUrl = post?.mediaUrl ?? null;
@@ -215,7 +218,7 @@ export default function PostDetailModal({
                 style={{
                   position: "absolute",
                   top: "-40px",
-                  right: "84px",
+                  right: "42px",
                   zIndex: 10,
                 }}
               >
@@ -387,39 +390,6 @@ export default function PostDetailModal({
               <X size={22} />
             </button>
 
-            {/* Share Button */}
-            <button
-              onClick={() => {
-                navigator.clipboard.writeText(
-                  `${window.location.origin}/posts/${post._id}`,
-                );
-                setIsCopied(true);
-                setTimeout(() => setIsCopied(false), 3000);
-              }}
-              className="post-detail-options-btn"
-              aria-label="Share"
-              style={{
-                position: "absolute",
-                top: "-40px",
-                right: "42px",
-                zIndex: 10,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                width: "36px",
-                height: "36px",
-                borderRadius: "50%",
-                border: "1px solid rgba(255, 255, 255, 0.15)",
-                background: "rgba(0, 0, 0, 0.5)",
-                color: isCopied ? "#22c55e" : "#fff",
-                cursor: "pointer",
-                transition: "all 0.2s ease",
-                backdropFilter: "blur(4px)",
-              }}
-            >
-              {isCopied ? <Check size={20} /> : <Link2 size={20} />}
-            </button>
-
             {/* Media Area */}
             <div
               className="post-detail-media-wrapper mt-0.5"
@@ -478,7 +448,7 @@ export default function PostDetailModal({
             </div>
 
             {/* Post Info Footer */}
-            {(isEditing || post.postViewCount != null || displayCaption) && (
+            {post && (
               <div
                 className="post-detail-caption"
                 style={{ width: "100%", maxWidth: "100%" }}
@@ -675,61 +645,18 @@ export default function PostDetailModal({
                     </div>
                   </div>
                 ) : (
-                  <>
-                    {post.postViewCount != null && (
-                      <div
-                        className="post-detail-views"
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                        }}
-                      >
-                        <div
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "2px",
-                          }}
-                        >
-                          <Eye size={16} />
-                          <span>
-                            {post.postViewCount}{" "}
-                            {post.postViewCount === 1 ? "view" : "views"}
-                          </span>
-                        </div>
-                        {post.createdAt && (
-                          <div
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: "2px",
-                              fontSize: "0.8rem",
-                              color: "var(--text-muted)",
-                            }}
-                          >
-                            <Clock size={12} />
-                            <span>
-                              {new Date(post.createdAt).toLocaleString(
-                                undefined,
-                                {
-                                  year: "numeric",
-                                  month: "short",
-                                  day: "numeric",
-                                  hour: "2-digit",
-                                  minute: "2-digit",
-                                  second: "2-digit",
-                                },
-                              )}
-                            </span>
-                          </div>
-                        )}
-                      </div>
-                    )}
+                  <div className="flex flex-col gap-2.5">
+                    <PostInteractions
+                      key={post?._id}
+                      post={{
+                        ...post,
+                        counts: { ...post?.counts, impression: impressionCount },
+                      }}
+                    />
                     {displayCaption && (
                       <p className="whitespace-pre-wrap">{displayCaption}</p>
                     )}
-                  </>
+                  </div>
                 )}
               </div>
             )}

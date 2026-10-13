@@ -36,7 +36,7 @@ This is the backend server for **LookSphere**, a modern social media application
 - **Secure Authentication:** JWT-based authentication using localStorage with Authorization header transmission to avoid third-party cookie blocking issues.
 - **Contact & Inquiries System:** Full-featured inquiry submission supporting category routing, multi-image and video attachments, inquiry tracking via My Inquiries (`/my-inquiries`), email updates, and an administrative moderation desk.
 - **Platform Analytics:** Comprehensive metrics and statistics for admin dashboards.
-- **Engagement Tracking:** Dynamic counters for profile views and post views.
+- **Engagement Tracking:** Dynamic counters for profile views and post impressions.
 - **Robust Validation:** Strict input validation to ensure data integrity before it reaches the database.
 
 ## 🚀 Tech Stack & Libraries
@@ -73,10 +73,11 @@ Security is a top priority for this API. The following protections are in place:
 
 ## 🗄️ Database Schema Design
 
-The database utilizes MongoDB and is centered around three core entities:
+The database utilizes MongoDB and is centered around four core entities:
 
 - **User Model:** Stores credentials (securely hashed), profile data (avatar, bio, tagline), roles, and dynamic statistics (total post count, profile views).
-- **Post Model:** References the `User` object, stores Cloudinary media URLs, specifies media types (Image/Video), and tracks engagement (post view counts).
+- **Post Model:** References the `User` object, stores Cloudinary media URLs, specifies media types (Image/Video), and tracks engagement (post impressions, sparks, reshares, archives).
+- **Interaction Model:** Tracks user interactions on posts (`spark`, `archive`, `reshare`) with atomic count synchronizations.
 - **Contact Model:** Stores user inquiries, category classifications (`general`, `feedback`, `suggestion`, `issue`, `security`, `inquiry`), Cloudinary attachment URLs (images and video), resolution status, and administrative responses.
 
 ## 📡 API Overview & Error Handling
@@ -84,8 +85,9 @@ The database utilizes MongoDB and is centered around three core entities:
 Here's a quick summary of the available resources. For full details, view the [APIs.md](APIs.md) file.
 
 - **Auth:** Register, login, and logout functionalities.
-- **Users:** Fetch user lists, manage profiles, and view user metrics.
-- **Posts:** Create, edit, fetch feeds, and increment view counts for media posts.
+- **Users:** Fetch user lists, manage profiles, change password/email, and view user metrics.
+- **Posts:** Create, edit, fetch feeds, and increment impression counts for media posts.
+- **Interactions:** Toggle sparks, archives, and reshares on posts, and fetch user- or post-specific interaction histories.
 - **Contact & Support:** Submit inquiries with attachments, deliver responses to the user's My Inquiries dashboard (`/my-inquiries`), send email updates, and manage/respond to inquiries via admin portal.
 - **Admin:** Fetch platform-wide analytics, user metrics, and contact statistics.
 

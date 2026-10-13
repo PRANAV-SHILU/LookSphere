@@ -27,15 +27,12 @@ const postSchema = new mongoose.Schema(
       maxlength: 500,
       default: "",
     },
-    postViewCount: {
-      type: Number,
-      default: 0,
-    },
     counts: {
       spark: { type: Number, default: 0 },
       archive: { type: Number, default: 0 },
       reshare: { type: Number, default: 0 },
       comment: { type: Number, default: 0 },
+      impression: { type: Number, default: 0 },
     },
   },
   {

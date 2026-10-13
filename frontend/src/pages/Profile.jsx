@@ -20,7 +20,7 @@ import {
 import BackButton from "../shared-components/BackButton";
 import UploadMediaModal from "../modals/UploadMediaModal";
 import PostDetailModal from "../modals/PostDetailModal";
-import { trackPostView } from "../services/postService";
+import { trackPostImpression } from "../services/postService";
 import {
   getOptimizedMediaUrl,
   getVideoPosterUrl,
@@ -141,7 +141,7 @@ function Bio({ bio, className }) {
 const ProfileStats = React.memo(function ProfileStats({
   postCount,
   profileViewCount,
-  totalPostViews,
+  totalPostImpressions,
   isMobile = false,
 }) {
   if (isMobile) {
@@ -174,13 +174,13 @@ const ProfileStats = React.memo(function ProfileStats({
         </div>
         <div className="flex flex-col items-center flex-1">
           <strong className="font-bold text-base sm:text-lg">
-            {totalPostViews || 0}
+            {totalPostImpressions || 0}
           </strong>
           <span
             className="text-xs mt-0.5"
             style={{ color: "var(--text-muted)" }}
           >
-            post views
+            post impressions
           </span>
         </div>
       </div>
@@ -200,8 +200,8 @@ const ProfileStats = React.memo(function ProfileStats({
         profile views
       </span>
       <span>
-        <strong className="font-semibold">{totalPostViews || 0}</strong> post
-        views
+        <strong className="font-semibold">{totalPostImpressions || 0}</strong>{" "}
+        {(totalPostImpressions || 0) === 1 ? "post impression" : "post impressions"}
       </span>
     </div>
   );
@@ -235,6 +235,7 @@ const ProfileEmptyState = React.memo(function ProfileEmptyState({
 });
 
 function ProfileContent({ data, username, submit }) {
+  console.log("Profile",data);
   const profileDataObj = data?.data || data || {};
   const { user, images = [], videos = [] } = profileDataObj;
 
@@ -276,10 +277,19 @@ function ProfileContent({ data, username, submit }) {
     setIsModalOpen(false);
   };
 
-  const handlePostClick = async (post) => {
+  const handlePostClick = (post) => {
     if (!isOwnProfile && post._id) {
-      const updatedPost = await trackPostView(post._id).catch(() => {});
-      setSelectedPost(updatedPost || post);
+      // Optimistically update impression count locally so modal opens instantly
+      setSelectedPost({
+        ...post,
+        counts: {
+          ...post.counts,
+          impression: (post.counts?.impression ?? 0) + 1,
+        },
+      });
+
+      // Passive fire-and-forget impression tracking in background
+      trackPostImpression(post._id).catch(() => {});
     } else {
       setSelectedPost(post);
     }
@@ -434,7 +444,7 @@ function ProfileContent({ data, username, submit }) {
               <ProfileStats
                 postCount={user.postCount}
                 profileViewCount={user.profileViewCount}
-                totalPostViews={user.totalPostViews}
+                totalPostImpressions={user.totalPostImpressions || 0}
               />
 
               <Bio
@@ -447,7 +457,7 @@ function ProfileContent({ data, username, submit }) {
           <ProfileStats
             postCount={user.postCount}
             profileViewCount={user.profileViewCount}
-            totalPostViews={user.totalPostViews}
+            totalPostImpressions={user.totalPostImpressions || 0}
             isMobile={true}
           />
 
@@ -657,6 +667,7 @@ function ProfileContent({ data, username, submit }) {
         )}
 
         <PostDetailModal
+          key={selectedPost?._id}
           isOpen={!!selectedPost}
           onClose={() => setSelectedPost(null)}
           post={selectedPost}

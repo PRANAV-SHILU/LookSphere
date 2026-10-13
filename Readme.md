@@ -78,7 +78,7 @@ Explore the detailed documentation for different parts of the project:
 ## ✨ Key Features
 
 - **Global Community:** Share passions, discover new interests, and explore a global feed of content.
-- **Dedicated Post View & URL Sharing:** Standalone post view pages (`/posts/:id`) with full descriptions, alt-text accessibility, and direct link copying.
+- **Dedicated Post Page & URL Sharing:** Standalone post pages (`/posts/:id`) with full descriptions, alt-text accessibility, impression tracking, and direct link copying.
 - **Robust Security:** Passwords hashed via `bcrypt` (12 salt rounds), JWT stateless sessions (JWT Auth Token + Auth Header for CSRF/cross-origin safety), and strict CORS policies.
 - **Rich Media Handling:** Upload images and videos directly. Media is optimized and stored efficiently using Multer and Cloudinary.
 - **Support & Inquiries Portal:** Comprehensive Contact Us desk (`/contact-us`) with categorized feedback and multi-media attachments. Users can track real-time admin responses in the My Inquiries page (`/my-inquiries`) and also receive updates via email.

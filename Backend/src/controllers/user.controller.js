@@ -77,11 +77,18 @@ export const getProfile = asyncHandler("getProfile", async (req, res) => {
     createdAt: -1,
   });
 
-  const [viewCountResult] = await Post.aggregate([
+  const [impressionResult] = await Post.aggregate([
     { $match: { userId: user._id } },
-    { $group: { _id: null, totalViews: { $sum: "$postViewCount" } } },
+    {
+      $group: {
+        _id: null,
+        totalImpressions: {
+          $sum: "$counts.impression",
+        },
+      },
+    },
   ]);
-  user.totalPostViews = viewCountResult?.totalViews || 0;
+  user.totalPostImpressions = impressionResult?.totalImpressions || 0;
 
   const currentUserId = req.user?.userId;
   const enrichedImages = await enrichPostsWithInteractions(images, currentUserId);

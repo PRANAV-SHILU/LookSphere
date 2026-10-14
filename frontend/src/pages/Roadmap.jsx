@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
-import { ROADMAP_CATEGORIES, COMPLETED_FEATURES } from "../utils/roadmapData";
+import { ROADMAP_CATEGORIES, COMPLETED_FEATURES, LAST_UPDATED } from "../utils/roadmapData";
 import { GLASS_SHADOW } from "../utils/styles";
 import { HeroBackground, CardGlow } from "../shared-components/SharedHomeComponents";
 import BackButton from "../shared-components/BackButton";
@@ -25,12 +25,15 @@ export default function Roadmap() {
         </div>
 
         {/* Title */}
-        <div className="text-center mb-12 md:mb-20">
+        <div className="text-center mb-12 md:mb-18 flex flex-col items-center">
           <h1 className="text-3xl xsm:text-4xl sm:text-5xl md:text-6xl font-extrabold mb-4 tracking-tight text-(--text-primary)">
             What's Coming <span className="hero-text drop-shadow-md">Next</span>
           </h1>
           <p className="text-base sm:text-lg md:text-xl text-(--text-secondary) max-w-2xl mx-auto leading-relaxed">
             LookSphere is continuously evolving. Explore our future plans, upcoming features, and core infrastructure improvements.
+          </p>
+          <p className="text-[10px] sm:text-xs font-semibold mt-6 uppercase tracking-wider px-3 py-1 rounded-full border border-blue-500/20 bg-blue-500/10 text-blue-600 dark:text-blue-400">
+            Last Updated: {LAST_UPDATED}
           </p>
         </div>
 

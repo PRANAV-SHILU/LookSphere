@@ -25,6 +25,10 @@ import {
   getOptimizedMediaUrl,
   getVideoPosterUrl,
 } from "../utils/cloudinaryOptimizer";
+import {
+  syncPostInteraction,
+  applyPostInteraction,
+} from "../utils/interactionUtils";
 
 const ProfileVideoCard = React.memo(function ProfileVideoCard({
   post,
@@ -201,7 +205,9 @@ const ProfileStats = React.memo(function ProfileStats({
       </span>
       <span>
         <strong className="font-semibold">{totalPostImpressions || 0}</strong>{" "}
-        {(totalPostImpressions || 0) === 1 ? "post impression" : "post impressions"}
+        {(totalPostImpressions || 0) === 1
+          ? "post impression"
+          : "post impressions"}
       </span>
     </div>
   );
@@ -235,9 +241,32 @@ const ProfileEmptyState = React.memo(function ProfileEmptyState({
 });
 
 function ProfileContent({ data, username, submit }) {
-  console.log("Profile",data);
+  console.log("Profile", data);
   const profileDataObj = data?.data || data || {};
   const { user, images = [], videos = [] } = profileDataObj;
+
+  const [prevImages, setPrevImages] = useState(images);
+  const [imagesList, setImagesList] = useState(images);
+  const [prevVideos, setPrevVideos] = useState(videos);
+  const [videosList, setVideosList] = useState(videos);
+
+  if (images !== prevImages) {
+    setPrevImages(images);
+    setImagesList(images);
+  }
+
+  if (videos !== prevVideos) {
+    setPrevVideos(videos);
+    setVideosList(videos);
+  }
+
+  const handleInteraction = (postId, updatedData) => {
+    syncPostInteraction(
+      [setSelectedPost, setImagesList, setVideosList],
+      postId,
+      updatedData
+    );
+  };
 
   useDocumentMetadata(
     user?.username ? `@${user.username}'s profile` : "Profile",
@@ -280,13 +309,12 @@ function ProfileContent({ data, username, submit }) {
   const handlePostClick = (post) => {
     if (!isOwnProfile && post._id) {
       // Optimistically update impression count locally so modal opens instantly
-      setSelectedPost({
-        ...post,
-        counts: {
-          ...post.counts,
-          impression: (post.counts?.impression ?? 0) + 1,
-        },
-      });
+      const updatedData = {
+        counts: { impression: (post.counts?.impression ?? 0) + 1 },
+      };
+      setSelectedPost(applyPostInteraction(post, post._id, updatedData));
+      setImagesList((prev) => applyPostInteraction(prev, post._id, updatedData));
+      setVideosList((prev) => applyPostInteraction(prev, post._id, updatedData));
 
       // Passive fire-and-forget impression tracking in background
       trackPostImpression(post._id).catch(() => {});
@@ -359,7 +387,9 @@ function ProfileContent({ data, username, submit }) {
                 }}
                 className="shrink-0 flex items-center justify-center rounded-lg transition-all hover:opacity-80 cursor-pointer"
                 style={{
-                  color: linkCopied ? "var(--success, #22c55e)" : "var(--primary-500)",
+                  color: linkCopied
+                    ? "var(--success, #22c55e)"
+                    : "var(--primary-500)",
                 }}
                 title={linkCopied ? "Copied!" : "Copy profile link"}
               >
@@ -427,7 +457,9 @@ function ProfileContent({ data, username, submit }) {
                   }}
                   className="shrink-0 flex items-center justify-center rounded-lg transition-all hover:opacity-80 cursor-pointer"
                   style={{
-                    color: linkCopied ? "var(--success, #22c55e)" : "var(--primary-500)",
+                    color: linkCopied
+                      ? "var(--success, #22c55e)"
+                      : "var(--primary-500)",
                   }}
                   title={linkCopied ? "Copied!" : "Copy profile link"}
                 >
@@ -501,7 +533,7 @@ function ProfileContent({ data, username, submit }) {
           {/* Image Feed */}
           {activeTab === "images" && (
             <div className="grid grid-cols-2 md:grid-cols-3 gap-1 profile-grid">
-              {images.length > 0 ? (
+              {imagesList.length > 0 ? (
                 <>
                   {isOwnProfile && (
                     <div className="contents">
@@ -516,7 +548,7 @@ function ProfileContent({ data, username, submit }) {
                       </div>
                     </div>
                   )}
-                  {images.map((post) => (
+                  {imagesList.map((post) => (
                     <div
                       key={post._id}
                       className="aspect-square bg-zinc-800 overflow-hidden cursor-pointer"
@@ -587,7 +619,7 @@ function ProfileContent({ data, username, submit }) {
           {/* Video Feed */}
           {activeTab === "videos" && (
             <div className="grid grid-cols-2 md:grid-cols-3 gap-1 profile-grid">
-              {videos.length > 0 ? (
+              {videosList.length > 0 ? (
                 <>
                   {isOwnProfile && (
                     <div className="contents">
@@ -602,7 +634,7 @@ function ProfileContent({ data, username, submit }) {
                       </div>
                     </div>
                   )}
-                  {videos.map((post) => (
+                  {videosList.map((post) => (
                     <ProfileVideoCard
                       key={post._id}
                       post={post}
@@ -672,6 +704,7 @@ function ProfileContent({ data, username, submit }) {
           onClose={() => setSelectedPost(null)}
           post={selectedPost}
           profileUser={user}
+          onInteraction={handleInteraction}
         />
       </main>
     </>

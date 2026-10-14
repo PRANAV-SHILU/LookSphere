@@ -24,6 +24,8 @@ import {
   Share2,
 } from "lucide-react";
 
+export const LAST_UPDATED = "August 15, 2026";
+
 export const COMPLETED_FEATURES = {
   id: "completed",
   title: "Completed & Achieved",

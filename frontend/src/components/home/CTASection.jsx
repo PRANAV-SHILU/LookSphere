@@ -82,15 +82,15 @@ export default function CTASection({ user }) {
           <NavLink to="/whats-new" className="hover:text-(--primary-500) transition-colors no-underline">
             What's New
           </NavLink>
-          <span className="text-white/10 dark:text-white/10 select-none">•</span>
+          <span className="hidden xsm:inline opacity-40 select-none">•</span>
           <NavLink to="/roadmap" className="hover:text-(--primary-500) transition-colors no-underline">
             Roadmap
           </NavLink>
-          <span className="text-white/10 dark:text-white/10 select-none">•</span>
+          <span className="hidden xsm:inline opacity-40 select-none">•</span>
           <NavLink to="/contact-us" className="hover:text-(--primary-500) transition-colors no-underline">
             Contact Us
           </NavLink>
-          <span className="text-white/10 dark:text-white/10 select-none">•</span>
+          <span className="hidden xsm:inline opacity-40 select-none">•</span>
           <NavLink to="/faq" className="hover:text-(--primary-500) transition-colors no-underline">
             FAQ
           </NavLink>

@@ -1,10 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from "react";
-import {
-  X,
-  Info,
-  MoreVertical,
-  User as UserIcon,
-} from "lucide-react";
+import { X, Info, MoreVertical, User as UserIcon } from "lucide-react";
 import { modifyPost } from "../services/postService";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -16,6 +11,7 @@ export default function PostDetailModal({
   onClose,
   post,
   profileUser,
+  onInteraction,
 }) {
   const navigate = useNavigate();
   const [mediaDimensions, setMediaDimensions] = useState({
@@ -44,10 +40,18 @@ export default function PostDetailModal({
   const storedUser = localStorage.getItem("user");
   const currentUser = storedUser ? JSON.parse(storedUser) : null;
   const postAuthor = useMemo(() => {
-    if (post?.userId && typeof post.userId === "object" && post.userId.username) {
+    if (
+      post?.userId &&
+      typeof post.userId === "object" &&
+      post.userId.username
+    ) {
       return post.userId;
     }
-    if (post?.author && typeof post.author === "object" && post.author.username) {
+    if (
+      post?.author &&
+      typeof post.author === "object" &&
+      post.author.username
+    ) {
       return post.author;
     }
     if (post?.user && typeof post.user === "object" && post.user.username) {
@@ -392,7 +396,7 @@ export default function PostDetailModal({
 
             {/* Media Area */}
             <div
-              className="post-detail-media-wrapper mt-0.5"
+              className="mt-0.5 post-detail-media-wrapper"
               style={
                 isLoaded
                   ? {
@@ -454,7 +458,7 @@ export default function PostDetailModal({
                 style={{ width: "100%", maxWidth: "100%" }}
               >
                 {isEditing ? (
-                  <div className="flex flex-col gap-4">
+                  <div className="flex-col gap-4 flex">
                     <div className="input-group" style={{ marginBottom: "0" }}>
                       <label
                         className="input-label"
@@ -497,7 +501,7 @@ export default function PostDetailModal({
                         </p>
                       )}
                       <div
-                        className="flex justify-between mt-1 text-xs"
+                        className="mt-1 justify-between text-xs flex"
                         style={{ color: "var(--text-muted)" }}
                       >
                         <span>Add context to your post</span>
@@ -552,7 +556,7 @@ export default function PostDetailModal({
                         </p>
                       )}
                       <div
-                        className="flex justify-between mt-1 text-xs"
+                        className="mt-1 justify-between text-xs flex"
                         style={{ color: "var(--text-muted)" }}
                       >
                         <span>Helps users with screen readers</span>
@@ -571,7 +575,7 @@ export default function PostDetailModal({
                       </div>
                     </div>
 
-                    <div className="flex gap-3 mt-1">
+                    <div className="gap-3 mt-1 flex">
                       <button
                         type="button"
                         disabled={isSaving}
@@ -645,13 +649,17 @@ export default function PostDetailModal({
                     </div>
                   </div>
                 ) : (
-                  <div className="flex flex-col gap-2.5">
+                  <div className="flex-col gap-2.5 flex">
                     <PostInteractions
                       key={post?._id}
                       post={{
                         ...post,
-                        counts: { ...post?.counts, impression: impressionCount },
+                        counts: {
+                          ...post?.counts,
+                          impression: impressionCount,
+                        },
                       }}
+                      onInteraction={onInteraction}
                     />
                     {displayCaption && (
                       <p className="whitespace-pre-wrap">{displayCaption}</p>

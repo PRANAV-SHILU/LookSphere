@@ -126,12 +126,24 @@ export const FAQ_CATEGORIES = [
         a: "Yes, you can edit the captions, tags, and description fields of any post you have created. Simply go to your profile, find the post you want to change, and click the edit option.",
       },
       {
-        q: "What is the 'Spotlights' feature?",
-        a: "Spotlights is an upcoming short-form video feed feature designed for LookSphere. It will allow creators to showcase vertical videos in a scrollable, high-engagement feed layout.",
+        q: "What is Spark?",
+        a: "Spark is LookSphere's primary interaction feature to show appreciation and love for a post. Clicking the Spark (sparkle) icon highlights your reaction, increments the spark counter, and gives immediate positive feedback to the author.",
+      },
+      {
+        q: "What is Reshare?",
+        a: "Reshare allows you to share and broadcast posts you discover with the broader LookSphere community. Clicking the Reshare button reposts and amplifies content you find noteworthy, helping creators reach a wider audience across feeds.",
+      },
+      {
+        q: "What is Archive?",
+        a: "Archive is LookSphere's bookmarking and saving mechanism. When you archive a post by clicking the Bookmark icon, it is privately stored under your account and can be accessed anytime from the 'Archived' tab on your profile page.",
       },
       {
         q: "Can I save posts to view them later?",
-        a: "An upcoming update will add a 'Save Post' icon to all cards. Saved posts will be kept privately in a dedicated tab on your profile page so you can quickly refer back to them.",
+        a: "Yes! You can save posts to view them later by clicking the Archive (bookmark) button on any post card. All your saved posts are kept privately in the 'Archived' tab on your profile page so you can quickly revisit them anytime.",
+      },
+      {
+        q: "What is the 'Spotlights' feature?",
+        a: "Spotlights is an upcoming short-form video feed feature designed for LookSphere. It will allow creators to showcase vertical videos in a scrollable, high-engagement feed layout.",
       },
       {
         q: "Is there a follow/unfollow system?",

@@ -4,6 +4,10 @@ import { Eye, User } from "lucide-react";
 import PostDetailModal from "../../modals/PostDetailModal";
 import { trackPostImpression } from "../../services/postService";
 import { getVideoPosterUrl } from "../../utils/cloudinaryOptimizer";
+import {
+  syncPostInteraction,
+  applyPostInteraction,
+} from "../../utils/interactionUtils";
 
 const DashboardVideoCard = memo(function DashboardVideoCard({ post }) {
   const videoRef = useRef(null);
@@ -68,35 +72,31 @@ function formatTimeAgo(dateString, now) {
 
 export default function LatestPostsTab({ latestPosts: initialPosts, now }) {
   const navigate = useNavigate();
+  const [prevInitialPosts, setPrevInitialPosts] = useState(initialPosts);
   const [posts, setPosts] = useState(initialPosts);
   const [selectedPost, setSelectedPost] = useState(null);
   const [hoveredPostUser, setHoveredPostUser] = useState(null);
 
+  if (initialPosts !== prevInitialPosts) {
+    setPrevInitialPosts(initialPosts);
+    setPosts(initialPosts);
+  }
+
+  const handleInteraction = (postId, updatedData) => {
+    syncPostInteraction([setSelectedPost, setPosts], postId, updatedData);
+  };
+
   const handlePostClick = (post) => {
     // Open modal with incremented impression count instantly
-    const optimisticPost = {
-      ...post,
-      counts: {
-        ...post.counts,
-        impression: (post.counts?.impression ?? 0) + 1,
-      },
+    const updatedData = {
+      counts: { impression: (post.counts?.impression ?? 0) + 1 },
     };
-    setSelectedPost(optimisticPost);
+    setSelectedPost(applyPostInteraction(post, post._id, updatedData));
 
     if (post._id) {
       // Increment the impression count in local list state immediately
       setPosts((prevPosts) =>
-        prevPosts.map((p) =>
-          p._id === post._id
-            ? {
-                ...p,
-                counts: {
-                  ...p.counts,
-                  impression: (p.counts?.impression ?? 0) + 1,
-                },
-              }
-            : p
-        )
+        applyPostInteraction(prevPosts, post._id, updatedData)
       );
 
       // Fire async impression tracking in background without awaiting
@@ -199,10 +199,12 @@ export default function LatestPostsTab({ latestPosts: initialPosts, now }) {
 
                 {/* Footer */}
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1 text-xs" style={{ color: "var(--text-muted)" }}>
-                    <Eye size={12} />
-                    {post.counts?.impression ?? 0}
-                  </div>
+                  {(post.counts?.impression ?? 0) > 0 ? (
+                    <div className="flex items-center gap-1 text-xs" style={{ color: "var(--text-muted)" }}>
+                      <Eye size={12} />
+                      {post.counts.impression}
+                    </div>
+                  ) : <div />}
                   <span className="text-xs" style={{ color: "var(--text-muted)" }}>
                     {formatTimeAgo(post.createdAt, now)}
                   </span>
@@ -219,6 +221,7 @@ export default function LatestPostsTab({ latestPosts: initialPosts, now }) {
           isOpen={!!selectedPost}
           onClose={() => setSelectedPost(null)}
           post={selectedPost}
+          onInteraction={handleInteraction}
         />
       )}
     </div>

@@ -23,6 +23,7 @@ import PostInteractions from "../components/post/PostInteractions";
 import { trackPostImpression } from "../services/postService";
 import PostDetailModal from "../modals/PostDetailModal";
 import { getVideoPosterUrl } from "../utils/cloudinaryOptimizer";
+import { applyPostInteraction } from "../utils/interactionUtils";
 // Sub-component for each feed post to fetch user details asynchronously
 const FeedCard = React.memo(function FeedCard({
   post,
@@ -33,6 +34,7 @@ const FeedCard = React.memo(function FeedCard({
   onVideoIntersect,
   onVideoLeave,
   userInteracted,
+  onInteraction,
 }) {
   const cardRef = useRef(null);
   const videoRef = useRef(null);
@@ -44,13 +46,13 @@ const FeedCard = React.memo(function FeedCard({
   const isPlaying = isVideo && activeVideoId === post._id && !isParentModalOpen;
   const postDate = post.createdAt
     ? new Date(post.createdAt).toLocaleString(undefined, {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-    })
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      })
     : "";
 
   // Track post view and notify parent about video intersection
@@ -108,7 +110,7 @@ const FeedCard = React.memo(function FeedCard({
       vid.play().catch(() => {
         // Browser blocked unmuted autoplay — fallback to muted
         vid.muted = true;
-        vid.play().catch(() => { });
+        vid.play().catch(() => {});
       });
     } else {
       videoRef.current.pause();
@@ -134,7 +136,7 @@ const FeedCard = React.memo(function FeedCard({
   return (
     <div
       ref={cardRef}
-      className="flex flex-col rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+      className="flex-col rounded-2xl overflow-hidden shadow-sm flex hover:shadow-md transition-shadow"
       style={{
         backgroundColor: "var(--surface-card)",
         border: "1px solid var(--border-normal)",
@@ -144,16 +146,16 @@ const FeedCard = React.memo(function FeedCard({
     >
       {/* Header: User Info */}
       <div
-        className="flex items-center justify-between p-4 border-b"
+        className="p-4 justify-between border-b flex items-center"
         style={{ borderColor: "var(--border-light)" }}
       >
         {post.userId ? (
           <Link
             to={`/profile/${post.userId.username}`}
-            className="flex items-center gap-3 group"
+            className="gap-3 flex items-center group"
           >
             <div
-              className="w-9 h-9 rounded-full overflow-hidden flex items-center justify-center border transition-[transform,box-shadow] duration-300 group-hover:scale-105 group-hover:ring-2 group-hover:ring-zinc-600/50 group-hover:ring-offset-2 group-hover:ring-offset-zinc-950"
+              className="w-9 h-9 rounded-full overflow-hidden justify-center border flex items-center transition-[transform,box-shadow] duration-300 group-hover:scale-105 group-hover:ring-2 group-hover:ring-zinc-600/50 group-hover:ring-offset-2 group-hover:ring-offset-zinc-950"
               style={{
                 backgroundColor: "var(--surface-input)",
                 borderColor: "var(--border-normal)",
@@ -181,14 +183,14 @@ const FeedCard = React.memo(function FeedCard({
             </span>
           </Link>
         ) : (
-          <div className="flex items-center gap-3 animate-pulse">
+          <div className="gap-3 flex items-center animate-pulse">
             <div className="w-9 h-9 rounded-full bg-zinc-800" />
             <div className="h-3 w-24 bg-zinc-800 rounded" />
           </div>
         )}
 
         <div
-          className="items-center gap-1.5 text-xs hidden sm:flex"
+          className="gap-1.5 text-xs items-center hidden sm:flex"
           style={{ color: "var(--text-muted)" }}
         >
           <Clock size={12} />
@@ -198,7 +200,7 @@ const FeedCard = React.memo(function FeedCard({
 
       {/* Body: Media */}
       <div
-        className="relative overflow-hidden flex items-center justify-center w-full"
+        className="overflow-hidden justify-center w-full relative flex items-center"
         style={{ height: "520px", backgroundColor: "var(--bg-tertiary)" }}
       >
         {isVideo ? (
@@ -219,7 +221,7 @@ const FeedCard = React.memo(function FeedCard({
             />
           ) : (
             <div
-              className="relative w-full h-full flex items-center justify-center cursor-pointer"
+              className="w-full h-full justify-center relative flex items-center cursor-pointer"
               onClick={() => onPostClick(post)}
             >
               <img
@@ -231,7 +233,7 @@ const FeedCard = React.memo(function FeedCard({
                 loading="lazy"
                 decoding="async"
               />
-              <div className="absolute bg-black/50 p-3 rounded-full text-white backdrop-blur-sm shadow-lg pointer-events-none">
+              <div className="p-3 bg-black/50 rounded-full text-white shadow-lg absolute backdrop-blur-sm pointer-events-none">
                 <Video size={24} />
               </div>
             </div>
@@ -256,11 +258,16 @@ const FeedCard = React.memo(function FeedCard({
       </div>
 
       {/* Footer: Details */}
-      <div className="p-4 flex flex-col gap-2.5">
-        <PostInteractions key={post._id} post={post} onMaximize={() => onPostClick(post)} />
+      <div className="flex-col p-4 gap-2.5 flex">
+        <PostInteractions
+          key={post._id}
+          post={post}
+          onMaximize={() => onPostClick(post)}
+          onInteraction={onInteraction}
+        />
 
         {post.caption && (
-          <div className="flex flex-col">
+          <div className="flex-col flex">
             <p
               ref={captionRef}
               className={`text-sm leading-relaxed whitespace-pre-wrap ${!isCaptionExpanded ? "line-clamp-3" : ""}`}
@@ -282,7 +289,7 @@ const FeedCard = React.memo(function FeedCard({
                   e.stopPropagation();
                   setIsCaptionExpanded(!isCaptionExpanded);
                 }}
-                className="text-xs font-semibold mt-1 self-end hover:underline cursor-pointer bg-transparent border-none p-0"
+                className="mt-1 p-0 text-xs font-semibold bg-transparent border-none self-end hover:underline cursor-pointer"
                 style={{ color: "var(--primary-500)" }}
               >
                 {isCaptionExpanded ? "view less" : "view more"}
@@ -299,7 +306,14 @@ const FeedCard = React.memo(function FeedCard({
 import { fetchFeed } from "../services/postService";
 import { feedRefresher } from "../utils/feedRefresher";
 
-function FeedContent({ posts, currentUser, setSelectedPost, selectedPost }) {
+function FeedContent({
+  posts,
+  currentUser,
+  setSelectedPost,
+  selectedPost,
+  onRegisterUpdater,
+  onInteraction,
+}) {
   const [prevPosts, setPrevPosts] = useState(posts);
   const [allPosts, setAllPosts] = useState(posts);
   const [page, setPage] = useState(1);
@@ -309,6 +323,14 @@ function FeedContent({ posts, currentUser, setSelectedPost, selectedPost }) {
   const [userInteracted, setUserInteracted] = useState(
     () => navigator.userActivation?.hasBeenActive ?? false,
   );
+
+  useEffect(() => {
+    if (onRegisterUpdater) {
+      onRegisterUpdater((postId, updatedData) => {
+        setAllPosts((prev) => applyPostInteraction(prev, postId, updatedData));
+      });
+    }
+  }, [onRegisterUpdater]);
 
   // Fallback: listen for first user interaction to allow unmuted playback
   // Browser policy: on fresh page load, audio requires a user gesture (click/tap/keypress)
@@ -393,26 +415,26 @@ function FeedContent({ posts, currentUser, setSelectedPost, selectedPost }) {
   if (allPosts.length === 0) {
     return (
       <div
-        className="text-center py-20 rounded-2xl border border-dashed"
+        className="py-20 text-center rounded-2xl border border-dashed"
         style={{
           borderColor: "var(--border-normal)",
           backgroundColor: "var(--surface-card)",
         }}
       >
         <div
-          className="w-12 h-12 mx-auto rounded-full flex items-center justify-center mb-3"
+          className="mb-3 w-12 h-12 mx-auto rounded-full justify-center flex items-center"
           style={{ backgroundColor: "var(--surface-input)" }}
         >
           <ImageIcon size={20} style={{ color: "var(--text-muted)" }} />
         </div>
         <h2
-          className="text-lg font-bold mb-1"
+          className="mb-1 text-lg font-bold"
           style={{ color: "var(--text-primary)" }}
         >
           No Posts
         </h2>
         <p
-          className="text-xs max-w-xs mx-auto mb-4"
+          className="mb-4 text-xs max-w-xs mx-auto"
           style={{ color: "var(--text-muted)" }}
         >
           Be the first to share an image or video!
@@ -425,7 +447,7 @@ function FeedContent({ posts, currentUser, setSelectedPost, selectedPost }) {
   }
 
   return (
-    <div className="flex flex-col gap-8 feed-grid">
+    <div className="flex-col gap-8 flex feed-grid">
       {allPosts.map((post, index) => {
         const isTriggerElement = index === allPosts.length - 5;
         return (
@@ -443,14 +465,15 @@ function FeedContent({ posts, currentUser, setSelectedPost, selectedPost }) {
               onVideoIntersect={handleVideoIntersect}
               onVideoLeave={handleVideoLeave}
               userInteracted={userInteracted}
+              onInteraction={onInteraction}
             />
           </div>
         );
       })}
 
       {loadingMore && (
-        <div className="flex justify-center py-4">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-zinc-500"></div>
+        <div className="py-4 justify-center flex">
+          <div className="rounded-full h-8 w-8 border-b-2 border-zinc-500 animate-spin"></div>
         </div>
       )}
 
@@ -459,7 +482,7 @@ function FeedContent({ posts, currentUser, setSelectedPost, selectedPost }) {
         <Link
           to="/profile"
           onClick={() => window.scrollTo(0, 0)}
-          className="flex flex-col items-center justify-center py-8 rounded-2xl border border-dashed hover:bg-(--surface-hover) transition-colors"
+          className="flex-col py-8 justify-center rounded-2xl border border-dashed flex items-center hover:bg-(--surface-hover) transition-colors"
           style={{
             borderColor: "var(--border-normal)",
             backgroundColor: "var(--surface-card)",
@@ -498,6 +521,12 @@ export default function Feed() {
   const currentUser = storedUser ? JSON.parse(storedUser) : null;
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
+  const updateFeedRef = useRef(null);
+
+  const handleInteraction = (postId, updatedData) => {
+    setSelectedPost((prev) => applyPostInteraction(prev, postId, updatedData));
+    updateFeedRef.current?.(postId, updatedData);
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -520,11 +549,11 @@ export default function Feed() {
   };
 
   return (
-    <div className="max-w-xl mx-auto mt-6 px-0 py-4 md:py-8">
-      <div className="mb-8 flex items-start justify-between">
+    <div className="mt-6 px-0 py-4 max-w-xl mx-auto md:py-8">
+      <div className="mb-8 justify-between flex items-start">
         <div>
           <h1
-            className="text-3xl font-extrabold mb-1 tracking-tight"
+            className="mb-1 text-3xl font-extrabold tracking-tight"
             style={{ color: "var(--text-primary)" }}
           >
             Community Feed
@@ -533,12 +562,12 @@ export default function Feed() {
             Scroll through latest updates.
           </p>
         </div>
-        <div className="flex flex-col items-end gap-12 shrink-0">
+        <div className="flex-col gap-12 flex items-end shrink-0">
           <BackButton />
           <button
             onClick={() => revalidator.revalidate()}
             disabled={isRefreshing}
-            className="flex items-center justify-center cursor-pointer p-2 rounded-lg transition-all hover:bg-(--surface-hover) disabled:opacity-50"
+            className="p-2 justify-center rounded-lg flex items-center cursor-pointer transition-all hover:bg-(--surface-hover) disabled:opacity-50"
             style={{
               backgroundColor: "var(--surface-input)",
               color: "var(--text-secondary)",
@@ -559,7 +588,7 @@ export default function Feed() {
         <Await
           resolve={feedData}
           errorElement={
-            <div className="text-center py-10">Error loading feed.</div>
+            <div className="py-10 text-center">Error loading feed.</div>
           }
         >
           {({ posts }) => (
@@ -568,6 +597,10 @@ export default function Feed() {
               currentUser={currentUser}
               setSelectedPost={setSelectedPost}
               selectedPost={selectedPost}
+              onRegisterUpdater={(fn) => {
+                updateFeedRef.current = fn;
+              }}
+              onInteraction={handleInteraction}
             />
           )}
         </Await>
@@ -576,7 +609,7 @@ export default function Feed() {
       {showScrollTop && (
         <button
           onClick={scrollToTop}
-          className="flex opacity-50 items-center justify-center cursor-pointer"
+          className="opacity-50 justify-center flex items-center cursor-pointer"
           style={{
             position: "fixed",
             bottom: "2.5rem",
@@ -600,6 +633,7 @@ export default function Feed() {
         isOpen={!!selectedPost}
         onClose={() => setSelectedPost(null)}
         post={selectedPost}
+        onInteraction={handleInteraction}
       />
     </div>
   );

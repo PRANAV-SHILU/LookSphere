@@ -13,6 +13,7 @@ import PostDetailModal from "../modals/PostDetailModal";
 import PostInteractions from "../components/post/PostInteractions";
 import { trackPostImpression } from "../services/postService";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
+import { applyPostInteraction } from "../utils/interactionUtils";
 
 export default function PostDetail() {
   const { post } = useLoaderData();
@@ -20,7 +21,7 @@ export default function PostDetail() {
   return (
     <div className="max-w-xl mx-auto mt-6 px-0 py-4 md:py-8 pb-24 md:pb-8 relative flex flex-col gap-6 min-h-screen">
       <div className="flex items-center justify-between">
-        <BackButton />
+        <BackButton to="/feed" label="Back to Feed" />
       </div>
 
       <Suspense
@@ -93,16 +94,24 @@ function PostCard({ post }) {
     };
   }, [post, authorUsername]);
 
+  const [prevPost, setPrevPost] = useState(post);
+  const [currentPost, setCurrentPost] = useState(post);
   const videoRef = useRef(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [impressionCount, setImpressionCount] = useState(
-    post?.counts?.impression ?? 0
-  );
   const hasTrackedImpression = useRef(false);
+
+  if (post !== prevPost) {
+    setPrevPost(post);
+    setCurrentPost(post);
+  }
+
+  const handleInteraction = (postId, updatedData) => {
+    setCurrentPost((prev) => applyPostInteraction(prev, postId, updatedData));
+  };
 
   const storedUser = localStorage.getItem("user");
   const currentUser = storedUser ? JSON.parse(storedUser) : null;
-  const postAuthorId = post?.userId?._id || post?.userId;
+  const postAuthorId = currentPost?.userId?._id || currentPost?.userId;
   const isOwnPost =
     currentUser &&
     postAuthorId &&
@@ -110,19 +119,25 @@ function PostCard({ post }) {
 
   // Increment impression count when opening post via URL (if not own post)
   useEffect(() => {
-    if (!post?._id || hasTrackedImpression.current || isOwnPost) return;
+    if (!currentPost?._id || hasTrackedImpression.current || isOwnPost) return;
 
     hasTrackedImpression.current = true;
     // Optimistically update impression count locally immediately
-    setImpressionCount((prev) => prev + 1);
+    setCurrentPost((prev) => ({
+      ...prev,
+      counts: {
+        ...prev?.counts,
+        impression: (prev?.counts?.impression ?? 0) + 1,
+      },
+    }));
 
     // Passive fire-and-forget impression tracking in background
-    trackPostImpression(post._id).catch(() => {});
-  }, [post?._id, isOwnPost]);
+    trackPostImpression(currentPost._id).catch(() => {});
+  }, [currentPost?._id, isOwnPost]);
 
-  const isVideo = post.mediaType === "Video";
-  const postDate = post.createdAt
-    ? new Date(post.createdAt).toLocaleString(undefined, {
+  const isVideo = currentPost?.mediaType === "Video";
+  const postDate = currentPost?.createdAt
+    ? new Date(currentPost.createdAt).toLocaleString(undefined, {
         month: "short",
         day: "numeric",
         year: "numeric",
@@ -157,6 +172,12 @@ function PostCard({ post }) {
     if (!isVideo || !videoRef.current) return;
     const vid = videoRef.current;
 
+    if (isModalOpen) {
+      vid.pause();
+      vid.muted = true;
+      return;
+    }
+
     if (userInteracted) {
       vid.muted = false;
     }
@@ -165,7 +186,7 @@ function PostCard({ post }) {
       vid.muted = true;
       vid.play().catch(() => {});
     });
-  }, [isVideo, userInteracted, post.mediaUrl]);
+  }, [isVideo, userInteracted, post.mediaUrl, isModalOpen]);
 
   return (
     <div
@@ -265,41 +286,37 @@ function PostCard({ post }) {
       {/* Footer */}
       <div className="p-4 flex flex-col gap-2.5">
         <PostInteractions
-          key={post._id}
-          post={{
-            ...post,
-            counts: { ...post.counts, impression: impressionCount },
-          }}
+          key={currentPost?._id}
+          post={currentPost}
           onMaximize={() => setIsModalOpen(true)}
+          onInteraction={handleInteraction}
         />
 
-        {post.caption && (
+        {currentPost?.caption && (
           <div className="flex flex-col">
             <p
               className="text-sm leading-relaxed whitespace-pre-wrap"
               style={{ color: "var(--text-secondary)" }}
             >
-              {post.userId && (
+              {currentPost.userId && (
                 <strong
                   className="mr-2"
                   style={{ color: "var(--text-primary)" }}
                 >
-                  {post.userId.username}
+                  {currentPost.userId.username}
                 </strong>
               )}
-              {post.caption}
+              {currentPost.caption}
             </p>
           </div>
         )}
       </div>
       <PostDetailModal
-        key={post?._id}
+        key={currentPost?._id}
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        post={{
-          ...post,
-          counts: { ...post.counts, impression: impressionCount },
-        }}
+        post={currentPost}
+        onInteraction={handleInteraction}
       />
     </div>
   );

@@ -118,3 +118,66 @@ export function calculateNextInteraction(counts, has, action) {
 
   return { nextCounts, nextHas };
 }
+
+/**
+ * ---------------------------------------------------------------------------
+ * IN-MEMORY INTERACTIONS CACHE
+ * ---------------------------------------------------------------------------
+ * Acts as an in-memory key-value store for user lists who sparked or reshared
+ * a post. Stored in client RAM across modal open/close cycles to prevent
+ * duplicate network fetches.
+ */
+const interactionsCache = new Map();
+
+/**
+ * Retrieves cached user list for a specific post and interaction type.
+ *
+ * @param {string} postId - Post ID
+ * @param {string} type - "spark" | "reshare"
+ * @returns {Array|null} Array of user objects if cached, otherwise null.
+ */
+export function getCachedInteractions(postId, type) {
+  if (!postId || !type) return null;
+  return interactionsCache.get(`${postId}_${type}`) || null;
+}
+
+/**
+ * Saves a user list in cache for a specific post and interaction type.
+ *
+ * @param {string} postId - Post ID
+ * @param {string} type - "spark" | "reshare"
+ * @param {Array} userList - Populated user array
+ */
+export function setCachedInteractions(postId, type, userList) {
+  if (!postId || !type || !Array.isArray(userList)) return;
+  interactionsCache.set(`${postId}_${type}`, userList);
+}
+
+/**
+ * Checks whether user list is already cached for a post and type.
+ *
+ * @param {string} postId - Post ID
+ * @param {string} type - "spark" | "reshare"
+ * @returns {boolean}
+ */
+export function hasCachedInteractions(postId, type) {
+  if (!postId || !type) return false;
+  return interactionsCache.has(`${postId}_${type}`);
+}
+
+/**
+ * Invalidates the cached user list for a specific post and interaction type (or all types for that post).
+ * Called whenever the user toggles an interaction so reopening the modal shows fresh data.
+ *
+ * @param {string} postId - Post ID
+ * @param {string} [type] - "spark" | "reshare" (if omitted, clears all for this post)
+ */
+export function invalidateInteractionsCache(postId, type) {
+  if (!postId) return;
+  if (type) {
+    interactionsCache.delete(`${postId}_${type}`);
+  } else {
+    interactionsCache.delete(`${postId}_spark`);
+    interactionsCache.delete(`${postId}_reshare`);
+  }
+}

@@ -9,14 +9,20 @@ import {
   Maximize2,
   Eye,
   Clock,
+  ChevronDown,
 } from "lucide-react";
 import { toast } from "react-toastify";
 import { interactionService } from "../../services/interactionService";
-import { calculateNextInteraction } from "../../utils/interactionUtils";
+import {
+  calculateNextInteraction,
+  invalidateInteractionsCache,
+} from "../../utils/interactionUtils";
+import InteractionsListModal from "../../modals/InteractionsListModal";
 
 const PostInteractions = ({ post, onMaximize, onInteraction }) => {
   const [isCopied, setIsCopied] = useState(false);
   const [prevPost, setPrevPost] = useState(post);
+  const [activeModal, setActiveModal] = useState(null); // null | 'spark' | 'reshare'
 
   const [counts, setCounts] = useState({
     spark: post?.counts?.spark ?? 0,
@@ -59,8 +65,20 @@ const PostInteractions = ({ post, onMaximize, onInteraction }) => {
       })
     : "";
 
-  // Local state toggle function with promise-based API call (no await, no rollback)
+  /**
+   * Post Interaction Handler
+   *
+   * Step 1: Authentication Guard - verify token exists before interacting.
+   * Step 2: Optimistic Calculation - compute next counts and flags immediately.
+   * Step 3: Local State Update - update PostInteractions button states instantly.
+   * Step 4: Parent Synchronization - notify parent handler (syncPostInteraction) to
+   *         synchronize across image, video, reshare, and saved tabs.
+   * Step 5: Cache Invalidation - clear cached user list for this post so reopening
+   *         the interactions modal fetches fresh data reflecting this action.
+   * Step 6: Asynchronous Network Mutation - fire toggle API in background without blocking UI.
+   */
   const handleInteraction = (action) => {
+    // Step 1: Authentication Guard
     const token = localStorage.getItem("jwtToken");
     const storedUser = localStorage.getItem("user");
 
@@ -69,19 +87,24 @@ const PostInteractions = ({ post, onMaximize, onInteraction }) => {
       return;
     }
 
+    // Step 2: Optimistic Calculation
     const result = calculateNextInteraction(counts, has, action);
     if (!result) return;
 
     const { nextCounts, nextHas } = result;
+
+    // Step 3: Local State Update
     setHas(nextHas);
     setCounts(nextCounts);
 
     const postId = post?._id;
+
+    // Step 4: Parent Synchronization across all tabs and open modals
     if (onInteraction && postId) {
       onInteraction(postId, { counts: nextCounts, has: nextHas });
     }
 
-    // Promise-based API call without async/await or rollback
+    // Step 5 & 6: Cache Invalidation and Background API Call
     if (postId) {
       const apiAction =
         action === "sparked"
@@ -92,13 +115,17 @@ const PostInteractions = ({ post, onMaximize, onInteraction }) => {
               ? "archive"
               : action;
 
+      // Invalidate cached interactions modal list so reopening reflects the user's toggle
+      invalidateInteractionsCache(postId, apiAction);
+
+      // Fire API call without blocking UI
       interactionService.toggleInteraction(postId, apiAction).catch(() => {});
     }
   };
 
   return (
-    <div className="w-full flex flex-col gap-2.5">
-      <div className="w-full flex items-center justify-between pt-2">
+    <div className="flex-col gap-2.5 w-full flex">
+      <div className="pt-2 w-full justify-between flex items-center">
         {/* Left side: Spark, Comment, Reshare */}
         <div
           className={`flex items-center xsm:gap-6 ${
@@ -108,9 +135,9 @@ const PostInteractions = ({ post, onMaximize, onInteraction }) => {
           {/* Spark */}
           <button
             onClick={() => handleInteraction("spark")}
-            className="flex flex-col items-start gap-1 bg-transparent border-none cursor-pointer group active:scale-90 transition-transform duration-200"
+            className="flex-col gap-1 bg-transparent border-none flex items-start cursor-pointer group active:scale-90 transition-transform duration-200"
           >
-            <div className="flex items-center gap-0.5 xsm:gap-1.5">
+            <div className="gap-0.5 flex items-center xsm:gap-1.5">
               <Sparkles
                 size={22}
                 fill={has.sparked ? "currentColor" : "none"}
@@ -121,15 +148,34 @@ const PostInteractions = ({ post, onMaximize, onInteraction }) => {
                 }`}
               />
               {counts.spark > 0 && (
-                <span
-                  className={`text-[13px] font-medium transition-colors duration-500 ease-in-out ${
-                    has.sparked
-                      ? "text-yellow-400"
-                      : "text-(--text-muted) group-hover:text-yellow-400"
-                  }`}
+                <div
+                  role="button"
+                  tabIndex={0}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setActiveModal("spark");
+                  }}
+                  title="View sparks"
+                  className="gap-0.5 flex items-center cursor-pointer hover:opacity-80"
                 >
-                  {counts.spark}
-                </span>
+                  <span
+                    className={`text-[13px] font-medium transition-colors duration-500 ease-in-out ${
+                      has.sparked
+                        ? "text-yellow-400"
+                        : "text-(--text-muted) group-hover:text-yellow-400"
+                    }`}
+                  >
+                    {counts.spark}
+                  </span>
+                  <ChevronDown
+                    size={13}
+                    className={`transition-colors duration-500 ease-in-out ${
+                      has.sparked
+                        ? "text-yellow-400"
+                        : "text-(--text-muted) group-hover:text-yellow-400"
+                    }`}
+                  />
+                </div>
               )}
             </div>
             <span
@@ -145,8 +191,8 @@ const PostInteractions = ({ post, onMaximize, onInteraction }) => {
 
           {/* Comment */}
           {/* 
-        <button className="flex flex-col items-center gap-1 bg-transparent border-none cursor-pointer group active:scale-90 transition-transform duration-200">
-          <div className="flex items-center gap-0.5 xsm:gap-1.5">
+        <button className="flex-col gap-1 bg-transparent border-none flex items-center cursor-pointer group active:scale-90 transition-transform duration-200">
+          <div className="gap-0.5 flex items-center xsm:gap-1.5">
             <MessageCircle
               size={22}
               className="text-(--text-muted) group-hover:text-(--text-primary) transition-colors duration-300"
@@ -157,7 +203,7 @@ const PostInteractions = ({ post, onMaximize, onInteraction }) => {
               </span>
             )}
           </div>
-          <span className="hidden xsm:inline text-[10px] font-medium text-(--text-muted) group-hover:text-(--text-primary) transition-colors duration-300">
+          <span className="text-[10px] font-medium text-(--text-muted) hidden xsm:inline group-hover:text-(--text-primary) transition-colors duration-300">
             Comment
           </span>
         </button>
@@ -166,9 +212,9 @@ const PostInteractions = ({ post, onMaximize, onInteraction }) => {
           {/* Reshare */}
           <button
             onClick={() => handleInteraction("reshare")}
-            className="flex flex-col items-center gap-1 bg-transparent border-none cursor-pointer group active:scale-90 transition-transform duration-200"
+            className="flex-col gap-1 bg-transparent border-none flex items-center cursor-pointer group active:scale-90 transition-transform duration-200"
           >
-            <div className="flex items-center gap-0.5 xsm:gap-1.5">
+            <div className="gap-0.5 flex items-center xsm:gap-1.5">
               <Repeat2
                 size={22}
                 className={`transition-all duration-500 ease-in-out ${
@@ -178,15 +224,34 @@ const PostInteractions = ({ post, onMaximize, onInteraction }) => {
                 }`}
               />
               {counts.reshare > 0 && (
-                <span
-                  className={`text-[13px] font-medium transition-colors duration-500 ease-in-out ${
-                    has.reshared
-                      ? "text-blue-400"
-                      : "text-(--text-muted) group-hover:text-blue-400"
-                  }`}
+                <div
+                  role="button"
+                  tabIndex={0}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setActiveModal("reshare");
+                  }}
+                  title="View reshares"
+                  className="gap-0.5 flex items-center cursor-pointer hover:opacity-80"
                 >
-                  {counts.reshare}
-                </span>
+                  <span
+                    className={`text-[13px] font-medium transition-colors duration-500 ease-in-out ${
+                      has.reshared
+                        ? "text-blue-400"
+                        : "text-(--text-muted) group-hover:text-blue-400"
+                    }`}
+                  >
+                    {counts.reshare}
+                  </span>
+                  <ChevronDown
+                    size={13}
+                    className={`transition-colors duration-500 ease-in-out ${
+                      has.reshared
+                        ? "text-blue-400"
+                        : "text-(--text-muted) group-hover:text-blue-400"
+                    }`}
+                  />
+                </div>
               )}
             </div>
             <span
@@ -202,7 +267,7 @@ const PostInteractions = ({ post, onMaximize, onInteraction }) => {
 
           {/* Share (Copy Link) */}
           <button
-            className="flex flex-col items-center gap-1 bg-transparent border-none cursor-pointer group active:scale-90 transition-transform duration-200"
+            className="flex-col gap-1 bg-transparent border-none flex items-center cursor-pointer group active:scale-90 transition-transform duration-200"
             onClick={() => {
               const baseUrl =
                 window.location.origin || import.meta.env.VITE_FRONTEND_URL;
@@ -213,7 +278,7 @@ const PostInteractions = ({ post, onMaximize, onInteraction }) => {
             }}
             title="Copy link"
           >
-            <div className="flex items-center gap-1.5">
+            <div className="gap-1.5 flex items-center">
               {isCopied ? (
                 <Check
                   size={22}
@@ -239,21 +304,21 @@ const PostInteractions = ({ post, onMaximize, onInteraction }) => {
         </div>
 
         {/* Right side: Share & Archive */}
-        <div className="flex items-center gap-3 xsm:gap-6">
+        <div className="gap-3 flex items-center xsm:gap-6">
           {/* Maximize */}
           {onMaximize && (
             <button
-              className="flex flex-col items-center gap-1 bg-transparent border-none cursor-pointer group active:scale-90 transition-transform duration-200"
+              className="flex-col gap-1 bg-transparent border-none flex items-center cursor-pointer group active:scale-90 transition-transform duration-200"
               onClick={onMaximize}
               title="View in full screen"
             >
-              <div className="flex items-center gap-1.5">
+              <div className="gap-1.5 flex items-center">
                 <Maximize2
                   size={22}
                   className="text-(--text-muted) group-hover:text-(--text-primary) transition-colors duration-300"
                 />
               </div>
-              <span className="hidden xsm:inline text-[10px] font-medium text-(--text-muted) group-hover:text-(--text-primary) transition-colors duration-300">
+              <span className="text-[10px] font-medium text-(--text-muted) hidden xsm:inline group-hover:text-(--text-primary) transition-colors duration-300">
                 Expand
               </span>
             </button>
@@ -262,9 +327,9 @@ const PostInteractions = ({ post, onMaximize, onInteraction }) => {
           {/* Archive */}
           <button
             onClick={() => handleInteraction("archive")}
-            className="flex flex-col items-center gap-1 bg-transparent border-none cursor-pointer group active:scale-90 transition-transform duration-200"
+            className="flex-col gap-1 bg-transparent border-none flex items-center cursor-pointer group active:scale-90 transition-transform duration-200"
           >
-            <div className="flex items-center gap-0.5 xsm:gap-1.5">
+            <div className="gap-0.5 flex items-center xsm:gap-1.5">
               <Bookmark
                 size={22}
                 fill={has.archived ? "currentColor" : "none"}
@@ -301,10 +366,10 @@ const PostInteractions = ({ post, onMaximize, onInteraction }) => {
 
       {/* Impressions & Created Date */}
       <div
-        className="flex items-center justify-between text-xs"
+        className="justify-between text-xs flex items-center"
         style={{ color: "var(--text-muted)" }}
       >
-        <div className="font-medium flex items-center gap-1">
+        <div className="gap-1 font-medium flex items-center">
           <Eye size={13} />
           <span>
             {impressionCount}{" "}
@@ -313,7 +378,7 @@ const PostInteractions = ({ post, onMaximize, onInteraction }) => {
         </div>
         {postDate && (
           <div
-            className="items-center gap-1.5 text-xs flex"
+            className="gap-1.5 text-xs items-center flex"
             style={{ color: "var(--text-muted)" }}
           >
             <Clock size={12} />
@@ -321,6 +386,15 @@ const PostInteractions = ({ post, onMaximize, onInteraction }) => {
           </div>
         )}
       </div>
+      
+      {/* Spark / Reshare List Modal */}
+      <InteractionsListModal
+        isOpen={Boolean(activeModal)}
+        postId={post?._id}
+        type={activeModal || "spark"}
+        count={activeModal === "spark" ? counts.spark : counts.reshare}
+        onClose={() => setActiveModal(null)}
+      />
     </div>
   );
 };

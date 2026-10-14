@@ -29,7 +29,9 @@ const userSchema = new mongoose.Schema(
       type: String,
       trim: true,
       maxlength: 80,
-      default: "INDIAN",
+      default: function () {
+        return this.username || "";
+      },
     },
     bio: {
       type: String,

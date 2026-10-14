@@ -1,6 +1,7 @@
 import interaction from "../models/interaction.model.js";
 import Post from "../models/posts.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
+import { enrichPostsWithInteractions } from "../utils/postHelper.js";
 
 export const getInteractionByUserId = asyncHandler(
   "getInteractionByUserId",
@@ -33,12 +34,28 @@ export const getInteractionByUserId = asyncHandler(
         path: "postId",
         select: "mediaUrl mediaType caption altText userId counts createdAt",
         populate: { path: "userId", select: "username profileImage" },
-      });
+      })
+      .lean();
+
+    // Extract populated posts and enrich with current user's interaction status (has: { sparked, reshared, archived })
+    const posts = data.map((d) => d.postId).filter(Boolean);
+    const enrichedPosts = await enrichPostsWithInteractions(posts, currentUserId);
+
+    const enrichedMap = new Map(
+      enrichedPosts.map((p) => [p._id.toString(), p]),
+    );
+
+    const enrichedData = data.map((d) => ({
+      ...d,
+      postId: d.postId
+        ? enrichedMap.get(d.postId._id.toString()) || d.postId
+        : null,
+    }));
 
     return res.status(200).json({
       success: true,
-      total: data.length,
-      data,
+      total: enrichedData.length,
+      data: enrichedData,
     });
   },
 );

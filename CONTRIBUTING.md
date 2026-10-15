@@ -120,15 +120,30 @@ Enhancement suggestions are tracked as GitHub issues. When creating an enhanceme
 
 ### File Organization
 
-- **Pages** → `frontend/src/pages/`
-- **Shared Components** → `frontend/src/shared-components/`
-- **Components** → `frontend/src/components/`
-- **Modals** → `frontend/src/modals/`
-- **Hooks** → `frontend/src/hooks/`
-- **Services** → `frontend/src/services/`
-- **Network (API calls)** → `frontend/src/network/`
-- **Routes** → `frontend/src/routes/`
-- **Utils** → `frontend/src/utils/`
+**Frontend (`frontend/src/`):**
+- **Actions** → `actions/`
+- **Components** → `components/`
+- **Shared Components** → `shared-components/`
+- **Modals** → `modals/`
+- **Loaders** → `loaders/`
+- **Pages** → `pages/`
+- **Hooks** → `hooks/`
+- **Context** → `context/`
+- **Services** → `services/`
+- **Network (API Calls & Interceptors)** → `network/`
+- **Routes** → `routes/`
+- **Validation Schemas** → `schema/`
+- **Skeletons** → `skeletons/`
+- **Utils** → `utils/`
+
+**Backend (`Backend/src/`):**
+- **Controllers** → `controllers/`
+- **Models** → `models/`
+- **Routes** → `routes/`
+- **Middlewares** → `middlewares/`
+- **Validators** → `validators/`
+- **Configuration** → `config/`
+- **Utils** → `utils/`
 
 ### CSS & Theming
 
@@ -155,3 +170,11 @@ docs: add contributing guidelines
 ---
 
 Thank you for helping make LookSphere better! 🌐
+
+---
+**📚 LookSphere Documentation Index:**
+- **Root:** [Main Readme](./Readme.md) | [File Tree](./File_Tree.md) | [Roadmap](./roadmap.md) | [Performance](./performance_optimization.md) | [Resolved Issues](./resolved_issues.md) | [Improvements](./improvement.md)
+- **Governance:** [Contributing](./CONTRIBUTING.md) | [Security](./SECURITY.md) | [Code of Conduct](./CODE_OF_CONDUCT.md) | [License](./LICENSE.md)
+- **Frontend:** [Frontend Readme](./frontend/README.md) | [Design Specs](./frontend/Design.md) | [Frontend File Tree](./frontend/File_Tree.md)
+- **Backend:** [Backend Readme](./Backend/Readme.md) | [API Docs](./Backend/APIs.md) | [Backend File Tree](./Backend/File_Tree.md)
+---

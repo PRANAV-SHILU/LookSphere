@@ -1,4 +1,4 @@
-<div align="right">Last Modified: 1-Sep-2026</div>
+<div align="right">Last Modified: 22-Oct-2026</div>
 
 
 <div align="center">
@@ -39,9 +39,9 @@
 
 ## 📖 Overview
 
-**LookSphere** is a modern social media platform built using the MERN stack (MongoDB, Express, React, Node.js). Originally starting as a pure React/JSON-server authentication practice app ("SecureAuth"), it has evolved into a robust, secure, and full-featured social networking application.
+**LookSphere** is a modern, privacy-first social media platform built using the MERN stack (MongoDB, Express, React, Node.js). Originally starting as a pure React/JSON-server authentication practice app ("SecureAuth"), it has evolved into a robust, secure, and full-featured social networking platform.
 
-It features a dark-theme-first aesthetic, secure JWT authentication, rich media sharing (Cloudinary), and a responsive, dynamic UI built with Tailwind CSS.
+It features a dark-theme-first aesthetic, stateless JWT authentication via Authorization headers, rich media sharing through Cloudinary, atomic post interactions (Sparks, Reshares, Archives), and a responsive, dynamic UI built with React 19 and Tailwind CSS.
 
 ---
 
@@ -51,59 +51,66 @@ LookSphere originally started as **SecureAuth**, a modern authentication app bui
 
 I decided to upgrade SecureAuth, converting it from a simple JSON-server API into a fully-fledged MERN stack web application. I was really enjoying the process, and I thought, "Why not build something we use every day?" So, I decided to build a social media platform. That led to the creation of LookSphere, and here it is today!
 
-While it is still not a final version and serves primarily as a way to practice full-stack development, this has been the incredible journey from SecureAuth to LookSphere. And rest assured, LookSphere is now even more secure than its predecessor.
+While it is continuously evolving as a hands-on project to practice high-performance full-stack engineering, this has been the incredible journey from SecureAuth to LookSphere.
 
 ---
 
 ## 🔗 Quick Links
 
-Explore the detailed documentation for different parts of the project:
+Explore the detailed documentation across the project:
 
 **Root Documentation:**
-- 🗂️ **[Project File Tree](./File_Tree.md)** - Overall repository structure.
-- 🚀 **[Performance Optimizations](./performance_optimization.md)** - Details about mobile GPU rendering fixes, state optimization, and performance tuning.
-- 🔮 **[Roadmap](./roadmap.md)** - Roadmap and upcoming feature pipeline.
-- ✅ **[Resolved Issues](./resolved_issues.md)** - Log of major bug fixes and structural platform improvements.
+- 🗂️ **[Project File Tree](./File_Tree.md)** - Complete repository file tree.
+- 🚀 **[Performance Optimizations](./performance_optimization.md)** - GPU rendering fixes, state tuning, zero-CLS viewports, and database indexing.
+- 🔮 **[Roadmap](./roadmap.md)** - Completed milestones, in-progress tasks, and upcoming feature pipeline.
+- ✅ **[Resolved Issues](./resolved_issues.md)** - Log of major bug fixes, rendering fixes, and platform improvements.
+- 💡 **[Improvement Notes](./improvement.md)** - Architectural notes, planned structural improvements, and future ideas.
+
+**Community & Governance:**
+- 🤝 **[Contributing Guidelines](./CONTRIBUTING.md)** - Code standards, PR workflow, and local development setup.
+- 🛡️ **[Security Policy](./SECURITY.md)** - Security disclosure guidelines, vulnerability reporting, and practices.
+- 📜 **[Code of Conduct](./CODE_OF_CONDUCT.md)** - Standards and expectations for community interaction.
+- ⚖️ **[License](./LICENSE.md)** - All rights reserved software license and permissions.
 
 **Frontend & Backend:**
-- 🎨 **[Frontend Documentation](./frontend/README.md)** - Details about the React & Vite frontend architecture, libraries, and UI design.
-- ⚙️ **[Backend Documentation](./Backend/Readme.md)** - Details about the Node.js/Express server, MongoDB schemas, and security practices.
-- 📡 **[API Reference](./Backend/APIs.md)** - Comprehensive documentation of all available REST API endpoints.
-- 🗂️ **[Frontend File Tree](./frontend/File_Tree.md)** - Structure of the frontend codebase.
-- 🗂️ **[Backend File Tree](./Backend/File_Tree.md)** - Structure of the backend codebase.
-- 🖌️ **[Frontend Design Notes](./frontend/Design.md)** - Design choices and UI/UX improvements.
+- 🎨 **[Frontend Documentation](./frontend/README.md)** - React 19 & Vite architecture, state management, and UI design.
+- ⚙️ **[Backend Documentation](./Backend/Readme.md)** - Node.js/Express server, MongoDB schemas, and security practices.
+- 📡 **[API Reference](./Backend/APIs.md)** - Comprehensive documentation of all REST API endpoints.
+- 🗂️ **[Frontend File Tree](./frontend/File_Tree.md)** - Detailed tree of the frontend codebase.
+- 🗂️ **[Backend File Tree](./Backend/File_Tree.md)** - Detailed tree of the backend codebase.
+- 🖌️ **[Frontend Design Notes](./frontend/Design.md)** - Design system tokens, liquid glassmorphism, and responsive guidelines.
 
 ---
 
 ## ✨ Key Features
 
-- **Global Community:** Share passions, discover new interests, and explore a global feed of content.
-- **Dedicated Post Page & URL Sharing:** Standalone post pages (`/posts/:id`) with full descriptions, alt-text accessibility, impression tracking, and direct link copying.
-- **Robust Security:** Passwords hashed via `bcrypt` (12 salt rounds), JWT stateless sessions (JWT Auth Token + Auth Header for CSRF/cross-origin safety), and strict CORS policies.
-- **Rich Media Handling:** Upload images and videos directly. Media is optimized and stored efficiently using Multer and Cloudinary.
-- **Support & Inquiries Portal:** Comprehensive Contact Us desk (`/contact-us`) with categorized feedback and multi-media attachments. Users can track real-time admin responses in the My Inquiries page (`/my-inquiries`) and also receive updates via email.
-- **Advanced UI/UX:** Built with React 19, Tailwind CSS, and native CSS for smooth animations, with a focus on accessibility (alt texts).
-- **Data Integrity:** Strict server-side validation via `express-validator` and robust client-side form validation via `Yup` and `React Hook Form`.
+- **Global Community & Discovery:** Explore global post feeds with smooth autoplay videos, discover creators via debounced search, and browse user profiles.
+- **Dynamic Post Interactions:** Real-time atomic **Sparks** (likes), **Reshares**, and private **Archives** with optimistic UI updates. Down-arrow count badges open an interactive modal (`InteractionsListModal`) to inspect which users engaged.
+- **Synchronized Profile Media Tabs:** Profile showcases dynamic media tabs (All, Images, Videos, Reshares, Archived) with automatic cross-tab interaction state synchronization without full-page reloads.
+- **Account & Security Settings:** Dedicated Settings hub (`/settings`) with secure self-service **Change Email** (`/settings/change-email`) and **Change Password** (`/settings/change-password`) backed by Yup validation schemas.
+- **Dedicated Post Page & Link Sharing:** Standalone post pages (`/posts/:id`), one-click link copying for profiles and posts, alt-text accessibility, and live impression telemetry.
+- **Support & Inquiries Desk:** Comprehensive Contact Us portal (`/contact-us`) supporting multiple inquiry categories with image and video attachments. Users track admin responses under My Inquiries (`/my-inquiries`) and receive email updates via Nodemailer.
+- **High-Performance Architecture:** Zero Cumulative Layout Shift (CLS = 0) with locked 520px media containers, single-active coordinated video playback, GZIP/Brotli payload compression, and compound MongoDB covered indexes.
+- **Robust Security & Data Integrity:** Passwords hashed via `bcrypt` (12 salt rounds), stateless JWT tokens via `Authorization: Bearer <token>` headers, strict CORS configuration, and dual-layer validation (`Yup` on frontend, `express-validator` on backend).
 
 ---
 
 ## 🛠️ Tech Stack
 
 ### **Frontend**
-- **Core:** React, Vite, React Router DOM
+- **Core:** React, Vite, React Router
 - **Styling & UI:** Tailwind CSS, Lucide React, React Spinners, React Toastify
 - **Data & Forms:** Axios, React Hook Form, Yup
-- **Tools & Validation:** ESLint, Yup
+- **Tools & Config:** ESLint, Vercel deployment configuration
 
 ### **Backend**
 - **Core:** Node.js, Express.js
-- **Database:** MongoDB & Mongoose
-- **Security & Auth:** JSON Web Tokens (JWT), bcrypt, CORS, Dotenv
-- **Media & Files:** Cloudinary, Multer
-- **Utilities:** Nodemailer (Emails), express-validator, Nodemon
+- **Database:** MongoDB & Mongoose (with compound indexes and cascading hooks)
+- **Security & Auth:** JSON Web Tokens (JWT), bcrypt (12 rounds), CORS, Dotenv
+- **Media & Storage:** Cloudinary (CDN image/video processing), Multer (multipart handling)
+- **Utilities & Communications:** Nodemailer (email updates), Express Validator, Compression (GZIP/Brotli), Nodemon
 
 ---
-
 
 <div align="center">
   <b>© 2026 LookSphere. Built by <a href="https://github.com/PRANAV-SHILU">Pranav Shilu</a>. All rights reserved.</b>
@@ -111,7 +118,8 @@ Explore the detailed documentation for different parts of the project:
 
 ---
 **📚 LookSphere Documentation Index:**
-- **Root:** [Main Readme](./Readme.md) | [File Tree](./File_Tree.md) | [Roadmap](./roadmap.md) | [Performance](./performance_optimization.md) | [Resolved Issues](./resolved_issues.md)
+- **Root:** [Main Readme](./Readme.md) | [File Tree](./File_Tree.md) | [Roadmap](./roadmap.md) | [Performance](./performance_optimization.md) | [Resolved Issues](./resolved_issues.md) | [Improvements](./improvement.md)
+- **Governance:** [Contributing](./CONTRIBUTING.md) | [Security](./SECURITY.md) | [Code of Conduct](./CODE_OF_CONDUCT.md) | [License](./LICENSE.md)
 - **Frontend:** [Frontend Readme](./frontend/README.md) | [Design Specs](./frontend/Design.md) | [Frontend File Tree](./frontend/File_Tree.md)
 - **Backend:** [Backend Readme](./Backend/Readme.md) | [API Docs](./Backend/APIs.md) | [Backend File Tree](./Backend/File_Tree.md)
 ---

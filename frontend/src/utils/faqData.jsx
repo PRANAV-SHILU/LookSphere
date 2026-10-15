@@ -10,7 +10,7 @@ import {
   Rocket,
 } from "lucide-react";
 
-export const LAST_UPDATED = "August 15, 2026";
+export const LAST_UPDATED = "October 22, 2026";
 
 export const FAQ_CATEGORIES = [
   {
@@ -132,6 +132,10 @@ export const FAQ_CATEGORIES = [
       {
         q: "What is Reshare?",
         a: "Reshare allows you to share and broadcast posts you discover with the broader LookSphere community. Clicking the Reshare button reposts and amplifies content you find noteworthy, helping creators reach a wider audience across feeds.",
+      },
+      {
+        q: "Can I see who sparked or reshared a post?",
+        a: "Yes! Every post with sparks or reshares displays a subtle down-arrow indicator beside the interaction count. Clicking the count number opens a modal list showing the profile avatars and usernames of everyone who sparked or reshared that post, with one-click navigation to their profile.",
       },
       {
         q: "What is Archive?",

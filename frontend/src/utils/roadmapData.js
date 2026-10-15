@@ -24,7 +24,7 @@ import {
   Share2,
 } from "lucide-react";
 
-export const LAST_UPDATED = "August 15, 2026";
+export const LAST_UPDATED = "October 22, 2026";
 
 export const COMPLETED_FEATURES = {
   id: "completed",
@@ -34,27 +34,33 @@ export const COMPLETED_FEATURES = {
   items: [
     {
       icon: ThumbsUp,
-      title: "Post Interactions",
+      title: "Post Interactions & User Lists",
       description:
-        "Seamless mechanism to Spark, Reshare and Archive posts.",
+        "Seamless mechanism to Spark, Reshare, and Archive posts with dedicated modal inspect lists for Sparks and Reshares.",
+    },
+    {
+      icon: Zap,
+      title: "Cross-Tab State Synchronization",
+      description:
+        "Real-time optimistic interaction state synchronization across Images, Videos, Reshares, and Saved tabs.",
     },
     {
       icon: Link,
       title: "Profile & Post Link Sharing",
       description:
-        "Instant shareable URLs for profile and post with standalone post view page.",
+        "Instant shareable URLs for profile and post with standalone post view page and clipboard notifications.",
     },
     {
       icon: Settings,
       title: "Change Email & Password",
       description:
-        "Secure & authenticated flow to change Email & Password directly from Settings.",
+        "Secure & authenticated flow to change Email & Password directly from Settings with real-time validation.",
     },
     {
       icon: MessageSquare,
       title: "Contact Us & Inquiries",
       description:
-        "Interactive contact form and My Inquiry page to track admin responses.",
+        "Interactive categorized contact form and My Inquiry page to track admin responses.",
     },
   ],
 };
@@ -168,12 +174,6 @@ export const ROADMAP_CATEGORIES = [
         title: "Optimistic UI",
         description:
           "Background operations for media uploads and post edits, ensuring the UI never blocks your workflow.",
-      },
-      {
-        icon: Database,
-        title: "Data Management",
-        description:
-          "Complete cascading deletion functionality for posts and accounts in the database.",
       },
       {
         icon: Globe,

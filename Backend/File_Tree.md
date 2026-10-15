@@ -1,4 +1,4 @@
-<div align="right">Last Modified: 1-Sep-2026</div>
+<div align="right">Last Modified: 22-Oct-2026</div>
 
 # File Tree: Backend
 
@@ -20,6 +20,7 @@
     │   ├── 📄 admin.controller.js
     │   ├── 📄 auth.controller.js
     │   ├── 📄 contact.controller.js
+    │   ├── 📄 interaction.controller.js
     │   ├── 📄 post.controller.js
     │   └── 📄 user.controller.js
     ├── 📄 index.js
@@ -29,18 +30,21 @@
     │   └── 📄 upload.middleware.js
     ├── 📁 models
     │   ├── 📄 contact.model.js
+    │   ├── 📄 interaction.model.js
     │   ├── 📄 posts.model.js
     │   └── 📄 users.model.js
     ├── 📁 routes
     │   ├── 📄 admin.route.js
     │   ├── 📄 auth.routes.js
     │   ├── 📄 contact.route.js
+    │   ├── 📄 interaction.route.js
     │   ├── 📄 post.routes.js
     │   └── 📄 user.routes.js
     ├── 📁 utils
     │   ├── 📄 asyncHandler.js
     │   ├── 📄 cloudinaryUpload.js
-    │   └── 📄 errorHandler.js
+    │   ├── 📄 errorHandler.js
+    │   └── 📄 postHelper.js
     └── 📁 validators
         ├── 📄 auth.validator.js
         ├── 📄 contact.validator.js

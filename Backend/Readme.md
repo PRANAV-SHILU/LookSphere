@@ -1,4 +1,4 @@
-<div align="right">Last Modified: 1-Sep-2026</div>
+<div align="right">Last Modified: 22-Oct-2026</div>
 
 
 <div align="center">
@@ -23,7 +23,7 @@
 
 </div>
 
-This is the backend server for **LookSphere**, a modern social media application. Built with **Node.js** and **Express**, it provides a robust REST API for user authentication, profile management, media-rich post feeds, and user contact/inquiry support.
+This is the backend server for **LookSphere**, a modern social media application. Built with **Node.js** and **Express**, it provides a robust REST API for user authentication, profile management, media-rich post feeds, post interactions (sparks, archives, reshares), and user contact/inquiry support.
 
 **🌐 Live Demo:** [LookSphere](http://localhost:5173/)  
 **🐱 GitHub Profile:** [@PRANAV-SHILU](https://github.com/PRANAV-SHILU)
@@ -34,6 +34,8 @@ This is the backend server for **LookSphere**, a modern social media application
 
 - **Seamless Media Uploads:** Handles both Images and Videos with auto-optimization and cloud storage via Cloudinary.
 - **Secure Authentication:** JWT-based authentication using localStorage with Authorization header transmission to avoid third-party cookie blocking issues.
+- **Post Interactions Engine:** Full-fledged mechanism supporting atomic toggling of sparks, archives, and reshares with covered index lookups, automatic count synchronization, and user inspect lists.
+- **Dynamic Tagline Onboarding:** New accounts automatically inherit their chosen username as their default initial tagline.
 - **Contact & Inquiries System:** Full-featured inquiry submission supporting category routing, multi-image and video attachments, inquiry tracking via My Inquiries (`/my-inquiries`), email updates, and an administrative moderation desk.
 - **Platform Analytics:** Comprehensive metrics and statistics for admin dashboards.
 - **Engagement Tracking:** Dynamic counters for profile views and post impressions.
@@ -58,7 +60,7 @@ This is the backend server for **LookSphere**, a modern social media application
 
 Security is a top priority for this API. The following protections are in place:
 
-- **Password Protection:** Passwords are salted and hashed using `bcrypt` (cost factor 10).
+- **Password Protection:** Passwords are salted and hashed using `bcrypt` (cost factor 12).
 - **XSS Mitigation:** JWT tokens are stored in localStorage. To mitigate XSS risks, implement strict Content Security Policy (CSP) and validate/sanitize all user inputs.
 - **Route Authorization:** Robust JWT middleware ensures protected routes are only accessible to authenticated users.
 - **Input Sanitization:** All incoming request bodies and parameters are validated and sanitized via `express-validator` to prevent bad data and NoSQL injection.

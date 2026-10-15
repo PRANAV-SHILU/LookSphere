@@ -1,4 +1,4 @@
-<div align="right">Last Modified: 1-Sep-2026</div>
+<div align="right">Last Modified: 22-Oct-2026</div>
 
 
 # LookSphere — Visual Design Specification
@@ -126,6 +126,7 @@ To maintain consistency across our standalone pages, use the following layout ru
 3. **Timeline Changelog**: The What's New page uses a vertical timeline layout. The central line is anchored on the container's left border (`border-l-2 border-(--border-light)`) and uses `left-[-11px]` to perfectly center the timeline circle dot.
 4. **Legal Document Layout**: Privacy Policy and Terms & Conditions render utilizing the shared `<LegalDocument />` layout wrapper, which provides consistent section headings, lists, tables, and standard typographic flow.
 5. **Support & Inquiries Desk**: The Contact Us (`/contact-us`) and My Inquiries (`/my-inquiries`) pages use categorized pill selectors, interactive attachment previews (with lightbox zoom and inline video players), and collapsible administrative reply drawers. When admins respond, users receive message updates directly in their My Inquiries dashboard and receive email notifications.
+6. **Interaction Overlays & User Modals**: The `<InteractionsListModal />` renders via React Portal (`document.body`) using a sleek liquid-glass dialog, backdrop blur, optimistic local memory caching, and self-toggle cache invalidation to list who sparked or reshared content.
 
 ---
 
@@ -145,7 +146,8 @@ Badges are designed to be translucent, border-anchored, and highly readable in b
 | :--- | :---: | :--- | :--- |
 | **Feature** | <span style="background-color:#EAB308; width:16px; height:16px; display:inline-block; border-radius:4px; border:1px solid #ccc"></span> | `bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 border border-yellow-500/20` | New major capabilities / additions |
 | **Bugfix** | <span style="background-color:#EF4444; width:16px; height:16px; display:inline-block; border-radius:4px; border:1px solid #ccc"></span> | `bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/20` | Issue resolutions, hotfixes |
-| **Enhancement** | <span style="background-color:#22C55E; width:16px; height:16px; display:inline-block; border-radius:4px; border:1px solid #ccc"></span> | `bg-green-500/10 text-green-600 dark:text-green-400 border border-green-500/20` | Performance gains, styling polish |
+| **Enhancement** | <span style="background-color:#22C55E; width:16px; height:16px; display:inline-block; border-radius:4px; border:1px solid #ccc"></span> | `bg-green-500/10 text-green-600 dark:text-green-400 border border-green-500/20` | Feature improvements, styling polish |
+| **Performance** | <span style="background-color:#3B82F6; width:16px; height:16px; display:inline-block; border-radius:4px; border:1px solid #ccc"></span> | `bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20` | Real-time state synchronization, scrolling optimizations |
 | **General Info** | <span style="background-color:#3B82F6; width:16px; height:16px; display:inline-block; border-radius:4px; border:1px solid #ccc"></span> | `bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20` | Core sections (e.g. Roadmap, FAQ, Help Center) |
 
 ### Support & Inquiry Category Badges

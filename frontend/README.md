@@ -1,4 +1,4 @@
-<div align="right">Last Modified: 1-Sep-2026</div>
+<div align="right">Last Modified: 22-Oct-2026</div>
 
 
 <div align="center">
@@ -46,22 +46,26 @@ The frontend is crafted with React 19 and Vite for a lightning-fast development 
 
 - **Global Community:** Join a diverse, vibrant community of creators, thinkers, and innovators across the globe.
 - **Share & Discover:** Share your passions and discover new interests through an intuitive content discovery engine.
+- **Post Interactions & Modals:** Real-time Spark, Reshare, and Archive capabilities with optimistic updates, dedicated interactive user list modals to inspect who sparked or reshared posts, and instant profile navigation.
+- **Cross-Tab Synchronization:** Interacting with posts immediately syncs across all media tabs (Images, Videos, Reshares, Archived) and modal views without page reloads.
+- **Profile & Post Link Sharing:** Dedicated copy link buttons next to usernames, one-click post share links across feed/modal footers, and standalone post view pages (`/posts/:id`).
 - **Support & Inquiries:** Dedicated Contact Us portal (`/contact-us`) with category routing, media attachments (images/video), real-time ticket tracking under My Inquiries (`/my-inquiries`), email notifications, and an admin moderation dashboard.
 - **Privacy First:** Your data belongs to you. Advanced security features keep your conversations and content safe.
 
 ## ⚙️ How It Works
 
-1. **Secure Signup:** Your password is encrypted with 12 salt rounds before hitting our database.
+1. **Secure Signup & Onboarding:** Your password is encrypted with 12 salt rounds before hitting our database. Your chosen username is automatically adopted as your initial profile tagline.
 2. **Upload Media:** Share images or videos with custom captions and alt-text for accessibility.
-3. **Discover & Engage:** Explore the Feed, search for specific users, open dedicated post URLs (`/posts/:id`), and see your impression counts grow.
+3. **Discover & Engage:** Explore the Feed, search for creators, spark, reshare, or archive posts, inspect who reacted via interaction list modals, open dedicated post URLs (`/posts/:id`), and see impression counts grow.
 4. **Get Support:** Submit inquiries or feedback directly through the Contact Us desk (`/contact-us`). You will receive admin responses directly on your My Inquiries page (`/my-inquiries`) and get notified via email.
 
 ## 🎯 What You Can Do
 
-- **Post & Share:** Express yourself! Upload photos & media, write captions & stories, add alt text for accessibility, share direct post links, reach a global audience, and see real-time post impression counts.
-- **Explore & Discover:** Never miss a thing. Browse a global post feed, use smart search & filters, discover new creators, and get curated recommendations.
+- **Post & Share:** Express yourself! Upload photos & media, write captions & stories, add alt text for accessibility, share direct post and profile links, reach a global audience, and see real-time post impression counts.
+- **Interact & Connect:** Spark posts to show appreciation, reshare posts to your public reshare feed, and privately archive posts. Tap down-arrow count badges to see complete lists of people who interacted.
+- **Explore & Discover:** Never miss a thing. Browse a global post feed with seamless video autoplay, use smart search & filters, discover new creators, and browse creator profiles with synchronized media tabs.
 - **Support & Inquiries:** Reach out directly through the interactive Contact Us form (`/contact-us`), attach screenshots or video clips, track submitted requests under My Inquiries (`/my-inquiries`), receive official admin response messages, and receive email notifications.
-- **Secure Profile:** Keep your data protected. Manage your profile, enjoy JWT stateless sessions, bcrypt password hashing, securely change and reset your password, and profile view tracking.
+- **Secure Profile & Settings:** Keep your data protected. Manage your profile, enjoy JWT stateless sessions, bcrypt password hashing, securely change password and email address directly from Settings, and view tracking.
 
 ## 🛡️ Data Integrity & Security
 

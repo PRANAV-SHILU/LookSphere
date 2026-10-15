@@ -1,4 +1,4 @@
-<div align="right">Last Modified: 1-Sep-2026</div>
+<div align="right">Last Modified: 22-Oct-2026</div>
 
 # File Tree: Frontend
 
@@ -22,6 +22,7 @@
 ├── 📝 README.md
 ├── 📁 src
 │   ├── 📁 actions
+│   │   ├── 📄 changeEmailAction.jsx
 │   │   ├── 📄 changePasswordAction.jsx
 │   │   ├── 📄 contactAction.jsx
 │   │   ├── 📄 editProfileAction.jsx
@@ -59,7 +60,11 @@
 │   │   │   ├── 📄 ThemePreview.jsx
 │   │   │   ├── 📄 WhatYouCanDo.jsx
 │   │   │   └── 📄 WhyLookSphere.jsx
-│   │   └── 📄 PageNotFound.jsx
+│   │   ├── 📄 PageNotFound.jsx
+│   │   ├── 📁 post
+│   │   │   └── 📄 PostInteractions.jsx
+│   │   └── 📁 profile
+│   │       └── 📄 ProfileTabGrid.jsx
 │   ├── 📁 context
 │   │   └── 📄 ContactFormContext.jsx
 │   ├── 📁 hooks
@@ -81,6 +86,7 @@
 │   ├── 📄 main.jsx
 │   ├── 📁 modals
 │   │   ├── 📄 ConfirmationModal.jsx
+│   │   ├── 📄 InteractionsListModal.jsx
 │   │   ├── 📄 PostDetailModal.jsx
 │   │   └── 📄 UploadMediaModal.jsx
 │   ├── 📁 network
@@ -90,11 +96,13 @@
 │   │   ├── 📄 cacheInterceptor.js
 │   │   ├── 📄 contactApi.js
 │   │   ├── 📄 endpoints.js
+│   │   ├── 📄 interactionApi.js
 │   │   ├── 📄 postApi.js
 │   │   └── 📄 userApi.js
 │   ├── 📁 pages
 │   │   ├── 📄 About.jsx
 │   │   ├── 📄 AdminContact.jsx
+│   │   ├── 📄 ChangeEmail.jsx
 │   │   ├── 📄 ChangePassword.jsx
 │   │   ├── 📄 ContactUs.jsx
 │   │   ├── 📄 Creators.jsx
@@ -126,6 +134,7 @@
 │   │   ├── 📄 adminService.js
 │   │   ├── 📄 authService.js
 │   │   ├── 📄 contactService.js
+│   │   ├── 📄 interactionService.js
 │   │   ├── 📄 postService.js
 │   │   └── 📄 userService.js
 │   ├── 📁 shared-components
@@ -146,6 +155,7 @@
 │       ├── 📄 cloudinaryOptimizer.js
 │       ├── 📄 faqData.jsx
 │       ├── 📄 feedRefresher.js
+│       ├── 📄 interactionUtils.js
 │       ├── 📄 privacyPolicyData.js
 │       ├── 📄 roadmapData.js
 │       ├── 📄 staticData.jsx

@@ -57,22 +57,22 @@ The frontend is crafted with React 19 and Vite for a lightning-fast development 
 - **Post Interactions & Modals:** Real-time Spark, Reshare, and Archive capabilities with optimistic updates, dedicated interactive user list modals to inspect who sparked or reshared posts, and instant profile navigation.
 - **Cross-Tab Synchronization:** Interacting with posts immediately syncs across all media tabs (Images, Videos, Reshares, Archived) and modal views without page reloads.
 - **Profile & Post Link Sharing:** Dedicated copy link buttons next to usernames, one-click post share links across feed/modal footers, and standalone post view pages (`/posts/:id`).
-- **Support & Inquiries:** Dedicated Contact Us portal (`/contact-us`) with category routing, media attachments (images/video), real-time ticket tracking under My Inquiries (`/my-inquiries`), email notifications, and an admin moderation dashboard.
+- **Support & Inquiries:** Dedicated Contact Us portal (`/contact-us`) with category routing, media attachments (images/video), real-time ticket tracking under My Inquiries (`/my-inquiries`), and an admin moderation dashboard.
 - **Privacy First:** Your data belongs to you. Advanced security features keep your conversations and content safe.
 
 ## ⚙️ How It Works
 
-1. **Secure Signup & Onboarding:** Your password is encrypted with 12 salt rounds before hitting our database. Your chosen username is automatically adopted as your initial profile tagline.
+1. **Secure Signup & Onboarding:** Your password is encrypted with 12 salt rounds before hitting our database. Create your custom credentials and start connecting immediately.
 2. **Upload Media:** Share images or videos with custom captions and alt-text for accessibility.
 3. **Discover & Engage:** Explore the Feed, search for creators, spark, reshare, or archive posts, inspect who reacted via interaction list modals, open dedicated post URLs (`/posts/:id`), and see impression counts grow.
-4. **Get Support:** Submit inquiries or feedback directly through the Contact Us desk (`/contact-us`). You will receive admin responses directly on your My Inquiries page (`/my-inquiries`) and get notified via email.
+4. **Get Support:** Submit inquiries or feedback directly through the Contact Us desk (`/contact-us`). You will receive admin responses directly on your My Inquiries page (`/my-inquiries`) directly on your portal.
 
 ## 🎯 What You Can Do
 
 - **Post & Share:** Express yourself! Upload photos & media, write captions & stories, add alt text for accessibility, share direct post and profile links, reach a global audience, and see real-time post impression counts.
 - **Interact & Connect:** Spark posts to show appreciation, reshare posts to your public reshare feed, and privately archive posts. Tap down-arrow count badges to see complete lists of people who interacted.
 - **Explore & Discover:** Never miss a thing. Browse a global post feed with seamless video autoplay, use smart search & filters, discover new creators, and browse creator profiles with synchronized media tabs.
-- **Support & Inquiries:** Reach out directly through the interactive Contact Us form (`/contact-us`), attach screenshots or video clips, track submitted requests under My Inquiries (`/my-inquiries`), receive official admin response messages, and receive email notifications.
+- **Support & Inquiries:** Reach out directly through the interactive Contact Us form (`/contact-us`), attach screenshots or video clips, track submitted requests under My Inquiries (`/my-inquiries`), receive official admin response messages.
 - **Secure Profile & Settings:** Keep your data protected. Manage your profile, enjoy JWT stateless sessions, bcrypt password hashing, securely change password and email address directly from Settings, and view tracking.
 
 ## 🛡️ Data Integrity & Security
@@ -89,15 +89,27 @@ The frontend is crafted with React 19 and Vite for a lightning-fast development 
 
 The project has a well-organized, scalable architecture. For a detailed breakdown of the directory layout and all files, please see the [File Tree](./File_Tree.md) documentation.
 
----
-
-## ⚖️ Copyright & License
-
-  <b>© 2026 LookSphere. All rights reserved.</b>
+<br>
+<br>
 
 ---
+
 **📚 LookSphere Documentation Index:**
-- **Root:** [Main Readme](../Readme.md) | [File Tree](../File_Tree.md) | [Roadmap](../roadmap.md) | [Performance](../performance_optimization.md) | [Resolved Issues](../resolved_issues.md)
-- **Frontend:** [Frontend Readme](./README.md) | [Design Specs](./Design.md) | [Frontend File Tree](./File_Tree.md)
-- **Backend:** [Backend Readme](../Backend/Readme.md) | [API Docs](../Backend/APIs.md) | [Backend File Tree](../Backend/File_Tree.md)
+- **Core Documentation:** [Main Readme](../Readme.md) | [Algorithms](../Algorithms.md) | [Performance Optimization](../Performance_Optimization.md) | [Roadmap](../Roadmap.md) | [Resolved Issues](../Resolved_Issues.md) | [File Tree](../File_Tree.md) | [Improvements](../improvement.md)
+- **Governance & Policies:** [Contributing Guidelines](../CONTRIBUTING.md) | [Code of Conduct](../CODE_OF_CONDUCT.md) | [Security Policy](../SECURITY.md) | [License](../LICENSE.md)
+- **Issue Templates:** [Bug Report](../.github/ISSUE_TEMPLATE/bug_report.md) | [Feature Request](../.github/ISSUE_TEMPLATE/feature_request.md)
+- **Frontend Architecture:** [Frontend Readme](./README.md) | [Design System](./Design.md) | [Frontend File Tree](./File_Tree.md)
+- **Backend Architecture:** [Backend Readme](../Backend/Readme.md) | [API Documentation](../Backend/APIs.md) | [Backend File Tree](../Backend/File_Tree.md)
+
 ---
+
+<div align="center">
+
+**LookSphere Engineering Documentation**  
+*Liquid glassmorphism, instant optimistic feedback, and accessible React architecture.*
+
+</div>
+<div align="center">
+  <b>© 2026 LookSphere. Built by <a href="https://www.linkedin.com/in/pranavshilu/">Pranav Shilu</a>. All rights reserved.</b>
+</div>
+

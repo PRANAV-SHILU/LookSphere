@@ -13,7 +13,6 @@
 ![Cloudinary](https://img.shields.io/badge/Cloudinary-Media-3448C5?logo=cloudinary&logoColor=white)
 ![Multer](https://img.shields.io/badge/Multer-Uploads-orange)
 ![bcrypt](https://img.shields.io/badge/bcrypt-Security-red)
-![Nodemailer](https://img.shields.io/badge/Nodemailer-Email-14B32E)
 ![Express Validator](https://img.shields.io/badge/Express_Validator-Validation-41315F)
 ![Dotenv](https://img.shields.io/badge/Dotenv-Config-ECD53F?logo=dotenv&logoColor=black)
 ![CORS](https://img.shields.io/badge/CORS-Protection-purple)
@@ -35,8 +34,7 @@ This is the backend server for **LookSphere**, a modern social media application
 - **Seamless Media Uploads:** Handles both Images and Videos with auto-optimization and cloud storage via Cloudinary.
 - **Secure Authentication:** JWT-based authentication using localStorage with Authorization header transmission to avoid third-party cookie blocking issues.
 - **Post Interactions Engine:** Full-fledged mechanism supporting atomic toggling of sparks, archives, and reshares with covered index lookups, automatic count synchronization, and user inspect lists.
-- **Dynamic Tagline Onboarding:** New accounts automatically inherit their chosen username as their default initial tagline.
-- **Contact & Inquiries System:** Full-featured inquiry submission supporting category routing, multi-image and video attachments, inquiry tracking via My Inquiries (`/my-inquiries`), email updates, and an administrative moderation desk.
+- **Contact & Inquiries System:** Full-featured inquiry submission supporting category routing, multi-image and video attachments, inquiry tracking via My Inquiries (`/my-inquiries`), and an administrative moderation desk.
 - **Platform Analytics:** Comprehensive metrics and statistics for admin dashboards.
 - **Engagement Tracking:** Dynamic counters for profile views and post impressions.
 - **Robust Validation:** Strict input validation to ensure data integrity before it reaches the database.
@@ -51,7 +49,6 @@ This is the backend server for **LookSphere**, a modern social media application
 - **File Parsing:** Multer
 - **Validation:** Express-Validator
 - **Security & Password Hashing:** bcrypt
-- **Email Services:** Nodemailer
 - **Middleware:** CORS (Cross-Origin Resource Sharing), Compression (GZIP/Brotli payload compression)
 - **Environment Management:** Dotenv
 - **Development Tool:** Nodemon
@@ -98,7 +95,7 @@ Here's a quick summary of the available resources. For full details, view the [A
 - **Users:** Fetch user lists, manage profiles, change password/email, and view user metrics.
 - **Posts:** Create, edit, fetch feeds, and increment impression counts for media posts.
 - **Interactions:** Toggle sparks, archives, and reshares on posts, and fetch user- or post-specific interaction histories.
-- **Contact & Support:** Submit inquiries with attachments, deliver responses to the user's My Inquiries dashboard (`/my-inquiries`), send email updates, and manage/respond to inquiries via admin portal.
+- **Contact & Support:** Submit inquiries with attachments, deliver responses to the user's My Inquiries dashboard (`/my-inquiries`), send and manage/respond to inquiries via admin portal.
 - **Admin:** Fetch platform-wide analytics, user metrics, and contact statistics.
 
 ### Error Format
@@ -129,9 +126,27 @@ Built by **Pranav Shilu**
 **All Rights Reserved.**  
 This is a private, proprietary repository. No part of this codebase may be reproduced, distributed, or transmitted in any form or by any means without the prior written permission of the owner.
 
+<br>
+<br>
+
 ---
+
 **📚 LookSphere Documentation Index:**
-- **Root:** [Main Readme](../Readme.md) | [File Tree](../File_Tree.md) | [Roadmap](../roadmap.md) | [Performance](../performance_optimization.md) | [Resolved Issues](../resolved_issues.md)
-- **Frontend:** [Frontend Readme](../frontend/README.md) | [Design Specs](../frontend/Design.md) | [Frontend File Tree](../frontend/File_Tree.md)
-- **Backend:** [Backend Readme](./Readme.md) | [API Docs](./APIs.md) | [Backend File Tree](./File_Tree.md)
+- **Core Documentation:** [Main Readme](../Readme.md) | [Algorithms](../Algorithms.md) | [Performance Optimization](../Performance_Optimization.md) | [Roadmap](../Roadmap.md) | [Resolved Issues](../Resolved_Issues.md) | [File Tree](../File_Tree.md) | [Improvements](../improvement.md)
+- **Governance & Policies:** [Contributing Guidelines](../CONTRIBUTING.md) | [Code of Conduct](../CODE_OF_CONDUCT.md) | [Security Policy](../SECURITY.md) | [License](../LICENSE.md)
+- **Issue Templates:** [Bug Report](../.github/ISSUE_TEMPLATE/bug_report.md) | [Feature Request](../.github/ISSUE_TEMPLATE/feature_request.md)
+- **Frontend Architecture:** [Frontend Readme](../frontend/README.md) | [Design System](../frontend/Design.md) | [Frontend File Tree](../frontend/File_Tree.md)
+- **Backend Architecture:** [Backend Readme](./Readme.md) | [API Documentation](./APIs.md) | [Backend File Tree](./File_Tree.md)
+
 ---
+
+<div align="center">
+
+**LookSphere Engineering Documentation**  
+*Robust REST infrastructure, covered database lookups, and airtight authentication.*
+
+</div>
+<div align="center">
+  <b>© 2026 LookSphere. Built by <a href="https://www.linkedin.com/in/pranavshilu/">Pranav Shilu</a>. All rights reserved.</b>
+</div>
+

@@ -423,10 +423,22 @@ MongoDB organizes indices in balanced B-Tree structures. LookSphere engineers co
 ## Cross-Reference & System Integration
 
 For practical integration, benchmarks, network metrics, and CSS rendering optimizations, see:
-- [Performance Optimization Guide](./performance_optimization.md) — Comprehensive rendering, CSS containment, and caching architecture.
+- [Performance Optimization Guide](./Performance_Optimization.md) — Comprehensive rendering, CSS containment, and caching architecture.
 - [Backend APIs Specification](./Backend/APIs.md) — API endpoints and payload schemas.
-- [Architecture & Resolved Issues](./resolved_issues.md) — Historical bug fixes, state management synchronization, and race condition resolutions.
+- [Architecture & Resolved Issues](./Resolved_Issues.md) — Historical bug fixes, state management synchronization, and race condition resolutions.
 - [Repository File Tree](./File_Tree.md) — Complete repository structure.
+
+<br>
+<br>
+
+---
+
+**📚 LookSphere Documentation Index:**
+- **Core Documentation:** [Main Readme](./Readme.md) | [Algorithms](./Algorithms.md) | [Performance Optimization](./Performance_Optimization.md) | [Roadmap](./Roadmap.md) | [Resolved Issues](./Resolved_Issues.md) | [File Tree](./File_Tree.md) | [Improvements](./improvement.md)
+- **Governance & Policies:** [Contributing Guidelines](./CONTRIBUTING.md) | [Code of Conduct](./CODE_OF_CONDUCT.md) | [Security Policy](./SECURITY.md) | [License](./LICENSE.md)
+- **Issue Templates:** [Bug Report](./.github/ISSUE_TEMPLATE/bug_report.md) | [Feature Request](./.github/ISSUE_TEMPLATE/feature_request.md)
+- **Frontend Architecture:** [Frontend Readme](./frontend/README.md) | [Design System](./frontend/Design.md) | [Frontend File Tree](./frontend/File_Tree.md)
+- **Backend Architecture:** [Backend Readme](./Backend/Readme.md) | [API Documentation](./Backend/APIs.md) | [Backend File Tree](./Backend/File_Tree.md)
 
 ---
 
@@ -435,4 +447,7 @@ For practical integration, benchmarks, network metrics, and CSS rendering optimi
 **LookSphere Engineering Documentation**  
 *Built for extreme speed, mathematical rigor, and uncompromised privacy.*
 
+</div>
+<div align="center">
+  <b>© 2026 LookSphere. Built by <a href="https://www.linkedin.com/in/pranavshilu/">Pranav Shilu</a>. All rights reserved.</b>
 </div>

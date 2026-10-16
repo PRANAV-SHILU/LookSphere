@@ -769,7 +769,7 @@ export default function ContactUs() {
               >
                 My Inquiries
               </Link>{" "}
-              page and you will also receive an email notification upon resolution.
+              page.
             </span>
           </div>
         </Form>

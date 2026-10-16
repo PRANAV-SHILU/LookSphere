@@ -51,3 +51,28 @@
         ├── 📄 post.validator.js
         └── 📄 user.validator.js
 ```
+
+<br>
+<br>
+
+---
+
+**📚 LookSphere Documentation Index:**
+- **Core Documentation:** [Main Readme](../Readme.md) | [Algorithms](../Algorithms.md) | [Performance Optimization](../Performance_Optimization.md) | [Roadmap](../Roadmap.md) | [Resolved Issues](../Resolved_Issues.md) | [File Tree](../File_Tree.md) | [Improvements](../improvement.md)
+- **Governance & Policies:** [Contributing Guidelines](../CONTRIBUTING.md) | [Code of Conduct](../CODE_OF_CONDUCT.md) | [Security Policy](../SECURITY.md) | [License](../LICENSE.md)
+- **Issue Templates:** [Bug Report](../.github/ISSUE_TEMPLATE/bug_report.md) | [Feature Request](../.github/ISSUE_TEMPLATE/feature_request.md)
+- **Frontend Architecture:** [Frontend Readme](../frontend/README.md) | [Design System](../frontend/Design.md) | [Frontend File Tree](../frontend/File_Tree.md)
+- **Backend Architecture:** [Backend Readme](./Readme.md) | [API Documentation](./APIs.md) | [Backend File Tree](./File_Tree.md)
+
+---
+
+<div align="center">
+
+**LookSphere Engineering Documentation**  
+*Modular MVC structure, clean separation of concerns, and scalable backend services.*
+
+</div>
+<div align="center">
+  <b>© 2026 LookSphere. Built by <a href="https://www.linkedin.com/in/pranavshilu/">Pranav Shilu</a>. All rights reserved.</b>
+</div>
+

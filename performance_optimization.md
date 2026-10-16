@@ -5,7 +5,7 @@
 A comprehensive record of every performance optimization applied to LookSphere, covering networking, rendering, media delivery, CSS, React architecture, database indexing, and backend changes.
 
 > [!TIP]
-> **Dedicated Algorithm Documentation:** For detailed mathematical proofs, Big-O computational complexity, and data structure pipelines, see the dedicated [Algorithms & Computational Architecture Reference](./algorithms.md).
+> **Dedicated Algorithm Documentation:** For detailed mathematical proofs, Big-O computational complexity, and data structure pipelines, see the dedicated [Algorithms & Computational Architecture Reference](./Algorithms.md).
 
 ---
 
@@ -49,7 +49,7 @@ A comprehensive record of every performance optimization applied to LookSphere, 
 ### 1.1 Brotli & DEFLATE Payload Compression (Backend)
 
 **File:** [`Backend/src/index.js`](./Backend/src/index.js)  
-> 📖 *For complete mathematical models, LZ77 / Huffman mechanics, and TCP window calculations, see [Algorithms: Brotli & DEFLATE](./algorithms.md#11-brotli--deflate-lz77--huffman-stream-payload-compression).*
+> 📖 *For complete mathematical models, LZ77 / Huffman mechanics, and TCP window calculations, see [Algorithms: Brotli & DEFLATE](./Algorithms.md#11-brotli--deflate-lz77--huffman-stream-payload-compression).*
 
 The Express backend registers `compression` middleware as the primary entry point, dynamically negotiating modern **Brotli (`br`)** or falling back to **GZIP (`gzip`)** based on the incoming `Accept-Encoding` header.
 
@@ -100,7 +100,7 @@ if (config.method.toLowerCase() === "get" && !isSearchQuery) { ... }
 ### 1.4 Micro-Batch Ingestion (5–10 Posts per Query)
 
 **Files:** [`frontend/src/loaders/feedLoader.jsx`](./frontend/src/loaders/feedLoader.jsx), [`frontend/src/pages/Feed.jsx`](./frontend/src/pages/Feed.jsx), [`Backend/src/controllers/post.controller.js`](./Backend/src/controllers/post.controller.js)  
-> 📖 *For throughput benchmarks and memory footprint analysis, see [Algorithms: Micro-Batch Ingestion Pipeline](./algorithms.md#12-micro-batch-ingestion-pipeline-510-posts-per-query).*
+> 📖 *For throughput benchmarks and memory footprint analysis, see [Algorithms: Micro-Batch Ingestion Pipeline](./Algorithms.md#12-micro-batch-ingestion-pipeline-510-posts-per-query).*
 
 Instead of pulling monolithic 50-to-100-post payloads that stall mobile browsers, LookSphere intentionally bounds feed ingestion to small, high-velocity micro-batches of **5 to 10 posts per network round-trip**.
 
@@ -212,7 +212,7 @@ Cumulative Layout Shift (CLS) degrades the user experience by causing content to
 ### 2.6 Single-Active Viewport Decoupling: Coordinated Video Autoplay
 
 **File:** [`frontend/src/pages/Feed.jsx`](./frontend/src/pages/Feed.jsx)  
-> 📖 *For derived state formulas and mutual-exclusion coordinator architecture, see [Algorithms: Single-Active Viewport Decoupling](./algorithms.md#21-single-active-viewport-decoupling-algorithm-coordinated-video-autoplay).*
+> 📖 *For derived state formulas and mutual-exclusion coordinator architecture, see [Algorithms: Single-Active Viewport Decoupling](./Algorithms.md#21-single-active-viewport-decoupling-algorithm-coordinated-video-autoplay).*
 
 Rather than each video managing its own independent autoplay state, LookSphere coordinates playback through a centralized `activeVideoId` state with derived playback evaluation (`isPlaying = isVideo && activeVideoId === post._id && !isParentModalOpen`).
 
@@ -322,7 +322,7 @@ const isPlaying = isVideo && activeVideoId === post._id && !isParentModalOpen;
 ### 4.3 Sentinel Prefetching & Viewport Tracking
 
 **Files:** [`frontend/src/pages/Feed.jsx`](./frontend/src/pages/Feed.jsx), [`frontend/src/pages/Explore.jsx`](./frontend/src/pages/Explore.jsx)  
-> 📖 *For sentinel offset mathematics and $O(M)$ hash set deduplication proofs, see [Algorithms: Invisible Sentinel IntersectionObserver](./algorithms.md#22-invisible-sentinel-intersectionobserver-algorithm-prefetching--deduplication).*
+> 📖 *For sentinel offset mathematics and $O(M)$ hash set deduplication proofs, see [Algorithms: Invisible Sentinel IntersectionObserver](./Algorithms.md#22-invisible-sentinel-intersectionobserver-algorithm-prefetching--deduplication).*
 
 Replaces expensive 60Hz window scroll event listeners with an asynchronous `IntersectionObserver` sentinel anchored 5 to 9 items before the feed ends, paired with an $O(M)$ hash set difference filter (`existingIds.has(p._id)`).
 
@@ -333,7 +333,7 @@ Replaces expensive 60Hz window scroll event listeners with an asynchronous `Inte
 ### 4.4 Fisher-Yates (Knuth) Feed Permutation & Seen-Post Partitioning
 
 **File:** [`frontend/src/utils/feedRefresher.js`](./frontend/src/utils/feedRefresher.js)  
-> 📖 *For the formal mathematical proof of uniform $1/n!$ permutations and disjoint set partitioning, see [Algorithms: Fisher-Yates (Knuth) Shuffle](./algorithms.md#31-fisher-yates-knuth-algorithm-unbiased-feed-permutation--disjoint-seen-partitioning).*
+> 📖 *For the formal mathematical proof of uniform $1/n!$ permutations and disjoint set partitioning, see [Algorithms: Fisher-Yates (Knuth) Shuffle](./Algorithms.md#31-fisher-yates-knuth-algorithm-unbiased-feed-permutation--disjoint-seen-partitioning).*
 
 Executes client-side disjoint partitioning against `sessionStorage` (`unseen` vs `seen` posts) combined with an $O(N)$ linear-time Fisher-Yates (Knuth) backwards shuffle algorithm.
 
@@ -344,7 +344,7 @@ Executes client-side disjoint partitioning against `sessionStorage` (`unseen` vs
 ### 4.5 Optimistic State Mutation & Multi-Tab Synchronization
 
 **File:** [`frontend/src/utils/interactionUtils.js`](./frontend/src/utils/interactionUtils.js)  
-> 📖 *For the deterministic state inverter and React referential integrity conservation proofs, see [Algorithms: Optimistic State Mutation](./algorithms.md#41-optimistic-state-mutation--referential-integrity-algorithm).*
+> 📖 *For the deterministic state inverter and React referential integrity conservation proofs, see [Algorithms: Optimistic State Mutation](./Algorithms.md#41-optimistic-state-mutation--referential-integrity-algorithm).*
 
 Implements $<1\text{ms}$ immediate optimistic UI updates for Sparks, Reshares, and Archives. Preserves object referential equality (`prevProps.post === nextProps.post`) so `React.memo` skips re-rendering all unaffected feed cards, while broadcasting state updates across all active profile tabs and modal views simultaneously.
 
@@ -357,7 +357,7 @@ Implements $<1\text{ms}$ immediate optimistic UI updates for Sparks, Reshares, a
 ### 5.1 Time-Decay Debounce & Dynamic Cache-Bypass
 
 **Files:** [`frontend/src/pages/Explore.jsx`](./frontend/src/pages/Explore.jsx), [`frontend/src/network/cacheInterceptor.js`](./frontend/src/network/cacheInterceptor.js)  
-> 📖 *For sliding window mechanics and dynamic cache bypass policies, see [Algorithms: Time-Decay Sliding Window Debounce](./algorithms.md#42-time-decay-sliding-window-debounce--dynamic-cache-bypass-algorithm).*
+> 📖 *For sliding window mechanics and dynamic cache bypass policies, see [Algorithms: Time-Decay Sliding Window Debounce](./Algorithms.md#42-time-decay-sliding-window-debounce--dynamic-cache-bypass-algorithm).*
 
 Pairs a 400ms sliding decay window on user keystrokes with URL synchronization (`useSearchParams`) and an Axios interceptor cache-bypass rule for queries containing `?search=`.
 
@@ -370,7 +370,7 @@ Pairs a 400ms sliding decay window on user keystrokes with URL synchronization (
 ### 6.1 Vectorized Batch Index Scan & In-Memory Hash Map Enrichment (postHelper)
 
 **File:** [`Backend/src/utils/postHelper.js`](./Backend/src/utils/postHelper.js)  
-> 📖 *For the complete $O(1)$ query vectorization and RAM covered index scan algorithm, see [Algorithms: Vectorized Batch Index Scan](./algorithms.md#51-vectorized-batch-index-scan--hash-map-algorithm-o1-interaction-enrichment).*
+> 📖 *For the complete $O(1)$ query vectorization and RAM covered index scan algorithm, see [Algorithms: Vectorized Batch Index Scan](./Algorithms.md#51-vectorized-batch-index-scan--hash-map-algorithm-o1-interaction-enrichment).*
 
 Eliminates the $N+1$ database query problem when enriching feed posts with user interaction states (`has.sparked`, `has.reshared`, `has.archived`). Vectorizes all post IDs into a single `{ postId: { $in: postIds } }` query satisfied entirely in RAM via the covered index `{ userId: 1, postId: 1, action: 1 }`, assembled in $O(1)$ lookup time via an in-memory hash map.
 
@@ -381,7 +381,7 @@ Eliminates the $N+1$ database query problem when enriching feed posts with user 
 ### 6.2 Compound Covered Indexes for Interactions
 
 **File:** [`Backend/src/models/interaction.model.js`](./Backend/src/models/interaction.model.js)  
-> 📖 *For B-Tree index traversal structures and compound covered index execution plans, see [Algorithms: B-Tree Compound Covered Index Scanning](./algorithms.md#52-b-tree-compound-covered-index-scanning--logarithmic-lookups).*
+> 📖 *For B-Tree index traversal structures and compound covered index execution plans, see [Algorithms: B-Tree Compound Covered Index Scanning](./Algorithms.md#52-b-tree-compound-covered-index-scanning--logarithmic-lookups).*
 
 With users actively sparking, resharing, and archiving posts, checking whether a user has already interacted with a post or fetching who interacted requires sub-millisecond lookups.
 
@@ -477,11 +477,26 @@ userSchema.pre("deleteOne", { document: true, query: false }, async function () 
 | [`frontend/src/components/dashboard/LatestPostsTab.jsx`](./frontend/src/components/dashboard/LatestPostsTab.jsx) | DashboardVideoCard with poster-first pattern |
 | [`Backend/src/controllers/post.controller.js`](./Backend/src/controllers/post.controller.js) | Paginated feed endpoint with regex exploration filtering and interaction enrichment |
 
+<br>
+<br>
+
 ---
 
 **📚 LookSphere Documentation Index:**
-- **Root:** [Main Readme](./Readme.md) | [File Tree](./File_Tree.md) | [Roadmap](./roadmap.md) | [Performance](./performance_optimization.md) | [Algorithms](./algorithms.md) | [Resolved Issues](./resolved_issues.md) | [Improvements](./improvement.md)
-- **Governance:** [Contributing](./CONTRIBUTING.md) | [Security](./SECURITY.md) | [Code of Conduct](./CODE_OF_CONDUCT.md) | [License](./LICENSE.md)
-- **Frontend:** [Frontend Readme](./frontend/README.md) | [Design Specs](./frontend/Design.md) | [Frontend File Tree](./frontend/File_Tree.md)
-- **Backend:** [Backend Readme](./Backend/Readme.md) | [API Docs](./Backend/APIs.md) | [Backend File Tree](./Backend/File_Tree.md)
+- **Core Documentation:** [Main Readme](./Readme.md) | [Algorithms](./Algorithms.md) | [Performance Optimization](./Performance_Optimization.md) | [Roadmap](./Roadmap.md) | [Resolved Issues](./Resolved_Issues.md) | [File Tree](./File_Tree.md) | [Improvements](./improvement.md)
+- **Governance & Policies:** [Contributing Guidelines](./CONTRIBUTING.md) | [Code of Conduct](./CODE_OF_CONDUCT.md) | [Security Policy](./SECURITY.md) | [License](./LICENSE.md)
+- **Issue Templates:** [Bug Report](./.github/ISSUE_TEMPLATE/bug_report.md) | [Feature Request](./.github/ISSUE_TEMPLATE/feature_request.md)
+- **Frontend Architecture:** [Frontend Readme](./frontend/README.md) | [Design System](./frontend/Design.md) | [Frontend File Tree](./frontend/File_Tree.md)
+- **Backend Architecture:** [Backend Readme](./Backend/Readme.md) | [API Documentation](./Backend/APIs.md) | [Backend File Tree](./Backend/File_Tree.md)
+
 ---
+
+<div align="center">
+
+**LookSphere Engineering Documentation**  
+*Engineered for zero-lag rendering, microsecond queries, and 60fps mobile fluidity.*
+
+</div>
+<div align="center">
+  <b>© 2026 LookSphere. Built by <a href="https://www.linkedin.com/in/pranavshilu/">Pranav Shilu</a>. All rights reserved.</b>
+</div>

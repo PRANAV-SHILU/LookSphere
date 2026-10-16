@@ -146,7 +146,6 @@ export const ABOUT_TECH_BACKEND = [
   { name: "Bcrypt", color: "#3ECF8E", icon: Lock },
   { name: "Cloudinary", color: "#3448C5", icon: Cloud },
   { name: "Multer", color: "#FF6F00", icon: Upload },
-  { name: "Nodemailer", color: "#0F9DCE", icon: Send },
   { name: "Express Validator", color: "#E23237", icon: ShieldCheck },
   { name: "Dotenv", color: "#ECD53F", icon: FileKey },
   { name: "Compression", color: "#00F2FE", icon: Zap },

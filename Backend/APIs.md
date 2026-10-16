@@ -184,11 +184,11 @@ Get all interactions and user details for a specific post.
 
 ## Contact & Support
 
-Provides endpoints for user inquiry submissions with media attachments, user ticket retrieval where users receive response messages in their **My Inquiries** page (`/my-inquiries`) and via email notifications, and administrative moderation.
+Provides endpoints for user inquiry submissions with media attachments, user ticket retrieval where users track real-time response messages directly in their **My Inquiries** page (`/my-inquiries`), and administrative moderation.
 
 ### POST /contact_support/submit
 
-Submit a new inquiry, bug report, feature request, or feedback with optional attachments via the **Contact Us** form (`/contact-us`). Users can track their inquiry status on the **My Inquiries** page (`/my-inquiries`) and will receive updates via email.
+Submit a new inquiry, bug report, feature request, or feedback with optional attachments via the **Contact Us** form (`/contact-us`). Users can track their inquiry status and administrative responses on the **My Inquiries** page (`/my-inquiries`).
 
 - **Auth:** Required
 - **Content:** `multipart/form-data`
@@ -265,12 +265,27 @@ headers: {
 }
 ```
 
+<br>
+<br>
+
 ---
 
 **📚 LookSphere Documentation Index:**
-
-- **Root:** [Main Readme](../Readme.md) | [File Tree](../File_Tree.md) | [Roadmap](../roadmap.md) | [Performance](../performance_optimization.md) | [Resolved Issues](../resolved_issues.md)
-- **Frontend:** [Frontend Readme](../frontend/README.md) | [Design Specs](../frontend/Design.md) | [Frontend File Tree](../frontend/File_Tree.md)
-- **Backend:** [Backend Readme](./Readme.md) | [API Docs](./APIs.md) | [Backend File Tree](./File_Tree.md)
+- **Core Documentation:** [Main Readme](../Readme.md) | [Algorithms](../Algorithms.md) | [Performance Optimization](../Performance_Optimization.md) | [Roadmap](../Roadmap.md) | [Resolved Issues](../Resolved_Issues.md) | [File Tree](../File_Tree.md) | [Improvements](../improvement.md)
+- **Governance & Policies:** [Contributing Guidelines](../CONTRIBUTING.md) | [Code of Conduct](../CODE_OF_CONDUCT.md) | [Security Policy](../SECURITY.md) | [License](../LICENSE.md)
+- **Issue Templates:** [Bug Report](../.github/ISSUE_TEMPLATE/bug_report.md) | [Feature Request](../.github/ISSUE_TEMPLATE/feature_request.md)
+- **Frontend Architecture:** [Frontend Readme](../frontend/README.md) | [Design System](../frontend/Design.md) | [Frontend File Tree](../frontend/File_Tree.md)
+- **Backend Architecture:** [Backend Readme](./Readme.md) | [API Documentation](./APIs.md) | [Backend File Tree](./File_Tree.md)
 
 ---
+
+<div align="center">
+
+**LookSphere Engineering Documentation**  
+*Deterministic endpoints, sanitized payload contracts, and atomic database state transitions.*
+
+</div>
+<div align="center">
+  <b>© 2026 LookSphere. Built by <a href="https://www.linkedin.com/in/pranavshilu/">Pranav Shilu</a>. All rights reserved.</b>
+</div>
+

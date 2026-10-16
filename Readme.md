@@ -61,6 +61,7 @@ Explore the detailed documentation across the project:
 
 **Root Documentation:**
 - 🗂️ **[Project File Tree](./File_Tree.md)** - Complete repository file tree.
+- 🧠 **[Algorithms & Architecture](./algorithms.md)** - In-depth mathematical models, Big-O complexities, data partitioning, and query algorithms.
 - 🚀 **[Performance Optimizations](./performance_optimization.md)** - GPU rendering fixes, state tuning, zero-CLS viewports, and database indexing.
 - 🔮 **[Roadmap](./roadmap.md)** - Completed milestones, in-progress tasks, and upcoming feature pipeline.
 - ✅ **[Resolved Issues](./resolved_issues.md)** - Log of major bug fixes, rendering fixes, and platform improvements.
@@ -110,6 +111,12 @@ Explore the detailed documentation across the project:
 - **Media & Storage:** Cloudinary (CDN image/video processing), Multer (multipart handling)
 - **Utilities & Communications:** Nodemailer (email updates), Express Validator, Compression (GZIP/Brotli), Nodemon
 
+### **Algorithms & Computational Architecture**
+- **Network & Compression:** Brotli (`br`) & DEFLATE (LZ77 + Huffman) payload compression, Micro-Batch Ingestion Pipeline (5–10 items)
+- **Viewport & Feed Permutation:** Single-Active Viewport Decoupling (mutual-exclusion playback coordinator), Fisher-Yates (Knuth) Unbiased Shuffle ($O(N)$ with disjoint seen-post partitioning), Invisible Sentinel IntersectionObserver ($O(M)$ hash set deduplication)
+- **State & Concurrency:** Optimistic State Mutation ($<1\text{ms}$ with referential integrity preservation for `React.memo`), Multi-Setter Fan-Out Synchronizer, Time-Decay Sliding Window Debounce (400ms) with dynamic cache-bypass
+- **Database & Query Optimization:** Vectorized Batch Index Scanning ($O(1)$ single-trip DB enrichment with in-memory hash mapping), B-Tree Compound Covered Indexes (IXSCAN in RAM)
+
 ---
 
 <div align="center">
@@ -118,7 +125,7 @@ Explore the detailed documentation across the project:
 
 ---
 **📚 LookSphere Documentation Index:**
-- **Root:** [Main Readme](./Readme.md) | [File Tree](./File_Tree.md) | [Roadmap](./roadmap.md) | [Performance](./performance_optimization.md) | [Resolved Issues](./resolved_issues.md) | [Improvements](./improvement.md)
+- **Root:** [Main Readme](./Readme.md) | [File Tree](./File_Tree.md) | [Roadmap](./roadmap.md) | [Performance](./performance_optimization.md) | [Algorithms](./algorithms.md) | [Resolved Issues](./resolved_issues.md) | [Improvements](./improvement.md)
 - **Governance:** [Contributing](./CONTRIBUTING.md) | [Security](./SECURITY.md) | [Code of Conduct](./CODE_OF_CONDUCT.md) | [License](./LICENSE.md)
 - **Frontend:** [Frontend Readme](./frontend/README.md) | [Design Specs](./frontend/Design.md) | [Frontend File Tree](./frontend/File_Tree.md)
 - **Backend:** [Backend Readme](./Backend/Readme.md) | [API Docs](./Backend/APIs.md) | [Backend File Tree](./Backend/File_Tree.md)

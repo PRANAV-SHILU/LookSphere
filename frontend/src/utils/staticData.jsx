@@ -39,6 +39,11 @@ import {
   Info,
   ShieldAlert,
   HelpCircle,
+  Cpu,
+  Shuffle,
+  RefreshCw,
+  Binary,
+  Sliders,
 } from "lucide-react";
 
 export const socialFeatures = [
@@ -246,6 +251,15 @@ export const techStack = [
   { name: "CORS", color: "#1A73E8", icon: Shield },
   { name: "Compression", color: "#00F2FE", icon: Zap },
   { name: "Nodemon", color: "#76D04B", icon: Server },
+  { name: "Brotli Compression", color: "#00F2FE", icon: Cpu },
+  { name: "Fisher-Yates Shuffle", color: "#EC4899", icon: Shuffle },
+  { name: "IntersectionObserver", color: "#3B82F6", icon: Eye },
+  { name: "Vectorized Batch Scan", color: "#10B981", icon: Database },
+  { name: "Optimistic State Sync", color: "#F59E0B", icon: RefreshCw },
+  { name: "Time-Decay Debounce", color: "#8B5CF6", icon: Sliders },
+  { name: "Single-Active Viewport", color: "#6366F1", icon: Layers },
+  { name: "Covered B-Tree Indexes", color: "#34D399", icon: Binary },
+  { name: "Micro-Batch Ingestion", color: "#38BDF8", icon: Zap },
 ];
 
 export const fakePosts = [

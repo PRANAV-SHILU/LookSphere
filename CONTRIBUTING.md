@@ -84,14 +84,22 @@ Enhancement suggestions are tracked as GitHub issues. When creating an enhanceme
 
 3. **Set up environment variables**
 
-   Create a `.env` file in the `Backend/` directory:
+   Create a `.env` file in the `Backend/` directory (see [`Backend/.env.example`](./Backend/.env.example)):
    ```env
    PORT=5000
+   NODE_ENV=development
+   FRONTEND_URL=http://localhost:5173
    MONGODB_URI=your_mongodb_connection_string
    JWT_SECRET=your_jwt_secret
    CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
    CLOUDINARY_API_KEY=your_cloudinary_api_key
    CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+   ```
+
+   Create a `.env` file in the `frontend/` directory (see [`frontend/.env.example`](./frontend/.env.example)):
+   ```env
+   VITE_API_URL=http://localhost:5000/api
+   VITE_FRONTEND_URL=http://localhost:5173
    ```
 
 4. **Start the development servers**
@@ -105,7 +113,7 @@ Enhancement suggestions are tracked as GitHub issues. When creating an enhanceme
    npm run dev
    ```
 
-5. Open [http://localhost:5173](http://localhost:5173) in your browser
+5. Open [http://localhost:5173](http://localhost:5173) in your browser (or visit the production deployment at [looksphere.vercel.app](https://looksphere.vercel.app/))
 
 ## Style Guidelines
 
@@ -116,38 +124,38 @@ Enhancement suggestions are tracked as GitHub issues. When creating an enhanceme
 - Use CSS custom properties (`var(--variable-name)`) for theme-aware styling
 - Ensure all interactive elements work in both **light** and **dark** themes
 - Use **Lucide React** icons consistently throughout the UI
-- All pages must include SEO metadata via the `useDocumentMetadata` hook
+- All pages must include SEO metadata via the [`useDocumentMetadata`](./frontend/src/hooks/useDocumentMetadata.js) hook
 
 ### File Organization
 
 **Frontend (`frontend/src/`):**
-- **Actions** → `actions/`
-- **Components** → `components/`
-- **Shared Components** → `shared-components/`
-- **Modals** → `modals/`
-- **Loaders** → `loaders/`
-- **Pages** → `pages/`
-- **Hooks** → `hooks/`
-- **Context** → `context/`
-- **Services** → `services/`
-- **Network (API Calls & Interceptors)** → `network/`
-- **Routes** → `routes/`
-- **Validation Schemas** → `schema/`
-- **Skeletons** → `skeletons/`
-- **Utils** → `utils/`
+- **Actions** → [`actions/`](./frontend/src/actions/)
+- **Components** → [`components/`](./frontend/src/components/)
+- **Shared Components** → [`shared-components/`](./frontend/src/shared-components/)
+- **Modals** → [`modals/`](./frontend/src/modals/)
+- **Loaders** → [`loaders/`](./frontend/src/loaders/)
+- **Pages** → [`pages/`](./frontend/src/pages/)
+- **Hooks** → [`hooks/`](./frontend/src/hooks/)
+- **Context** → [`context/`](./frontend/src/context/)
+- **Services** → [`services/`](./frontend/src/services/)
+- **Network (API Calls & Interceptors)** → [`network/`](./frontend/src/network/)
+- **Routes** → [`routes/`](./frontend/src/routes/)
+- **Validation Schemas** → [`schema/`](./frontend/src/schema/)
+- **Skeletons** → [`skeletons/`](./frontend/src/skeletons/)
+- **Utils** → [`utils/`](./frontend/src/utils/)
 
 **Backend (`Backend/src/`):**
-- **Controllers** → `controllers/`
-- **Models** → `models/`
-- **Routes** → `routes/`
-- **Middlewares** → `middlewares/`
-- **Validators** → `validators/`
-- **Configuration** → `config/`
-- **Utils** → `utils/`
+- **Controllers** → [`controllers/`](./Backend/src/controllers/)
+- **Models** → [`models/`](./Backend/src/models/)
+- **Routes** → [`routes/`](./Backend/src/routes/)
+- **Middlewares** → [`middlewares/`](./Backend/src/middlewares/)
+- **Validators** → [`validators/`](./Backend/src/validators/)
+- **Configuration** → [`config/`](./Backend/src/config/)
+- **Utils** → [`utils/`](./Backend/src/utils/)
 
 ### CSS & Theming
 
-- Use the CSS variable system defined in `main.css` (`--bg-primary`, `--text-primary`, `--surface-card`, etc.)
+- Use the CSS variable system defined in [`main.css`](./frontend/src/main.css) (`--bg-primary`, `--text-primary`, `--surface-card`, etc.)
 - Avoid hardcoded colors like `bg-zinc-800` — use theme tokens (`bg-(--surface-hover)`) instead
 - Test all UI changes in both light and dark mode
 

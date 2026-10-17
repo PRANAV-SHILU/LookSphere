@@ -121,12 +121,12 @@ Due to rendering constraints on mid-tier mobile processors (specifically the Mal
 
 To maintain consistency across our standalone pages, use the following layout rules:
 
-1. **Back Navigation**: Every standalone secondary page (About Us, Roadmap, What's New, FAQ, Privacy Policy, Terms & Conditions, Contact Us, My Inquiries) must include the shared `<BackButton />` at the top left of the main content container.
+1. **Back Navigation**: Every standalone secondary page (About Us, Roadmap, What's New, FAQ, Privacy Policy, Terms & Conditions, Contact Us, My Inquiries) must include the shared [`<BackButton />`](./src/shared-components/BackButton.jsx) at the top left of the main content container.
 2. **Roadmap Bento Box**: The Roadmap page features a bento-style 2-column responsive layout (`grid-cols-1 lg:grid-cols-2`) mapping high-contrast categories using Lucide icons.
 3. **Timeline Changelog**: The What's New page uses a vertical timeline layout. The central line is anchored on the container's left border (`border-l-2 border-(--border-light)`) and uses `left-[-11px]` to perfectly center the timeline circle dot.
-4. **Legal Document Layout**: Privacy Policy and Terms & Conditions render utilizing the shared `<LegalDocument />` layout wrapper, which provides consistent section headings, lists, tables, and standard typographic flow.
-5. **Support & Inquiries Desk**: The Contact Us (`/contact-us`) and My Inquiries (`/my-inquiries`) pages use categorized pill selectors, interactive attachment previews (with lightbox zoom and inline video players), and collapsible administrative reply drawers. When admins respond, users receive message updates directly in their My Inquiries dashboard.
-6. **Interaction Overlays & User Modals**: The `<InteractionsListModal />` renders via React Portal (`document.body`) using a sleek liquid-glass dialog, backdrop blur, optimistic local memory caching, and self-toggle cache invalidation to list who sparked or reshared content.
+4. **Legal Document Layout**: Privacy Policy and Terms & Conditions render utilizing the shared [`<LegalDocument />`](./src/shared-components/LegalDocument.jsx) layout wrapper, which provides consistent section headings, lists, tables, and standard typographic flow.
+5. **Support & Inquiries Desk**: The Contact Us ([`/contact-us`](https://looksphere.vercel.app/contact-us)) and My Inquiries ([`/my-inquiries`](https://looksphere.vercel.app/my-inquiries)) pages use categorized pill selectors, interactive attachment previews (with lightbox zoom and inline video players), and collapsible administrative reply drawers. When admins respond, users receive message updates directly in their My Inquiries dashboard.
+6. **Interaction Overlays & User Modals**: The [`<InteractionsListModal />`](./src/modals/InteractionsListModal.jsx) renders via React Portal (`document.body`) using a sleek liquid-glass dialog, backdrop blur, optimistic local memory caching, and self-toggle cache invalidation to list who sparked or reshared content.
 
 ---
 

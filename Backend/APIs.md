@@ -184,11 +184,11 @@ Get all interactions and user details for a specific post.
 
 ## Contact & Support
 
-Provides endpoints for user inquiry submissions with media attachments, user ticket retrieval where users track real-time response messages directly in their **My Inquiries** page (`/my-inquiries`), and administrative moderation.
+Provides endpoints for user inquiry submissions with media attachments, user ticket retrieval where users track real-time response messages directly in their [**My Inquiries**](https://looksphere.vercel.app/my-inquiries) page, and administrative moderation.
 
 ### POST /contact_support/submit
 
-Submit a new inquiry, bug report, feature request, or feedback with optional attachments via the **Contact Us** form (`/contact-us`). Users can track their inquiry status and administrative responses on the **My Inquiries** page (`/my-inquiries`).
+Submit a new inquiry, bug report, feature request, or feedback with optional attachments via the [**Contact Us**](https://looksphere.vercel.app/contact-us) form. Users can track their inquiry status and administrative responses on the [**My Inquiries**](https://looksphere.vercel.app/my-inquiries) page.
 
 - **Auth:** Required
 - **Content:** `multipart/form-data`
@@ -204,7 +204,7 @@ Submit a new inquiry, bug report, feature request, or feedback with optional att
 
 ### GET /contact_support/myContacts
 
-Get all contact inquiries submitted by the logged-in user to render on their **My Inquiries** page (`/my-inquiries`) with response status filter
+Get all contact inquiries submitted by the logged-in user to render on their [**My Inquiries**](https://looksphere.vercel.app/my-inquiries) page with response status filter
 
 - **Auth:** Required
 - **Query Params:**
@@ -222,7 +222,7 @@ Get all inquiries across all users with summary stats (Admin only)
 
 ### PATCH /contact_support/:id/respond
 
-Submit or update an admin response to a specific inquiry (Admin only). The response message is delivered directly to the user's **My Inquiries** page (`/my-inquiries`) and sent to their email address.
+Submit or update an admin response to a specific inquiry (Admin only). The response message is delivered directly to the user's [**My Inquiries**](https://looksphere.vercel.app/my-inquiries) page and sent to their email address.
 
 - **Auth:** Required (Admin)
 - **Body:** `{ response: "Response text..." }` (string, 1-1000 chars, required)

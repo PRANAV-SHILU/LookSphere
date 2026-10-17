@@ -24,7 +24,7 @@
 
 This is the backend server for **LookSphere**, a modern social media application. Built with **Node.js** and **Express**, it provides a robust REST API for user authentication, profile management, media-rich post feeds, post interactions (sparks, archives, reshares), and user contact/inquiry support.
 
-**🌐 Live Demo:** [LookSphere](http://localhost:5173/)  
+**🌐 Live Demo:** [LookSphere (looksphere.vercel.app)](https://looksphere.vercel.app/)  
 **🐱 GitHub Profile:** [@PRANAV-SHILU](https://github.com/PRANAV-SHILU)
 
 **💻 Frontend Repository:** [View Frontend](../frontend/README.md)
@@ -34,7 +34,7 @@ This is the backend server for **LookSphere**, a modern social media application
 - **Seamless Media Uploads:** Handles both Images and Videos with auto-optimization and cloud storage via Cloudinary.
 - **Secure Authentication:** JWT-based authentication using localStorage with Authorization header transmission to avoid third-party cookie blocking issues.
 - **Post Interactions Engine:** Full-fledged mechanism supporting atomic toggling of sparks, archives, and reshares with covered index lookups, automatic count synchronization, and user inspect lists.
-- **Contact & Inquiries System:** Full-featured inquiry submission supporting category routing, multi-image and video attachments, inquiry tracking via My Inquiries (`/my-inquiries`), and an administrative moderation desk.
+- **Contact & Inquiries System:** Full-featured inquiry submission supporting category routing, multi-image and video attachments, inquiry tracking via My Inquiries ([`/my-inquiries`](https://looksphere.vercel.app/my-inquiries)), and an administrative moderation desk.
 - **Platform Analytics:** Comprehensive metrics and statistics for admin dashboards.
 - **Engagement Tracking:** Dynamic counters for profile views and post impressions.
 - **Robust Validation:** Strict input validation to ensure data integrity before it reaches the database.
@@ -95,7 +95,7 @@ Here's a quick summary of the available resources. For full details, view the [A
 - **Users:** Fetch user lists, manage profiles, change password/email, and view user metrics.
 - **Posts:** Create, edit, fetch feeds, and increment impression counts for media posts.
 - **Interactions:** Toggle sparks, archives, and reshares on posts, and fetch user- or post-specific interaction histories.
-- **Contact & Support:** Submit inquiries with attachments, deliver responses to the user's My Inquiries dashboard (`/my-inquiries`), send and manage/respond to inquiries via admin portal.
+- **Contact & Support:** Submit inquiries with attachments, deliver responses to the user's My Inquiries dashboard ([`/my-inquiries`](https://looksphere.vercel.app/my-inquiries)), send and manage/respond to inquiries via admin portal.
 - **Admin:** Fetch platform-wide analytics, user metrics, and contact statistics.
 
 ### Error Format

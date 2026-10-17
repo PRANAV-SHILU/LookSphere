@@ -26,7 +26,7 @@ This document records the major bugs, UI glitches, architectural refactors, and 
 
 ### 1.1 GPU Rasterization Glitch Mitigation
 
-**Files:** `frontend/src/main.css`, Home page components
+**Files:** [`frontend/src/main.css`](./frontend/src/main.css), Home page components
 
 On mid-tier mobile GPUs (such as the Mali-G52) running Chrome with GPU Rasterization enabled, rendering complex transparent layers, vector borders, and linear gradients at deep scroll offsets triggers screen-wide horizontal rendering seam glitches.
 
@@ -44,7 +44,7 @@ On mid-tier mobile GPUs (such as the Mali-G52) running Chrome with GPU Rasteriza
 
 ### 1.2 Chrome Mobile Blur Bug Fix
 
-**File:** `frontend/src/shared-components/SharedHomeComponents.jsx`
+**File:** [`frontend/src/shared-components/SharedHomeComponents.jsx`](./frontend/src/shared-components/SharedHomeComponents.jsx)
 
 A persistent Chrome mobile rendering bug caused thin horizontal glitch lines across Home page sections. The root cause was a `blur-md` CSS filter on the `<CardGlow />` component when combined with a `linear-gradient` background.
 
@@ -54,7 +54,7 @@ A persistent Chrome mobile rendering bug caused thin horizontal glitch lines acr
 
 ### 1.3 Mobile Hover Effect Removal
 
-**File:** `frontend/src/utils/styles.js`
+**File:** [`frontend/src/utils/styles.js`](./frontend/src/utils/styles.js)
 
 On mobile devices, CSS `:hover` states behave unpredictably — they "stick" after a tap and trigger during scroll.
 
@@ -66,7 +66,7 @@ On mobile devices, CSS `:hover` states behave unpredictably — they "stick" aft
 
 ### 2.1 Cumulative Layout Shift (CLS) in Feed
 
-**Files:** `frontend/src/pages/Feed.jsx`, `frontend/src/skeletons/FeedSkeleton.jsx`
+**Files:** [`frontend/src/pages/Feed.jsx`](./frontend/src/pages/Feed.jsx), [`frontend/src/skeletons/FeedSkeleton.jsx`](./frontend/src/skeletons/FeedSkeleton.jsx)
 
 When loading or scrolling the Feed, posts caused severe layout shifts and content jumping because media containers had indeterminate heights before media assets finished loading. In addition, the skeleton placeholders did not match actual rendered card dimensions.
 
@@ -81,7 +81,7 @@ When loading or scrolling the Feed, posts caused severe layout shifts and conten
 
 ### 2.2 Single-Active Coordinated Video Autoplay
 
-**File:** `frontend/src/pages/Feed.jsx`
+**File:** [`frontend/src/pages/Feed.jsx`](./frontend/src/pages/Feed.jsx)
 
 Multiple video posts intersecting the viewport would previously attempt to play simultaneously, causing overlapping audio streams and hardware decoder bottlenecks on low-end mobile devices.
 
@@ -96,7 +96,7 @@ Multiple video posts intersecting the viewport would previously attempt to play 
 
 ### 2.3 Video Poster Flash & Letterbox Glitches
 
-**File:** `frontend/src/pages/Feed.jsx`
+**File:** [`frontend/src/pages/Feed.jsx`](./frontend/src/pages/Feed.jsx)
 
 Switching from a thumbnail to an active playing video caused brief visual flashes (empty white/gray rectangles) while video metadata loaded. Letterbox margins around portrait or non-standard aspect ratio videos also clashed with light/dark theme backgrounds.
 
@@ -113,7 +113,7 @@ Switching from a thumbnail to an active playing video caused brief visual flashe
 
 ### 3.1 Cross-Origin JWT Authentication via Authorization Header
 
-**Files:** `Backend/src/middlewares/auth.middleware.js`, `frontend/src/network/apiClient.js`, `frontend/src/services/authService.js`
+**Files:** [`Backend/src/middlewares/auth.middleware.js`](./Backend/src/middlewares/auth.middleware.js), [`frontend/src/network/apiClient.js`](./frontend/src/network/apiClient.js), [`frontend/src/services/authService.js`](./frontend/src/services/authService.js)
 
 Cookie-based authentication suffered from cross-origin blocking when the frontend (e.g., hosted on Vercel) communicated with the backend on another domain (e.g., Render), due to modern browser third-party cookie restrictions and Safari ITP.
 
@@ -129,7 +129,7 @@ Cookie-based authentication suffered from cross-origin blocking when the fronten
 
 ### 3.2 Multi-Tab Profile Interaction State Synchronization
 
-**Files:** `frontend/src/pages/Profile.jsx`, `frontend/src/components/profile/ProfileTabGrid.jsx`, `frontend/src/modals/PostDetailModal.jsx`
+**Files:** [`frontend/src/pages/Profile.jsx`](./frontend/src/pages/Profile.jsx), [`frontend/src/components/profile/ProfileTabGrid.jsx`](./frontend/src/components/profile/ProfileTabGrid.jsx), [`frontend/src/modals/PostDetailModal.jsx`](./frontend/src/modals/PostDetailModal.jsx)
 
 When a user liked, archived, or reshared a post in one media tab (e.g., Images), other media tabs (Videos, Reshares, Archived) and open modal previews displayed outdated interaction counts and icons until the entire page was reloaded.
 

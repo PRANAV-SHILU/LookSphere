@@ -60,7 +60,7 @@ representative at an online or offline event.
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
 reported to the project maintainer through any of the following channels:
 
-- 📧 **Email**: [pranavshilu@zohomail.in](mailto:[pranavshilu@zohomail.in])
+- 📧 **Email**: [pranavshilu@zohomail.in](mailto:pranavshilu@zohomail.in)
 - 💼 **LinkedIn**: [Pranav Shilu](https://www.linkedin.com/in/pranavshilu/)
 - 🐙 **GitHub**: [@PRANAV-SHILU](https://github.com/PRANAV-SHILU)
 

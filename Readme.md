@@ -39,7 +39,7 @@
 
 </div>
 
-**🌐 Live Demo:** [LookSphere](http://localhost:5173/)  
+**🌐 Live Demo:** [LookSphere (looksphere.vercel.app)](https://looksphere.vercel.app/)  
 **🐱 GitHub Profile:** [@PRANAV-SHILU](https://github.com/PRANAV-SHILU)
 
 ## 📖 Overview
@@ -92,12 +92,12 @@ Explore the detailed documentation across the project:
 
 ## ✨ Key Features
 
-- **Global Community & Discovery:** Explore global post feeds with smooth autoplay videos, discover creators via debounced search, and browse user profiles.
-- **Dynamic Post Interactions:** Real-time atomic **Sparks** (likes), **Reshares**, and private **Archives** with optimistic UI updates. Down-arrow count badges open an interactive modal (`InteractionsListModal`) to inspect which users engaged.
-- **Synchronized Profile Media Tabs:** Profile showcases dynamic media tabs (All, Images, Videos, Reshares, Archived) with automatic cross-tab interaction state synchronization without full-page reloads.
-- **Account & Security Settings:** Dedicated Settings hub (`/settings`) with secure self-service **Change Email** (`/settings/change-email`) and **Change Password** (`/settings/change-password`) backed by Yup validation schemas.
-- **Dedicated Post Page & Link Sharing:** Standalone post pages (`/posts/:id`), one-click link copying for profiles and posts, alt-text accessibility, and live impression telemetry.
-- **Support & Inquiries Desk:** Comprehensive Contact Us portal (`/contact-us`) supporting multiple inquiry categories with image and video attachments. Users track admin responses under My Inquiries (`/my-inquiries`) and track administrative resolutions.
+- **Global Community & Discovery:** Explore global post feeds ([`/feed`](https://looksphere.vercel.app/feed)) with smooth autoplay videos, discover creators via debounced search ([`/creators`](https://looksphere.vercel.app/creators)), and browse posts in Explore ([`/explore`](https://looksphere.vercel.app/explore)).
+- **Dynamic Post Interactions:** Real-time atomic **Sparks** (likes), **Reshares**, and private **Archives** with optimistic UI updates. Down-arrow count badges open an interactive modal ([`InteractionsListModal`](./frontend/src/modals/InteractionsListModal.jsx)) to inspect which users engaged.
+- **Synchronized Profile Media Tabs:** Profile ([`/profile`](https://looksphere.vercel.app/profile)) showcases dynamic media tabs (All, Images, Videos, Reshares, Archived) with automatic cross-tab interaction state synchronization without full-page reloads.
+- **Account & Security Settings:** Dedicated Settings hub ([`/settings`](https://looksphere.vercel.app/settings)) with secure self-service **Change Email** ([`/settings/change-email`](https://looksphere.vercel.app/settings/change-email)) and **Change Password** ([`/settings/change-password`](https://looksphere.vercel.app/settings/change-password)) backed by Yup validation schemas.
+- **Dedicated Post Page & Link Sharing:** Standalone post pages ([`/posts/:id`](https://looksphere.vercel.app/explore)), one-click link copying for profiles and posts, alt-text accessibility, and live impression telemetry.
+- **Support & Inquiries Desk:** Comprehensive Contact Us portal ([`/contact-us`](https://looksphere.vercel.app/contact-us)) supporting multiple inquiry categories with image and video attachments. Users track admin responses under My Inquiries ([`/my-inquiries`](https://looksphere.vercel.app/my-inquiries)) and track administrative resolutions.
 - **High-Performance Architecture:** Zero Cumulative Layout Shift (CLS = 0) with locked 520px media containers, single-active coordinated video playback, GZIP/Brotli payload compression, and compound MongoDB covered indexes.
 - **Robust Security & Data Integrity:** Passwords hashed via `bcrypt` (12 salt rounds), stateless JWT tokens via `Authorization: Bearer <token>` headers, strict CORS configuration, and dual-layer validation (`Yup` on frontend, `express-validator` on backend).
 

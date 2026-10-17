@@ -1,32 +1,53 @@
 <div align="right">Last Modified: 22-Oct-2026</div>
 
-# 🔮 Roadmap
+# 🔮 Roadmap — LookSphere
 
-LookSphere is continuously evolving. Here is a breakdown of upcoming features, utilities, and services planned for future releases:
+LookSphere is continuously evolving. This roadmap outlines both our achieved architectural milestones and the upcoming feature pipeline planned for future releases.
 
-### 🔐 Security & Auth
+---
 
-- Password reset and forgot password flow via Email (utilizing Nodemailer)
-- Google OAuth integration
-- Two-step verification (2FA)
-- Implement post/user deletion functionality (complete removal from DB and Cloudinary)
+## ✅ Completed & Achieved Milestones
 
-### 💬 Communication & Notifications
+The following capabilities have been fully engineered, validated, and deployed into production:
 
-- Real-time chat system using WebSockets
-- Live notification page (including Admin notes/messages to individual users and inquiry updates)
-- General mail sending functionality (automated email notifications for support inquiries and platform alerts)
+- **Post Interactions & Inspect Lists:** Atomic, real-time Sparks, Reshares, and Archives with optimistic UI updates and interactive participant list modals ([`InteractionsListModal`](./frontend/src/modals/InteractionsListModal.jsx)) on [Feed](https://looksphere.vercel.app/feed) and [Explore](https://looksphere.vercel.app/explore).
+- **Cross-Tab State Synchronization:** Dynamic multi-setter tab fanout synchronizing interactions seamlessly across All, Images, Videos, Reshares, and Archived media tabs on [Profile](https://looksphere.vercel.app/profile) without page reloads.
+- **Profile & Post Link Sharing:** Dedicated clipboard copy buttons and standalone post views ([`/posts/:id`](https://looksphere.vercel.app/explore)) with real-time impression telemetry.
+- **Account & Security Self-Service:** Authenticated, Yup-validated self-service portals for [Change Password](https://looksphere.vercel.app/settings/change-password) and [Change Email](https://looksphere.vercel.app/settings/change-email) within [Settings](https://looksphere.vercel.app/settings).
+- **Support & Inquiries Desk:** Interactive categorized ticket submission on [Contact Us](https://looksphere.vercel.app/contact-us) supporting media attachments (images/video), ticket tracking on [My Inquiries](https://looksphere.vercel.app/my-inquiries), and administrative resolution drawers.
+- **Platform Analytics & Admin Telemetry:** Dedicated [Admin Dashboard](https://looksphere.vercel.app/admin/dashboard) featuring live user metrics, post counters, and real-time activity tracking.
+
+---
+
+## 🔮 Upcoming Feature Pipeline
+
+### 🔐 Security & Authentication
+
+- **Self-Service Password Recovery:** Secure password reset and forgot-password flow with time-limited email verification tokens.
+- **Google OAuth Integration:** One-click Google sign-up and authentication.
+- **Two-Step Verification (2FA):** Enhanced account protection via TOTP multi-factor authentication.
+- **Post & Account Deletion:** User-initiated account and post deletion with automated cascading cleanup of database documents and Cloudinary assets.
+
+### 💬 Communication & Support
+
+- **Real-Time Direct Messaging:** Instant private chat between users powered by WebSockets.
+- **Advanced Notification Center:** Live notification drawer and modal with read/unread tracking (`isSeen` flags), including administrative announcements and inquiry updates.
+- **Transactional Email Notifications:** Automated email notifications for support updates, security changes, and platform alerts via Nodemailer.
 
 ### 🌐 Community & Engagement
 
-- Follow & Unfollow system
-- Post comments engine (nested comment threads on posts)
-- Spotlights (Short video feed)
-- Background optimistic operations (non-blocking global UI for media uploads & post edits, edit profile)
-- Text-based posts feed (similar to Twitter)
-- Leaderboard (Top posts by impressions, highest post creators, most viewed profiles)
-- Live Activity feed
-- Visual metrics & analytics dashboard
+- **Follow & Unfollow System:** Social graph relationship engine enabling users to follow creators and view custom-curated feeds.
+- **Nested Post Comments:** Threaded discussions and comments on post detail views.
+- **Spotlights (Short-Video Feed):** Immersive, fast-scrolling vertical short-video feed with locked GPU hardware-accelerated playback.
+- **Global Leaderboards:** Community rankings for top posts by verified impressions, most viewed creator profiles, and prolific contributors.
+- **Text-Based Social Stream:** Streamlined micro-feed dedicated to short text thoughts and conversational posts.
+- **Unique View Telemetry:** Single-view-per-user tracking with a detailed "Who Viewed" viewer analytics modal.
+
+### ⚡ Performance & Core Infrastructure
+
+- **Background Optimistic Uploads:** Global background worker context allowing seamless feed navigation while large media uploads process in the background.
+- **Visual Analytics Charts:** Dynamic charting engine (e.g., Recharts) integrated into the admin dashboard for visualized traffic and engagement trends.
+- **Advanced Dynamic SEO:** OpenGraph and Twitter card previews for direct post and profile sharing.
 
 <br>
 <br>

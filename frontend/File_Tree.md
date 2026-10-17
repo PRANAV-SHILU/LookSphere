@@ -127,7 +127,6 @@
 │   ├── 📁 schema
 │   │   ├── 📄 contactSchema.jsx
 │   │   ├── 📄 editProfileSchema.jsx
-│   │   ├── 📄 loginSchema.jsx
 │   │   ├── 📄 postSchema.jsx
 │   │   └── 📄 registerSchema.jsx
 │   ├── 📁 services
@@ -145,7 +144,6 @@
 │   │   └── 📄 SvgIcons.jsx
 │   ├── 📁 skeletons
 │   │   ├── 📄 CreatorsSkeleton.jsx
-│   │   ├── 📄 DashboardSkeleton.jsx
 │   │   ├── 📄 ExploreSkeleton.jsx
 │   │   ├── 📄 FeedSkeleton.jsx
 │   │   ├── 📄 MyInquiriesSkeleton.jsx

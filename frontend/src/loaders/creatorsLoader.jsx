@@ -6,15 +6,6 @@ export function creatorsLoader({ request }) {
 
   const creatorsPromise = fetchAllUsers(search)
     .then((res) => {
-      // const storedUser = localStorage.getItem("user");
-      // const existingUser = storedUser ? JSON.parse(storedUser) : null;
-
-      // const creatorsArray = Array.isArray(res) ? res : [];
-
-      // const filteredCreators = creatorsArray.filter(
-      //   (user) => user.username !== existingUser?.username,
-      // );
-      // return filteredCreators;
       return res;
     })
     .catch(() => {

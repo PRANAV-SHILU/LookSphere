@@ -144,7 +144,7 @@ export function ProfileTabSkeleton() {
       {[1, 2, 3, 4, 5, 6].map((i) => (
         <div
           key={i}
-          className="aspect-square bg-zinc-200 dark:bg-zinc-800 animate-pulse"
+          className="aspect-square skeleton-box animate-pulse"
           style={{ borderRadius: "var(--radius-sm)" }}
         />
       ))}
@@ -202,8 +202,8 @@ export default function ProfileTabGrid({
       actionText: null,
       onAction: null,
       emptyIcon: Bookmark,
-      emptyTitle: "No Saved Posts",
-      emptyDesc: "You haven't saved any posts yet. Saved posts will appear here.",
+      emptyTitle: "No Archived Posts",
+      emptyDesc: "You haven't archived any posts yet. Archived posts will appear here.",
     },
   }[tabType] || {};
 

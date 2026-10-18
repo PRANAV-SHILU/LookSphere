@@ -7,6 +7,7 @@ import {
   useNavigation,
   Await,
 } from "react-router-dom";
+import { toast } from "react-toastify";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import ProfileSkeleton from "../skeletons/ProfileSkeleton";
 import { User, Link as LinkIcon, Check } from "lucide-react";
@@ -207,6 +208,17 @@ function ProfileContent({ data, username, submit }) {
   const [linkCopied, setLinkCopied] = useState(false);
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
+
+  const handleCopyProfileLink = () => {
+    const profileUrl = `${window.location.origin}/profile/${user.username}`;
+    navigator.clipboard.writeText(profileUrl).then(() => {
+      setLinkCopied(true);
+      toast.success("Profile link copied to clipboard!");
+      setTimeout(() => setLinkCopied(false), 2000);
+    }).catch(() => {
+      toast.error("Failed to copy profile link.");
+    });
+  };
 
   const handleTriggerUpload = (type) => {
     setMediaType(type);
@@ -418,13 +430,7 @@ function ProfileContent({ data, username, submit }) {
                 {user.username}
               </h1>
               <button
-                onClick={() => {
-                  const profileUrl = `${window.location.origin}/profile/${user.username}`;
-                  navigator.clipboard.writeText(profileUrl).then(() => {
-                    setLinkCopied(true);
-                    setTimeout(() => setLinkCopied(false), 2000);
-                  });
-                }}
+                onClick={handleCopyProfileLink}
                 className="shrink-0 flex items-center justify-center rounded-lg transition-all hover:opacity-80 cursor-pointer"
                 style={{
                   color: linkCopied
@@ -488,13 +494,7 @@ function ProfileContent({ data, username, submit }) {
                   {user.username}
                 </h1>
                 <button
-                  onClick={() => {
-                    const profileUrl = `${window.location.origin}/profile/${user.username}`;
-                    navigator.clipboard.writeText(profileUrl).then(() => {
-                      setLinkCopied(true);
-                      setTimeout(() => setLinkCopied(false), 2000);
-                    });
-                  }}
+                  onClick={handleCopyProfileLink}
                   className="shrink-0 flex items-center justify-center rounded-lg transition-all hover:opacity-80 cursor-pointer"
                   style={{
                     color: linkCopied
@@ -558,7 +558,7 @@ function ProfileContent({ data, username, submit }) {
             { id: "images", label: "Images" },
             { id: "videos", label: "Videos" },
             { id: "reshare", label: "Reshare" },
-            ...(isOwnProfile ? [{ id: "saved", label: "Saved" }] : []),
+            ...(isOwnProfile ? [{ id: "saved", label: "Archived" }] : []),
           ].map(({ id, label }) => (
             <button
               key={id}

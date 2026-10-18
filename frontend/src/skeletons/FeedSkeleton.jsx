@@ -18,27 +18,27 @@ export default function FeedSkeleton() {
             style={{ borderColor: "var(--border-light)" }}
           >
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 shrink-0 rounded-full bg-zinc-800 animate-pulse" />
-              <div className="h-3.5 w-24 bg-zinc-800 rounded animate-pulse" />
+              <div className="w-9 h-9 shrink-0 rounded-full skeleton-box animate-pulse" />
+              <div className="h-3.5 w-24 skeleton-box rounded animate-pulse" />
             </div>
-            <div className="hidden sm:block h-3 w-28 bg-zinc-800 rounded animate-pulse" />
+            <div className="hidden sm:block h-3 w-28 skeleton-box rounded animate-pulse" />
           </div>
 
           {/* Media — fixed height to match FeedCard media area */}
           <div
-            className="w-full bg-zinc-900 animate-pulse"
+            className="w-full skeleton-box animate-pulse"
             style={{ height: "520px" }}
           />
 
           {/* Footer — matches FeedCard footer layout */}
           <div className="p-4 flex flex-col gap-2.5">
             <div className="flex items-center justify-between">
-              <div className="h-3 w-16 bg-zinc-800 rounded animate-pulse" />
-              <div className="h-6 w-6 bg-zinc-800 rounded-lg animate-pulse" />
+              <div className="h-3 w-16 skeleton-box rounded animate-pulse" />
+              <div className="h-6 w-6 skeleton-box rounded-lg animate-pulse" />
             </div>
             <div className="flex flex-col gap-1.5">
-              <div className="h-3.5 w-4/5 bg-zinc-800 rounded animate-pulse" />
-              <div className="h-3.5 w-3/5 bg-zinc-800 rounded animate-pulse" />
+              <div className="h-3.5 w-4/5 skeleton-box rounded animate-pulse" />
+              <div className="h-3.5 w-3/5 skeleton-box rounded animate-pulse" />
             </div>
           </div>
         </div>

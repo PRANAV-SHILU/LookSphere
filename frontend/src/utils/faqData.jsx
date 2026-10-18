@@ -268,7 +268,7 @@ export const FAQ_CATEGORIES = [
             1. Contact Form: Navigate to our internal <Link to="/contact-us" className="text-(--primary-500) hover:underline">/contact-us</Link> page.{"\n"}
             2. Email: Send an email directly to <a href="mailto:pranavshilu@zohomail.in" className="text-(--primary-500) hover:underline">pranavshilu@zohomail.in</a>.{"\n"}
             3. LinkedIn: Connect at <a href="https://www.linkedin.com/in/pranavshilu" target="_blank" rel="noopener noreferrer" className="text-(--primary-500) hover:underline">linkedin.com/in/pranavshilu</a>.{"\n\n"}
-            All responses to your contact form submissions will appear in your <Link to="/my-inquiries" className="text-(--primary-500) hover:underline">My Inquiries</Link> page (/my-inquiries), accessible from your profile menu. You will also be notified via email when a response is sent.
+            All responses to your contact form submissions will appear in your <Link to="/my-inquiries" className="text-(--primary-500) hover:underline">My Inquiries</Link> page, accessible from your profile menu. You will also be notified via email when a response is sent.
           </span>
         ),
       },

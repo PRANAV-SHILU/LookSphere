@@ -20,6 +20,8 @@ export function updatePostInteractions(post, updatedData) {
 
   return {
     ...post,
+    ...(updatedData.caption !== undefined && { caption: updatedData.caption }),
+    ...(updatedData.altText !== undefined && { altText: updatedData.altText }),
     counts: {
       ...(post.counts || {}),
       ...(updatedData.counts || {}),

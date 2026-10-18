@@ -42,7 +42,7 @@ function Avatar({ user }) {
     : "?";
   return (
     <div
-      className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-white shrink-0"
+      className="w-10 h-10 rounded-full justify-center text-sm font-bold text-white flex items-center shrink-0"
       style={{ background: "linear-gradient(135deg, var(--primary-500), #7c3aed)" }}
     >
       {initials}
@@ -57,20 +57,20 @@ function MediaSection({ images = [], video, user }) {
 
   if (!images.length && !video) {
     return (
-      <div className="text-[11px] italic opacity-50 mt-3" style={{ color: "var(--text-muted)" }}>
+      <div className="mt-3 text-[11px] opacity-50 italic" style={{ color: "var(--text-muted)" }}>
         No media attached
       </div>
     );
   }
 
   return (
-    <div className="flex flex-wrap items-center gap-2 mt-3">
+    <div className="flex-wrap gap-2 mt-3 flex items-center">
       {/* Image thumbnails */}
       {images.map((src, i) => (
         <button
           key={i}
           onClick={() => setLightbox(i)}
-          className="cursor-pointer relative w-14 h-14 rounded-lg overflow-hidden border shrink-0 hover:opacity-80 transition-opacity"
+          className="w-14 h-14 rounded-lg overflow-hidden border cursor-pointer relative shrink-0 hover:opacity-80 transition-opacity"
           style={{ borderColor: "var(--border-light)" }}
         >
           <img src={src} alt={altText} className="w-full h-full object-cover" />
@@ -81,25 +81,25 @@ function MediaSection({ images = [], video, user }) {
       {video && (
         <button
           onClick={() => setLightbox('video')}
-          className="cursor-pointer relative w-14 h-14 rounded-lg overflow-hidden border shrink-0 hover:opacity-80 transition-opacity bg-black flex items-center justify-center"
+          className="w-14 h-14 rounded-lg overflow-hidden border bg-black justify-center cursor-pointer relative shrink-0 hover:opacity-80 transition-opacity flex items-center"
           style={{ borderColor: "var(--border-light)" }}
         >
           <img 
             src={video.replace("/upload/", "/upload/so_1/").replace(/\.[^/.]+$/, ".jpg")} 
             alt="Video thumbnail" 
-            className="absolute inset-0 w-full h-full object-cover opacity-50" 
+            className="w-full h-full object-cover opacity-50 absolute inset-0" 
           />
-          <Play size={18} fill="white" className="relative z-10 text-white drop-shadow-md" />
+          <Play size={18} fill="white" className="z-10 text-white relative drop-shadow-md" />
         </button>
       )}
 
       {/* Lightbox */}
       {lightbox !== null && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80"
+          className="z-50 justify-center bg-black/80 fixed inset-0 flex items-center"
           onClick={() => setLightbox(null)}
         >
-          <div className="relative max-w-3xl w-full mx-4 flex flex-col items-center" onClick={(e) => e.stopPropagation()}>
+          <div className="flex-col mx-4 max-w-3xl w-full relative flex items-center" onClick={(e) => e.stopPropagation()}>
             {lightbox === 'video' ? (
               <video src={video} aria-label={altText} controls autoPlay className="w-full rounded-2xl max-h-[80vh] bg-black" />
             ) : (
@@ -109,7 +109,7 @@ function MediaSection({ images = [], video, user }) {
                 <button
                   onClick={(e) => { e.stopPropagation(); setLightbox((p) => Math.max(0, p - 1)); }}
                   disabled={lightbox === 0}
-                  className="fixed bottom-6 left-4 lg:top-1/2 lg:-translate-y-1/2 lg:left-6 flex items-center gap-2 cursor-pointer disabled:cursor-not-allowed text-white/70 disabled:opacity-30 hover:text-white transition-all bg-black/50 hover:bg-black/80 disabled:hover:bg-black/50 px-4 h-11 rounded-full text-sm font-bold z-50"
+                  className="gap-2 px-4 bottom-6 text-white/70 bg-black/50 h-11 rounded-full text-sm font-bold z-50 fixed left-4 lg:top-1/2 lg:-translate-y-1/2 lg:left-6 flex items-center cursor-pointer disabled:cursor-not-allowed disabled:opacity-30 hover:text-white transition-all hover:bg-black/80 disabled:hover:bg-black/50"
                 >
                   <span className="text-lg leading-none">←</span> <span className="hidden lg:inline">Prev</span>
                 </button>
@@ -117,19 +117,19 @@ function MediaSection({ images = [], video, user }) {
                 <button
                   onClick={(e) => { e.stopPropagation(); setLightbox((p) => Math.min(images.length - 1, p + 1)); }}
                   disabled={lightbox === images.length - 1}
-                  className="fixed bottom-6 right-4 lg:top-1/2 lg:-translate-y-1/2 lg:right-6 flex items-center gap-2 cursor-pointer disabled:cursor-not-allowed text-white/70 disabled:opacity-30 hover:text-white transition-all bg-black/50 hover:bg-black/80 disabled:hover:bg-black/50 px-4 h-11 rounded-full text-sm font-bold z-50"
+                  className="gap-2 px-4 bottom-6 text-white/70 bg-black/50 h-11 rounded-full text-sm font-bold z-50 fixed right-4 lg:top-1/2 lg:-translate-y-1/2 lg:right-6 flex items-center cursor-pointer disabled:cursor-not-allowed disabled:opacity-30 hover:text-white transition-all hover:bg-black/80 disabled:hover:bg-black/50"
                 >
                   <span className="hidden lg:inline">Next</span> <span className="text-lg leading-none">→</span>
                 </button>
 
-                <span className="fixed bottom-6 left-1/2 -translate-x-1/2 text-white/80 text-sm font-semibold bg-black/60 px-4 py-1.5 rounded-full z-50">
+                <span className="px-4 py-1.5 bottom-6 text-white/80 text-sm font-semibold bg-black/60 rounded-full z-50 fixed left-1/2 -translate-x-1/2">
                   {lightbox + 1} / {images.length}
                 </span>
               </>
             )}
             <button
               onClick={() => setLightbox(null)}
-              className="fixed top-6 right-6 cursor-pointer text-white hover:text-red-400 text-3xl font-bold leading-none z-50 transition-colors"
+              className="top-6 text-white text-3xl font-bold z-50 fixed right-6 cursor-pointer hover:text-red-400 leading-none transition-colors"
             >✕</button>
           </div>
         </div>
@@ -174,7 +174,7 @@ export default function ContactCard({ contact, isAdmin = true }) {
 
   return (
     <div
-      className="rounded-2xl p-3 xsm:p-4 sm:p-5 border flex flex-col gap-3 transition-shadow hover:shadow-md"
+      className="flex-col p-3 gap-3 rounded-2xl border xsm:p-4 sm:p-5 flex transition-shadow hover:shadow-md"
       style={{ backgroundColor: "var(--surface-input)", borderColor: "var(--border-normal)" }}
     >
       {/* Top row: real account info + category + time */}
@@ -183,11 +183,11 @@ export default function ContactCard({ contact, isAdmin = true }) {
         userId?.username ? (
           <button
             onClick={() => navigate(`/profile/${userId.username}`)}
-            className="cursor-pointer flex items-center gap-3 min-w-0 hover:opacity-75 transition-opacity"
+            className="gap-3 min-w-0 cursor-pointer flex items-center hover:opacity-75 transition-opacity"
           >
             <Avatar user={userId} />
             <div className="min-w-0 text-left">
-              <p className="font-bold text-sm truncate flex items-center gap-1" style={{ color: "var(--text-primary)" }}>
+              <p className="gap-1 font-bold text-sm truncate flex items-center" style={{ color: "var(--text-primary)" }}>
                 @{userId.username}
                 <ExternalLink size={11} style={{ color: "var(--text-muted)" }} />
               </p>
@@ -197,16 +197,16 @@ export default function ContactCard({ contact, isAdmin = true }) {
             </div>
           </button>
         ) : (
-          <div className="flex items-center gap-3 min-w-0">
+          <div className="gap-3 min-w-0 flex items-center">
             <Avatar user={userId} />
             <p className="font-bold text-sm" style={{ color: "var(--text-muted)" }}>Unknown user</p>
           </div>
         )
       )}
 
-        <div className="flex flex-wrap items-center gap-2 shrink-0">
+        <div className="flex-wrap gap-2 flex items-center shrink-0">
           <span
-            className="text-xs font-semibold px-2.5 py-1 rounded-full whitespace-nowrap"
+            className="px-2.5 py-1 text-xs font-semibold rounded-full whitespace-nowrap"
             style={{ background: catStyle.bg, color: catStyle.color }}
           >
             {catStyle.label || category}
@@ -214,7 +214,7 @@ export default function ContactCard({ contact, isAdmin = true }) {
           {(() => {
             const t = formatTime(createdAt);
             return (
-              <span className="text-xs flex flex-wrap items-center gap-1.5" style={{ color: "var(--text-muted)" }}>
+              <span className="flex-wrap gap-1.5 text-xs flex items-center" style={{ color: "var(--text-muted)" }}>
                 <span className="whitespace-nowrap">{t.relative}</span>
                 <span className="opacity-50 hidden xsm:inline">·</span>
                 <span className="whitespace-nowrap">{t.exact}</span>
@@ -226,10 +226,10 @@ export default function ContactCard({ contact, isAdmin = true }) {
 
       {/* Form details: submitted name + email */}
       <div
-        className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs px-3 py-2 rounded-xl"
+        className="flex-wrap gap-x-2 gap-y-1 px-3 py-2 text-xs rounded-xl flex items-center"
         style={{ background: "var(--surface-card)", border: "1px solid var(--border-light)", color: "var(--text-muted)" }}
       >
-        <div className="flex items-center gap-1.5 shrink-0">
+        <div className="gap-1.5 flex items-center shrink-0">
           <User size={11} />
           <span>Submitted as</span>
           <span className="font-semibold" style={{ color: "var(--text-secondary)" }}>{name}</span>
@@ -246,7 +246,7 @@ export default function ContactCard({ contact, isAdmin = true }) {
         {isLong && (
           <button
             onClick={() => setExpanded((p) => !p)}
-            className="flex items-center gap-1 mt-1 text-xs font-semibold"
+            className="gap-1 mt-1 text-xs font-semibold flex items-center"
             style={{ color: "var(--primary-500)" }}
           >
             {expanded ? <><ChevronUp size={13} /> Show less</> : <><ChevronDown size={13} /> Read more</>}
@@ -260,10 +260,10 @@ export default function ContactCard({ contact, isAdmin = true }) {
       {/* Admin response (responded tab) */}
       {response && (
         <div
-          className="rounded-xl p-3 text-sm"
+          className="p-3 rounded-xl text-sm"
           style={{ background: "rgba(16,185,129,0.15)", border: "1px solid rgba(16,185,129,0.3)", color: "#059669" }}
         >
-          <p className="text-xs font-semibold mb-1 uppercase tracking-wide opacity-70">Admin responded</p>
+          <p className="mb-1 text-xs font-semibold opacity-70 uppercase tracking-wide">Admin responded</p>
           <span className="whitespace-pre-wrap">{response}</span>
         </div>
       )}
@@ -271,10 +271,10 @@ export default function ContactCard({ contact, isAdmin = true }) {
       {/* Not responded yet message (user view only) */}
       {!isAdmin && !response && (
         <div
-          className="rounded-xl p-3 text-sm"
+          className="p-3 rounded-xl text-sm"
           style={{ background: "rgba(245,158,11,0.15)", border: "1px solid rgba(245,158,11,0.3)", color: "#d97706" }}
         >
-          <p className="text-xs font-semibold mb-1 uppercase tracking-wide opacity-70">Pending</p>
+          <p className="mb-1 text-xs font-semibold opacity-70 uppercase tracking-wide">Pending</p>
           <span>Not responded yet — we're working on it!</span>
         </div>
       )}

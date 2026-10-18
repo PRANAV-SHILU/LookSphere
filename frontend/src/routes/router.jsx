@@ -8,10 +8,17 @@ const Home = lazy(() => import("../pages/Home.jsx"));
 const Login = lazy(() => import("../pages/Login.jsx"));
 const Register = lazy(() => import("../pages/Register.jsx"));
 const EditProfile = lazy(() => import("../pages/EditProfile.jsx"));
-const Creators = lazy(() => import("../pages/Creators.jsx"));
+// Static imports for core feed/discovery pages to prevent layout shifts & missing headers on initial load/refresh:
+// Lazy alternatives:
+// const Creators = lazy(() => import("../pages/Creators.jsx"));
+// const Feed = lazy(() => import("../pages/Feed.jsx"));
+// const Explore = lazy(() => import("../pages/Explore.jsx"));
+// const MyInquiries = lazy(() => import("../pages/MyInquiries.jsx"));
+import Creators from "../pages/Creators.jsx";
+import Feed from "../pages/Feed.jsx";
+import Explore from "../pages/Explore.jsx";
+import MyInquiries from "../pages/MyInquiries.jsx";
 const Profile = lazy(() => import("../pages/Profile.jsx"));
-const Feed = lazy(() => import("../pages/Feed.jsx"));
-const Explore = lazy(() => import("../pages/Explore.jsx"));
 const Dashboard = lazy(() => import("../pages/Dashboard.jsx"));
 const PrivacyPolicy = lazy(() => import("../pages/PrivacyPolicy.jsx"));
 const TermsAndConditions = lazy(
@@ -23,7 +30,6 @@ const About = lazy(() => import("../pages/About.jsx"));
 const Roadmap = lazy(() => import("../pages/Roadmap.jsx"));
 const ContactUs = lazy(() => import("../pages/ContactUs.jsx"));
 const AdminContact = lazy(() => import("../pages/AdminContact.jsx"));
-const MyInquiries = lazy(() => import("../pages/MyInquiries.jsx"));
 const Settings = lazy(() => import("../pages/Settings.jsx"));
 const ChangePassword = lazy(() => import("../pages/ChangePassword.jsx"));
 const ChangeEmail = lazy(() => import("../pages/ChangeEmail.jsx"));
@@ -95,20 +101,24 @@ const router = createBrowserRouter([
       { path: "logout", action: logoutAction },
       {
         path: "creators",
-        element: (
-          <Suspense fallback={<CreatorsSkeleton />}>
-            <Creators />
-          </Suspense>
-        ),
+        element: <Creators />,
+        // Lazy element alternative:
+        // element: (
+        //   <Suspense fallback={<CreatorsSkeleton />}>
+        //     <Creators />
+        //   </Suspense>
+        // ),
         loader: creatorsLoader,
       },
       {
         path: "feed",
-        element: (
-          <Suspense fallback={<FeedSkeleton />}>
-            <Feed />
-          </Suspense>
-        ),
+        element: <Feed />,
+        // Lazy element alternative:
+        // element: (
+        //   <Suspense fallback={<FeedSkeleton />}>
+        //     <Feed />
+        //   </Suspense>
+        // ),
         loader: feedLoader(10),
       },
       {
@@ -140,11 +150,13 @@ const router = createBrowserRouter([
       },
       {
         path: "explore",
-        element: (
-          <Suspense fallback={<ExploreSkeleton />}>
-            <Explore />
-          </Suspense>
-        ),
+        element: <Explore />,
+        // Lazy element alternative:
+        // element: (
+        //   <Suspense fallback={<ExploreSkeleton />}>
+        //     <Explore />
+        //   </Suspense>
+        // ),
         loader: feedLoader(20),
       },
       {
@@ -226,11 +238,13 @@ const router = createBrowserRouter([
       },
       {
         path: "my-inquiries",
-        element: (
-          <Suspense fallback={<MyInquiriesSkeleton />}>
-            <MyInquiries />
-          </Suspense>
-        ),
+        element: <MyInquiries />,
+        // Lazy element alternative:
+        // element: (
+        //   <Suspense fallback={<MyInquiriesSkeleton />}>
+        //     <MyInquiries />
+        //   </Suspense>
+        // ),
         loader: myInquiriesLoader,
       },
       {

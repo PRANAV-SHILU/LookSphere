@@ -35,7 +35,7 @@ function CreatorsContent({ creatorsList }) {
     <>
       {/* --- Search Bar --- */}
       <div
-        className="flex items-center gap-3 mb-8 px-4 py-3 rounded-xl"
+        className="gap-3 mb-8 px-4 py-3 rounded-xl flex items-center"
         style={{
           backgroundColor: "var(--surface-input)",
           border: "1px solid var(--border-normal)",
@@ -47,13 +47,13 @@ function CreatorsContent({ creatorsList }) {
           placeholder="Search creators..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="bg-transparent outline-none w-full text-sm"
+          className="bg-transparent w-full text-sm outline-none"
           style={{ color: "var(--text-primary)" }}
         />
         {query && (
           <button
             onClick={() => setQuery("")}
-            className="transition-colors p-0.5 rounded-full hover:bg-(--surface-hover)"
+            className="p-0.5 rounded-full transition-colors hover:bg-(--surface-hover)"
             style={{
               color: isClearHovered
                 ? "var(--text-primary)"
@@ -70,25 +70,25 @@ function CreatorsContent({ creatorsList }) {
 
       {creatorsList.length === 0 && !query ? (
         <div
-          className="text-center py-20 text-lg font-medium"
+          className="py-20 text-center text-lg font-medium"
           style={{ color: "var(--text-muted)" }}
         >
           No creators found. Register yourself to be the first one.
         </div>
       ) : creatorsList.length === 0 ? (
         <div
-          className="text-center py-20 text-lg font-medium"
+          className="py-20 text-center text-lg font-medium"
           style={{ color: "var(--text-muted)" }}
         >
           No creators match &ldquo;{query}&rdquo;.
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6 2xl:gap-8">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 2xl:gap-8">
           {creatorsList.map((creator) => (
             <div key={creator.username} className="h-full">
               <Link
                 to={`/profile/${creator.username}`}
-                className="group relative flex flex-col h-full p-6 4xl:p-8 rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1"
+                className="flex-col p-6 h-full rounded-2xl overflow-hidden group relative flex 4xl:p-8 transition-all duration-300 hover:-translate-y-1"
                 style={{
                   backgroundColor: "var(--surface-card)",
                   border: "1px solid var(--border-normal)",
@@ -99,17 +99,17 @@ function CreatorsContent({ creatorsList }) {
               >
                 {/* Background Glow Effect on Hover */}
                 <div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300 pointer-events-none"
+                  className="opacity-0 absolute inset-0 group-hover:opacity-10 transition-opacity duration-300 pointer-events-none"
                   style={{
                     background:
                       "linear-gradient(135deg, var(--primary-500), transparent)",
                   }}
                 />
 
-                <div className="flex items-start space-x-4 mb-5 relative z-10">
+                <div className="mb-5 z-10 flex items-start space-x-4 relative">
                   {/* Avatar */}
                   <div
-                    className="w-16 h-16 4xl:w-21 4xl:h-21 shrink-0 rounded-full overflow-hidden flex items-center justify-center border-2 transition-colors duration-300 shadow-sm"
+                    className="w-16 h-16 rounded-full overflow-hidden justify-center border-2 shadow-sm 4xl:w-21 4xl:h-21 shrink-0 flex items-center transition-colors duration-300"
                     style={{
                       backgroundColor: "var(--surface-input)",
                       borderColor:
@@ -136,7 +136,7 @@ function CreatorsContent({ creatorsList }) {
                   {/* User Info */}
                   <div className="flex-1 overflow-hidden">
                     <h2
-                      className="text-xl 4xl:text-3xl font-bold truncate transition-colors"
+                      className="text-xl font-bold 4xl:text-3xl truncate transition-colors"
                       style={{
                         color:
                           hoveredCreator === creator.username
@@ -147,7 +147,7 @@ function CreatorsContent({ creatorsList }) {
                       {creator.username}
                     </h2>
                     <p
-                      className="text-sm 4xl:text-lg line-clamp-2 mt-1"
+                      className="mt-1 text-sm 4xl:text-lg line-clamp-2"
                       style={{ color: "var(--text-secondary)" }}
                     >
                       {creator.tagline || "No tagline provided."}
@@ -156,13 +156,13 @@ function CreatorsContent({ creatorsList }) {
                 </div>
 
                 <div
-                  className="flex items-center justify-between mt-auto pt-4 border-t relative z-10"
+                  className="mt-auto pt-4 justify-between border-t z-10 flex items-center relative"
                   style={{ borderColor: "var(--border-light)" }}
                 >
                   {/* View Count */}
-                  <div className="flex items-center gap-3">
+                  <div className="gap-3 flex items-center">
                     <div
-                      className="flex items-center space-x-1.5 text-xs 4xl:text-base font-semibold px-2.5 py-1.5 4xl:py-2.5 rounded-md"
+                      className="px-2.5 py-1.5 text-xs font-semibold rounded-md flex items-center space-x-1.5 4xl:text-base 4xl:py-2.5"
                       style={{
                         backgroundColor: "var(--surface-input)",
                         color: "var(--text-secondary)",
@@ -172,7 +172,7 @@ function CreatorsContent({ creatorsList }) {
                       <span>{creator.profileViewCount || 0} Views</span>
                     </div>
                     <div
-                      className="flex items-center space-x-1.5 text-xs 4xl:text-base font-semibold px-2.5 py-1.5 4xl:py-2.5  rounded-md"
+                      className="px-2.5 py-1.5 text-xs font-semibold rounded-md flex items-center space-x-1.5 4xl:text-base 4xl:py-2.5"
                       style={{
                         backgroundColor: "var(--surface-input)",
                         color: "var(--text-secondary)",
@@ -185,7 +185,7 @@ function CreatorsContent({ creatorsList }) {
 
                   {/* View Profile Button (Icon) */}
                   <div
-                    className="flex items-center justify-center w-8 h-8  rounded-full transform group-hover:translate-x-1 transition-all duration-300"
+                    className="justify-center w-8 h-8 rounded-full flex items-center transform group-hover:translate-x-1 transition-all duration-300"
                     style={{
                       backgroundColor: "var(--primary-50)",
                       color: "var(--primary-600)",
@@ -212,16 +212,16 @@ export default function Creators() {
 
   return (
     <div className="pb-12 md:pb-16">
-      <div className="mb-10 mt-8 4xl:mt-16 gap-4 flex items-start justify-between">
+      <div className="mb-10 mt-8 gap-4 justify-between 4xl:mt-16 flex items-start">
         <div className="text-center md:text-left">
           <h1
-            className="text-4xl xsm:text-5xl text-left font-extrabold mb-3 tracking-tight"
+            className="mb-3 text-4xl text-left font-extrabold xsm:text-5xl tracking-tight"
             style={{ color: "var(--text-primary)" }}
           >
             Creators
           </h1>
           <p
-            className="text-base xsm:text-lg text-left"
+            className="text-base text-left xsm:text-lg"
             style={{ color: "var(--text-muted)" }}
           >
             Discover and connect with other creators on LookSphere.
@@ -234,7 +234,7 @@ export default function Creators() {
         <Await
           resolve={creatorsData}
           errorElement={
-            <div className="text-center py-10">
+            <div className="py-10 text-center">
               Error loading creators data.
             </div>
           }

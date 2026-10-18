@@ -279,6 +279,13 @@ syncPostInteraction(
 ```
 Dispatches state updates concurrently to all active React view states (All, Images, Videos, Bookmarks, and open Modal views) in $O(T)$ where $T$ is the number of open tab hooks, preventing stale counts without network revalidation.
 
+#### 4. Metadata & Detail Harmonization:
+When post metadata (`caption`, `altText`) is edited inside `PostDetailModal`, the mutation pipeline reuses `onInteraction` and `syncPostInteraction`:
+```javascript
+onInteraction(post._id, { caption: updated.caption, altText: updated.altText });
+```
+`updatePostInteractions` selectively merges updated caption and alternative text alongside engagement metrics. Any calling page (`Profile`, `Explore`, `Feed`, `Dashboard`) immediately renders the updated description and accessible alt tags across grids and cards without triggering a full page reload or secondary network round-trip.
+
 ---
 
 ### 4.2 Time-Decay Sliding Window Debounce & Dynamic Cache-Bypass Algorithm

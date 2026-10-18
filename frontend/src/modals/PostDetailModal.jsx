@@ -636,6 +636,12 @@ export default function PostDetailModal({
                             toast.success("Post updated successfully!");
                             setDisplayCaption(updated.caption);
                             setDisplayAltText(updated.altText);
+                            if (onInteraction) {
+                              onInteraction(post._id, {
+                                caption: updated.caption,
+                                altText: updated.altText,
+                              });
+                            }
                             setIsEditing(false);
                           } catch (err) {
                             toast.error(err.message || "Failed to save post.");

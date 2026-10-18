@@ -639,6 +639,16 @@ a:hover {
   background-color: var(--surface-hover) !important;
 }
 
+/* Skeleton Loading Helpers (Enhanced contrast for Light & Dark Theme) */
+.skeleton-box {
+  background-color: #cbd5e1;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+html.dark .skeleton-box {
+  background-color: #52525b; /* zinc-600 provides strong, crisp contrast against #27272a (--surface-input) and #18181b (--surface-card) */
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
 /* ─── Hero Floating Orbs ─── */
 @keyframes float-orb-1 {
   0%,

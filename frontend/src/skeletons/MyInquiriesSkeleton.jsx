@@ -1,39 +1,59 @@
+function ContactCardSkeleton() {
+  return (
+    <div
+      className="flex-col p-3.5 gap-3.5 rounded-2xl border xsm:p-4 sm:p-5 flex animate-pulse"
+      style={{
+        backgroundColor: "var(--surface-input)",
+        borderColor: "var(--border-normal)",
+      }}
+    >
+      {/* Top row: Category badge + Timestamp */}
+      <div className="gap-3 flex items-center">
+            <div className="h-5 w-24 rounded-full sm:w-28 skeleton-box" />
+        <div className="h-4 w-48 rounded sm:w-38 skeleton-box" />
+      </div>
+
+      {/* Form details box: Submitted as name · email */}
+      <div
+        className="gap-2 px-3 py-2.5 rounded-xl border flex items-center"
+        style={{
+          background: "var(--surface-card)",
+          borderColor: "var(--border-light)",
+        }}
+      >
+        <div className="w-3.5 h-3.5 rounded-full skeleton-box shrink-0" />
+        <div className="h-3.5 w-42 rounded skeleton-box" />
+        <div className="h-3.5 w-32 rounded skeleton-box hidden sm:block" />
+      </div>
+
+      {/* Message lines */}
+      <div className="flex-col gap-2 my-0.5 flex">
+        <div className="h-4 w-full rounded skeleton-box" />
+        <div className="h-4 w-5/6 rounded skeleton-box" />
+        <div className="h-4 w-2/3 rounded skeleton-box" />
+      </div>
+
+      {/* Attached Media preview box skeleton */}
+      <div className="gap-2 mt-1 flex items-center">
+        <div className="w-14 h-14 rounded-lg skeleton-box shrink-0" />
+        <div className="w-14 h-14 rounded-lg skeleton-box shrink-0" />
+        <div className="w-14 h-14 rounded-lg skeleton-box shrink-0" />
+      </div>
+
+      {/* Status banner (Pending or Admin reply placeholder) */}
+      <div className="mt-1 h-10 w-full rounded-xl opacity-90 skeleton-box" />
+    </div>
+  );
+}
+
+export { ContactCardSkeleton };
+
 export default function MyInquiriesSkeleton() {
   return (
-    <div className="w-full flex justify-center">
-      <div className="w-full max-w-3xl lg:max-w-4xl 2xl:max-w-5xl px-3 xsm:px-4 sm:px-6 md:px-8 pt-5 sm:pt-8 pb-12 sm:pb-20">
-        {/* Header Row */}
-        <div className="flex items-center justify-between mb-5 sm:mb-8">
-          <div className="h-4 sm:h-5 w-14 sm:w-16 bg-zinc-200 dark:bg-zinc-800 rounded animate-pulse" />
-          <div className="h-5 sm:h-6 w-16 sm:w-20 bg-zinc-200 dark:bg-zinc-800 rounded-full animate-pulse" />
-        </div>
-
-        {/* Title Section */}
-        <div className="text-center mb-6 sm:mb-10 flex flex-col items-center">
-          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-zinc-200 dark:bg-zinc-800 animate-pulse mb-3 sm:mb-4" />
-          <div className="h-7 sm:h-9 w-40 sm:w-52 bg-zinc-200 dark:bg-zinc-800 rounded animate-pulse mb-1.5 sm:mb-3" />
-          <div className="h-3.5 sm:h-4 md:h-5 w-64 sm:w-80 md:w-96 bg-zinc-200 dark:bg-zinc-800 rounded animate-pulse" />
-        </div>
-
-        {/* Tabs */}
-        <div className="flex justify-center">
-          <div className="flex w-fit p-1 gap-1.5 mt-2 mb-6 sm:p-[0.35rem] sm:gap-2 sm:mt-2.5 sm:mb-8 bg-zinc-100 dark:bg-zinc-800/50 rounded-full animate-pulse">
-            <div className="h-7 w-20 sm:h-9 sm:w-32 bg-zinc-200 dark:bg-zinc-800 rounded-full animate-pulse" />
-            <div className="h-7 w-20 sm:h-9 sm:w-32 bg-zinc-200 dark:bg-zinc-800 rounded-full animate-pulse" />
-          </div>
-        </div>
-
-        {/* Content - Contact Cards */}
-        <div className="flex flex-col gap-3 sm:gap-4">
-          {[1, 2, 3].map((i) => (
-            <div
-              key={i}
-              className="rounded-xl sm:rounded-2xl p-4 sm:p-5 border h-36 sm:h-40 animate-pulse"
-              style={{ backgroundColor: "var(--surface-input)", borderColor: "var(--border-normal)" }}
-            />
-          ))}
-        </div>
-      </div>
+    <div className="flex-col gap-3 flex sm:gap-4">
+      {[1, 2, 3].map((i) => (
+        <ContactCardSkeleton key={i} />
+      ))}
     </div>
   );
 }

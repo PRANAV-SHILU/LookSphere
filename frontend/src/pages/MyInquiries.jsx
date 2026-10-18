@@ -1,9 +1,10 @@
 import { Suspense } from "react";
-import { useLoaderData, Await, Link, useSearchParams, useNavigate } from "react-router-dom";
-import { MessageSquareText, Mail, Clock, CheckCheck } from "lucide-react";
+import { useLoaderData, Await, Link, useSearchParams, useNavigate, useNavigation } from "react-router-dom";
+import { MessageSquareText, Mail, Clock, CheckCheck, ArrowRight, Loader2 } from "lucide-react";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import BackButton from "../shared-components/BackButton";
 import ContactCard from "../components/admin/ContactCard";
+import { ContactCardSkeleton } from "../skeletons/MyInquiriesSkeleton";
 
 const TABS = [
   { key: "false", label: "Pending",   icon: <Clock size={15} /> },
@@ -14,14 +15,14 @@ function InquiryList({ contacts, isAdmin }) {
   if (!contacts?.length) {
     return (
       <div
-        className="flex flex-col items-center justify-center py-12 sm:py-20 rounded-xl sm:rounded-2xl border border-dashed gap-3 sm:gap-4 px-4"
+        className="flex-col py-12 gap-3 px-4 justify-center rounded-xl border border-dashed flex items-center sm:py-20 sm:rounded-2xl sm:gap-4"
         style={{ borderColor: "var(--border-normal)", color: "var(--text-muted)", backgroundColor: "var(--surface-input)" }}
       >
         <Mail size={40} className="sm:hidden" strokeWidth={1.2} style={{ color: "var(--primary-400)" }} />
         <Mail size={48} className="hidden sm:block" strokeWidth={1.2} style={{ color: "var(--primary-400)" }} />
         <div className="text-center">
-          <p className="text-lg sm:text-xl font-bold mb-1" style={{ color: "var(--text-primary)" }}>No inquiries yet</p>
-          <p className="text-xs sm:text-sm max-w-xs mx-auto">Need help or want to share feedback? We'd love to hear from you.</p>
+          <p className="mb-1 text-lg font-bold sm:text-xl" style={{ color: "var(--text-primary)" }}>No inquiries yet</p>
+          <p className="text-xs max-w-xs mx-auto sm:text-sm">Need help or want to share feedback? We'd love to hear from you.</p>
         </div>
         <Link 
           to="/contact-us"
@@ -43,15 +44,13 @@ function InquiryList({ contacts, isAdmin }) {
   );
 }
 
+
+
 function LoadingSkeleton() {
   return (
     <div className="flex flex-col gap-3 sm:gap-4">
       {[1, 2, 3].map((i) => (
-        <div
-          key={i}
-          className="rounded-xl sm:rounded-2xl p-4 sm:p-5 border h-36 sm:h-40 animate-pulse"
-          style={{ backgroundColor: "var(--surface-input)", borderColor: "var(--border-normal)" }}
-        />
+        <ContactCardSkeleton key={i} />
       ))}
     </div>
   );
@@ -62,8 +61,11 @@ export default function MyInquiries() {
   const { contactData, isAdmin } = useLoaderData();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const navigation = useNavigation();
 
   const isResponded = searchParams.get("isResponded") ?? "false";
+  const isNavigating = navigation.state === "loading";
+  const navigatingTo = navigation.location ? (new URLSearchParams(navigation.location.search).get("isResponded") ?? "false") : null;
 
   return (
     <div className="w-full flex justify-center">
@@ -80,48 +82,60 @@ export default function MyInquiries() {
         <div className="text-center mb-6 sm:mb-10 flex flex-col items-center">
           <div
             className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl flex items-center justify-center mb-3 sm:mb-4"
-            style={{
-              backgroundColor: "var(--primary-50)",
-              color: "var(--primary-600)",
-            }}
+            style={{ backgroundColor: "var(--primary-50)", color: "var(--primary-600)" }}
           >
             <MessageSquareText size={20} className="sm:hidden" />
             <MessageSquareText size={24} className="hidden sm:block" />
           </div>
-          <h1
-            className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight mb-1.5 sm:mb-3"
-            style={{ color: "var(--text-primary)" }}
-          >
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight mb-1.5 sm:mb-3" style={{ color: "var(--text-primary)" }}>
             My Inquiries
           </h1>
-          <p
-            className="text-xs sm:text-sm md:text-lg max-w-70 sm:max-w-xl mx-auto leading-relaxed"
-            style={{ color: "var(--text-secondary)" }}
-          >
+          <p className="text-xs sm:text-sm md:text-lg max-w-70 sm:max-w-xl mx-auto leading-relaxed mb-3 sm:mb-4" style={{ color: "var(--text-secondary)" }}>
             Track all your contact submissions and view responses from our team.
           </p>
+          <div
+            className="inline-flex items-center gap-1.5 text-xs sm:text-sm px-3.5 py-1.5 rounded-full border transition-all"
+            style={{ backgroundColor: "var(--surface-input)", borderColor: "var(--border-normal)", color: "var(--text-secondary)" }}
+          >
+            <span>Have any query or question?</span>
+            <Link
+              to="/contact-us"
+              className="font-semibold text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 underline underline-offset-2 transition-colors inline-flex items-center gap-1"
+            >
+              <span>Contact Us here</span>
+              <ArrowRight size={13} />
+            </Link>
+          </div>
         </div>
 
         {/* Tabs */}
         <div className="flex justify-center">
           <div className="tab-container flex w-fit p-1 gap-1.5 mt-2 mb-6 sm:p-[0.35rem] sm:gap-2 sm:mt-2.5 sm:mb-8">
-            {TABS.map((tab) => (
-              <button
-                key={tab.key}
-                className={`tab-btn py-1 px-3 text-xs xsm:text-sm sm:py-[0.22rem] sm:px-6 sm:text-[1.2rem] ${isResponded === tab.key ? "active" : ""}`}
-                onClick={() => navigate(`/my-inquiries?isResponded=${tab.key}`)}
-                style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}
-              >
-                <span className="hidden xsm:inline-flex">{tab.icon}</span>
-                {tab.label}
-              </button>
-            ))}
+            {TABS.map((tab) => {
+              const isCurrent = isResponded === tab.key;
+              const isTargetLoading = isNavigating && navigatingTo === tab.key;
+              return (
+                <button
+                  key={tab.key}
+                  className={`tab-btn py-1 px-3 text-xs xsm:text-sm sm:py-[0.22rem] sm:px-6 sm:text-[1.2rem] ${isCurrent ? "active" : ""}`}
+                  onClick={() => navigate(`/my-inquiries?isResponded=${tab.key}`)}
+                  style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}
+                >
+                  <span className="hidden xsm:inline-flex">
+                    {isTargetLoading ? <Loader2 size={15} className="animate-spin" /> : tab.icon}
+                  </span>
+                  {tab.label}
+                  {isTargetLoading && <Loader2 size={13} className="animate-spin xsm:hidden" />}
+                </button>
+              );
+            })}
           </div>
         </div>
 
         {/* Content */}
-        <Suspense fallback={<LoadingSkeleton />}>
+        <Suspense key={isResponded} fallback={<LoadingSkeleton />}>
           <Await
+            key={isResponded}
             resolve={contactData}
             errorElement={
               <p className="text-center text-xs sm:text-sm py-10" style={{ color: "var(--text-muted)" }}>

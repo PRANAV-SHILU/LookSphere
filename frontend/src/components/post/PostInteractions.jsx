@@ -273,7 +273,7 @@ const PostInteractions = ({ post, onMaximize, onInteraction }) => {
                 window.location.origin || import.meta.env.VITE_FRONTEND_URL;
               navigator.clipboard.writeText(`${baseUrl}/posts/${post?._id}`);
               setIsCopied(true);
-              toast.success("Link copied to clipboard!");
+              toast.success("Post link copied to clipboard!");
               setTimeout(() => setIsCopied(false), 3000);
             }}
             title="Copy link"

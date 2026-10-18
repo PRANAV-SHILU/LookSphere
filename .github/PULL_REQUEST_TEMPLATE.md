@@ -1,13 +1,12 @@
 ## 📌 Description
-<!-- Provide a clear and concise summary of the changes proposed in this Pull Request. -->
-<!-- Explain what problem this PR solves or what feature it introduces. -->
+*Provide a clear and concise summary of the changes proposed in this Pull Request. Explain what problem this PR solves or what feature it introduces.*
 
-Closes #(issue_number) <!-- e.g. Closes #12 or Fixes #42 -->
+Fixes #(issue_number)
 
 ---
 
 ## 🎯 Type of Change
-<!-- Please mark relevant items with an [x] -->
+*Please mark relevant items with an [x]*
 
 - [ ] 🐛 **Bug Fix**: Non-breaking fix for an unresolved bug or issue
 - [ ] ✨ **New Feature**: Non-breaking feature addition or functional enhancement
@@ -21,7 +20,7 @@ Closes #(issue_number) <!-- e.g. Closes #12 or Fixes #42 -->
 ---
 
 ## 📂 Scope of Changes
-<!-- Select all modules impacted by this PR -->
+*Select all modules impacted by this PR*
 
 - [ ] `frontend/` (React, UI Components, State, Vite)
 - [ ] `Backend/` (Express, Node.js, Services, Controllers, Middleware)
@@ -31,7 +30,7 @@ Closes #(issue_number) <!-- e.g. Closes #12 or Fixes #42 -->
 ---
 
 ## 🛠️ Detailed Summary of Changes
-<!-- List the specific files modified, key functions added or altered, and technical rationale -->
+*List the specific files modified, key functions added or altered, and technical rationale:*
 
 - **Component / File**: Brief explanation of change
 - **Component / File**: Brief explanation of change
@@ -40,7 +39,7 @@ Closes #(issue_number) <!-- e.g. Closes #12 or Fixes #42 -->
 ---
 
 ## 📸 Visual Demonstrations (Screenshots / Videos)
-<!-- For frontend, UI, or interactive modifications, please include before/after screenshots or GIFs. If not applicable, write N/A. -->
+*For frontend, UI, or interactive modifications, please include before/after screenshots or GIFs. If not applicable, write N/A.*
 
 | Before | After |
 | :---: | :---: |
@@ -49,7 +48,7 @@ Closes #(issue_number) <!-- e.g. Closes #12 or Fixes #42 -->
 ---
 
 ## 🧪 Testing Verification
-<!-- Describe the tests and verification steps performed to ensure code stability. -->
+*Describe the tests and verification steps performed to ensure code stability.*
 
 ### Manual Verification
 - [ ] Local frontend server builds and runs cleanly (`npm run dev`)
@@ -65,7 +64,7 @@ Closes #(issue_number) <!-- e.g. Closes #12 or Fixes #42 -->
 ---
 
 ## ✅ Contributor Checklist
-<!-- Ensure all items below have been addressed before requesting review. -->
+*Ensure all items below have been addressed before requesting review.*
 
 - [ ] My code adheres to the project's [Contributing Guidelines](../CONTRIBUTING.md) and [Code of Conduct](../CODE_OF_CONDUCT.md).
 - [ ] I have performed a thorough self-review of my code.

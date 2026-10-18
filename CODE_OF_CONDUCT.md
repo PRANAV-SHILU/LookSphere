@@ -60,7 +60,7 @@ representative at an online or offline event.
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
 reported to the project maintainer through any of the following channels:
 
-- 📧 **Email**: [pranavshilu@zohomail.in](mailto:[pranavshilu@zohomail.in])
+- 📧 **Email**: [pranavshilu@zohomail.in](mailto:pranavshilu@zohomail.in)
 - 💼 **LinkedIn**: [Pranav Shilu](https://www.linkedin.com/in/pranavshilu/)
 - 🐙 **GitHub**: [@PRANAV-SHILU](https://github.com/PRANAV-SHILU)
 
@@ -133,3 +133,28 @@ For answers to common questions about this code of conduct, see the FAQ at
 [Mozilla CoC]: https://github.com/mozilla/diversity
 [FAQ]: https://www.contributor-covenant.org/faq
 [translations]: https://www.contributor-covenant.org/translations
+
+<br>
+<br>
+
+---
+
+**📚 LookSphere Documentation Index:**
+- **Core Documentation:** [Main Readme](./Readme.md) | [Algorithms](./Algorithms.md) | [Performance Optimization](./Performance_Optimization.md) | [Roadmap](./Roadmap.md) | [Resolved Issues](./Resolved_Issues.md) | [File Tree](./File_Tree.md) | [Improvements](./improvement.md)
+- **Governance & Policies:** [Contributing Guidelines](./CONTRIBUTING.md) | [Code of Conduct](./CODE_OF_CONDUCT.md) | [Security Policy](./SECURITY.md) | [License](./LICENSE.md)
+- **Issue Templates:** [Bug Report](./.github/ISSUE_TEMPLATE/bug_report.md) | [Feature Request](./.github/ISSUE_TEMPLATE/feature_request.md)
+- **Frontend Architecture:** [Frontend Readme](./frontend/README.md) | [Design System](./frontend/Design.md) | [Frontend File Tree](./frontend/File_Tree.md)
+- **Backend Architecture:** [Backend Readme](./Backend/Readme.md) | [API Documentation](./Backend/APIs.md) | [Backend File Tree](./Backend/File_Tree.md)
+
+---
+
+<div align="center">
+
+**LookSphere Engineering Documentation**  
+*Fostering a welcoming, respectful, and safe community for all creators and developers.*
+
+</div>
+<div align="center">
+  <b>© 2026 LookSphere. Built by <a href="https://www.linkedin.com/in/pranavshilu/">Pranav Shilu</a>. All rights reserved.</b>
+</div>
+

@@ -9,7 +9,7 @@ export default function TechStack() {
       <SectionHeading
         icon={Code2}
         title="Built With the Best"
-        subtitle="Powered by a modern, robust technology stack."
+        subtitle="Powered by a modern, robust technology stack and high-performance algorithms."
       />
 
       <div

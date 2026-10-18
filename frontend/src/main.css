@@ -599,6 +599,12 @@ a:hover {
   box-shadow: var(--shadow-card);
 }
 
+@media (max-width: 540px) {
+  .post-detail-caption {
+    padding: 14px 10px;
+  }
+}
+
 .post-detail-caption p {
   color: var(--text-secondary);
   font-size: 0.925rem;
@@ -608,7 +614,7 @@ a:hover {
   margin: 0;
 }
 
-.post-detail-views {
+.post-detail-impressions {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -618,7 +624,7 @@ a:hover {
   margin-bottom: 8px;
 }
 
-.post-detail-views + p {
+.post-detail-impressions + p {
   padding-top: 8px;
   border-top: 1px solid var(--border-light);
 }
@@ -631,6 +637,16 @@ a:hover {
 
 .post-detail-dropdown-item:hover {
   background-color: var(--surface-hover) !important;
+}
+
+/* Skeleton Loading Helpers (Enhanced contrast for Light & Dark Theme) */
+.skeleton-box {
+  background-color: #cbd5e1;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+html.dark .skeleton-box {
+  background-color: #52525b; /* zinc-600 provides strong, crisp contrast against #27272a (--surface-input) and #18181b (--surface-card) */
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 /* ─── Hero Floating Orbs ─── */

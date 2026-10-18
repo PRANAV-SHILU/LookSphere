@@ -1,4 +1,4 @@
-<div align="right">Last Modified: 1-Sep-2026</div>
+<div align="right">Last Modified: 22-Oct-2026</div>
 
 
 <div align="center">
@@ -19,7 +19,7 @@
 </div>
 
 
-**🌐 Live Demo:** [LookSphere](http://localhost:5173/)  
+**🌐 Live Demo:** [LookSphere (looksphere.vercel.app)](https://looksphere.vercel.app/)  
 **🐱 GitHub Profile:** [@PRANAV-SHILU](https://github.com/PRANAV-SHILU)
 
 **⚙️ Backend Repository:** [View Backend](../Backend/Readme.md)
@@ -42,26 +42,38 @@ The frontend is crafted with React 19 and Vite for a lightning-fast development 
 - **Notifications:** React Toastify
 - **Loading Indicators:** React Spinners
 
+### **Core Frontend Algorithms & Optimization**
+- **Feed Permutation:** Fisher-Yates (Knuth) Unbiased Shuffle ($O(N)$ with `sessionStorage` disjoint seen-post partitioning)
+- **Viewport & Playback:** Single-Active Viewport Decoupling (centralized video coordinator preventing mobile GPU decoder exhaustion)
+- **Sentinel Pagination:** Invisible Sentinel `IntersectionObserver` ($k=5..9$ item prefetch with $O(M)$ hash `Set` deduplication)
+- **State Synchronization:** Optimistic State Mutation with referential integrity preservation (`prevProps.post === nextProps.post`) and multi-setter tab fanout
+- **Search Ingestion:** Time-Decay Sliding Window Debounce (400ms) with dynamic Axios cache-bypass policy
+- **Batch Processing:** Micro-Batch Ingestion Pipeline (5–10 items per fetch for sub-100ms FCP and $<15\text{MB}$ memory footprint)
+
 ## ✨ Features of LookSphere
 
 - **Global Community:** Join a diverse, vibrant community of creators, thinkers, and innovators across the globe.
 - **Share & Discover:** Share your passions and discover new interests through an intuitive content discovery engine.
-- **Support & Inquiries:** Dedicated Contact Us portal (`/contact-us`) with category routing, media attachments (images/video), real-time ticket tracking under My Inquiries (`/my-inquiries`), email notifications, and an admin moderation dashboard.
+- **Post Interactions & Modals:** Real-time Spark, Reshare, and Archive capabilities with optimistic updates, dedicated interactive user list modals ([`InteractionsListModal`](./src/modals/InteractionsListModal.jsx)) to inspect who sparked or reshared posts, and instant profile navigation.
+- **Cross-Tab Synchronization:** Interacting with posts immediately syncs across all media tabs (Images, Videos, Reshares, Archived) and modal views without page reloads.
+- **Profile & Post Link Sharing:** Dedicated copy link buttons next to usernames, one-click post share links across feed/modal footers, and standalone post view pages ([`/posts/:id`](https://looksphere.vercel.app/explore)).
+- **Support & Inquiries:** Dedicated Contact Us portal ([`/contact-us`](https://looksphere.vercel.app/contact-us)) with category routing, media attachments (images/video), real-time ticket tracking under My Inquiries ([`/my-inquiries`](https://looksphere.vercel.app/my-inquiries)), and an admin moderation dashboard.
 - **Privacy First:** Your data belongs to you. Advanced security features keep your conversations and content safe.
 
 ## ⚙️ How It Works
 
-1. **Secure Signup:** Your password is encrypted with 12 salt rounds before hitting our database.
+1. **Secure Signup & Onboarding:** Your password is encrypted with 12 salt rounds before hitting our database. Create your custom credentials on [Register](https://looksphere.vercel.app/register) or [Login](https://looksphere.vercel.app/login) and start connecting immediately.
 2. **Upload Media:** Share images or videos with custom captions and alt-text for accessibility.
-3. **Discover & Engage:** Explore the Feed, search for specific users, open dedicated post URLs (`/posts/:id`), and see your view counts grow.
-4. **Get Support:** Submit inquiries or feedback directly through the Contact Us desk (`/contact-us`). You will receive admin responses directly on your My Inquiries page (`/my-inquiries`) and get notified via email.
+3. **Discover & Engage:** Explore the Feed ([`/feed`](https://looksphere.vercel.app/feed)), search for creators ([`/creators`](https://looksphere.vercel.app/creators)), spark, reshare, or archive posts, inspect who reacted via interaction list modals, open dedicated post URLs ([`/posts/:id`](https://looksphere.vercel.app/explore)), and see impression counts grow.
+4. **Get Support:** Submit inquiries or feedback directly through the Contact Us desk ([`/contact-us`](https://looksphere.vercel.app/contact-us)). You will receive admin responses directly on your My Inquiries page ([`/my-inquiries`](https://looksphere.vercel.app/my-inquiries)) directly on your portal.
 
 ## 🎯 What You Can Do
 
-- **Post & Share:** Express yourself! Upload photos & media, write captions & stories, add alt text for accessibility, share direct post links, reach a global audience, and see real-time post view counts.
-- **Explore & Discover:** Never miss a thing. Browse a global post feed, use smart search & filters, discover new creators, and get curated recommendations.
-- **Support & Inquiries:** Reach out directly through the interactive Contact Us form (`/contact-us`), attach screenshots or video clips, track submitted requests under My Inquiries (`/my-inquiries`), receive official admin response messages, and receive email notifications.
-- **Secure Profile:** Keep your data protected. Manage your profile, enjoy JWT stateless sessions, bcrypt password hashing, securely change and reset your password, and profile view tracking.
+- **Post & Share:** Express yourself! Upload photos & media, write captions & stories, add alt text for accessibility, share direct post and profile links, reach a global audience, and see real-time post impression counts.
+- **Interact & Connect:** Spark posts to show appreciation, reshare posts to your public reshare feed, and privately archive posts. Tap down-arrow count badges to see complete lists of people who interacted.
+- **Explore & Discover:** Never miss a thing. Browse a global post feed ([`/feed`](https://looksphere.vercel.app/feed)) with seamless video autoplay, use smart search & filters in Explore ([`/explore`](https://looksphere.vercel.app/explore)), discover new creators ([`/creators`](https://looksphere.vercel.app/creators)), and browse creator profiles ([`/profile`](https://looksphere.vercel.app/profile)) with synchronized media tabs.
+- **Support & Inquiries:** Reach out directly through the interactive Contact Us form ([`/contact-us`](https://looksphere.vercel.app/contact-us)), attach screenshots or video clips, track submitted requests under My Inquiries ([`/my-inquiries`](https://looksphere.vercel.app/my-inquiries)), receive official admin response messages.
+- **Secure Profile & Settings:** Keep your data protected. Manage your profile ([`/profile`](https://looksphere.vercel.app/profile)), enjoy JWT stateless sessions, bcrypt password hashing, securely change password and email address directly from Settings ([`/settings`](https://looksphere.vercel.app/settings)), and view tracking.
 
 ## 🛡️ Data Integrity & Security
 
@@ -77,15 +89,27 @@ The frontend is crafted with React 19 and Vite for a lightning-fast development 
 
 The project has a well-organized, scalable architecture. For a detailed breakdown of the directory layout and all files, please see the [File Tree](./File_Tree.md) documentation.
 
----
-
-## ⚖️ Copyright & License
-
-  <b>© 2026 LookSphere. All rights reserved.</b>
+<br>
+<br>
 
 ---
+
 **📚 LookSphere Documentation Index:**
-- **Root:** [Main Readme](../Readme.md) | [File Tree](../File_Tree.md) | [Roadmap](../roadmap.md) | [Performance](../performance_optimization.md) | [Resolved Issues](../resolved_issues.md)
-- **Frontend:** [Frontend Readme](./README.md) | [Design Specs](./Design.md) | [Frontend File Tree](./File_Tree.md)
-- **Backend:** [Backend Readme](../Backend/Readme.md) | [API Docs](../Backend/APIs.md) | [Backend File Tree](../Backend/File_Tree.md)
+- **Core Documentation:** [Main Readme](../Readme.md) | [Algorithms](../Algorithms.md) | [Performance Optimization](../Performance_Optimization.md) | [Roadmap](../Roadmap.md) | [Resolved Issues](../Resolved_Issues.md) | [File Tree](../File_Tree.md) | [Improvements](../improvement.md)
+- **Governance & Policies:** [Contributing Guidelines](../CONTRIBUTING.md) | [Code of Conduct](../CODE_OF_CONDUCT.md) | [Security Policy](../SECURITY.md) | [License](../LICENSE.md)
+- **Issue Templates:** [Bug Report](../.github/ISSUE_TEMPLATE/bug_report.md) | [Feature Request](../.github/ISSUE_TEMPLATE/feature_request.md)
+- **Frontend Architecture:** [Frontend Readme](./README.md) | [Design System](./Design.md) | [Frontend File Tree](./File_Tree.md)
+- **Backend Architecture:** [Backend Readme](../Backend/Readme.md) | [API Documentation](../Backend/APIs.md) | [Backend File Tree](../Backend/File_Tree.md)
+
 ---
+
+<div align="center">
+
+**LookSphere Engineering Documentation**  
+*Liquid glassmorphism, instant optimistic feedback, and accessible React architecture.*
+
+</div>
+<div align="center">
+  <b>© 2026 LookSphere. Built by <a href="https://www.linkedin.com/in/pranavshilu/">Pranav Shilu</a>. All rights reserved.</b>
+</div>
+

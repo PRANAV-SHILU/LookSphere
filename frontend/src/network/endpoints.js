@@ -14,7 +14,7 @@ export const ENDPOINTS = {
     POSTS: "/posts",
     CREATE_POST: "/posts",
     GET_POST: (id) => `/posts/${id}`,
-    INCREASE_POST_VIEW: (id) => `/posts/${id}/increment-view`,
+    INCREASE_POST_IMPRESSION: (id) => `/posts/${id}/increment-impression`,
     EDIT_POST: (id) => `/posts/${id}`,
   },
   ADMIN: {
@@ -25,6 +25,11 @@ export const ENDPOINTS = {
     MY_CONTACTS: (isResponded) => isResponded !== null && isResponded !== undefined ? `/contact_support/myContacts?isResponded=${isResponded}` : "/contact_support/myContacts",
     GET_CONTACTS: (isResponded) => isResponded !== null && isResponded !== undefined ? `/contact_support?isResponded=${isResponded}` : "/contact_support",
     RESPOND: (id) => `/contact_support/${id}/respond`,
+  },
+  INTERACTION: {
+    TOGGLE: "/interaction",
+    BY_USER: (userId, action) => action ? `/interaction/user/${userId}?action=${action}` : `/interaction/user/${userId}`,
+    BY_POST: (postId, action) => action ? `/interaction/post/${postId}?action=${action}` : `/interaction/post/${postId}`,
   },
 };
 

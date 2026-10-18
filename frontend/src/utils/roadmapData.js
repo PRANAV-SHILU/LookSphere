@@ -24,6 +24,8 @@ import {
   Share2,
 } from "lucide-react";
 
+export const LAST_UPDATED = "October 22, 2026";
+
 export const COMPLETED_FEATURES = {
   id: "completed",
   title: "Completed & Achieved",
@@ -31,28 +33,34 @@ export const COMPLETED_FEATURES = {
   color: "#6366F1", // Indigo
   items: [
     {
-      icon: Link,
-      title: "Profile Link Sharing",
+      icon: ThumbsUp,
+      title: "Post Interactions & User Lists",
       description:
-        "Instant profile URL copying right beside username.",
+        "Seamless mechanism to Spark, Reshare, and Archive posts with dedicated modal inspect lists for Sparks and Reshares.",
     },
     {
-      icon: Share2,
-      title: "Dedicated Post View & Sharing",
+      icon: Zap,
+      title: "Cross-Tab State Synchronization",
       description:
-        "Standalone post view pages with shareable URLs.",
+        "Real-time optimistic interaction state synchronization across Images, Videos, Reshares, and Saved tabs.",
+    },
+    {
+      icon: Link,
+      title: "Profile & Post Link Sharing",
+      description:
+        "Instant shareable URLs for profile and post with standalone post view page and clipboard notifications.",
     },
     {
       icon: Settings,
-      title: "Change Password",
+      title: "Change Email & Password",
       description:
-        "Secure, authenticated flow for to change account password directly from Settings.",
+        "Secure & authenticated flow to change Email & Password directly from Settings with real-time validation.",
     },
     {
       icon: MessageSquare,
       title: "Contact Us & Inquiries",
       description:
-        "Interactive contact form and My Inquiry page to track admin responses.",
+        "Interactive categorized contact form and My Inquiry page to track admin responses.",
     },
   ],
 };
@@ -68,7 +76,7 @@ export const ROADMAP_CATEGORIES = [
         icon: KeyRound,
         title: "Password Recovery",
         description:
-          "Secure password reset and forgot password flow utilizing Nodemailer for email verification.",
+          "Secure password reset and forgot password flow with email verification.",
       },
       {
         icon: Globe,
@@ -123,12 +131,6 @@ export const ROADMAP_CATEGORIES = [
           "Build your network by following favorite creators and curating your personalized feed.",
       },
       {
-        icon: ThumbsUp,
-        title: "Post Interactions",
-        description:
-          "Comprehensive mechanics to like, comment, and seamlessly share profiles and posts using next-share integration.",
-      },
-      {
         icon: Sparkles,
         title: "Spotlights",
         description:
@@ -138,13 +140,13 @@ export const ROADMAP_CATEGORIES = [
         icon: Trophy,
         title: "Leaderboards",
         description:
-          "Global rankings for top posts by views, top creators, and most-viewed profiles.",
+          "Global rankings for top posts by impressions and views, top creators, and most-viewed profiles.",
       },
       {
-        icon: Bookmark,
-        title: "Saved Posts",
+        icon: MessageCircle,
+        title: "Comments",
         description:
-          "Save your favorite posts and organize them in a private collection on your profile.",
+          "Comment on your favorite posts to interact with fellow creators.",
       },
       {
         icon: FileText,
@@ -152,11 +154,12 @@ export const ROADMAP_CATEGORIES = [
         description:
           "A streamlined feed dedicated to short-form text thoughts and discussions (similar to Twitter).",
       },
+
       {
-        icon: Search,
-        title: "Who Viewed Modal",
+        icon: Fingerprint,
+        title: "Unique View Tracking",
         description:
-          "Detailed insights modal showing exactly which users viewed your profile or posts.",
+          "Tracking 'Unique Views' exclusively once per user along with detailed insights modal showing who viewed profile or posts.",
       },
     ],
   },
@@ -173,28 +176,10 @@ export const ROADMAP_CATEGORIES = [
           "Background operations for media uploads and post edits, ensuring the UI never blocks your workflow.",
       },
       {
-        icon: Database,
-        title: "Data Management",
-        description:
-          "Complete cascading deletion functionality for posts and accounts across the database and Cloudinary.",
-      },
-      {
         icon: Globe,
         title: "Advanced SEO",
         description:
           "Dynamic meta tags and server-side optimizations to ensure LookSphere content is easily discoverable.",
-      },
-      {
-        icon: Settings,
-        title: "Feed Optimization",
-        description:
-          "Infinite scrolling and optimized post fetching in profiles, aligning with Explore and Feed logic.",
-      },
-      {
-        icon: Fingerprint,
-        title: "Unique View Tracking",
-        description:
-          "Transitioning from basic impression counts to tracking unique 'Original Views' exclusively once per user.",
       },
     ],
   },

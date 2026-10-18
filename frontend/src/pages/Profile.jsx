@@ -7,81 +7,20 @@ import {
   useNavigation,
   Await,
 } from "react-router-dom";
+import { toast } from "react-toastify";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import ProfileSkeleton from "../skeletons/ProfileSkeleton";
-import {
-  User,
-  Plus,
-  Image as ImageIcon,
-  Video as VideoIcon,
-  Link as LinkIcon,
-  Check,
-} from "lucide-react";
+import { User, Link as LinkIcon, Check } from "lucide-react";
 import BackButton from "../shared-components/BackButton";
 import UploadMediaModal from "../modals/UploadMediaModal";
 import PostDetailModal from "../modals/PostDetailModal";
-import { trackPostView } from "../services/postService";
+import { trackPostImpression } from "../services/postService";
 import {
-  getOptimizedMediaUrl,
-  getVideoPosterUrl,
-} from "../utils/cloudinaryOptimizer";
-
-const ProfileVideoCard = React.memo(function ProfileVideoCard({
-  post,
-  onClick,
-}) {
-  const videoRef = React.useRef(null);
-  const [isPlaying, setIsPlaying] = React.useState(false);
-
-  const handleMouseEnter = () => {
-    setIsPlaying(true);
-    requestAnimationFrame(() => {
-      if (videoRef.current) {
-        videoRef.current.play().catch(() => {});
-      }
-    });
-  };
-
-  const handleMouseLeave = () => {
-    if (videoRef.current) {
-      videoRef.current.pause();
-    }
-    setIsPlaying(false);
-  };
-
-  return (
-    <div
-      className="aspect-square bg-zinc-800 overflow-hidden cursor-pointer"
-      style={{ borderRadius: "var(--radius-sm)" }}
-      onClick={() => onClick(post)}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
-      {isPlaying ? (
-        <video
-          ref={videoRef}
-          src={`${post.mediaUrl}#t=1.0`}
-          aria-label={post.altText || post.caption || "Video post - LookSphere"}
-          className="w-full h-full object-cover hover:opacity-90 transition-opacity"
-          muted
-          loop
-          playsInline
-          autoPlay
-          draggable={false}
-        />
-      ) : (
-        <img
-          src={getVideoPosterUrl(post.mediaUrl, 300)}
-          alt={post.caption || "video thumbnail - LookSphere"}
-          loading="lazy"
-          decoding="async"
-          className="w-full h-full object-cover hover:opacity-90 transition-opacity"
-          draggable={false}
-        />
-      )}
-    </div>
-  );
-});
+  syncPostInteraction,
+  applyPostInteraction,
+} from "../utils/interactionUtils";
+import { interactionService } from "../services/interactionService";
+import ProfileTabGrid from "../components/profile/ProfileTabGrid";
 
 function Bio({ bio, className }) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -129,7 +68,7 @@ function Bio({ bio, className }) {
       {showButton && (
         <button
           onClick={() => setIsExpanded(!isExpanded)}
-          className="text-sm font-semibold mt-1 hover:opacity-80 transition-opacity cursor-pointer border-none bg-transparent p-0 text-blue-400"
+          className="mt-1 p-0 text-sm font-semibold border-none bg-transparent text-blue-400 hover:opacity-80 transition-opacity cursor-pointer"
         >
           {isExpanded ? "View less" : "View more"}
         </button>
@@ -139,104 +78,116 @@ function Bio({ bio, className }) {
 }
 
 const ProfileStats = React.memo(function ProfileStats({
-  postCount,
-  profileViewCount,
-  totalPostViews,
+  postCount = 0,
+  profileViewCount = 0,
+  totalPostImpressions = 0,
   isMobile = false,
 }) {
+  const stats = [
+    { value: postCount, label: "posts" },
+    { value: profileViewCount, label: "profile views" },
+    {
+      value: totalPostImpressions,
+      label: totalPostImpressions === 1 ? "post impression" : "post impressions",
+    },
+  ];
+
   if (isMobile) {
     return (
       <div
-        className="sm:hidden w-full flex justify-center mb-1"
+        className="mb-1 w-full justify-center sm:hidden flex"
         style={{ color: "var(--text-primary)" }}
       >
-        <div className="flex flex-col items-center flex-1">
-          <strong className="font-bold text-base sm:text-lg">
-            {postCount || 0}
-          </strong>
-          <span
-            className="text-xs mt-0.5"
-            style={{ color: "var(--text-muted)" }}
-          >
-            posts
-          </span>
-        </div>
-        <div className="flex flex-col items-center flex-1">
-          <strong className="font-bold text-base sm:text-lg">
-            {profileViewCount || 0}
-          </strong>
-          <span
-            className="text-xs mt-0.5"
-            style={{ color: "var(--text-muted)" }}
-          >
-            profile views
-          </span>
-        </div>
-        <div className="flex flex-col items-center flex-1">
-          <strong className="font-bold text-base sm:text-lg">
-            {totalPostViews || 0}
-          </strong>
-          <span
-            className="text-xs mt-0.5"
-            style={{ color: "var(--text-muted)" }}
-          >
-            post views
-          </span>
-        </div>
+        {stats.map(({ value, label }) => (
+          <div key={label} className="flex-col flex-1 flex items-center">
+            <strong className="font-bold text-base sm:text-lg">{value}</strong>
+            <span className="mt-0.5 text-xs" style={{ color: "var(--text-muted)" }}>
+              {label}
+            </span>
+          </div>
+        ))}
       </div>
     );
   }
 
   return (
     <div
-      className="hidden sm:flex my-4 4xl:my-6 text-sm md:text-base 4xl:text-xl gap-4 md:gap-6 4xl:gap-10"
+      className="my-4 gap-4 text-sm hidden sm:flex 4xl:my-6 md:text-base 4xl:text-xl md:gap-6 4xl:gap-10"
       style={{ color: "var(--text-primary)" }}
     >
-      <span>
-        <strong className="font-semibold">{postCount || 0}</strong> posts
-      </span>
-      <span>
-        <strong className="font-semibold">{profileViewCount || 0}</strong>{" "}
-        profile views
-      </span>
-      <span>
-        <strong className="font-semibold">{totalPostViews || 0}</strong> post
-        views
-      </span>
-    </div>
-  );
-});
-
-const ProfileEmptyState = React.memo(function ProfileEmptyState({
-  icon,
-  title,
-  description,
-}) {
-  const IconComponent = icon;
-  return (
-    <div className="col-span-2 md:col-span-3 flex flex-col items-center justify-center pt-6 pb-16 text-center mx-auto w-[70%]">
-      <div className="w-24 h-24 rounded-full flex items-center justify-center mb-1">
-        <IconComponent size={48} style={{ color: "var(--text-muted)" }} />
-      </div>
-      <h3
-        className="text-xl font-bold mb-2"
-        style={{ color: "var(--text-primary)" }}
-      >
-        {title}
-      </h3>
-      <p
-        className="max-w-sm text-sm md:text-base leading-relaxed"
-        style={{ color: "var(--text-muted)" }}
-      >
-        {description}
-      </p>
+      {stats.map(({ value, label }) => (
+        <span key={label}>
+          <strong className="font-semibold">{value}</strong> {label}
+        </span>
+      ))}
     </div>
   );
 });
 
 function ProfileContent({ data, username, submit }) {
+  console.log("Profile", data);
   const profileDataObj = data?.data || data || {};
   const { user, images = [], videos = [] } = profileDataObj;
+
+  const [prevImages, setPrevImages] = useState(images);
+  const [imagesList, setImagesList] = useState(images);
+  const [prevVideos, setPrevVideos] = useState(videos);
+  const [videosList, setVideosList] = useState(videos);
+  const [resharesList, setResharesList] = useState([]);
+  const [hasFetchedReshares, setHasFetchedReshares] = useState(false);
+  const [isResharesLoading, setIsResharesLoading] = useState(false);
+  const [resharesError, setResharesError] = useState(null);
+  const [savedList, setSavedList] = useState([]);
+  const [hasFetchedSaved, setHasFetchedSaved] = useState(false);
+  const [isSavedLoading, setIsSavedLoading] = useState(false);
+  const [savedError, setSavedError] = useState(null);
+
+  if (images !== prevImages) {
+    setPrevImages(images);
+    setImagesList(images);
+  }
+
+  console.log("[Profile Content Render] Lists:", {
+    imagesCount: imagesList.length,
+    videosCount: videosList.length,
+    resharesCount: resharesList.length,
+    savedCount: savedList.length,
+    imagesList,
+    videosList,
+    resharesList,
+    savedList,
+  });
+
+  if (videos !== prevVideos) {
+    setPrevVideos(videos);
+    setVideosList(videos);
+  }
+
+  /**
+   * Cross-Tab Interaction Synchronization
+   *
+   * Step 1: Takes updated interaction counts & flags from PostInteractions / PostDetailModal.
+   * Step 2: Uses syncPostInteraction() to simultaneously broadcast the update to:
+   *         - selectedPost (keeps open PostDetailModal in sync)
+   *         - imagesList   (keeps Images tab in sync)
+   *         - videosList   (keeps Videos tab in sync)
+   *         - resharesList (keeps Reshares tab in sync)
+   *         - savedList    (keeps Saved tab in sync)
+   * Step 3: Guarantees consistent status without needing a page refresh or refetch.
+   */
+  const handleInteraction = (postId, updatedData) => {
+    syncPostInteraction(
+      [
+        setSelectedPost,
+        setImagesList,
+        setVideosList,
+        setResharesList,
+        setSavedList,
+      ],
+      postId,
+      updatedData
+    );
+  };
 
   useDocumentMetadata(
     user?.username ? `@${user.username}'s profile` : "Profile",
@@ -254,11 +205,20 @@ function ProfileContent({ data, username, submit }) {
   const [mediaType, setMediaType] = useState("");
   const [selectedPost, setSelectedPost] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isImageUploadHovered, setIsImageUploadHovered] = useState(false);
-  const [isVideoUploadHovered, setIsVideoUploadHovered] = useState(false);
   const [linkCopied, setLinkCopied] = useState(false);
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
+
+  const handleCopyProfileLink = () => {
+    const profileUrl = `${window.location.origin}/profile/${user.username}`;
+    navigator.clipboard.writeText(profileUrl).then(() => {
+      setLinkCopied(true);
+      toast.success("Profile link copied to clipboard!");
+      setTimeout(() => setLinkCopied(false), 2000);
+    }).catch(() => {
+      toast.error("Failed to copy profile link.");
+    });
+  };
 
   const handleTriggerUpload = (type) => {
     setMediaType(type);
@@ -276,21 +236,151 @@ function ProfileContent({ data, username, submit }) {
     setIsModalOpen(false);
   };
 
-  const handlePostClick = async (post) => {
-    if (!isOwnProfile && post._id) {
-      const updatedPost = await trackPostView(post._id).catch(() => {});
-      setSelectedPost(updatedPost || post);
+  const fetchReshares = async (force = false) => {
+    if (!user?._id) return;
+    if (hasFetchedReshares && !force) return;
+
+    setIsResharesLoading(true);
+    setResharesError(null);
+    try {
+      const response = await interactionService.getUserInteractions(
+        user._id,
+        "reshare"
+      );
+      console.log("[Profile] Raw reshares API response:", response);
+      const items = response?.data || [];
+      // Flatten populated postId objects to conform to post structure
+      const formattedPosts = items
+        .map((item) => {
+          if (!item.postId) return null;
+          return {
+            ...item.postId,
+            resharedAt: item.createdAt,
+            has: {
+              sparked: Boolean(item.postId.has?.sparked),
+              archived: Boolean(item.postId.has?.archived),
+              reshared: Boolean(item.postId.has?.reshared),
+              // If viewing own profile, user definitely reshared this item
+              ...(isOwnProfile ? { reshared: true } : {}),
+            },
+          };
+        })
+        .filter(Boolean);
+
+      setResharesList(formattedPosts);
+      setHasFetchedReshares(true);
+    } catch (err) {
+      console.error("Failed to fetch reshares:", err);
+      setResharesError(err?.message || "Could not load reshared posts");
+    } finally {
+      setIsResharesLoading(false);
+    }
+  };
+
+  const fetchSaved = async (force = false) => {
+    if (!user?._id) return;
+    if (hasFetchedSaved && !force) return;
+
+    setIsSavedLoading(true);
+    setSavedError(null);
+    try {
+      const response = await interactionService.getUserInteractions(
+        user._id,
+        "archive"
+      );
+      console.log("[Profile] Raw saved (archive) API response:", response);
+      const items = response?.data || [];
+      // Flatten populated postId objects to conform to post structure
+      const formattedPosts = items
+        .map((item) => {
+          if (!item.postId) return null;
+          return {
+            ...item.postId,
+            savedAt: item.createdAt,
+            has: {
+              sparked: Boolean(item.postId.has?.sparked),
+              reshared: Boolean(item.postId.has?.reshared),
+              archived: true,
+            },
+          };
+        })
+        .filter(Boolean);
+
+      setSavedList(formattedPosts);
+      setHasFetchedSaved(true);
+    } catch (err) {
+      console.error("Failed to fetch saved posts:", err);
+      setSavedError(err?.message || "Could not load saved posts");
+    } finally {
+      setIsSavedLoading(false);
+    }
+  };
+
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+    if (tab === "reshare" && !hasFetchedReshares) {
+      fetchReshares();
+    } else if (tab === "saved" && !hasFetchedSaved) {
+      fetchSaved();
+    }
+  };
+
+  const handlePostClick = (post) => {
+    const postAuthorId =
+      post?.userId?._id || post?.userId || post?.author?._id || post?.author;
+    const isCurrentUserAuthor =
+      currentUser?._id &&
+      postAuthorId &&
+      String(postAuthorId) === String(currentUser._id);
+
+    if (!isCurrentUserAuthor && post._id) {
+      // Optimistically update impression count locally so modal opens instantly
+      const updatedData = {
+        counts: { impression: (post.counts?.impression ?? 0) + 1 },
+      };
+      setSelectedPost(applyPostInteraction(post, post._id, updatedData));
+      setImagesList((prev) => applyPostInteraction(prev, post._id, updatedData));
+      setVideosList((prev) => applyPostInteraction(prev, post._id, updatedData));
+      setResharesList((prev) => applyPostInteraction(prev, post._id, updatedData));
+      setSavedList((prev) => applyPostInteraction(prev, post._id, updatedData));
+
+      // Passive fire-and-forget impression tracking in background
+      trackPostImpression(post._id).catch(() => {});
     } else {
       setSelectedPost(post);
     }
   };
 
-  if (!data)
+  if (!data) return <ProfileSkeleton />;
+
+  if (!user) {
     return (
-      <h2 className="text-center text-muted mt-10">Loading user data...</h2>
+      <div className="flex-col pt-16 pb-24 px-4 w-full mx-auto justify-center text-center flex items-center">
+        <div
+          className="mb-4 w-20 h-20 rounded-full justify-center shadow-sm flex items-center"
+          style={{
+            backgroundColor: "var(--surface-input)",
+            border: "1px solid var(--border-normal)",
+          }}
+        >
+          <User size={38} style={{ color: "var(--text-muted)" }} />
+        </div>
+        <h2
+          className="mb-2 text-xl font-bold"
+          style={{ color: "var(--text-primary)" }}
+        >
+          User Not Found
+        </h2>
+        <p
+          className="mb-6 text-sm max-w-sm leading-relaxed"
+          style={{ color: "var(--text-muted)" }}
+        >
+          The profile you are looking for doesn't exist or has been removed.
+        </p>
+        <BackButton />
+      </div>
     );
-  if (!user)
-    return <h2 className="text-center text-muted mt-10">User not found.</h2>;
+  }
 
   return (
     <>
@@ -340,16 +430,12 @@ function ProfileContent({ data, username, submit }) {
                 {user.username}
               </h1>
               <button
-                onClick={() => {
-                  const profileUrl = `${window.location.origin}/profile/${user.username}`;
-                  navigator.clipboard.writeText(profileUrl).then(() => {
-                    setLinkCopied(true);
-                    setTimeout(() => setLinkCopied(false), 2000);
-                  });
-                }}
+                onClick={handleCopyProfileLink}
                 className="shrink-0 flex items-center justify-center rounded-lg transition-all hover:opacity-80 cursor-pointer"
                 style={{
-                  color: linkCopied ? "var(--success, #22c55e)" : "var(--primary-500)",
+                  color: linkCopied
+                    ? "var(--success, #22c55e)"
+                    : "var(--primary-500)",
                 }}
                 title={linkCopied ? "Copied!" : "Copy profile link"}
               >
@@ -408,16 +494,12 @@ function ProfileContent({ data, username, submit }) {
                   {user.username}
                 </h1>
                 <button
-                  onClick={() => {
-                    const profileUrl = `${window.location.origin}/profile/${user.username}`;
-                    navigator.clipboard.writeText(profileUrl).then(() => {
-                      setLinkCopied(true);
-                      setTimeout(() => setLinkCopied(false), 2000);
-                    });
-                  }}
+                  onClick={handleCopyProfileLink}
                   className="shrink-0 flex items-center justify-center rounded-lg transition-all hover:opacity-80 cursor-pointer"
                   style={{
-                    color: linkCopied ? "var(--success, #22c55e)" : "var(--primary-500)",
+                    color: linkCopied
+                      ? "var(--success, #22c55e)"
+                      : "var(--primary-500)",
                   }}
                   title={linkCopied ? "Copied!" : "Copy profile link"}
                 >
@@ -434,7 +516,7 @@ function ProfileContent({ data, username, submit }) {
               <ProfileStats
                 postCount={user.postCount}
                 profileViewCount={user.profileViewCount}
-                totalPostViews={user.totalPostViews}
+                totalPostImpressions={user.totalPostImpressions || 0}
               />
 
               <Bio
@@ -447,7 +529,7 @@ function ProfileContent({ data, username, submit }) {
           <ProfileStats
             postCount={user.postCount}
             profileViewCount={user.profileViewCount}
-            totalPostViews={user.totalPostViews}
+            totalPostImpressions={user.totalPostImpressions || 0}
             isMobile={true}
           />
 
@@ -472,179 +554,60 @@ function ProfileContent({ data, username, submit }) {
 
         {/* --- Feed Tabs --- */}
         <section className="tab-container mx-auto px-1 py-0.5 sm:p-2 mt-3 sm:mt-5 mb-6 sm:mb-8 4xl:p-2 4xl:gap-3 4xl:mt-8 4xl:mb-12">
-          <button
-            onClick={() => setActiveTab("images")}
-            className={`tab-btn py-0.5  sm:py-1.5 px-5 sm:px-6 text-lg sm:text-xl 4xl:px-10 4xl:py-4 4xl:text-3xl ${activeTab === "images" ? "active" : ""}`}
-          >
-            Images
-          </button>
-          <button
-            onClick={() => setActiveTab("videos")}
-            className={`tab-btn py-0.5 sm:py-1.5 px-5 sm:px-6 text-lg sm:text-xl 4xl:px-10 4xl:py-4 4xl:text-3xl ${activeTab === "videos" ? "active" : ""}`}
-          >
-            Videos
-          </button>
+          {[
+            { id: "images", label: "Images" },
+            { id: "videos", label: "Videos" },
+            { id: "reshare", label: "Reshare" },
+            ...(isOwnProfile ? [{ id: "saved", label: "Archived" }] : []),
+          ].map(({ id, label }) => (
+            <button
+              key={id}
+              type="button"
+              onClick={() => handleTabChange(id)}
+              className={`tab-btn py-0.5 sm:py-1.5 px-3 sm:px-6 text-sm xs:text-base sm:text-xl 4xl:px-10 4xl:py-4 4xl:text-3xl ${activeTab === id ? "active" : ""}`}
+            >
+              {label}
+            </button>
+          ))}
         </section>
 
         {/* --- Feed Content --- */}
         <section className="w-full">
-          {/* Image Feed */}
-          {activeTab === "images" && (
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-1 profile-grid">
-              {images.length > 0 ? (
-                <>
-                  {isOwnProfile && (
-                    <div className="contents">
-                      <div
-                        className="add-media-tile aspect-square w-full"
-                        onClick={() => handleTriggerUpload("Image")}
-                      >
-                        <Plus size={36} className="mb-2" />
-                        <span className="font-medium text-sm md:text-base">
-                          Add Image
-                        </span>
-                      </div>
-                    </div>
-                  )}
-                  {images.map((post) => (
-                    <div
-                      key={post._id}
-                      className="aspect-square bg-zinc-800 overflow-hidden cursor-pointer"
-                      style={{ borderRadius: "var(--radius-sm)" }}
-                      onClick={() => handlePostClick(post)}
-                    >
-                      <img
-                        src={getOptimizedMediaUrl(post.mediaUrl, {
-                          width: 300,
-                        })}
-                        alt={
-                          post.altText || post.caption || "image - LookSphere"
-                        }
-                        loading="lazy"
-                        decoding="async"
-                        className="w-full h-full object-cover hover:opacity-90 transition-opacity"
-                        draggable={false}
-                      />
-                    </div>
-                  ))}
-                </>
-              ) : isOwnProfile ? (
-                <div
-                  className="col-span-2 md:col-span-3 flex flex-col items-center justify-center py-16 px-4 border-2 border-dashed cursor-pointer transition-colors duration-200 w-full"
-                  style={{
-                    borderColor: isImageUploadHovered
-                      ? "var(--primary-500)"
-                      : "var(--border-strong)",
-                    borderRadius: "var(--radius-lg)",
-                    backgroundColor: isImageUploadHovered
-                      ? "var(--surface-hover)"
-                      : "var(--surface-input)",
-                  }}
-                  onMouseEnter={() => setIsImageUploadHovered(true)}
-                  onMouseLeave={() => setIsImageUploadHovered(false)}
-                  onClick={() => handleTriggerUpload("Image")}
-                >
-                  <div
-                    className="w-12 h-12 rounded-full flex items-center justify-center shadow-sm mb-3"
-                    style={{ backgroundColor: "var(--bg-primary)" }}
-                  >
-                    <Plus size={24} style={{ color: "var(--primary-500)" }} />
-                  </div>
-                  <h3
-                    className="text-lg font-bold mb-1"
-                    style={{ color: "var(--text-primary)" }}
-                  >
-                    Share Images
-                  </h3>
-                  <p
-                    className="text-xs text-center"
-                    style={{ color: "var(--text-muted)" }}
-                  >
-                    You haven't uploaded any images yet. Click here to share
-                    your first image!
-                  </p>
-                </div>
-              ) : (
-                <ProfileEmptyState
-                  icon={ImageIcon}
-                  title="No Images Yet"
-                  description={`${user.username} hasn't uploaded any images yet.`}
-                />
-              )}
-            </div>
-          )}
-
-          {/* Video Feed */}
-          {activeTab === "videos" && (
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-1 profile-grid">
-              {videos.length > 0 ? (
-                <>
-                  {isOwnProfile && (
-                    <div className="contents">
-                      <div
-                        className="add-media-tile aspect-square w-full"
-                        onClick={() => handleTriggerUpload("Video")}
-                      >
-                        <Plus size={36} className="mb-2" />
-                        <span className="font-medium text-sm md:text-base">
-                          Add Video
-                        </span>
-                      </div>
-                    </div>
-                  )}
-                  {videos.map((post) => (
-                    <ProfileVideoCard
-                      key={post._id}
-                      post={post}
-                      onClick={handlePostClick}
-                    />
-                  ))}
-                </>
-              ) : isOwnProfile ? (
-                <div
-                  className="col-span-2 md:col-span-3 flex flex-col items-center justify-center py-16 px-4 border-2 border-dashed cursor-pointer transition-colors duration-200 w-full"
-                  style={{
-                    borderColor: isVideoUploadHovered
-                      ? "var(--primary-500)"
-                      : "var(--border-strong)",
-                    borderRadius: "var(--radius-lg)",
-                    backgroundColor: isVideoUploadHovered
-                      ? "var(--surface-hover)"
-                      : "var(--surface-input)",
-                  }}
-                  onMouseEnter={() => setIsVideoUploadHovered(true)}
-                  onMouseLeave={() => setIsVideoUploadHovered(false)}
-                  onClick={() => handleTriggerUpload("Video")}
-                >
-                  <div
-                    className="w-12 h-12 rounded-full flex items-center justify-center shadow-sm mb-3"
-                    style={{ backgroundColor: "var(--bg-primary)" }}
-                  >
-                    <Plus size={24} style={{ color: "var(--primary-500)" }} />
-                  </div>
-                  <h3
-                    className="text-lg font-bold mb-1"
-                    style={{ color: "var(--text-primary)" }}
-                  >
-                    Share Videos
-                  </h3>
-                  <p
-                    className="text-xs text-center"
-                    style={{ color: "var(--text-muted)" }}
-                  >
-                    You haven't uploaded any videos yet. Click here to share
-                    your first video!
-                  </p>
-                </div>
-              ) : (
-                <ProfileEmptyState
-                  icon={VideoIcon}
-                  title="No Videos Yet"
-                  description={`${user.username} hasn't uploaded any videos yet.`}
-                />
-              )}
-            </div>
-          )}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-1 profile-grid">
+            <ProfileTabGrid
+              tabType={activeTab}
+              items={
+                activeTab === "images"
+                  ? imagesList
+                  : activeTab === "videos"
+                  ? videosList
+                  : activeTab === "reshare"
+                  ? resharesList
+                  : activeTab === "saved"
+                  ? savedList
+                  : []
+              }
+              isLoading={
+                (activeTab === "reshare" && isResharesLoading) ||
+                (activeTab === "saved" && isSavedLoading)
+              }
+              error={
+                activeTab === "reshare"
+                  ? resharesError
+                  : activeTab === "saved"
+                  ? savedError
+                  : null
+              }
+              user={user}
+              isOwnProfile={isOwnProfile}
+              onPostClick={handlePostClick}
+              onTriggerUpload={handleTriggerUpload}
+              onRetry={() => {
+                if (activeTab === "reshare") fetchReshares(true);
+                else if (activeTab === "saved") fetchSaved(true);
+              }}
+            />
+          </div>
         </section>
 
         {isOwnProfile && (
@@ -657,10 +620,12 @@ function ProfileContent({ data, username, submit }) {
         )}
 
         <PostDetailModal
+          key={selectedPost?._id}
           isOpen={!!selectedPost}
           onClose={() => setSelectedPost(null)}
           post={selectedPost}
           profileUser={user}
+          onInteraction={handleInteraction}
         />
       </main>
     </>
@@ -687,7 +652,12 @@ export default function Profile() {
         }
       >
         {(data) => (
-          <ProfileContent data={data} username={username} submit={submit} />
+          <ProfileContent
+            key={data?.data?.user?._id || data?.user?._id || username || "self"}
+            data={data}
+            username={username}
+            submit={submit}
+          />
         )}
       </Await>
     </Suspense>

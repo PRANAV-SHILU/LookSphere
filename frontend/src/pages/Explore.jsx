@@ -24,13 +24,14 @@ import {
 } from "lucide-react";
 import BackButton from "../shared-components/BackButton";
 import PostDetailModal from "../modals/PostDetailModal";
-import { trackPostView } from "../services/postService";
+import { trackPostImpression } from "../services/postService";
 import ExploreSkeleton from "../skeletons/ExploreSkeleton";
 
 import {
   getOptimizedMediaUrl,
   getVideoPosterUrl,
 } from "../utils/cloudinaryOptimizer";
+import { syncPostInteraction } from "../utils/interactionUtils";
 
 const ExploreCard = React.memo(function ExploreCard({ post }) {
   const videoRef = useRef(null);
@@ -66,12 +67,12 @@ const ExploreCard = React.memo(function ExploreCard({ post }) {
 
   return (
     <div
-      className="relative w-full h-full aspect-4/5 md:aspect-3/4 min-h-55 sm:min-h-70 md:min-h-87.5 overflow-hidden"
+      className="w-full h-full min-h-55 overflow-hidden relative aspect-4/5 md:aspect-3/4 sm:min-h-70 md:min-h-87.5"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       {isVideo ? (
-        <div className="relative w-full h-full">
+        <div className="w-full h-full relative">
           {isPlaying ? (
             <video
               ref={videoRef}
@@ -99,7 +100,7 @@ const ExploreCard = React.memo(function ExploreCard({ post }) {
               className="w-full h-full object-cover opacity-90 group-hover:opacity-100"
             />
           )}
-          <div className="absolute top-2 right-2 bg-black/50 p-1.5 rounded-md text-white backdrop-blur-sm">
+          <div className="p-1.5 top-2 bg-black/50 rounded-md text-white absolute right-2 backdrop-blur-sm">
             <Video size={14} />
           </div>
         </div>
@@ -113,15 +114,15 @@ const ExploreCard = React.memo(function ExploreCard({ post }) {
         />
       )}
 
-      <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden md:flex flex-col justify-end p-4 text-white">
-        <div className="flex items-center gap-2 mb-2">
+      <div className="flex-col p-4 bg-linear-to-t opacity-0 justify-end text-white absolute inset-0 from-black/80 via-black/20 to-transparent group-hover:opacity-100 transition-opacity duration-300 hidden md:flex">
+        <div className="gap-2 mb-2 flex items-center">
           {post.userId ? (
             <Link
               to={`/profile/${post.userId.username}`}
               onClick={(e) => e.stopPropagation()}
-              className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+              className="gap-2 flex items-center hover:opacity-80 transition-opacity"
             >
-              <div className="w-6 h-6 rounded-full overflow-hidden bg-zinc-700 shrink-0 flex items-center justify-center">
+              <div className="w-6 h-6 rounded-full overflow-hidden bg-zinc-700 justify-center shrink-0 flex items-center">
                 {post.userId.profileImage ? (
                   <img
                     src={post.userId.profileImage}
@@ -138,7 +139,7 @@ const ExploreCard = React.memo(function ExploreCard({ post }) {
             </Link>
           ) : (
             <>
-              <div className="w-6 h-6 rounded-full overflow-hidden bg-zinc-700 shrink-0 flex items-center justify-center">
+              <div className="w-6 h-6 rounded-full overflow-hidden bg-zinc-700 justify-center shrink-0 flex items-center">
                 <User size={12} className="text-zinc-400" />
               </div>
               <span className="font-semibold text-sm truncate drop-shadow-md">
@@ -149,7 +150,7 @@ const ExploreCard = React.memo(function ExploreCard({ post }) {
         </div>
 
         {post.caption && (
-          <p className="text-xs line-clamp-2 text-zinc-200 drop-shadow-md">
+          <p className="text-xs text-zinc-200 line-clamp-2 drop-shadow-md">
             {post.caption}
           </p>
         )}
@@ -161,12 +162,17 @@ const ExploreCard = React.memo(function ExploreCard({ post }) {
 import { fetchFeed } from "../services/postService";
 import { feedRefresher } from "../utils/feedRefresher";
 
-function ExploreContent({ posts, total, setSelectedPost }) {
+function ExploreContent({ posts, total }) {
+  const [selectedPost, setSelectedPost] = useState(null);
   const [prevPosts, setPrevPosts] = useState(posts);
   const [allPosts, setAllPosts] = useState(posts);
   const [page, setPage] = useState(1);
   const [loadingMore, setLoadingMore] = useState(false);
   const [hasMore, setHasMore] = useState(posts.length === 20);
+
+  const handleInteraction = (postId, updatedData) => {
+    syncPostInteraction([setSelectedPost, setAllPosts], postId, updatedData);
+  };
 
   if (posts !== prevPosts) {
     setPrevPosts(posts);
@@ -241,17 +247,23 @@ function ExploreContent({ posts, total, setSelectedPost }) {
     };
   }, [searchQuery, searchParams, setSearchParams]);
 
-  const handlePostClick = async (post) => {
+  const handlePostClick = (post) => {
     if (post._id) {
-      const updatedPost = await trackPostView(post._id).catch(() => {});
-      if (updatedPost) {
-        setSelectedPost({
-          ...post,
-          postViewCount: updatedPost.postViewCount,
-        });
-      } else {
-        setSelectedPost(post);
-      }
+      // Optimistically update impression count locally and open modal immediately
+      const updatedPost = {
+        ...post,
+        counts: {
+          ...post.counts,
+          impression: (post.counts?.impression ?? 0) + 1,
+        },
+      };
+      setSelectedPost(updatedPost);
+      setAllPosts((prev) =>
+        prev.map((p) => (p._id === post._id ? updatedPost : p)),
+      );
+
+      // Passive fire-and-forget impression tracking in background
+      trackPostImpression(post._id).catch(() => {});
     } else {
       setSelectedPost(post);
     }
@@ -260,7 +272,7 @@ function ExploreContent({ posts, total, setSelectedPost }) {
   return (
     <>
       <div
-        className="flex items-center gap-3 mb-4 px-4 py-3 rounded-xl"
+        className="gap-3 mb-4 px-4 py-3 rounded-xl flex items-center"
         style={{
           backgroundColor: "var(--surface-input)",
           border: "1px solid var(--border-normal)",
@@ -272,13 +284,13 @@ function ExploreContent({ posts, total, setSelectedPost }) {
           placeholder="Search by caption or alt text..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="bg-transparent outline-none w-full text-sm"
+          className="bg-transparent w-full text-sm outline-none"
           style={{ color: "var(--text-primary)" }}
         />
         {searchQuery && (
           <button
             onClick={() => setSearchQuery("")}
-            className="transition-colors p-0.5 rounded-full hover:bg-(--surface-hover)"
+            className="p-0.5 rounded-full transition-colors hover:bg-(--surface-hover)"
             style={{
               color: isClearHovered
                 ? "var(--text-primary)"
@@ -293,7 +305,7 @@ function ExploreContent({ posts, total, setSelectedPost }) {
         )}
       </div>
 
-      <div className="mb-8 flex justify-between items-center text-sm">
+      <div className="mb-8 justify-between text-sm flex items-center">
         <span style={{ color: "var(--text-muted)" }}>
           {searchQuery ? `${total} posts found` : ""}
         </span>
@@ -303,7 +315,7 @@ function ExploreContent({ posts, total, setSelectedPost }) {
             revalidator.revalidate();
           }}
           disabled={isRefreshing}
-          className="flex items-center cursor-pointer gap-2 px-3.5 py-2 rounded-lg text-sm font-semibold transition-all hover:bg-(--surface-hover) disabled:opacity-50"
+          className="gap-2 px-3.5 py-2 rounded-lg text-sm font-semibold flex items-center cursor-pointer transition-all hover:bg-(--surface-hover) disabled:opacity-50"
           style={{
             backgroundColor: "var(--surface-input)",
             color: "var(--text-secondary)",
@@ -319,26 +331,26 @@ function ExploreContent({ posts, total, setSelectedPost }) {
 
       {allPosts.length === 0 ? (
         <div
-          className="text-center py-20 rounded-2xl border border-dashed"
+          className="py-20 text-center rounded-2xl border border-dashed"
           style={{
             borderColor: "var(--border-normal)",
             backgroundColor: "var(--surface-card)",
           }}
         >
           <div
-            className="w-12 h-12 mx-auto rounded-full flex items-center justify-center mb-3"
+            className="mb-3 w-12 h-12 mx-auto rounded-full justify-center flex items-center"
             style={{ backgroundColor: "var(--surface-input)" }}
           >
             <ImageIcon size={20} style={{ color: "var(--text-muted)" }} />
           </div>
           <h2
-            className="text-lg font-bold mb-1"
+            className="mb-1 text-lg font-bold"
             style={{ color: "var(--text-primary)" }}
           >
             No Posts Found
           </h2>
           <p
-            className="text-xs max-w-xs mx-auto mb-4"
+            className="mb-4 text-xs max-w-xs mx-auto"
             style={{ color: "var(--text-muted)" }}
           >
             There are no posts to explore yet. Be the first to share something!
@@ -349,20 +361,20 @@ function ExploreContent({ posts, total, setSelectedPost }) {
         </div>
       ) : searchQuery && allPosts.length === 0 ? (
         <div
-          className="text-center py-20 text-lg font-medium"
+          className="py-20 text-center text-lg font-medium"
           style={{ color: "var(--text-muted)" }}
         >
           No posts match &ldquo;{searchQuery}&rdquo;.
         </div>
       ) : (
-        <div className="grid grid-cols-3 md:grid-cols-4 gap-0.5 sm:gap-1 explore-grid">
+        <div className="grid grid-cols-3 gap-0.5 md:grid-cols-4 sm:gap-1 explore-grid">
           {allPosts.map((post, index) => {
             const isTriggerElement = index === allPosts.length - 9;
             return (
               <div
                 key={post._id}
                 ref={isTriggerElement ? triggerElementRef : null}
-                className="relative overflow-hidden cursor-pointer group bg-zinc-900 explore-card-wrapper"
+                className="overflow-hidden bg-zinc-900 relative cursor-pointer group explore-card-wrapper"
                 onClick={() => handlePostClick(post)}
               >
                 <ExploreCard post={post} />
@@ -372,7 +384,7 @@ function ExploreContent({ posts, total, setSelectedPost }) {
           <Link
             to="/profile"
             onClick={() => window.scrollTo(0, 0)}
-            className="group aspect-4/5 md:aspect-3/4 min-h-55 sm:min-h-70 md:min-h-87.5 bg-(--surface-card) border border-dashed overflow-hidden cursor-pointer relative flex flex-col items-center justify-center hover:bg-(--surface-hover) transition-colors"
+            className="flex-col min-h-55 bg-(--surface-card) border border-dashed overflow-hidden justify-center group aspect-4/5 md:aspect-3/4 sm:min-h-70 md:min-h-87.5 cursor-pointer relative flex items-center hover:bg-(--surface-hover) transition-colors"
             style={{ borderColor: "var(--border-normal)" }}
           >
             <Plus
@@ -381,7 +393,7 @@ function ExploreContent({ posts, total, setSelectedPost }) {
               style={{ color: "var(--text-secondary)" }}
             />
             <span
-              className="font-medium px-0.5 xsm:px-0 text-center text-xs md:text-sm"
+              className="px-0.5 font-medium text-center text-xs xsm:px-0 md:text-sm"
               style={{ color: "var(--text-secondary)" }}
             >
               Share Your Image/Video
@@ -391,17 +403,24 @@ function ExploreContent({ posts, total, setSelectedPost }) {
       )}
 
       {loadingMore && (
-        <div className="flex justify-center py-6 col-span-full">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-zinc-500"></div>
+        <div className="col-span-full py-6 justify-center flex">
+          <div className="rounded-full h-8 w-8 border-b-2 border-zinc-500 animate-spin"></div>
         </div>
       )}
+
+      <PostDetailModal
+        key={selectedPost?._id}
+        isOpen={!!selectedPost}
+        onClose={() => setSelectedPost(null)}
+        post={selectedPost}
+        onInteraction={handleInteraction}
+      />
     </>
   );
 }
 
 export default function Explore() {
   const { feedData } = useLoaderData();
-  const [selectedPost, setSelectedPost] = useState(null);
   useDocumentMetadata(
     "Explore",
     "Explore trending content, viral videos, and discover new creators on LookSphere. Dive into the best of social media, brought to you by Pranav Shilu.",
@@ -412,11 +431,11 @@ export default function Explore() {
   }, []);
 
   return (
-    <div className="max-w-6xl xl:max-w-7xl mx-auto px-0 py-4 md:py-8">
-      <div className="mb-6 mt-6 gap-8 flex items-start justify-between">
+    <div className="px-0 py-4 max-w-6xl mx-auto xl:max-w-7xl md:py-8">
+      <div className="mb-6 mt-6 gap-8 justify-between flex items-start">
         <div>
           <h1
-            className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-3 tracking-tight"
+            className="mb-3 text-3xl font-extrabold sm:text-4xl md:text-5xl tracking-tight"
             style={{ color: "var(--text-primary)" }}
           >
             Explore Community
@@ -435,24 +454,12 @@ export default function Explore() {
         <Await
           resolve={feedData}
           errorElement={
-            <div className="text-center py-10">Error loading explore data.</div>
+            <div className="py-10 text-center">Error loading explore data.</div>
           }
         >
-          {({ posts, total }) => (
-            <ExploreContent
-              posts={posts}
-              total={total}
-              setSelectedPost={setSelectedPost}
-            />
-          )}
+          {({ posts, total }) => <ExploreContent posts={posts} total={total} />}
         </Await>
       </Suspense>
-
-      <PostDetailModal
-        isOpen={!!selectedPost}
-        onClose={() => setSelectedPost(null)}
-        post={selectedPost}
-      />
     </div>
   );
 }

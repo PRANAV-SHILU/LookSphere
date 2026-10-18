@@ -1,4 +1,4 @@
-import { createPost, getFeed, increasePostView, editPost, getPostById } from "../network/postApi";
+import { createPost, getFeed, increasePostImpression, editPost, getPostById } from "../network/postApi";
 
 // create post
 export async function uploadUserPost(payload) {
@@ -28,12 +28,13 @@ export async function fetchPostById(id) {
   }
 }
 
-// increase post view count
-export async function trackPostView(id) {
+// increase post impression count
+export async function trackPostImpression(id) {
   try {
-    return await increasePostView(id);
+    return await increasePostImpression(id);
   } catch (err) {
-    throw new Error(err.message || "Failed to track post view.");
+    console.error("[postService] Error tracking post impression for post", id, ":", err);
+    throw new Error(err.message || "Failed to track post impression.");
   }
 }
 

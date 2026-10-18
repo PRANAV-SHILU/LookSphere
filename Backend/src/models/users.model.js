@@ -29,7 +29,9 @@ const userSchema = new mongoose.Schema(
       type: String,
       trim: true,
       maxlength: 80,
-      default: "INDIAN",
+      default: function () {
+        return this.username || "";
+      },
     },
     bio: {
       type: String,
@@ -54,8 +56,7 @@ const userSchema = new mongoose.Schema(
 );
 
 // Indexes for query optimization
-userSchema.index({ role: 1 });
-userSchema.index({ profileViewCount: -1 });
+userSchema.index({ role: 1, profileViewCount: -1 });
 
 // Instance method to compare provided password with the hashed password in the database
 userSchema.methods.comparePassword = async function (password) {
@@ -68,6 +69,13 @@ userSchema.pre("save", async function () {
     this.hashedPassword = await bcrypt.hash(this.hashedPassword, 12);
   }
 });
+
+// on cascade delete — delete all posts and interactions when a user is deleted
+userSchema.pre("deleteOne", { document: true, query: false }, async function () {
+  await mongoose.model("posts").deleteMany({ userId: this._id });
+  await mongoose.model("interactions").deleteMany({ userId: this._id });
+});
+
 
 const User = mongoose.model("users", userSchema);
 export default User;

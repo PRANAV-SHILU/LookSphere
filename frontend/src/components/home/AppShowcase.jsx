@@ -78,7 +78,7 @@ export default function AppShowcase() {
               <div className="bg-(--surface-card) p-3 rounded-lg border border-(--border-light) shadow-xs mt-1">
                 <div className="flex justify-between items-center mb-2">
                   <span className="flex items-center gap-1 text-xs text-(--text-muted) font-medium">
-                    <Eye size={14} /> {post.views} views
+                    <Eye size={14} /> {post.impressions} impressions
                   </span>
                   <span className="text-[10px] text-(--text-muted)">
                     {post.date}

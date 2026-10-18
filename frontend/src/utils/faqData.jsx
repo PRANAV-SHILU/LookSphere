@@ -10,7 +10,7 @@ import {
   Rocket,
 } from "lucide-react";
 
-export const LAST_UPDATED = "August 15, 2026";
+export const LAST_UPDATED = "October 22, 2026";
 
 export const FAQ_CATEGORIES = [
   {
@@ -126,12 +126,28 @@ export const FAQ_CATEGORIES = [
         a: "Yes, you can edit the captions, tags, and description fields of any post you have created. Simply go to your profile, find the post you want to change, and click the edit option.",
       },
       {
-        q: "What is the 'Spotlights' feature?",
-        a: "Spotlights is an upcoming short-form video feed feature designed for LookSphere. It will allow creators to showcase vertical videos in a scrollable, high-engagement feed layout.",
+        q: "What is Spark?",
+        a: "Spark is LookSphere's primary interaction feature to show appreciation and love for a post. Clicking the Spark (sparkle) icon highlights your reaction, increments the spark counter, and gives immediate positive feedback to the author.",
+      },
+      {
+        q: "What is Reshare?",
+        a: "Reshare allows you to share and broadcast posts you discover with the broader LookSphere community. Clicking the Reshare button reposts and amplifies content you find noteworthy, helping creators reach a wider audience across feeds.",
+      },
+      {
+        q: "Can I see who sparked or reshared a post?",
+        a: "Yes! Every post with sparks or reshares displays a subtle down-arrow indicator beside the interaction count. Clicking the count number opens a modal list showing the profile avatars and usernames of everyone who sparked or reshared that post, with one-click navigation to their profile.",
+      },
+      {
+        q: "What is Archive?",
+        a: "Archive is LookSphere's bookmarking and saving mechanism. When you archive a post by clicking the Bookmark icon, it is privately stored under your account and can be accessed anytime from the 'Archived' tab on your profile page.",
       },
       {
         q: "Can I save posts to view them later?",
-        a: "An upcoming update will add a 'Save Post' icon to all cards. Saved posts will be kept privately in a dedicated tab on your profile page so you can quickly refer back to them.",
+        a: "Yes! You can save posts to view them later by clicking the Archive (bookmark) button on any post card. All your saved posts are kept privately in the 'Archived' tab on your profile page so you can quickly revisit them anytime.",
+      },
+      {
+        q: "What is the 'Spotlights' feature?",
+        a: "Spotlights is an upcoming short-form video feed feature designed for LookSphere. It will allow creators to showcase vertical videos in a scrollable, high-engagement feed layout.",
       },
       {
         q: "Is there a follow/unfollow system?",
@@ -252,7 +268,7 @@ export const FAQ_CATEGORIES = [
             1. Contact Form: Navigate to our internal <Link to="/contact-us" className="text-(--primary-500) hover:underline">/contact-us</Link> page.{"\n"}
             2. Email: Send an email directly to <a href="mailto:pranavshilu@zohomail.in" className="text-(--primary-500) hover:underline">pranavshilu@zohomail.in</a>.{"\n"}
             3. LinkedIn: Connect at <a href="https://www.linkedin.com/in/pranavshilu" target="_blank" rel="noopener noreferrer" className="text-(--primary-500) hover:underline">linkedin.com/in/pranavshilu</a>.{"\n\n"}
-            All responses to your contact form submissions will appear in your <Link to="/my-inquiries" className="text-(--primary-500) hover:underline">My Inquiries</Link> page (/my-inquiries), accessible from your profile menu. You will also be notified via email when a response is sent.
+            All responses to your contact form submissions will appear in your <Link to="/my-inquiries" className="text-(--primary-500) hover:underline">My Inquiries</Link> page, accessible from your profile menu. You will also be notified via email when a response is sent.
           </span>
         ),
       },

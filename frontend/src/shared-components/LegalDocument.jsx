@@ -243,8 +243,7 @@ export default function LegalDocument({ title, icon: Icon, lastUpdated, intro, s
         <div className="flex items-center justify-between mb-6">
           <BackButton />
           <span
-            className="text-xs font-medium"
-            style={{ color: "var(--text-muted)" }}
+            className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full border border-blue-500/20 bg-blue-500/10 text-blue-600 dark:text-blue-400"
           >
             Last Updated: {lastUpdated}
           </span>

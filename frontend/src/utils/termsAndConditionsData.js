@@ -1,4 +1,4 @@
-export const LAST_UPDATED = "August 15, 2026";
+export const LAST_UPDATED = "October 22, 2026";
 
 export const TNC_INTRO = {
   heading: "Terms and Conditions",
@@ -48,7 +48,7 @@ export const TNC_SECTIONS = [
       {
         id: "ugc-1",
         content:
-          'LookSphere allows users to post, link, store, share and otherwise make available certain information, text, graphics, videos, or other material ("Content").',
+          'LookSphere allows users to post, link, store, share, and interact with content (including sparking, resharing, and saving posts), as well as make available certain information, text, graphics, videos, or other material ("Content").',
       },
       {
         id: "ugc-2",

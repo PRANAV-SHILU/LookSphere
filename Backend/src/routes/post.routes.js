@@ -2,11 +2,11 @@ import express from "express";
 import {
   createPost,
   getFeed,
-  increasePostView,
+  increasePostImpression,
   editPost,
   getPostById,
 } from "../controllers/post.controller.js";
-import { verifyToken } from "../middlewares/auth.middleware.js";
+import { verifyToken, verifyTokenOptional } from "../middlewares/auth.middleware.js";
 import {
   upload,
   checkMediaSize,
@@ -17,13 +17,13 @@ import { editPostValidation } from "../validators/post.validator.js";
 const postRoutes = express.Router();
 
 // get single post
-postRoutes.get("/:id", getPostById);
+postRoutes.get("/:id", verifyTokenOptional, getPostById);
 
-// increase post view count
-postRoutes.patch("/:id/increment-view", increasePostView);
+// increase post impression count
+postRoutes.patch("/:id/increment-impression", increasePostImpression);
 
 // get all posts from all users - for feed
-postRoutes.get("/", getFeed);
+postRoutes.get("/", verifyTokenOptional, getFeed);
 
 // add post
 postRoutes.post(

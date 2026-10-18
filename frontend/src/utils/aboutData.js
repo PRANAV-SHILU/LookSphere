@@ -22,6 +22,12 @@ import {
   FileCheck,
   ShieldCheck,
   FileKey,
+  Cpu,
+  Shuffle,
+  Eye,
+  RefreshCw,
+  Binary,
+  Sliders,
 } from "lucide-react";
 
 // ── Hero ──
@@ -140,12 +146,23 @@ export const ABOUT_TECH_BACKEND = [
   { name: "Bcrypt", color: "#3ECF8E", icon: Lock },
   { name: "Cloudinary", color: "#3448C5", icon: Cloud },
   { name: "Multer", color: "#FF6F00", icon: Upload },
-  { name: "Nodemailer", color: "#0F9DCE", icon: Send },
   { name: "Express Validator", color: "#E23237", icon: ShieldCheck },
   { name: "Dotenv", color: "#ECD53F", icon: FileKey },
   { name: "Compression", color: "#00F2FE", icon: Zap },
   { name: "CORS", color: "#1A73E8", icon: Shield },
   { name: "Nodemon", color: "#76D04B", icon: Server },
+];
+
+export const ABOUT_TECH_ALGORITHMS = [
+  { name: "Brotli Compression", color: "#00F2FE", icon: Cpu },
+  { name: "Fisher-Yates Shuffle", color: "#EC4899", icon: Shuffle },
+  { name: "IntersectionObserver", color: "#3B82F6", icon: Eye },
+  { name: "Vectorized Batch Scan", color: "#10B981", icon: Database },
+  { name: "Optimistic State Sync", color: "#F59E0B", icon: RefreshCw },
+  { name: "Time-Decay Debounce", color: "#8B5CF6", icon: Sliders },
+  { name: "Single-Active Viewport", color: "#6366F1", icon: Layers },
+  { name: "Covered B-Tree Indexes", color: "#34D399", icon: Binary },
+  { name: "Micro-Batch Ingestion", color: "#38BDF8", icon: Zap },
 ];
 
 // ── Developer ──

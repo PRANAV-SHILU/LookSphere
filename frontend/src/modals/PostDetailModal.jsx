@@ -1,23 +1,17 @@
 import { useState, useEffect, useRef, useMemo } from "react";
-import {
-  X,
-  Info,
-  Eye,
-  MoreVertical,
-  User as UserIcon,
-  Link2,
-  Check,
-} from "lucide-react";
+import { X, Info, MoreVertical, User as UserIcon } from "lucide-react";
 import { modifyPost } from "../services/postService";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { postSchema } from "../schema/postSchema";
+import PostInteractions from "../components/post/PostInteractions";
 
 export default function PostDetailModal({
   isOpen,
   onClose,
   post,
   profileUser,
+  onInteraction,
 }) {
   const navigate = useNavigate();
   const [mediaDimensions, setMediaDimensions] = useState({
@@ -27,7 +21,6 @@ export default function PostDetailModal({
   const [isLoaded, setIsLoaded] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [isCopied, setIsCopied] = useState(false);
   const [editCaption, setEditCaption] = useState("");
   const [editAltText, setEditAltText] = useState("");
   const [isSaving, setIsSaving] = useState(false);
@@ -47,15 +40,29 @@ export default function PostDetailModal({
   const storedUser = localStorage.getItem("user");
   const currentUser = storedUser ? JSON.parse(storedUser) : null;
   const postAuthor = useMemo(() => {
-    return post?.userId &&
+    if (
+      post?.userId &&
       typeof post.userId === "object" &&
       post.userId.username
-      ? post.userId
-      : profileUser
-        ? profileUser
-        : post?.userId
-          ? { _id: post.userId, username: "Unknown User", profileImage: null }
-          : null;
+    ) {
+      return post.userId;
+    }
+    if (
+      post?.author &&
+      typeof post.author === "object" &&
+      post.author.username
+    ) {
+      return post.author;
+    }
+    if (post?.user && typeof post.user === "object" && post.user.username) {
+      return post.user;
+    }
+    if (profileUser) {
+      return profileUser;
+    }
+    return post?.userId
+      ? { _id: post.userId, username: "Unknown User", profileImage: null }
+      : null;
   }, [post, profileUser]);
   const isOwner =
     post &&
@@ -64,6 +71,7 @@ export default function PostDetailModal({
 
   const [displayCaption, setDisplayCaption] = useState("");
   const [displayAltText, setDisplayAltText] = useState("");
+  const impressionCount = post?.counts?.impression;
 
   // Reset state when post changes (ref-based, no setState in effect)
   const postUrl = post?.mediaUrl ?? null;
@@ -91,10 +99,7 @@ export default function PostDetailModal({
     const structuredData = {
       "@context": "https://schema.org",
       "@type": "SocialMediaPosting",
-      headline:
-        displayCaption ||
-        displayAltText ||
-        "Post on LookSphere",
+      headline: displayCaption || displayAltText || "Post on LookSphere",
       articleBody: displayCaption
         ? displayAltText
           ? `${displayCaption} (Alt: ${displayAltText})`
@@ -217,7 +222,7 @@ export default function PostDetailModal({
                 style={{
                   position: "absolute",
                   top: "-40px",
-                  right: "84px",
+                  right: "42px",
                   zIndex: 10,
                 }}
               >
@@ -389,42 +394,9 @@ export default function PostDetailModal({
               <X size={22} />
             </button>
 
-            {/* Share Button */}
-            <button
-              onClick={() => {
-                navigator.clipboard.writeText(
-                  `${window.location.origin}/posts/${post._id}`,
-                );
-                setIsCopied(true);
-                setTimeout(() => setIsCopied(false), 3000);
-              }}
-              className="post-detail-options-btn"
-              aria-label="Share"
-              style={{
-                position: "absolute",
-                top: "-40px",
-                right: "42px",
-                zIndex: 10,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                width: "36px",
-                height: "36px",
-                borderRadius: "50%",
-                border: "1px solid rgba(255, 255, 255, 0.15)",
-                background: "rgba(0, 0, 0, 0.5)",
-                color: isCopied ? "#22c55e" : "#fff",
-                cursor: "pointer",
-                transition: "all 0.2s ease",
-                backdropFilter: "blur(4px)",
-              }}
-            >
-              {isCopied ? <Check size={20} /> : <Link2 size={20} />}
-            </button>
-
             {/* Media Area */}
             <div
-              className="post-detail-media-wrapper mt-0.5"
+              className="mt-0.5 post-detail-media-wrapper"
               style={
                 isLoaded
                   ? {
@@ -480,13 +452,13 @@ export default function PostDetailModal({
             </div>
 
             {/* Post Info Footer */}
-            {(isEditing || post.postViewCount != null || displayCaption) && (
+            {post && (
               <div
                 className="post-detail-caption"
                 style={{ width: "100%", maxWidth: "100%" }}
               >
                 {isEditing ? (
-                  <div className="flex flex-col gap-4">
+                  <div className="flex-col gap-4 flex">
                     <div className="input-group" style={{ marginBottom: "0" }}>
                       <label
                         className="input-label"
@@ -529,7 +501,7 @@ export default function PostDetailModal({
                         </p>
                       )}
                       <div
-                        className="flex justify-between mt-1 text-xs"
+                        className="mt-1 justify-between text-xs flex"
                         style={{ color: "var(--text-muted)" }}
                       >
                         <span>Add context to your post</span>
@@ -584,7 +556,7 @@ export default function PostDetailModal({
                         </p>
                       )}
                       <div
-                        className="flex justify-between mt-1 text-xs"
+                        className="mt-1 justify-between text-xs flex"
                         style={{ color: "var(--text-muted)" }}
                       >
                         <span>Helps users with screen readers</span>
@@ -603,7 +575,7 @@ export default function PostDetailModal({
                       </div>
                     </div>
 
-                    <div className="flex gap-3 mt-1">
+                    <div className="gap-3 mt-1 flex">
                       <button
                         type="button"
                         disabled={isSaving}
@@ -664,6 +636,12 @@ export default function PostDetailModal({
                             toast.success("Post updated successfully!");
                             setDisplayCaption(updated.caption);
                             setDisplayAltText(updated.altText);
+                            if (onInteraction) {
+                              onInteraction(post._id, {
+                                caption: updated.caption,
+                                altText: updated.altText,
+                              });
+                            }
                             setIsEditing(false);
                           } catch (err) {
                             toast.error(err.message || "Failed to save post.");
@@ -677,55 +655,22 @@ export default function PostDetailModal({
                     </div>
                   </div>
                 ) : (
-                  <>
-                    {post.postViewCount != null && (
-                      <div
-                        className="post-detail-views"
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                        }}
-                      >
-                        <div
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "6px",
-                          }}
-                        >
-                          <Eye size={16} />
-                          <span>
-                            {post.postViewCount}{" "}
-                            {post.postViewCount === 1 ? "view" : "views"}
-                          </span>
-                        </div>
-                        {post.createdAt && (
-                          <span
-                            style={{
-                              fontSize: "0.8rem",
-                              color: "var(--text-muted)",
-                            }}
-                          >
-                            {new Date(post.createdAt).toLocaleString(
-                              undefined,
-                              {
-                                year: "numeric",
-                                month: "short",
-                                day: "numeric",
-                                hour: "2-digit",
-                                minute: "2-digit",
-                                second: "2-digit",
-                              },
-                            )}
-                          </span>
-                        )}
-                      </div>
-                    )}
+                  <div className="flex-col gap-2.5 flex">
+                    <PostInteractions
+                      key={post?._id}
+                      post={{
+                        ...post,
+                        counts: {
+                          ...post?.counts,
+                          impression: impressionCount,
+                        },
+                      }}
+                      onInteraction={onInteraction}
+                    />
                     {displayCaption && (
                       <p className="whitespace-pre-wrap">{displayCaption}</p>
                     )}
-                  </>
+                  </div>
                 )}
               </div>
             )}

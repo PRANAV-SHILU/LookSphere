@@ -1,6 +1,6 @@
 // frontend/src/utils/privacyPolicyData.js
 
-export const LAST_UPDATED = "August 15, 2026";
+export const LAST_UPDATED = "October 22, 2026";
 
 export const PRIVACY_INTRO = {
   heading: "Privacy Policy",
@@ -89,6 +89,11 @@ export const PRIVACY_SECTIONS = [
             label: "Posts (media, caption, alt text)",
             detail:
               "Displayed on the Feed, Explore pages and on the creators profile page.",
+          },
+          {
+            label: "Post interactions (sparks, reshares, archives)",
+            detail:
+              "Storing your reactions and archives to compute aggregate counts, show lists of users who engaged with posts.",
           },
           {
             label: "JWT token",

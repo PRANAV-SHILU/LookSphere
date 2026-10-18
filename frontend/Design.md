@@ -1,4 +1,4 @@
-<div align="right">Last Modified: 1-Sep-2026</div>
+<div align="right">Last Modified: 22-Oct-2026</div>
 
 
 # LookSphere — Visual Design Specification
@@ -121,11 +121,12 @@ Due to rendering constraints on mid-tier mobile processors (specifically the Mal
 
 To maintain consistency across our standalone pages, use the following layout rules:
 
-1. **Back Navigation**: Every standalone secondary page (About Us, Roadmap, What's New, FAQ, Privacy Policy, Terms & Conditions, Contact Us, My Inquiries) must include the shared `<BackButton />` at the top left of the main content container.
+1. **Back Navigation**: Every standalone secondary page (About Us, Roadmap, What's New, FAQ, Privacy Policy, Terms & Conditions, Contact Us, My Inquiries) must include the shared [`<BackButton />`](./src/shared-components/BackButton.jsx) at the top left of the main content container.
 2. **Roadmap Bento Box**: The Roadmap page features a bento-style 2-column responsive layout (`grid-cols-1 lg:grid-cols-2`) mapping high-contrast categories using Lucide icons.
 3. **Timeline Changelog**: The What's New page uses a vertical timeline layout. The central line is anchored on the container's left border (`border-l-2 border-(--border-light)`) and uses `left-[-11px]` to perfectly center the timeline circle dot.
-4. **Legal Document Layout**: Privacy Policy and Terms & Conditions render utilizing the shared `<LegalDocument />` layout wrapper, which provides consistent section headings, lists, tables, and standard typographic flow.
-5. **Support & Inquiries Desk**: The Contact Us (`/contact-us`) and My Inquiries (`/my-inquiries`) pages use categorized pill selectors, interactive attachment previews (with lightbox zoom and inline video players), and collapsible administrative reply drawers. When admins respond, users receive message updates directly in their My Inquiries dashboard and receive email notifications.
+4. **Legal Document Layout**: Privacy Policy and Terms & Conditions render utilizing the shared [`<LegalDocument />`](./src/shared-components/LegalDocument.jsx) layout wrapper, which provides consistent section headings, lists, tables, and standard typographic flow.
+5. **Support & Inquiries Desk**: The Contact Us ([`/contact-us`](https://looksphere.vercel.app/contact-us)) and My Inquiries ([`/my-inquiries`](https://looksphere.vercel.app/my-inquiries)) pages use categorized pill selectors, interactive attachment previews (with lightbox zoom and inline video players), and collapsible administrative reply drawers. When admins respond, users receive message updates directly in their My Inquiries dashboard.
+6. **Interaction Overlays & User Modals**: The [`<InteractionsListModal />`](./src/modals/InteractionsListModal.jsx) renders via React Portal (`document.body`) using a sleek liquid-glass dialog, backdrop blur, optimistic local memory caching, and self-toggle cache invalidation to list who sparked or reshared content.
 
 ---
 
@@ -145,7 +146,8 @@ Badges are designed to be translucent, border-anchored, and highly readable in b
 | :--- | :---: | :--- | :--- |
 | **Feature** | <span style="background-color:#EAB308; width:16px; height:16px; display:inline-block; border-radius:4px; border:1px solid #ccc"></span> | `bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 border border-yellow-500/20` | New major capabilities / additions |
 | **Bugfix** | <span style="background-color:#EF4444; width:16px; height:16px; display:inline-block; border-radius:4px; border:1px solid #ccc"></span> | `bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/20` | Issue resolutions, hotfixes |
-| **Enhancement** | <span style="background-color:#22C55E; width:16px; height:16px; display:inline-block; border-radius:4px; border:1px solid #ccc"></span> | `bg-green-500/10 text-green-600 dark:text-green-400 border border-green-500/20` | Performance gains, styling polish |
+| **Enhancement** | <span style="background-color:#22C55E; width:16px; height:16px; display:inline-block; border-radius:4px; border:1px solid #ccc"></span> | `bg-green-500/10 text-green-600 dark:text-green-400 border border-green-500/20` | Feature improvements, styling polish |
+| **Performance** | <span style="background-color:#3B82F6; width:16px; height:16px; display:inline-block; border-radius:4px; border:1px solid #ccc"></span> | `bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20` | Real-time state synchronization, scrolling optimizations |
 | **General Info** | <span style="background-color:#3B82F6; width:16px; height:16px; display:inline-block; border-radius:4px; border:1px solid #ccc"></span> | `bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20` | Core sections (e.g. Roadmap, FAQ, Help Center) |
 
 ### Support & Inquiry Category Badges
@@ -183,9 +185,27 @@ graph TD
     MotionEasing --> StateFeedback["Feedback: Scale & Glow Hover"]
 ```
 
+<br>
+<br>
+
 ---
+
 **📚 LookSphere Documentation Index:**
-- **Root:** [Main Readme](../Readme.md) | [File Tree](../File_Tree.md) | [Roadmap](../roadmap.md) | [Performance](../performance_optimization.md) | [Resolved Issues](../resolved_issues.md)
-- **Frontend:** [Frontend Readme](./README.md) | [Design Specs](./Design.md) | [Frontend File Tree](./File_Tree.md) | [Improvements](./improvement.md)
-- **Backend:** [Backend Readme](../Backend/Readme.md) | [API Docs](../Backend/APIs.md) | [Backend File Tree](../Backend/File_Tree.md)
+- **Core Documentation:** [Main Readme](../Readme.md) | [Algorithms](../Algorithms.md) | [Performance Optimization](../Performance_Optimization.md) | [Roadmap](../Roadmap.md) | [Resolved Issues](../Resolved_Issues.md) | [File Tree](../File_Tree.md) | [Improvements](../improvement.md)
+- **Governance & Policies:** [Contributing Guidelines](../CONTRIBUTING.md) | [Code of Conduct](../CODE_OF_CONDUCT.md) | [Security Policy](../SECURITY.md) | [License](../LICENSE.md)
+- **Issue Templates:** [Bug Report](../.github/ISSUE_TEMPLATE/bug_report.md) | [Feature Request](../.github/ISSUE_TEMPLATE/feature_request.md)
+- **Frontend Architecture:** [Frontend Readme](./README.md) | [Design System](./Design.md) | [Frontend File Tree](./File_Tree.md)
+- **Backend Architecture:** [Backend Readme](../Backend/Readme.md) | [API Documentation](../Backend/APIs.md) | [Backend File Tree](../Backend/File_Tree.md)
+
 ---
+
+<div align="center">
+
+**LookSphere Engineering Documentation**  
+*Pixel-perfect aesthetics, dark-theme harmony, and immersive visual experiences.*
+
+</div>
+<div align="center">
+  <b>© 2026 LookSphere. Built by <a href="https://www.linkedin.com/in/pranavshilu/">Pranav Shilu</a>. All rights reserved.</b>
+</div>
+

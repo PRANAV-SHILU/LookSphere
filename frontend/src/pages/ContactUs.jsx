@@ -227,39 +227,39 @@ export default function ContactUs() {
   };
 
   return (
-    <div className="w-full flex justify-center">
-      <div className="w-full max-w-2xl px-2 xsm:px-4 md:px-8 pt-8 pb-20">
+    <div className="w-full justify-center flex">
+      <div className="px-2 pt-8 pb-20 w-full max-w-2xl xsm:px-4 md:px-8">
         {/* Header Row */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="mb-8 justify-between flex items-center">
           <BackButton />
-          <span className="text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full border border-blue-500/20 bg-blue-500/10 text-blue-600 dark:text-blue-400">
+          <span className="px-3 py-1 text-xs font-semibold rounded-full border border-blue-500/20 bg-blue-500/10 text-blue-600 uppercase tracking-wider dark:text-blue-400">
             Contact
           </span>
         </div>
 
         {/* Title */}
-        <div className="text-center mb-10 flex flex-col items-center">
+        <div className="flex-col mb-10 text-center flex items-center">
           <div
-            className="w-12 h-12 rounded-2xl flex items-center justify-center text-(--primary-600) mb-4"
+            className="mb-4 w-12 h-12 rounded-2xl justify-center text-(--primary-600) flex items-center"
             style={{ backgroundColor: "var(--primary-50)" }}
           >
             <MessageSquare size={24} />
           </div>
           <h1
-            className="text-3xl md:text-4xl font-extrabold tracking-tight mb-3"
+            className="mb-3 text-3xl font-extrabold md:text-4xl tracking-tight"
             style={{ color: "var(--text-primary)" }}
           >
             Contact Us
           </h1>
           <p
-            className="text-sm sm:text-base md:text-lg max-w-xl mx-auto leading-relaxed"
+            className="text-sm max-w-xl mx-auto sm:text-base md:text-lg leading-relaxed"
             style={{ color: "var(--text-secondary)" }}
           >
             Have a question, suggestion, or need support? We'd love to hear from
             you. Fill out the form below and we'll get back to you.
           </p>
           {/* All-in-one keyword badges */}
-          <div className="flex flex-wrap items-center justify-center gap-2.5 mt-5">
+          <div className="flex-wrap gap-2.5 mt-5 justify-center flex items-center">
             {[
               {
                 label: "Contact",
@@ -294,7 +294,7 @@ export default function ContactUs() {
             ].map((badge) => (
               <span
                 key={badge.label}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-wider rounded-full text-white cursor-default select-none hover:scale-105 transition-transform duration-200"
+                className="gap-1.5 px-3.5 py-1.5 text-[11px] font-bold rounded-full text-white inline-flex items-center uppercase tracking-wider cursor-default select-none hover:scale-105 transition-transform duration-200"
                 style={{
                   background: badge.gradient,
                   boxShadow: `0 2px 8px ${badge.shadow}`,
@@ -305,52 +305,63 @@ export default function ContactUs() {
               </span>
             ))}
           </div>
+
+          {/* Quick link to My Inquiries */}
+          <div
+            className="gap-1.5 px-3.5 py-1.5 mt-6 text-xs rounded-full border inline-flex items-center sm:text-sm transition-al8"
+            style={{
+              backgroundColor: "var(--surface-input)",
+              borderColor: "var(--border-normal)",
+              color: "var(--text-secondary)",
+            }}
+          >
+            <span>Already submitted an inquiry?</span>
+            <Link
+              to="/my-inquiries"
+              className="gap-1 font-semibold text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 underline underline-offset-2 transition-colors inline-flex items-center"
+            >
+              <span>Track or check here</span>
+              <ArrowRight size={13} />
+            </Link>
+          </div>
         </div>
 
         {/* Success Confirmation Card */}
         {actionData?.success && (
           <div
-            className="mb-8 p-5 sm:p-6 rounded-2xl border flex flex-col sm:flex-row items-start gap-4 transition-all animate-fadeIn shadow-sm"
+            className="flex-col mb-8 p-5 gap-4 rounded-2xl border shadow-sm sm:p-6 flex sm:flex-row items-start transition-all animate-fadeIn"
             style={{
               backgroundColor: "var(--surface-card)",
               borderColor: "rgba(16, 185, 129, 0.4)",
             }}
           >
-            <div className="w-10 h-10 rounded-xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 border border-emerald-500/20">
+            <div className="w-10 h-10 rounded-xl bg-emerald-500/15 text-emerald-600 justify-center border border-emerald-500/20 dark:text-emerald-400 flex items-center shrink-0">
               <CheckCircle2 size={22} />
             </div>
             <div className="flex-1">
-              <h2 className="text-base font-bold text-emerald-600 dark:text-emerald-400 mb-1">
+              <h2 className="mb-1 text-base font-bold text-emerald-600 dark:text-emerald-400">
                 Inquiry Submitted Successfully!
               </h2>
               <p
-                className="text-xs sm:text-sm leading-relaxed mb-3"
+                className="mb-3 text-xs sm:text-sm leading-relaxed"
                 style={{ color: "var(--text-secondary)" }}
               >
                 Your message has been received. You will receive all admin responses directly on the{" "}
-                <span className="font-semibold text-emerald-600 dark:text-emerald-400">
-                  My Inquiries
-                </span>{" "}
-                page (
-                <code
-                  className="px-1.5 py-0.5 rounded font-mono text-xs"
-                  style={{
-                    backgroundColor: "var(--surface-input)",
-                    color: "var(--text-primary)",
-                    border: "1px solid var(--border-light)",
-                  }}
+                <Link
+                  to="/my-inquiries"
+                  className="font-semibold text-emerald-600 underline dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors"
                 >
-                  /my-inquiries
-                </code>
-                ) and a notification email will also be sent to your inbox.
+                  My Inquiries
+                </Link>{" "}
+                page and a notification email will also be sent to your inbox.
               </p>
               <Link
                 to="/my-inquiries"
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white! hover:text-white! no-underline bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-600 transition-all shadow-md hover:shadow-emerald-500/20"
+                className="gap-2 px-4 py-2.5 rounded-xl text-xs font-bold text-white! bg-emerald-600 shadow-md inline-flex items-center sm:text-sm hover:text-white! no-underline hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-600 transition-all hover:shadow-emerald-500/20"
                 style={{ color: "#ffffff", textDecoration: "none" }}
               >
                 <Inbox size={15} style={{ color: "#ffffff" }} />
-                <span>View in My Inquiries (/my-inquiries)</span>
+                <span>View in My Inquiries</span>
                 <ArrowRight size={15} style={{ color: "#ffffff" }} />
               </Link>
             </div>
@@ -362,13 +373,13 @@ export default function ContactUs() {
           method="post"
           encType="multipart/form-data"
           onSubmit={handleSubmit}
-          className="flex flex-col gap-5"
+          className="flex-col gap-5 flex"
         >
           {/* Name */}
-          <div className="flex flex-col gap-1.5">
+          <div className="flex-col gap-1.5 flex">
             <label
               htmlFor="contact-name"
-              className="text-xs font-bold uppercase tracking-wider flex items-center gap-1.5"
+              className="gap-1.5 text-xs font-bold uppercase tracking-wider flex items-center"
               style={{ color: "var(--text-muted)" }}
             >
               <User size={14} />
@@ -383,13 +394,13 @@ export default function ContactUs() {
               placeholder="Your name"
               value={formData.name}
               onChange={(e) => updateField("name", e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border text-sm font-medium transition-all focus:outline-none focus:ring-2 disabled:cursor-not-allowed disabled:opacity-60"
+              className="px-4 py-3 w-full rounded-xl border text-sm font-medium transition-all focus:outline-none focus:ring-2 disabled:cursor-not-allowed disabled:opacity-60"
               style={inputStyle}
               {...focusHandlers}
             />
             {errors.name && (
               <p
-                className="text-xs mt-1.5"
+                className="mt-1.5 text-xs"
                 style={{ color: "var(--status-error)" }}
               >
                 {errors.name}
@@ -398,10 +409,10 @@ export default function ContactUs() {
           </div>
 
           {/* Email */}
-          <div className="flex flex-col gap-1.5">
+          <div className="flex-col gap-1.5 flex">
             <label
               htmlFor="contact-email"
-              className="text-xs font-bold uppercase tracking-wider flex items-center gap-1.5"
+              className="gap-1.5 text-xs font-bold uppercase tracking-wider flex items-center"
               style={{ color: "var(--text-muted)" }}
             >
               <Mail size={14} />
@@ -416,13 +427,13 @@ export default function ContactUs() {
               placeholder="you@example.com"
               value={formData.email}
               onChange={(e) => updateField("email", e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border text-sm font-medium transition-all focus:outline-none focus:ring-2"
+              className="px-4 py-3 w-full rounded-xl border text-sm font-medium transition-all focus:outline-none focus:ring-2"
               style={inputStyle}
               {...focusHandlers}
             />
             {errors.email && (
               <p
-                className="text-xs mt-1.5"
+                className="mt-1.5 text-xs"
                 style={{ color: "var(--status-error)" }}
               >
                 {errors.email}
@@ -431,10 +442,10 @@ export default function ContactUs() {
           </div>
 
           {/* Category Dropdown */}
-          <div className="flex flex-col gap-1.5">
+          <div className="flex-col gap-1.5 flex">
             <label
               htmlFor="contact-category"
-              className="text-xs font-bold uppercase tracking-wider flex items-center gap-1.5"
+              className="gap-1.5 text-xs font-bold uppercase tracking-wider flex items-center"
               style={{ color: "var(--text-muted)" }}
             >
               <ChevronDown size={14} />
@@ -448,7 +459,7 @@ export default function ContactUs() {
                 disabled={isSubmitting}
                 value={formData.category}
                 onChange={(e) => updateField("category", e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border text-sm font-medium transition-all focus:outline-none focus:ring-2 appearance-none cursor-pointer disabled:cursor-not-allowed disabled:opacity-60"
+                className="px-4 py-3 w-full rounded-xl border text-sm font-medium transition-all focus:outline-none focus:ring-2 appearance-none cursor-pointer disabled:cursor-not-allowed disabled:opacity-60"
                 style={inputStyle}
                 {...focusHandlers}
               >
@@ -464,13 +475,13 @@ export default function ContactUs() {
               </select>
               <ChevronDown
                 size={16}
-                className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none"
+                className="top-1/2 absolute right-4 -translate-y-1/2 pointer-events-none"
                 style={{ color: "var(--text-muted)" }}
               />
             </div>
             {errors.category && (
               <p
-                className="text-xs mt-1.5"
+                className="mt-1.5 text-xs"
                 style={{ color: "var(--status-error)" }}
               >
                 {errors.category}
@@ -479,11 +490,11 @@ export default function ContactUs() {
           </div>
 
           {/* Message */}
-          <div className="flex flex-col gap-1.5">
-            <div className="flex items-center justify-between">
+          <div className="flex-col gap-1.5 flex">
+            <div className="justify-between flex items-center">
               <label
                 htmlFor="contact-message"
-                className="text-xs font-bold uppercase tracking-wider flex items-center gap-1.5"
+                className="gap-1.5 text-xs font-bold uppercase tracking-wider flex items-center"
                 style={{ color: "var(--text-muted)" }}
               >
                 <MessageSquare size={14} />
@@ -514,13 +525,13 @@ export default function ContactUs() {
                 e.target.style.height = "auto";
                 e.target.style.height = `${e.target.scrollHeight}px`;
               }}
-              className="w-full px-4 py-3 rounded-xl border text-sm font-medium transition-all focus:outline-none focus:ring-2 resize-none overflow-hidden min-h-30 disabled:cursor-not-allowed disabled:opacity-60"
+              className="px-4 py-3 w-full rounded-xl border text-sm font-medium overflow-hidden min-h-30 transition-all focus:outline-none focus:ring-2 resize-none disabled:cursor-not-allowed disabled:opacity-60"
               style={inputStyle}
               {...focusHandlers}
             />
             {errors.message && (
               <p
-                className="text-xs mt-1.5"
+                className="mt-1.5 text-xs"
                 style={{ color: "var(--status-error)" }}
               >
                 {errors.message}
@@ -529,14 +540,14 @@ export default function ContactUs() {
           </div>
 
           {/* Optional Uploads */}
-          <div className="flex flex-col gap-3">
+          <div className="flex-col gap-3 flex">
             <p
               className="text-xs font-bold uppercase tracking-wider"
               style={{ color: "var(--text-muted)" }}
             >
               Attachments{" "}
               <span
-                className="normal-case font-medium tracking-normal"
+                className="font-medium normal-case tracking-normal"
                 style={{ color: "var(--text-muted)" }}
               >
                 (optional)
@@ -544,7 +555,7 @@ export default function ContactUs() {
             </p>
 
             <div
-              className="p-5 rounded-2xl border flex flex-col gap-4 transition-all"
+              className="flex-col p-5 gap-4 rounded-2xl border flex transition-all"
               style={{
                 backgroundColor: "var(--surface-input)",
                 borderColor: "var(--border-normal)",
@@ -552,12 +563,12 @@ export default function ContactUs() {
             >
               {/* Empty State: Big Dropzones */}
               {imagePreviews.length === 0 && !videoPreview && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <label
                     className={`flex flex-col items-center justify-center gap-3 p-6 rounded-2xl border-2 border-dashed border-gray-300 dark:border-gray-600 transition-all text-center group ${isSubmitting ? "cursor-not-allowed opacity-60" : "cursor-pointer hover:bg-blue-500/5 hover:border-blue-500/50"}`}
                   >
                     <div
-                      className="w-12 h-12 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
+                      className="w-12 h-12 rounded-full justify-center flex items-center group-hover:scale-110 transition-transform duration-300"
                       style={{
                         backgroundColor: "var(--surface-background)",
                         color: "var(--text-muted)",
@@ -576,7 +587,7 @@ export default function ContactUs() {
                         Add Images
                       </span>
                       <p
-                        className="text-xs mt-1"
+                        className="mt-1 text-xs"
                         style={{ color: "var(--text-muted)" }}
                       >
                         Select up to 5 images
@@ -596,7 +607,7 @@ export default function ContactUs() {
                     className={`flex flex-col items-center justify-center gap-3 p-6 rounded-2xl border-2 border-dashed border-gray-300 dark:border-gray-600 transition-all text-center group ${isSubmitting ? "cursor-not-allowed opacity-60" : "cursor-pointer hover:bg-purple-500/5 hover:border-purple-500/50"}`}
                   >
                     <div
-                      className="w-12 h-12 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
+                      className="w-12 h-12 rounded-full justify-center flex items-center group-hover:scale-110 transition-transform duration-300"
                       style={{
                         backgroundColor: "var(--surface-background)",
                         color: "var(--text-muted)",
@@ -615,7 +626,7 @@ export default function ContactUs() {
                         Add Video
                       </span>
                       <p
-                        className="text-xs mt-1"
+                        className="mt-1 text-xs"
                         style={{ color: "var(--text-muted)" }}
                       >
                         Select 1 video max
@@ -634,12 +645,12 @@ export default function ContactUs() {
 
               {/* Gallery State: Horizontal Strip of Media */}
               {(imagePreviews.length > 0 || videoPreview) && (
-                <div className="flex flex-wrap gap-4 items-center">
+                <div className="flex-wrap gap-4 flex items-center">
                   {/* Render Image Previews */}
                   {imagePreviews.map((src, idx) => (
                     <div
                       key={src}
-                      className="relative group w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden shadow-sm border"
+                      className="w-24 h-24 rounded-2xl overflow-hidden shadow-sm border relative group sm:w-28 sm:h-28"
                       style={{ borderColor: "var(--border-normal)" }}
                     >
                       <img
@@ -647,12 +658,12 @@ export default function ContactUs() {
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                         alt={`Upload ${idx}`}
                       />
-                      <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[2px]">
+                      <div className="bg-black/50 opacity-0 justify-center absolute inset-0 group-hover:opacity-100 transition-opacity flex items-center backdrop-blur-[2px]">
                         <button
                           type="button"
                           onClick={() => removeImage(idx)}
                           disabled={isSubmitting}
-                          className="w-8 h-8 bg-red-500 hover:bg-red-600 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="w-8 h-8 bg-red-500 rounded-full justify-center text-white shadow-lg hover:bg-red-600 flex items-center hover:scale-110 transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                           <X size={16} />
                         </button>
@@ -663,7 +674,7 @@ export default function ContactUs() {
                   {/* Render Video Preview */}
                   {videoPreview && (
                     <div
-                      className="relative group w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden shadow-sm border"
+                      className="w-24 h-24 rounded-2xl overflow-hidden shadow-sm border relative group sm:w-28 sm:h-28"
                       style={{ borderColor: "var(--border-normal)" }}
                     >
                       <video
@@ -672,15 +683,15 @@ export default function ContactUs() {
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                         muted
                       />
-                      <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent pointer-events-none flex items-end p-2">
+                      <div className="p-2 bg-linear-to-t absolute inset-0 from-black/60 to-transparent pointer-events-none flex items-end">
                         <Video size={16} className="text-white/90" />
                       </div>
-                      <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[2px]">
+                      <div className="bg-black/50 opacity-0 justify-center absolute inset-0 group-hover:opacity-100 transition-opacity flex items-center backdrop-blur-[2px]">
                         <button
                           type="button"
                           onClick={removeVideo}
                           disabled={isSubmitting}
-                          className="w-8 h-8 bg-red-500 hover:bg-red-600 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="w-8 h-8 bg-red-500 rounded-full justify-center text-white shadow-lg hover:bg-red-600 flex items-center hover:scale-110 transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                           <X size={16} />
                         </button>
@@ -689,7 +700,7 @@ export default function ContactUs() {
                   )}
 
                   {/* Add More Buttons */}
-                  <div className="flex flex-col gap-2 shrink-0">
+                  <div className="flex-col gap-2 flex shrink-0">
                     {imagePreviews.length < 5 && (
                       <label
                         className={`flex items-center justify-center w-12 h-12 rounded-full border-2 border-dashed border-gray-300 dark:border-gray-600 transition-all group ${isSubmitting ? "cursor-not-allowed opacity-60" : "cursor-pointer hover:bg-blue-500/10 hover:border-blue-500/50"}`}
@@ -737,7 +748,7 @@ export default function ContactUs() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl text-sm font-bold uppercase tracking-wider text-white border-none cursor-pointer transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none mt-2 shadow-md bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
+            className="gap-2 px-6 py-3.5 mt-2 w-full justify-center rounded-xl text-sm font-bold text-white border-none shadow-md bg-blue-600 flex items-center uppercase tracking-wider cursor-pointer transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
           >
             {isSubmitting ? (
               <>
@@ -754,22 +765,22 @@ export default function ContactUs() {
 
           {/* Response Delivery Notice */}
           <div
-            className="flex items-start gap-2.5 p-3.5 rounded-xl border text-xs leading-relaxed mt-1"
+            className="gap-2.5 p-3.5 mt-1 rounded-xl border text-xs flex items-start leading-relaxed"
             style={{
               backgroundColor: "var(--surface-input)",
               borderColor: "var(--border-normal)",
             }}
           >
-            <Info size={16} className="text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+            <Info size={16} className="mt-0.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
             <span style={{ color: "var(--text-secondary)" }}>
               <strong style={{ color: "var(--text-primary)" }}>Where to track responses:</strong> Admin replies to your inquiries will be delivered directly to your{" "}
               <Link
                 to="/my-inquiries"
-                className="font-semibold underline text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors"
+                className="font-semibold text-emerald-600 underline dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors"
               >
                 My Inquiries
               </Link>{" "}
-              page and you will also receive an email notification upon resolution.
+              page.
             </span>
           </div>
         </Form>

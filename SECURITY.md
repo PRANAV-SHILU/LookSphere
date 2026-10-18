@@ -41,13 +41,13 @@ Include the following details in your report:
 
 ### Security Best Practices We Follow
 
-- **Authentication**: JWT-based authentication with httpOnly cookies
-- **Password Security**: Passwords are hashed using bcrypt with salt rounds
-- **Input Validation**: Server-side validation using Express Validator
-- **CORS Protection**: Configured CORS policies to restrict unauthorized origins
-- **Environment Variables**: Sensitive credentials stored in `.env` files, never committed to source control
-- **Media Uploads**: File type validation and size limits enforced via Multer
-- **Rate Limiting**: API rate limiting to prevent abuse
+- **Authentication**: Stateless JWT authentication stored securely, transmitted via `Authorization: Bearer <token>` headers with Axios interceptors to eliminate third-party cross-origin cookie blocking issues.
+- **Password Security**: Passwords are cryptographically hashed using `bcrypt` with 12 salt rounds before database persistence. Plaintext passwords are never stored or logged.
+- **Dual-Layer Validation**: Strict client-side schema verification via `Yup` and `React Hook Form` combined with server-side validation and sanitization using `express-validator`.
+- **CORS Protection**: Explicitly configured CORS policy restricting API interactions strictly to authorized frontend origins.
+- **Environment Isolation**: Sensitive credentials (MongoDB URI, JWT secret, Cloudinary secrets, SMTP credentials) are kept in `.env` files and strictly excluded from version control.
+- **Media Upload Filtering**: Strict MIME-type validation and file size restrictions enforced at the network boundary via Multer middleware before cloud persistence.
+- **Database Safety & Integrity**: Unique compound indexes to prevent race conditions (e.g. duplicate sparks/reshares) and cascading pre-delete middleware hooks preventing orphaned data.
 
 ### Out of Scope
 
@@ -66,3 +66,28 @@ We appreciate security researchers who help keep LookSphere safe. Contributors w
 ---
 
 Thank you for helping keep LookSphere and its users safe! 🔒
+
+<br>
+<br>
+
+---
+
+**📚 LookSphere Documentation Index:**
+- **Core Documentation:** [Main Readme](./Readme.md) | [Algorithms](./Algorithms.md) | [Performance Optimization](./Performance_Optimization.md) | [Roadmap](./Roadmap.md) | [Resolved Issues](./Resolved_Issues.md) | [File Tree](./File_Tree.md) | [Improvements](./improvement.md)
+- **Governance & Policies:** [Contributing Guidelines](./CONTRIBUTING.md) | [Code of Conduct](./CODE_OF_CONDUCT.md) | [Security Policy](./SECURITY.md) | [License](./LICENSE.md)
+- **Issue Templates:** [Bug Report](./.github/ISSUE_TEMPLATE/bug_report.md) | [Feature Request](./.github/ISSUE_TEMPLATE/feature_request.md)
+- **Frontend Architecture:** [Frontend Readme](./frontend/README.md) | [Design System](./frontend/Design.md) | [Frontend File Tree](./frontend/File_Tree.md)
+- **Backend Architecture:** [Backend Readme](./Backend/Readme.md) | [API Documentation](./Backend/APIs.md) | [Backend File Tree](./Backend/File_Tree.md)
+
+---
+
+<div align="center">
+
+**LookSphere Engineering Documentation**  
+*Defending user trust through proactive vulnerability mitigation, auditability, and data isolation.*
+
+</div>
+<div align="center">
+  <b>© 2026 LookSphere. Built by <a href="https://www.linkedin.com/in/pranavshilu/">Pranav Shilu</a>. All rights reserved.</b>
+</div>
+

@@ -11,9 +11,15 @@ import compression from "compression";
 import authRoutes from "./routes/auth.routes.js";
 import userRoutes from "./routes/user.routes.js";
 import postRoutes from "./routes/post.routes.js";
-import adminRoutes from "./routes/admin.route.js";
-import { setupErrorHandlers, startServerWithErrorHandling, retryWithBackoff } from "./utils/errorHandler.js";
 import contactRouter from "./routes/contact.route.js";
+import interactionRouter from "./routes/interaction.route.js";
+import adminRoutes from "./routes/admin.route.js";
+
+import {
+  setupErrorHandlers,
+  startServerWithErrorHandling,
+  retryWithBackoff,
+} from "./utils/errorHandler.js";
 
 // Fix: Node.js's async DNS resolver fails on SRV lookups on some networks, Force it to use Google's public DNS which correctly handles mongodb+srv:// SRV records.
 dns.setServers(["8.8.8.8", "8.8.4.4"]);
@@ -30,11 +36,12 @@ app.use(compression());
 app.use(
   cors({
     origin: process.env.FRONTEND_URL,
-  })
+  }),
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// index route (/) to print request method and body
 app.use("/", (req, res, next) => {
   if (req.url !== "/health" && req.url !== "/ping") {
     console.log(req.method, req.url);
@@ -43,6 +50,7 @@ app.use("/", (req, res, next) => {
   next();
 });
 
+// index route (/)
 app.get("/", (req, res) => {
   res.send("welcome to LookSphere backend");
 });
@@ -53,7 +61,7 @@ app.get("/ping", (req, res) => {
   res.status(200).json({
     status: "ok",
     timestamp: new Date().toISOString(),
-    message: "Server is alive"
+    message: "Server is alive",
   });
 });
 
@@ -61,19 +69,19 @@ app.get("/ping", (req, res) => {
 app.get("/health", (req, res) => {
   const dbStatus = mongoose.connection.readyState;
   const statusMap = {
-    0: 'disconnected',
-    1: 'connected',
-    2: 'connecting',
-    3: 'disconnecting'
+    0: "disconnected",
+    1: "connected",
+    2: "connecting",
+    3: "disconnecting",
   };
-  
+
   const healthStatus = {
-    status: dbStatus === 1 ? 'healthy' : 'unhealthy',
+    status: dbStatus === 1 ? "healthy" : "unhealthy",
     timestamp: new Date().toISOString(),
-    database: statusMap[dbStatus] || 'unknown',
-    uptime: process.uptime()
+    database: statusMap[dbStatus] || "unknown",
+    uptime: process.uptime(),
   };
-  
+
   const statusCode = dbStatus === 1 ? 200 : 503;
   res.status(statusCode).json(healthStatus);
 });
@@ -82,8 +90,9 @@ app.get("/health", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
-app.use("/api/contact_support",contactRouter)
-app.use("/api/admin",adminRoutes)
+app.use("/api/contact_support", contactRouter);
+app.use("/api/interaction", interactionRouter);
+app.use("/api/admin", adminRoutes);
 
 // 404 handler - for unmatched routes
 app.use((req, res, next) => {

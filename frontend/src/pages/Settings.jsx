@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import BackButton from "../shared-components/BackButton";
+import { toast } from "react-toastify";
 
 const SETTINGS_SECTIONS = [
   {
@@ -44,7 +45,7 @@ const SETTINGS_SECTIONS = [
         icon: Lock,
       },
     ],
-  },
+  }, 
   {
     key: "privacy",
     label: "Privacy & Security",
@@ -209,13 +210,10 @@ export default function Settings() {
             return (
               <div key={section.key}>
                 <button
-                  onClick={hasSubItems ? () => toggleSection(section.key) : undefined}
-                  disabled={!hasSubItems}
-                  className={`w-full flex items-center gap-4 p-4 sm:p-5 rounded-2xl border text-left transition-all duration-300 bg-(--surface-card) hover:bg-(--surface-hover) ${
-                    hasSubItems
-                      ? "cursor-pointer hover:border-(--border-strong) hover:-translate-y-0.5 hover:shadow-md"
-                      : "opacity-60 cursor-not-allowed"
-                  } ${isExpanded ? "border-(--border-strong) shadow-sm" : ""}`}
+                  onClick={hasSubItems ? () => toggleSection(section.key) : () => toast.info("Coming very soon!")}
+                  className={`w-full flex items-center gap-4 p-4 sm:p-5 rounded-2xl border text-left transition-all duration-300 bg-(--surface-card) hover:bg-(--surface-hover) cursor-pointer hover:border-(--border-strong) hover:-translate-y-0.5 hover:shadow-md ${
+                    isExpanded ? "border-(--border-strong) shadow-sm" : ""
+                  }`}
                   style={{
                     borderColor: isExpanded ? "var(--border-strong)" : "var(--border-normal)",
                   }}
@@ -274,20 +272,19 @@ export default function Settings() {
                     <div className="flex flex-col gap-2 py-1">
                       {section.subItems.map((sub) => {
                         const SubIcon = sub.icon;
-                        const isImplemented = sub.key === "change-password" || sub.key === "update-email";
                         return (
                           <button
                             key={sub.key}
                             onClick={() => {
-                              if (sub.key === "change-password") navigate("/settings/change-password");
-                              if (sub.key === "update-email") navigate("/settings/change-email");
+                              if (sub.key === "change-password") {
+                                navigate("/settings/change-password");
+                              } else if (sub.key === "update-email") {
+                                navigate("/settings/change-email");
+                              } else {
+                                toast.info("Coming very soon!");
+                              }
                             }}
-                            disabled={!isImplemented}
-                            className={`w-full flex items-center gap-3 p-3 sm:p-4 rounded-xl border border-(--border-normal) text-left transition-all duration-300 bg-(--surface-card) ${
-                              isImplemented
-                                ? "cursor-pointer hover:bg-(--surface-hover) hover:border-(--border-strong) hover:-translate-y-px hover:shadow-sm"
-                                : "opacity-60 cursor-not-allowed"
-                            }`}
+                            className="w-full flex items-center gap-3 p-3 sm:p-4 rounded-xl border border-(--border-normal) text-left transition-all duration-300 bg-(--surface-card) cursor-pointer hover:bg-(--surface-hover) hover:border-(--border-strong) hover:-translate-y-px hover:shadow-sm"
                           >
                             <SubIcon
                               size={18}

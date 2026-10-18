@@ -39,6 +39,11 @@ import {
   Info,
   ShieldAlert,
   HelpCircle,
+  Cpu,
+  Shuffle,
+  RefreshCw,
+  Binary,
+  Sliders,
 } from "lucide-react";
 
 export const socialFeatures = [
@@ -107,7 +112,7 @@ export const capabilities = [
       "Write captions & stories",
       "Add alt text for accessibility",
       "Reach a global audience",
-      "Real-time post view counts",
+      "Real-time post impression counts",
     ],
   },
   {
@@ -142,13 +147,13 @@ export const capabilities = [
 
 export const activities = [
   {
-    user: "Alex",
+    user: "Pranav",
     action: "shared a new photo",
     time: "2m ago",
     icon: ImageIcon,
   },
   {
-    user: "Sarah",
+    user: "Sara",
     action: "joined LookSphere",
     time: "5m ago",
     icon: UserPlus,
@@ -160,8 +165,8 @@ export const activities = [
     icon: User,
   },
   {
-    user: "Emily",
-    action: "explored trending posts",
+    user: "Alex",
+    action: "added their feedback on contact us page",
     time: "12m ago",
     icon: Search,
   },
@@ -239,13 +244,21 @@ export const techStack = [
   { name: "React Hook Form", color: "#EC5990", icon: FileCheck },
   { name: "Express Validator", color: "#E23237", icon: ShieldCheck },
   { name: "Dotenv", color: "#ECD53F", icon: FileKey },
-  { name: "Nodemailer", color: "#0F9DCE", icon: Send },
   { name: "React Spinners", color: "#36D7B7", icon: Rocket },
   { name: "React Toastify", color: "#FF9900", icon: Bell },
   { name: "Lucide React", color: "#F56565", icon: Sparkles },
   { name: "CORS", color: "#1A73E8", icon: Shield },
   { name: "Compression", color: "#00F2FE", icon: Zap },
   { name: "Nodemon", color: "#76D04B", icon: Server },
+  { name: "Brotli Compression", color: "#00F2FE", icon: Cpu },
+  { name: "Fisher-Yates Shuffle", color: "#EC4899", icon: Shuffle },
+  { name: "IntersectionObserver", color: "#3B82F6", icon: Eye },
+  { name: "Vectorized Batch Scan", color: "#10B981", icon: Database },
+  { name: "Optimistic State Sync", color: "#F59E0B", icon: RefreshCw },
+  { name: "Time-Decay Debounce", color: "#8B5CF6", icon: Sliders },
+  { name: "Single-Active Viewport", color: "#6366F1", icon: Layers },
+  { name: "Covered B-Tree Indexes", color: "#34D399", icon: Binary },
+  { name: "Micro-Batch Ingestion", color: "#38BDF8", icon: Zap },
 ];
 
 export const fakePosts = [
@@ -255,7 +268,7 @@ export const fakePosts = [
     avatarColors: "from-blue-400 to-purple-500",
     mediaColors: "from-blue-500/20 to-purple-500/20",
     mediaType: "Image",
-    views: "128",
+    impressions: "128",
     date: "Oct 24, 10:30 AM",
     caption:
       "Just captured this amazing sunset over the city skyline. The colors are incredible! 🌇✨",
@@ -268,7 +281,7 @@ export const fakePosts = [
     avatarColors: "from-emerald-400 to-cyan-500",
     mediaColors: "from-emerald-500/20 to-cyan-500/20",
     mediaType: "Video",
-    views: "2,451",
+    impressions: "2,451",
     date: "Oct 24, 02:15 PM",
     caption:
       "A quick vlog from today's hiking adventure. Nature is simply the best therapy. 🌲🏔️",
@@ -281,7 +294,7 @@ export const fakePosts = [
     avatarColors: "from-orange-400 to-rose-500",
     mediaColors: "from-orange-500/20 to-rose-500/20",
     mediaType: "Video",
-    views: "89",
+    impressions: "89",
     date: "Oct 23, 08:45 PM",
     caption:
       "First time trying out this new recipe. It turned out absolutely delicious! 🍳🥗",
@@ -294,7 +307,7 @@ export const fakePosts = [
     avatarColors: "from-violet-400 to-fuchsia-500",
     mediaColors: "from-violet-500/20 to-fuchsia-500/20",
     mediaType: "Image",
-    views: "512",
+    impressions: "512",
     date: "Oct 23, 11:12 AM",
     caption: "Coffee breaks are mandatory for survival. Who agrees? ☕💻",
     rotation: 1,

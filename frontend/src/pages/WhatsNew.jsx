@@ -4,7 +4,7 @@ import { WHATS_NEW_DATA } from "../utils/whatsNewData";
 import { CardGlow } from "../shared-components/SharedHomeComponents";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import BackButton from "../shared-components/BackButton";
-import { Star, Wrench, Sparkles, CheckCircle, ArrowRight } from "lucide-react";
+import { Star, Wrench, Sparkles, CheckCircle, ArrowRight, Zap } from "lucide-react";
 
 const GLASS_SHADOW = {
   boxShadow:
@@ -19,6 +19,8 @@ const getTagIcon = (tag) => {
       return <Wrench size={16} className="text-red-400" />;
     case "Enhancement":
       return <Sparkles size={16} className="text-green-400" />;
+    case "Performance":
+      return <Zap size={16} className="text-blue-400" />;
     default:
       return <CheckCircle size={16} className="text-blue-400" />;
   }
@@ -32,6 +34,8 @@ const getTagColor = (tag) => {
       return "bg-red-500/10 text-red-400 border-red-500/20";
     case "Enhancement":
       return "bg-green-500/10 text-green-400 border-green-500/20";
+    case "Performance":
+      return "bg-blue-500/10 text-blue-400 border-blue-500/20";
     default:
       return "bg-blue-500/10 text-blue-400 border-blue-500/20";
   }

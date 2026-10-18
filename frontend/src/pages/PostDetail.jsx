@@ -3,19 +3,17 @@ import { useLoaderData, Await, Link } from "react-router-dom";
 import {
   User,
   Clock,
-  Eye,
-  Link2,
-  Check,
   Video,
   Info,
-  Maximize2,
 } from "lucide-react";
 import PageLoader from "../shared-components/PageLoader";
 import BackButton from "../shared-components/BackButton";
 import { getVideoPosterUrl } from "../utils/cloudinaryOptimizer";
 import PostDetailModal from "../modals/PostDetailModal";
-import { trackPostView } from "../services/postService";
+import PostInteractions from "../components/post/PostInteractions";
+import { trackPostImpression } from "../services/postService";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
+import { applyPostInteraction } from "../utils/interactionUtils";
 
 export default function PostDetail() {
   const { post } = useLoaderData();
@@ -23,7 +21,7 @@ export default function PostDetail() {
   return (
     <div className="max-w-xl mx-auto mt-6 px-0 py-4 md:py-8 pb-24 md:pb-8 relative flex flex-col gap-6 min-h-screen">
       <div className="flex items-center justify-between">
-        <BackButton />
+        <BackButton to="/feed" label="Back to Feed" />
       </div>
 
       <Suspense
@@ -69,10 +67,7 @@ function PostCard({ post }) {
     const structuredData = {
       "@context": "https://schema.org",
       "@type": "SocialMediaPosting",
-      headline:
-        post.caption ||
-        post.altText ||
-        "Post on LookSphere",
+      headline: post.caption || post.altText || "Post on LookSphere",
       articleBody: post.caption
         ? post.altText
           ? `${post.caption} (Alt: ${post.altText})`
@@ -99,41 +94,50 @@ function PostCard({ post }) {
     };
   }, [post, authorUsername]);
 
+  const [prevPost, setPrevPost] = useState(post);
+  const [currentPost, setCurrentPost] = useState(post);
   const videoRef = useRef(null);
-  const [isCopied, setIsCopied] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isLinkHovered, setIsLinkHovered] = useState(false);
-  const [isMaximizeHovered, setIsMaximizeHovered] = useState(false);
-  const [viewCount, setViewCount] = useState(post?.postViewCount || 0);
-  const hasTrackedView = useRef(false);
+  const hasTrackedImpression = useRef(false);
+
+  if (post !== prevPost) {
+    setPrevPost(post);
+    setCurrentPost(post);
+  }
+
+  const handleInteraction = (postId, updatedData) => {
+    setCurrentPost((prev) => applyPostInteraction(prev, postId, updatedData));
+  };
 
   const storedUser = localStorage.getItem("user");
   const currentUser = storedUser ? JSON.parse(storedUser) : null;
-  const postAuthorId = post?.userId?._id || post?.userId;
+  const postAuthorId = currentPost?.userId?._id || currentPost?.userId;
   const isOwnPost =
     currentUser &&
     postAuthorId &&
-    (currentUser._id === postAuthorId || currentUser.id === postAuthorId);
+    currentUser._id === postAuthorId;
 
-  // Increment view count when opening post via URL (if not own post)
+  // Increment impression count when opening post via URL (if not own post)
   useEffect(() => {
-    if (!post?._id || hasTrackedView.current || isOwnPost) return;
+    if (!currentPost?._id || hasTrackedImpression.current || isOwnPost) return;
 
-    hasTrackedView.current = true;
-    trackPostView(post._id)
-      .then((updated) => {
-        if (updated?.postViewCount != null) {
-          setViewCount(updated.postViewCount);
-        } else {
-          setViewCount((prev) => prev + 1);
-        }
-      })
-      .catch(() => {});
-  }, [post?._id, isOwnPost]);
+    hasTrackedImpression.current = true;
+    // Optimistically update impression count locally immediately
+    setCurrentPost((prev) => ({
+      ...prev,
+      counts: {
+        ...prev?.counts,
+        impression: (prev?.counts?.impression ?? 0) + 1,
+      },
+    }));
 
-  const isVideo = post.mediaType === "Video";
-  const postDate = post.createdAt
-    ? new Date(post.createdAt).toLocaleString(undefined, {
+    // Passive fire-and-forget impression tracking in background
+    trackPostImpression(currentPost._id).catch(() => {});
+  }, [currentPost?._id, isOwnPost]);
+
+  const isVideo = currentPost?.mediaType === "Video";
+  const postDate = currentPost?.createdAt
+    ? new Date(currentPost.createdAt).toLocaleString(undefined, {
         month: "short",
         day: "numeric",
         year: "numeric",
@@ -168,6 +172,12 @@ function PostCard({ post }) {
     if (!isVideo || !videoRef.current) return;
     const vid = videoRef.current;
 
+    if (isModalOpen) {
+      vid.pause();
+      vid.muted = true;
+      return;
+    }
+
     if (userInteracted) {
       vid.muted = false;
     }
@@ -176,7 +186,7 @@ function PostCard({ post }) {
       vid.muted = true;
       vid.play().catch(() => {});
     });
-  }, [isVideo, userInteracted, post.mediaUrl]);
+  }, [isVideo, userInteracted, post.mediaUrl, isModalOpen]);
 
   return (
     <div
@@ -275,79 +285,38 @@ function PostCard({ post }) {
 
       {/* Footer */}
       <div className="p-4 flex flex-col gap-2.5">
-        <div
-          className="flex items-center justify-between text-xs"
-          style={{ color: "var(--text-muted)" }}
-        >
-          <span className="font-medium flex items-center gap-1">
-            <Eye size={13} />
-            {viewCount} {viewCount === 1 ? "view" : "views"}
-          </span>
-          <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={() => {
-                navigator.clipboard.writeText(
-                  `${window.location.origin}/posts/${post._id}`,
-                );
-                setIsCopied(true);
-                setTimeout(() => setIsCopied(false), 3000);
-              }}
-              className="flex items-center justify-center p-1.5 rounded-lg hover:bg-(--surface-hover) transition-all cursor-pointer border-none bg-transparent"
-              style={{
-                color: isCopied
-                  ? "#22c55e"
-                  : isLinkHovered
-                    ? "var(--text-primary)"
-                    : "var(--text-muted)",
-              }}
-              onMouseEnter={() => setIsLinkHovered(true)}
-              onMouseLeave={() => setIsLinkHovered(false)}
-              title="Copy link"
-            >
-              {isCopied ? <Check size={19} /> : <Link2 size={19} />}
-            </button>
-            <button
-              type="button"
-              onClick={() => setIsModalOpen(true)}
-              className="flex items-center justify-center p-1.5 rounded-lg hover:bg-(--surface-hover) transition-all cursor-pointer border-none bg-transparent"
-              style={{
-                color: isMaximizeHovered
-                  ? "var(--text-primary)"
-                  : "var(--text-muted)",
-              }}
-              onMouseEnter={() => setIsMaximizeHovered(true)}
-              onMouseLeave={() => setIsMaximizeHovered(false)}
-              title="View in full screen"
-            >
-              <Maximize2 size={15} />
-            </button>
-          </div>
-        </div>
+        <PostInteractions
+          key={currentPost?._id}
+          post={currentPost}
+          onMaximize={() => setIsModalOpen(true)}
+          onInteraction={handleInteraction}
+        />
 
-        {post.caption && (
+        {currentPost?.caption && (
           <div className="flex flex-col">
             <p
               className="text-sm leading-relaxed whitespace-pre-wrap"
               style={{ color: "var(--text-secondary)" }}
             >
-              {post.userId && (
+              {currentPost.userId && (
                 <strong
                   className="mr-2"
                   style={{ color: "var(--text-primary)" }}
                 >
-                  {post.userId.username}
+                  {currentPost.userId.username}
                 </strong>
               )}
-              {post.caption}
+              {currentPost.caption}
             </p>
           </div>
         )}
       </div>
       <PostDetailModal
+        key={currentPost?._id}
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        post={{ ...post, postViewCount: viewCount }}
+        post={currentPost}
+        onInteraction={handleInteraction}
       />
     </div>
   );

@@ -52,8 +52,13 @@ const contactSchema = new mongoose.Schema(
       type: String,
     },
   },
-  { timestamps: true },
+  { timestamps: true, versionKey: false },
 );
+
+
+// Indexes for query optimization
+contactSchema.index({ userId: 1, createdAt: -1 });
+contactSchema.index({ createdAt: -1 });
 
 const Contact = mongoose.model("Contact", contactSchema);
 

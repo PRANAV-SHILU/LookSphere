@@ -1,7 +1,7 @@
 import { Code2 } from "lucide-react";
 import { GLASS_SHADOW } from "../../utils/styles";
 import { SectionHeading } from "../../shared-components/SharedHomeComponents";
-import { ABOUT_TECH_FRONTEND, ABOUT_TECH_BACKEND } from "../../utils/aboutData";
+import { ABOUT_TECH_FRONTEND, ABOUT_TECH_BACKEND, ABOUT_TECH_ALGORITHMS } from "../../utils/aboutData";
 
 function TechPillGroup({ title, techs }) {
   return (
@@ -39,7 +39,7 @@ export default function AboutTechStack() {
       <SectionHeading
         icon={Code2}
         title="Built With the Best"
-        subtitle="Powered by a modern, robust technology stack — from frontend to backend."
+        subtitle="Powered by a modern, robust technology stack — from frontend to backend and high-performance algorithms."
       />
 
       <div className="max-w-4xl 3xl:max-w-5xl mx-auto flex flex-col gap-8 xsm:gap-10">
@@ -49,6 +49,11 @@ export default function AboutTechStack() {
           style={{ backgroundColor: "var(--border-light)" }}
         />
         <TechPillGroup title="Backend" techs={ABOUT_TECH_BACKEND} />
+        <div
+          className="h-px w-3/4 mx-auto"
+          style={{ backgroundColor: "var(--border-light)" }}
+        />
+        <TechPillGroup title="Algorithms & Architecture" techs={ABOUT_TECH_ALGORITHMS} />
       </div>
     </div>
   );

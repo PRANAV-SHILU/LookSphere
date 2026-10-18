@@ -8,11 +8,11 @@ Before opening a new issue, please check the resources below to find quick answe
 
 ## 🔍 Self-Help & Documentation
 
-1. **[README.md](file:///e:/LookSphere/Readme.md)**: Project overview, prerequisites, and setup instructions.
-2. **[Backend Documentation](file:///e:/LookSphere/Backend/Readme.md)**: API endpoints, server setup, and configuration.
-3. **[Frontend Documentation](file:///e:/LookSphere/frontend/README.md)**: Architecture, components, and client-side setup.
-4. **[Resolved Issues](file:///e:/LookSphere/Resolved_Issues.md)**: Known bug resolutions, testing notes, and troubleshooting.
-5. **[Performance Optimization](file:///e:/LookSphere/Performance_Optimization.md)**: Tips and guidelines for system performance.
+1. **[README.md](../Readme.md)**: Project overview, prerequisites, and setup instructions.
+2. **[Backend Documentation](../Backend/Readme.md)**: API endpoints, server setup, and configuration.
+3. **[Frontend Documentation](../frontend/README.md)**: Architecture, components, and client-side setup.
+4. **[Resolved Issues](../Resolved_Issues.md)**: Known bug resolutions, testing notes, and troubleshooting.
+5. **[Performance Optimization](../Performance_Optimization.md)**: Tips and guidelines for system performance.
 
 ---
 
@@ -20,7 +20,6 @@ Before opening a new issue, please check the resources below to find quick answe
 
 If you have general usage questions, ideas, or need guidance:
 
-- **GitHub Discussions**: [Ask Questions & Share Ideas](https://github.com/PRANAV-SHILU/LookSphere/discussions)
 - **Website Contact**: [LookSphere Contact Us](https://looksphere.vercel.app/contact-us)
 - **Direct Email**: [pranavshilu@zohomail.in](mailto:pranavshilu@zohomail.in)
 - **LinkedIn**: [Pranav Shilu](https://www.linkedin.com/in/pranavshilu/)
@@ -37,4 +36,4 @@ If you have general usage questions, ideas, or need guidance:
 ## 🔒 Security Vulnerabilities
 
 Please **do not** report sensitive security vulnerabilities publicly in GitHub Issues or Discussions.  
-Refer to our **[Security Policy](file:///e:/LookSphere/SECURITY.md)** for instructions on private, responsible disclosure.
+Refer to our **[Security Policy](../SECURITY.md)** for instructions on private, responsible disclosure.

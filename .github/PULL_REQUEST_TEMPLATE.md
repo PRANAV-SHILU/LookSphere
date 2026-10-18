@@ -40,7 +40,7 @@ Fixes #(issue)
 <!-- Before submitting your PR, please review the checklist below. -->
 
 - [ ] My code adheres to the project's coding standards and style guidelines.
-- [ ] I have read the [CONTRIBUTING.md](file:///e:/LookSphere/CONTRIBUTING.md) guide.
+- [ ] I have read the [CONTRIBUTING.md](../CONTRIBUTING.md) guide.
 - [ ] I have performed a self-review of my own code.
 - [ ] I have commented my code, particularly in hard-to-understand areas.
 - [ ] I have made corresponding updates to the documentation if necessary.

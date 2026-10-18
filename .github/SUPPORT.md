@@ -35,5 +35,5 @@ If you have general usage questions, ideas, or need guidance:
 
 ## 🔒 Security Vulnerabilities
 
-Please **do not** report sensitive security vulnerabilities publicly in GitHub Issues or Discussions.  
+Please **do not** report sensitive security vulnerabilities publicly in GitHub Issues.  
 Refer to our **[Security Policy](../SECURITY.md)** for instructions on private, responsible disclosure.

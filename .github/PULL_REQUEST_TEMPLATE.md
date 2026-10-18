@@ -76,4 +76,4 @@ Fixes #(issue_number)
 ---
 
 > 💡 **Need help or have questions?**  
-> Feel free to start a thread in [GitHub Discussions](https://github.com/PRANAV-SHILU/LookSphere/discussions) or reach out on our [Contact Page](https://looksphere.vercel.app/contact-us).
+> Feel free to reach out via our [Contact Page](https://looksphere.vercel.app/contact-us) or email the maintainer at [pranavshilu@zohomail.in](mailto:pranavshilu@zohomail.in).

@@ -1,8 +1,5 @@
 blank_issues_enabled: false
 contact_links:
-  - name: 💬 General Question
-    url: https://github.com/PRANAV-SHILU/LookSphere/discussions
-    about: Ask questions and discuss ideas in GitHub Discussions
   - name: 🌐 Contact Us Form
     url: https://looksphere.vercel.app/contact-us
     about: Submit feedback or report issues through the LookSphere website

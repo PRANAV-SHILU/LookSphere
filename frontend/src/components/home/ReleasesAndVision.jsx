@@ -5,7 +5,7 @@ import {
   SectionHeading,
   CardGlow,
 } from "../../shared-components/SharedHomeComponents";
-import { releasesAndVisionData } from "../../utils/staticData";
+import { releasesAndVisionData } from "../../utils/HomeStaticData";
 
 export default function ReleasesAndVision() {
 

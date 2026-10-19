@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { WHATS_NEW_DATA } from "../utils/whatsNewData";
+import { WHATS_NEW_DATA } from "../utils/staticPageData";
 import { CardGlow } from "../shared-components/SharedHomeComponents";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import BackButton from "../shared-components/BackButton";

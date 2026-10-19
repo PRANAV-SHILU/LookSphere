@@ -1,5 +1,5 @@
 import { Sparkles } from "lucide-react";
-import { socialFeatures } from "../../utils/staticData";
+import { socialFeatures } from "../../utils/HomeStaticData";
 import { CARD_HOVER, GLASS_SHADOW } from "../../utils/styles";
 import {
   SectionHeading,

@@ -5,7 +5,7 @@ import {
   SectionHeading,
   CardGlow,
 } from "../../shared-components/SharedHomeComponents";
-import { supportAndPoliciesData } from "../../utils/staticData";
+import { supportAndPoliciesData } from "../../utils/HomeStaticData";
 
 export default function SupportAndPolicies() {
 

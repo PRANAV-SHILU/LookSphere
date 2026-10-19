@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
-import { ROADMAP_CATEGORIES, COMPLETED_FEATURES, LAST_UPDATED } from "../utils/roadmapData";
+import { ROADMAP_CATEGORIES, COMPLETED_FEATURES, LAST_UPDATED } from "../utils/staticPageData";
 import { GLASS_SHADOW } from "../utils/styles";
 import { HeroBackground, CardGlow } from "../shared-components/SharedHomeComponents";
 import BackButton from "../shared-components/BackButton";

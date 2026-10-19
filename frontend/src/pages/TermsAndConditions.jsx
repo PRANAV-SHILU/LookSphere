@@ -5,7 +5,7 @@ import {
   LAST_UPDATED,
   TNC_INTRO,
   TNC_SECTIONS,
-} from "../utils/termsAndConditionsData";
+} from "../utils/staticPageData";
 
 export default function TermsAndConditions() {
   useDocumentMetadata("Terms and Conditions", "Review the Terms and Conditions for LookSphere. Understand the rules and guidelines for using the social platform created by full-stack developer Pranav Shilu.");

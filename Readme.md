@@ -77,6 +77,8 @@ Explore the detailed documentation across the project:
 - 🛡️ **[Security Policy](./SECURITY.md)** - Vulnerability disclosure procedure, reporting channels, and security practices.
 - 📜 **[Code of Conduct](./CODE_OF_CONDUCT.md)** - Community pledges, standards, responsibilities, and enforcement guidelines.
 - ⚖️ **[License](./LICENSE.md)** - All rights reserved software license, copyright terms, and permissions.
+- 💬 **[Support Desk & Resources](./.github/SUPPORT.md)** - Community channels, direct contact info, and self-help directory.
+- 📋 **[Pull Request Template](./.github/PULL_REQUEST_TEMPLATE.md)** - Standardized submission checklist, test verification, and review standards.
 - 🐛 **[Bug Report Template](./.github/ISSUE_TEMPLATE/bug_report.md)** - Standardized template for reporting bugs, reproducible steps, and telemetry.
 - ✨ **[Feature Request Template](./.github/ISSUE_TEMPLATE/feature_request.md)** - Structured template for proposing platform capabilities and enhancements.
 
@@ -136,7 +138,7 @@ Explore the detailed documentation across the project:
 **📚 LookSphere Documentation Index:**
 - **Core Documentation:** [Main Readme](./Readme.md) | [Algorithms](./Algorithms.md) | [Performance Optimization](./Performance_Optimization.md) | [Roadmap](./Roadmap.md) | [Resolved Issues](./Resolved_Issues.md) | [File Tree](./File_Tree.md) | [Improvements](./improvement.md)
 - **Governance & Policies:** [Contributing Guidelines](./CONTRIBUTING.md) | [Code of Conduct](./CODE_OF_CONDUCT.md) | [Security Policy](./SECURITY.md) | [License](./LICENSE.md)
-- **Issue Templates:** [Bug Report](./.github/ISSUE_TEMPLATE/bug_report.md) | [Feature Request](./.github/ISSUE_TEMPLATE/feature_request.md)
+- **Community & Templates:** [Support Desk](./.github/SUPPORT.md) | [PR Template](./.github/PULL_REQUEST_TEMPLATE.md) | [Bug Report](./.github/ISSUE_TEMPLATE/bug_report.md) | [Feature Request](./.github/ISSUE_TEMPLATE/feature_request.md)
 - **Frontend Architecture:** [Frontend Readme](./frontend/README.md) | [Design System](./frontend/Design.md) | [Frontend File Tree](./frontend/File_Tree.md)
 - **Backend Architecture:** [Backend Readme](./Backend/Readme.md) | [API Documentation](./Backend/APIs.md) | [Backend File Tree](./Backend/File_Tree.md)
 

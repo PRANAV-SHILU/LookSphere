@@ -15,7 +15,11 @@
 ![Lucide React](https://img.shields.io/badge/Lucide_React-v1.17.0-2b2b2b?style=flat&logo=lucide&logoColor=white&labelColor=F56565)
 ![React Spinners](https://img.shields.io/badge/React_Spinners-v0.17.0-2b2b2b?style=flat&labelColor=36D7B7)
 ![React Toastify](https://img.shields.io/badge/React_Toastify-v11.0.5-2b2b2b?style=flat&labelColor=FF9900)
-
+![Algorithms](https://img.shields.io/badge/Algorithms-Computational_Engine-8B5CF6?logo=diagramnext&logoColor=white)
+![Fisher--Yates](https://img.shields.io/badge/Fisher--Yates-Shuffle_Permutation-EC4899)
+![Single--Active Playback](https://img.shields.io/badge/Single--Active_Playback-O(1)_Decoupling-06B6D4)
+![Optimistic UI](https://img.shields.io/badge/Optimistic_UI-%3C1ms_State_Sync-F59E0B)
+![IntersectionObserver](https://img.shields.io/badge/IntersectionObserver-Sentinel_Prefetch-3B82F6)
 </div>
 
 
@@ -30,24 +34,18 @@ The frontend is crafted with React 19 and Vite for a lightning-fast development 
 
 ## 🚀 Tech Stack & Libraries
 
-- **Framework:** React
-- **Build Tool:** Vite
-- **Styling:** Tailwind CSS
-- **Routing:** React Router
-- **Form Handling:** React Hook Form
-- **Validation:** Yup
-- **Animations:** Native CSS & Tailwind Transitions
-- **Icons:** Lucide React
-- **HTTP Client:** Axios
-- **Notifications:** React Toastify
-- **Loading Indicators:** React Spinners
+### **Frontend Stack**
+- **Core:** React, Vite, React Router
+- **Styling & UI:** Tailwind CSS, Lucide React, React Spinners, React Toastify, Native CSS Transitions
+- **Data & Forms:** Axios, React Hook Form, Yup
+- **Tools & Config:** ESLint, Vercel deployment configuration
 
-### **Core Frontend Algorithms & Optimization**
+### **Algorithms & Computational Architecture** ([Full Specification](../Algorithms.md))
 - **Feed Permutation:** Fisher-Yates (Knuth) Unbiased Shuffle ($O(N)$ with `sessionStorage` disjoint seen-post partitioning)
-- **Viewport & Playback:** Single-Active Viewport Decoupling (centralized video coordinator preventing mobile GPU decoder exhaustion)
-- **Sentinel Pagination:** Invisible Sentinel `IntersectionObserver` ($k=5..9$ item prefetch with $O(M)$ hash `Set` deduplication)
-- **State Synchronization:** Optimistic State Mutation with referential integrity preservation (`prevProps.post === nextProps.post`) and multi-setter tab fanout
-- **Search Ingestion:** Time-Decay Sliding Window Debounce (400ms) with dynamic Axios cache-bypass policy
+- **Viewport & Playback:** Single-Active Viewport Decoupling (centralized mutual-exclusion playback coordinator restricting active hardware video decoders to exactly 1)
+- **Sentinel Pagination:** Invisible Sentinel `IntersectionObserver` ($k \in [5, 9]$ item prefetch with $O(M)$ hash set deduplication)
+- **State Synchronization:** Optimistic State Mutation ($<1\text{ms}$) with referential integrity preservation for `React.memo` and multi-setter tab fanout
+- **Search Ingestion:** Time-Decay Sliding Window Debounce (400ms) with dynamic cache-bypass policy
 - **Batch Processing:** Micro-Batch Ingestion Pipeline (5–10 items per fetch for sub-100ms FCP and $<15\text{MB}$ memory footprint)
 
 ## ✨ Features of LookSphere
@@ -97,7 +95,7 @@ The project has a well-organized, scalable architecture. For a detailed breakdow
 **📚 LookSphere Documentation Index:**
 - **Core Documentation:** [Main Readme](../Readme.md) | [Algorithms](../Algorithms.md) | [Performance Optimization](../Performance_Optimization.md) | [Roadmap](../Roadmap.md) | [Resolved Issues](../Resolved_Issues.md) | [File Tree](../File_Tree.md) | [Improvements](../improvement.md)
 - **Governance & Policies:** [Contributing Guidelines](../CONTRIBUTING.md) | [Code of Conduct](../CODE_OF_CONDUCT.md) | [Security Policy](../SECURITY.md) | [License](../LICENSE.md)
-- **Issue Templates:** [Bug Report](../.github/ISSUE_TEMPLATE/bug_report.md) | [Feature Request](../.github/ISSUE_TEMPLATE/feature_request.md)
+- **Community & Templates:** [Support Desk](../.github/SUPPORT.md) | [PR Template](../.github/PULL_REQUEST_TEMPLATE.md) | [Bug Report](../.github/ISSUE_TEMPLATE/bug_report.md) | [Feature Request](../.github/ISSUE_TEMPLATE/feature_request.md)
 - **Frontend Architecture:** [Frontend Readme](./README.md) | [Design System](./Design.md) | [Frontend File Tree](./File_Tree.md)
 - **Backend Architecture:** [Backend Readme](../Backend/Readme.md) | [API Documentation](../Backend/APIs.md) | [Backend File Tree](../Backend/File_Tree.md)
 

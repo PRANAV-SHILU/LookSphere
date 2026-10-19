@@ -18,8 +18,11 @@
 ![CORS](https://img.shields.io/badge/CORS-Protection-purple)
 ![Compression](https://img.shields.io/badge/Compression-GZIP%20%2F%20Brotli-00F2FE?logo=googlecloud&logoColor=white)
 ![Nodemon](https://img.shields.io/badge/Nodemon-Dev_Tool-76D04B?logo=nodemon&logoColor=white)
+![Algorithms](https://img.shields.io/badge/Algorithms-Computational_Engine-8B5CF6?logo=diagramnext&logoColor=white)
+![Brotli](https://img.shields.io/badge/Brotli-Stream_Compression-00F2FE?logo=googlecloud&logoColor=white)
+![Batch Scan](https://img.shields.io/badge/Batch_Scan-O(1)_Enrichment-10B981?logo=mongodb&logoColor=white)
+![Covered IXSCAN](https://img.shields.io/badge/Covered_Indexes-RAM_IXSCAN-10B981)
 ![License](https://img.shields.io/badge/License-Private-red)
-
 </div>
 
 This is the backend server for **LookSphere**, a modern social media application. Built with **Node.js** and **Express**, it provides a robust REST API for user authentication, profile management, media-rich post feeds, post interactions (sparks, archives, reshares), and user contact/inquiry support.
@@ -41,23 +44,19 @@ This is the backend server for **LookSphere**, a modern social media application
 
 ## 🚀 Tech Stack & Libraries
 
-- **Runtime:** Node.js
-- **Framework:** Express.js
-- **Database:** MongoDB (with Mongoose)
-- **Authentication:** JWT (JSON Web Tokens) via localStorage with Authorization header
-- **Media Storage:** Cloudinary (Image & Video uploads)
-- **File Parsing:** Multer
-- **Validation:** Express-Validator
-- **Security & Password Hashing:** bcrypt
-- **Middleware:** CORS (Cross-Origin Resource Sharing), Compression (GZIP/Brotli payload compression)
-- **Environment Management:** Dotenv
-- **Development Tool:** Nodemon
+### **Backend Stack**
+- **Core:** Node.js, Express.js
+- **Database:** MongoDB & Mongoose (B-Tree compound covered indexes and cascading hooks)
+- **Security & Auth:** JSON Web Tokens (JWT), bcrypt (12 rounds), CORS, Dotenv
+- **Media & Storage:** Cloudinary (CDN image/video processing), Multer (multipart handling)
+- **Utilities & Middleware:** Express Validator, Compression (GZIP/Brotli), Nodemon
 
-### **Core Backend Algorithms & Query Optimization**
-- **Stream Compression:** Dynamic Brotli (`br`) & DEFLATE (LZ77 / Huffman / 2nd-order context modeling) middleware compressing JSON responses by 70–85% to fit inside initial TCP `initcwnd` (10 packets ~14.6KB)
+### **Algorithms & Computational Architecture** ([Full Specification](../Algorithms.md))
+- **Stream Compression:** Dynamic Brotli (`br`) & DEFLATE (LZ77 + Huffman) payload compression (70–85% bandwidth reduction fitting inside initial TCP `initcwnd` ~14.6KB)
 - **Batch Enrichment Pipeline:** Vectorized Batch Index Scan algorithm ($O(1)$ single-trip DB enrichment via `{ postId: { $in: postIds } }` with $O(M)$ in-memory hash map lookup, eliminating $N+1$ query overhead)
-- **Covered Index Architecture:** Compound indexes satisfying queries entirely in RAM cache (`{ userId: 1, postId: 1, action: 1 }`, `{ postId: 1, action: 1, createdAt: -1 }`)
+- **Covered Index Architecture:** B-Tree Compound Covered Indexes (`IXSCAN` in RAM satisfying queries entirely in memory: `{ userId: 1, postId: 1, action: 1 }`, `{ postId: 1, action: 1, createdAt: -1 }`)
 - **Prefix Optimization:** Compound sorting indexes (`{ userId: 1, mediaType: 1, createdAt: -1 }`) eliminating in-memory `SORT_KEY_GENERATOR` passes
+- **Ingestion Pipeline:** Micro-Batch Ingestion Pipeline (5–10 items per fetch for sub-100ms response cycles)
 - **Atomic Operations:** Concurrency-safe in-place MongoDB `$inc` updates for interaction telemetry counters
 - **Lifecycle Cascading:** Pre-delete cascading document cleanup hooks preventing orphaned data bloat
 
@@ -134,7 +133,7 @@ This is a private, proprietary repository. No part of this codebase may be repro
 **📚 LookSphere Documentation Index:**
 - **Core Documentation:** [Main Readme](../Readme.md) | [Algorithms](../Algorithms.md) | [Performance Optimization](../Performance_Optimization.md) | [Roadmap](../Roadmap.md) | [Resolved Issues](../Resolved_Issues.md) | [File Tree](../File_Tree.md) | [Improvements](../improvement.md)
 - **Governance & Policies:** [Contributing Guidelines](../CONTRIBUTING.md) | [Code of Conduct](../CODE_OF_CONDUCT.md) | [Security Policy](../SECURITY.md) | [License](../LICENSE.md)
-- **Issue Templates:** [Bug Report](../.github/ISSUE_TEMPLATE/bug_report.md) | [Feature Request](../.github/ISSUE_TEMPLATE/feature_request.md)
+- **Community & Templates:** [Support Desk](../.github/SUPPORT.md) | [PR Template](../.github/PULL_REQUEST_TEMPLATE.md) | [Bug Report](../.github/ISSUE_TEMPLATE/bug_report.md) | [Feature Request](../.github/ISSUE_TEMPLATE/feature_request.md)
 - **Frontend Architecture:** [Frontend Readme](../frontend/README.md) | [Design System](../frontend/Design.md) | [Frontend File Tree](../frontend/File_Tree.md)
 - **Backend Architecture:** [Backend Readme](./Readme.md) | [API Documentation](./APIs.md) | [Backend File Tree](./File_Tree.md)
 

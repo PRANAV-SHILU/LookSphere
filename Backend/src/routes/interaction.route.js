@@ -7,13 +7,13 @@ const interactionRouter = express.Router();
 
 
 // get interaction for user :
-// repost is public, like and save are private (only the owner can see in profile)
+// repost is public, like and archive are private (only the owner can see in profile)
 interactionRouter.get("/user/:userId", verifyTokenOptional, getInteractionByUserId);
 
 // get interaction for post 
 interactionRouter.get("/post/:postId", getInteractionByPostId);
 
-// add interaction (like,save,repost)
+// add interaction (spark,archive,reshare)
 interactionRouter.post("/", verifyToken, addInteraction);
 
 

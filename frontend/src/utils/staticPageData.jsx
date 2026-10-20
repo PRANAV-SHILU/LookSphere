@@ -532,7 +532,7 @@ export const COMPLETED_FEATURES = {
       icon: Zap,
       title: "Cross-Tab State Synchronization",
       description:
-        "Real-time optimistic interaction state synchronization across Images, Videos, Reshares, and Saved tabs.",
+        "Real-time optimistic interaction state synchronization across Images, Videos, Reshares, and Archived tabs.",
     },
     {
       icon: Link,

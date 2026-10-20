@@ -139,11 +139,11 @@ export const FAQ_CATEGORIES = [
       },
       {
         q: "What is Archive?",
-        a: "Archive is LookSphere's bookmarking and saving mechanism. When you archive a post by clicking the Bookmark icon, it is privately stored under your account and can be accessed anytime from the 'Archived' tab on your profile page.",
+        a: "Archive is LookSphere's bookmarking and archiving mechanism. When you archive a post by clicking the Bookmark icon, it is privately stored under your account and can be accessed anytime from the 'Archived' tab on your profile page.",
       },
       {
-        q: "Can I save posts to view them later?",
-        a: "Yes! You can save posts to view them later by clicking the Archive (bookmark) button on any post card. All your saved posts are kept privately in the 'Archived' tab on your profile page so you can quickly revisit them anytime.",
+        q: "Can I archive posts to view them later?",
+        a: "Yes! You can archive posts to view them later by clicking the Archive (bookmark) button on any post card. All your archived posts are kept privately in the 'Archived' tab on your profile page so you can quickly revisit them anytime.",
       },
       {
         q: "What is the 'Spotlights' feature?",
@@ -215,7 +215,7 @@ export const FAQ_CATEGORIES = [
             • Spotlights: A high-engagement vertical layout feed for short-form videos.{"\n"}
             • User Interactions: Liking, commenting, and sharing tools on posts and creator profiles.{"\n"}
             • Social Graph: Follow/unfollow mechanics to curate a personalized home feed.{"\n"}
-            • Content Library: Ability to bookmark and save posts inside a private profile tab.{"\n"}
+            • Content Library: Ability to bookmark and archive posts inside a private profile tab.{"\n"}
             • Microblogging Feed: A text-based timeline feed (similar to Twitter) for rapid sharing.{"\n"}
             • Leaderboard: A comparative ranking page highlighting top posts, top creators, and highly viewed profiles.
           </span>

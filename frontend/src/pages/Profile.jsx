@@ -137,10 +137,10 @@ function ProfileContent({ data, username, submit }) {
   const [hasFetchedReshares, setHasFetchedReshares] = useState(false);
   const [isResharesLoading, setIsResharesLoading] = useState(false);
   const [resharesError, setResharesError] = useState(null);
-  const [savedList, setSavedList] = useState([]);
-  const [hasFetchedSaved, setHasFetchedSaved] = useState(false);
-  const [isSavedLoading, setIsSavedLoading] = useState(false);
-  const [savedError, setSavedError] = useState(null);
+  const [archiveList, setArchiveList] = useState([]);
+  const [hasFetchedArchive, setHasFetchedArchive] = useState(false);
+  const [isArchiveLoading, setIsArchiveLoading] = useState(false);
+  const [archiveError, setArchiveError] = useState(null);
 
   if (images !== prevImages) {
     setPrevImages(images);
@@ -151,11 +151,11 @@ function ProfileContent({ data, username, submit }) {
     imagesCount: imagesList.length,
     videosCount: videosList.length,
     resharesCount: resharesList.length,
-    savedCount: savedList.length,
+    archiveCount: archiveList.length,
     imagesList,
     videosList,
     resharesList,
-    savedList,
+    archiveList,
   });
 
   if (videos !== prevVideos) {
@@ -172,7 +172,7 @@ function ProfileContent({ data, username, submit }) {
    *         - imagesList   (keeps Images tab in sync)
    *         - videosList   (keeps Videos tab in sync)
    *         - resharesList (keeps Reshares tab in sync)
-   *         - savedList    (keeps Saved tab in sync)
+   *         - archiveList  (keeps Archived tab in sync)
    * Step 3: Guarantees consistent status without needing a page refresh or refetch.
    */
   const handleInteraction = (postId, updatedData) => {
@@ -182,7 +182,7 @@ function ProfileContent({ data, username, submit }) {
         setImagesList,
         setVideosList,
         setResharesList,
-        setSavedList,
+        setArchiveList,
       ],
       postId,
       updatedData
@@ -277,18 +277,18 @@ function ProfileContent({ data, username, submit }) {
     }
   };
 
-  const fetchSaved = async (force = false) => {
+  const fetchArchive = async (force = false) => {
     if (!user?._id) return;
-    if (hasFetchedSaved && !force) return;
+    if (hasFetchedArchive && !force) return;
 
-    setIsSavedLoading(true);
-    setSavedError(null);
+    setIsArchiveLoading(true);
+    setArchiveError(null);
     try {
       const response = await interactionService.getUserInteractions(
         user._id,
         "archive"
       );
-      console.log("[Profile] Raw saved (archive) API response:", response);
+      console.log("[Profile] Raw archive API response:", response);
       const items = response?.data || [];
       // Flatten populated postId objects to conform to post structure
       const formattedPosts = items
@@ -296,7 +296,7 @@ function ProfileContent({ data, username, submit }) {
           if (!item.postId) return null;
           return {
             ...item.postId,
-            savedAt: item.createdAt,
+            archivedAt: item.createdAt,
             has: {
               sparked: Boolean(item.postId.has?.sparked),
               reshared: Boolean(item.postId.has?.reshared),
@@ -306,13 +306,13 @@ function ProfileContent({ data, username, submit }) {
         })
         .filter(Boolean);
 
-      setSavedList(formattedPosts);
-      setHasFetchedSaved(true);
+      setArchiveList(formattedPosts);
+      setHasFetchedArchive(true);
     } catch (err) {
-      console.error("Failed to fetch saved posts:", err);
-      setSavedError(err?.message || "Could not load saved posts");
+      console.error("Failed to fetch archived posts:", err);
+      setArchiveError(err?.message || "Could not load archived posts");
     } finally {
-      setIsSavedLoading(false);
+      setIsArchiveLoading(false);
     }
   };
 
@@ -320,8 +320,8 @@ function ProfileContent({ data, username, submit }) {
     setActiveTab(tab);
     if (tab === "reshare" && !hasFetchedReshares) {
       fetchReshares();
-    } else if (tab === "saved" && !hasFetchedSaved) {
-      fetchSaved();
+    } else if (tab === "archive" && !hasFetchedArchive) {
+      fetchArchive();
     }
   };
 
@@ -342,7 +342,7 @@ function ProfileContent({ data, username, submit }) {
       setImagesList((prev) => applyPostInteraction(prev, post._id, updatedData));
       setVideosList((prev) => applyPostInteraction(prev, post._id, updatedData));
       setResharesList((prev) => applyPostInteraction(prev, post._id, updatedData));
-      setSavedList((prev) => applyPostInteraction(prev, post._id, updatedData));
+      setArchiveList((prev) => applyPostInteraction(prev, post._id, updatedData));
 
       // Passive fire-and-forget impression tracking in background
       trackPostImpression(post._id).catch(() => {});
@@ -558,7 +558,7 @@ function ProfileContent({ data, username, submit }) {
             { id: "images", label: "Images" },
             { id: "videos", label: "Videos" },
             { id: "reshare", label: "Reshare" },
-            ...(isOwnProfile ? [{ id: "saved", label: "Archived" }] : []),
+            ...(isOwnProfile ? [{ id: "archive", label: "Archived" }] : []),
           ].map(({ id, label }) => (
             <button
               key={id}
@@ -583,19 +583,19 @@ function ProfileContent({ data, username, submit }) {
                   ? videosList
                   : activeTab === "reshare"
                   ? resharesList
-                  : activeTab === "saved"
-                  ? savedList
+                  : activeTab === "archive"
+                  ? archiveList
                   : []
               }
               isLoading={
                 (activeTab === "reshare" && isResharesLoading) ||
-                (activeTab === "saved" && isSavedLoading)
+                (activeTab === "archive" && isArchiveLoading)
               }
               error={
                 activeTab === "reshare"
                   ? resharesError
-                  : activeTab === "saved"
-                  ? savedError
+                  : activeTab === "archive"
+                  ? archiveError
                   : null
               }
               user={user}
@@ -604,7 +604,7 @@ function ProfileContent({ data, username, submit }) {
               onTriggerUpload={handleTriggerUpload}
               onRetry={() => {
                 if (activeTab === "reshare") fetchReshares(true);
-                else if (activeTab === "saved") fetchSaved(true);
+                else if (activeTab === "archive") fetchArchive(true);
               }}
             />
           </div>

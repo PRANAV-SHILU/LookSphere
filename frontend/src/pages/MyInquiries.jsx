@@ -1,10 +1,11 @@
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import { useLoaderData, Await, Link, useSearchParams, useNavigate, useNavigation } from "react-router-dom";
 import { MessageSquareText, Mail, Clock, CheckCheck, ArrowRight, Loader2 } from "lucide-react";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import BackButton from "../shared-components/BackButton";
 import ContactCard from "../components/admin/ContactCard";
 import { ContactCardSkeleton } from "../skeletons/MyInquiriesSkeleton";
+import { clearInquiriesCache } from "../loaders/myInquiriesLoader.jsx";
 
 const TABS = [
   { key: "false", label: "Pending",   icon: <Clock size={15} /> },
@@ -66,6 +67,13 @@ export default function MyInquiries() {
   const isResponded = searchParams.get("isResponded") ?? "false";
   const isNavigating = navigation.state === "loading";
   const navigatingTo = navigation.location ? (new URLSearchParams(navigation.location.search).get("isResponded") ?? "false") : null;
+
+  // Clear inquiries cache when leaving the page so that returning to My Inquiries gets fresh data
+  useEffect(() => {
+    return () => {
+      clearInquiriesCache();
+    };
+  }, []);
 
   return (
     <div className="w-full flex justify-center">

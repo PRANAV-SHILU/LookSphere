@@ -1,4 +1,4 @@
-<div align="right">Last Modified: 22-Oct-2026</div>
+<div align="right">Last Modified: 23-Oct-2026</div>
 
 # 🔮 Roadmap — LookSphere
 
@@ -11,7 +11,7 @@ LookSphere is continuously evolving. This roadmap outlines both our achieved arc
 The following capabilities have been fully engineered, validated, and deployed into production:
 
 - **Post Interactions & Inspect Lists:** Atomic, real-time Sparks, Reshares, and Archives with optimistic UI updates and interactive participant list modals ([`InteractionsListModal`](./frontend/src/modals/InteractionsListModal.jsx)) on [Feed](https://looksphere.vercel.app/feed) and [Explore](https://looksphere.vercel.app/explore).
-- **Cross-Tab State Synchronization:** Dynamic multi-setter tab fanout synchronizing interactions seamlessly across All, Images, Videos, Reshares, and Archived media tabs on [Profile](https://looksphere.vercel.app/profile) without page reloads.
+- **Cross-Tab State Synchronization:** Dynamic multi-setter tab fanout synchronizing interactions seamlessly across All, Images, Videos, Reshares, Archived, and Sparks media tabs on [Profile](https://looksphere.vercel.app/profile) without page reloads.
 - **Profile & Post Link Sharing:** Dedicated clipboard copy buttons and standalone post views ([`/posts/:id`](https://looksphere.vercel.app/explore)) with real-time impression telemetry.
 - **Account & Security Self-Service:** Authenticated, Yup-validated self-service portals for [Change Password](https://looksphere.vercel.app/settings/change-password) and [Change Email](https://looksphere.vercel.app/settings/change-email) within [Settings](https://looksphere.vercel.app/settings).
 - **Support & Inquiries Desk:** Interactive categorized ticket submission on [Contact Us](https://looksphere.vercel.app/contact-us) supporting media attachments (images/video), ticket tracking on [My Inquiries](https://looksphere.vercel.app/my-inquiries), and administrative resolution drawers.

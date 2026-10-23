@@ -130,6 +130,10 @@ export const FAQ_CATEGORIES = [
         a: "Spark is LookSphere's primary interaction feature to show appreciation and love for a post. Clicking the Spark (sparkle) icon highlights your reaction, increments the spark counter, and gives immediate positive feedback to the author.",
       },
       {
+        q: "Where can I find posts I've sparked?",
+        a: "All posts you've sparked are collected in the dedicated 'Sparks' tab on your own profile page. This tab is private and only visible when you view your own profile, giving you quick access to all your favorite content.",
+      },
+      {
         q: "What is Reshare?",
         a: "Reshare allows you to share and broadcast posts you discover with the broader LookSphere community. Clicking the Reshare button reposts and amplifies content you find noteworthy, helping creators reach a wider audience across feeds.",
       },

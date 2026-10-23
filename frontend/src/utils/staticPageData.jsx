@@ -532,7 +532,7 @@ export const COMPLETED_FEATURES = {
       icon: Zap,
       title: "Cross-Tab State Synchronization",
       description:
-        "Real-time optimistic interaction state synchronization across Images, Videos, Reshares, and Archived tabs.",
+        "Real-time optimistic interaction state synchronization across Images, Videos, Reshares, Archived, and Sparks tabs.",
     },
     {
       icon: Link,
@@ -684,14 +684,14 @@ export const WHATS_NEW_DATA = [
     date: "22 October 2026",
     title: "Post Interactions, User Lists Modal & Link Sharing",
     description:
-      "Engage with content using Spark, Reshare, and Archive, inspect interaction participant lists with interactive modals, enjoy real-time cross-tab synchronization, and share profiles and posts with dedicated direct links.",
+      "Engage with content using Spark, Reshare, and Archive, inspect interaction participant lists with interactive modals, enjoy real-time cross-tab synchronization, view your sparked posts in a dedicated Sparks profile tab, and share profiles and posts with dedicated direct links.",
     updates: [
       {
         tag: "Feature",
         page: "Feed & Post Detail",
         title: "Spark Posts",
         description:
-          "Express appreciation and support for creator posts with instant, optimistic sparking. Clicking the Spark icon immediately updates interaction counts and highlights your reaction.",
+          "Express appreciation and support for creator posts with instant, optimistic sparking. All your sparked posts are automatically collected in a dedicated Sparks tab at the end of your own profile for easy revisiting.",
         link: "/feed",
       },
       {
@@ -723,7 +723,7 @@ export const WHATS_NEW_DATA = [
         page: "Profile",
         title: "Cross-Tab Interaction Synchronization",
         description:
-          "Interacting with posts (sparks, reshares, archives) now reflects across the entire application — including Images, Videos, Reshares, and Archived tabs, as well as the Post Detail modal — without requiring page reloads.",
+          "Interacting with posts (sparks, reshares, archives) now reflects across the entire application — including Images, Videos, Reshares, Archived, and Sparks tabs, as well as the Post Detail modal — without requiring page reloads.",
         link: "/profile",
       },
       {

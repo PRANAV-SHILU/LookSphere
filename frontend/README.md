@@ -53,7 +53,7 @@ The frontend is crafted with React 19 and Vite for a lightning-fast development 
 - **Global Community:** Join a diverse, vibrant community of creators, thinkers, and innovators across the globe.
 - **Share & Discover:** Share your passions and discover new interests through an intuitive content discovery engine.
 - **Post Interactions & Modals:** Real-time Spark, Reshare, and Archive capabilities with optimistic updates, dedicated interactive user list modals ([`InteractionsListModal`](./src/modals/InteractionsListModal.jsx)) to inspect who sparked or reshared posts, and instant profile navigation.
-- **Cross-Tab Synchronization:** Interacting with posts immediately syncs across all media tabs (Images, Videos, Reshares, Archived) and modal views without page reloads.
+- **Cross-Tab Synchronization:** Interacting with posts immediately syncs across all media tabs (Images, Videos, Reshares, Archived, Sparks) and modal views without page reloads.
 - **Profile & Post Link Sharing:** Dedicated copy link buttons next to usernames, one-click post share links across feed/modal footers, and standalone post view pages ([`/posts/:id`](https://looksphere.vercel.app/explore)).
 - **Support & Inquiries:** Dedicated Contact Us portal ([`/contact-us`](https://looksphere.vercel.app/contact-us)) with category routing, media attachments (images/video), real-time ticket tracking under My Inquiries ([`/my-inquiries`](https://looksphere.vercel.app/my-inquiries)), and an admin moderation dashboard.
 - **Privacy First:** Your data belongs to you. Advanced security features keep your conversations and content safe.
@@ -68,7 +68,7 @@ The frontend is crafted with React 19 and Vite for a lightning-fast development 
 ## 🎯 What You Can Do
 
 - **Post & Share:** Express yourself! Upload photos & media, write captions & stories, add alt text for accessibility, share direct post and profile links, reach a global audience, and see real-time post impression counts.
-- **Interact & Connect:** Spark posts to show appreciation, reshare posts to your public reshare feed, and privately archive posts. Tap down-arrow count badges to see complete lists of people who interacted.
+- **Interact & Connect:** Spark posts to show appreciation, view your sparked posts in your own private Sparks tab, reshare posts to your public reshare feed, and privately archive posts. Tap down-arrow count badges to see complete lists of people who interacted.
 - **Explore & Discover:** Never miss a thing. Browse a global post feed ([`/feed`](https://looksphere.vercel.app/feed)) with seamless video autoplay, use smart search & filters in Explore ([`/explore`](https://looksphere.vercel.app/explore)), discover new creators ([`/creators`](https://looksphere.vercel.app/creators)), and browse creator profiles ([`/profile`](https://looksphere.vercel.app/profile)) with synchronized media tabs.
 - **Support & Inquiries:** Reach out directly through the interactive Contact Us form ([`/contact-us`](https://looksphere.vercel.app/contact-us)), attach screenshots or video clips, track submitted requests under My Inquiries ([`/my-inquiries`](https://looksphere.vercel.app/my-inquiries)), receive official admin response messages.
 - **Secure Profile & Settings:** Keep your data protected. Manage your profile ([`/profile`](https://looksphere.vercel.app/profile)), enjoy JWT stateless sessions, bcrypt password hashing, securely change password and email address directly from Settings ([`/settings`](https://looksphere.vercel.app/settings)), and view tracking.

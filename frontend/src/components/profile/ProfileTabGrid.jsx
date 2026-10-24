@@ -1,11 +1,12 @@
 import React from "react";
-import { Plus, AlertCircle, Bookmark, Repeat2, Image as ImageIcon, Video as VideoIcon } from "lucide-react";
+import { Plus, AlertCircle, Bookmark, Repeat2, Sparkles, Image as ImageIcon, Video as VideoIcon } from "lucide-react";
 import { getOptimizedMediaUrl, getVideoPosterUrl } from "../../utils/cloudinaryOptimizer";
 
 export const ProfileVideoCard = React.memo(function ProfileVideoCard({
   post,
   onClick,
   isReshared = false,
+  isSparked = false,
   isArchived = false,
 }) {
   const videoRef = React.useRef(null);
@@ -71,6 +72,15 @@ export const ProfileVideoCard = React.memo(function ProfileVideoCard({
             title="Reshared post"
           >
             <Repeat2 size={14} />
+          </div>
+        )}
+        {isSparked && (
+          <div
+            className="p-1.5 rounded-md backdrop-blur-md shadow-md text-yellow-400"
+            style={{ backgroundColor: "rgba(0, 0, 0, 0.55)" }}
+            title="Sparked post"
+          >
+            <Sparkles size={14} />
           </div>
         )}
         {isArchived && (
@@ -153,7 +163,7 @@ export function ProfileTabSkeleton() {
 }
 
 export default function ProfileTabGrid({
-  tabType = "images", // "images" | "videos" | "reshare" | "archive"
+  tabType = "images", // "images" | "videos" | "reshare" | "sparked" | "archive"
   items = [],
   isLoading = false,
   error = null,
@@ -196,6 +206,14 @@ export default function ProfileTabGrid({
       emptyDesc: isOwnProfile
         ? "You haven't reshared any posts yet. Reshared posts will appear here."
         : `${displayName} hasn't reshared any posts yet.`,
+    },
+    sparked: {
+      uploadType: null,
+      actionText: null,
+      onAction: null,
+      emptyIcon: Sparkles,
+      emptyTitle: "No Sparks Yet",
+      emptyDesc: "You haven't sparked any posts yet. Posts you spark will appear here.",
     },
     archive: {
       uploadType: null,
@@ -269,6 +287,7 @@ export default function ProfileTabGrid({
       {items.map((post) => {
         const isVideo = post.mediaType === "Video";
         const isReshared = tabType === "reshare";
+        const isSparked = tabType === "sparked";
         const isArchived = tabType === "archive";
 
         // If post is a Video, use ProfileVideoCard with hover preview & indicators
@@ -279,6 +298,7 @@ export default function ProfileTabGrid({
               post={post}
               onClick={onPostClick}
               isReshared={isReshared}
+              isSparked={isSparked}
               isArchived={isArchived}
             />
           );
@@ -309,6 +329,15 @@ export default function ProfileTabGrid({
                 title="Reshared post"
               >
                 <Repeat2 size={14} />
+              </div>
+            )}
+            {isSparked && (
+              <div
+                className="absolute top-2 right-2 p-1.5 rounded-md backdrop-blur-md shadow-md text-yellow-400 pointer-events-none"
+                style={{ backgroundColor: "rgba(0, 0, 0, 0.55)" }}
+                title="Sparked post"
+              >
+                <Sparkles size={14} />
               </div>
             )}
             {isArchived && (

@@ -137,6 +137,10 @@ function ProfileContent({ data, username, submit }) {
   const [hasFetchedReshares, setHasFetchedReshares] = useState(false);
   const [isResharesLoading, setIsResharesLoading] = useState(false);
   const [resharesError, setResharesError] = useState(null);
+  const [sparksList, setSparksList] = useState([]);
+  const [hasFetchedSparks, setHasFetchedSparks] = useState(false);
+  const [isSparksLoading, setIsSparksLoading] = useState(false);
+  const [sparksError, setSparksError] = useState(null);
   const [archiveList, setArchiveList] = useState([]);
   const [hasFetchedArchive, setHasFetchedArchive] = useState(false);
   const [isArchiveLoading, setIsArchiveLoading] = useState(false);
@@ -151,10 +155,12 @@ function ProfileContent({ data, username, submit }) {
     imagesCount: imagesList.length,
     videosCount: videosList.length,
     resharesCount: resharesList.length,
+    sparksCount: sparksList.length,
     archiveCount: archiveList.length,
     imagesList,
     videosList,
     resharesList,
+    sparksList,
     archiveList,
   });
 
@@ -182,6 +188,7 @@ function ProfileContent({ data, username, submit }) {
         setImagesList,
         setVideosList,
         setResharesList,
+        setSparksList,
         setArchiveList,
       ],
       postId,
@@ -277,6 +284,44 @@ function ProfileContent({ data, username, submit }) {
     }
   };
 
+  const fetchSparks = async (force = false) => {
+    if (!user?._id) return;
+    if (hasFetchedSparks && !force) return;
+
+    setIsSparksLoading(true);
+    setSparksError(null);
+    try {
+      const response = await interactionService.getUserInteractions(
+        user._id,
+        "spark"
+      );
+      console.log("[Profile] Raw sparks API response:", response);
+      const items = response?.data || [];
+      const formattedPosts = items
+        .map((item) => {
+          if (!item.postId) return null;
+          return {
+            ...item.postId,
+            sparkedAt: item.createdAt,
+            has: {
+              sparked: true,
+              archived: Boolean(item.postId.has?.archived),
+              reshared: Boolean(item.postId.has?.reshared),
+            },
+          };
+        })
+        .filter(Boolean);
+
+      setSparksList(formattedPosts);
+      setHasFetchedSparks(true);
+    } catch (err) {
+      console.error("Failed to fetch sparked posts:", err);
+      setSparksError(err?.message || "Could not load sparked posts");
+    } finally {
+      setIsSparksLoading(false);
+    }
+  };
+
   const fetchArchive = async (force = false) => {
     if (!user?._id) return;
     if (hasFetchedArchive && !force) return;
@@ -290,7 +335,6 @@ function ProfileContent({ data, username, submit }) {
       );
       console.log("[Profile] Raw archive API response:", response);
       const items = response?.data || [];
-      // Flatten populated postId objects to conform to post structure
       const formattedPosts = items
         .map((item) => {
           if (!item.postId) return null;
@@ -320,6 +364,8 @@ function ProfileContent({ data, username, submit }) {
     setActiveTab(tab);
     if (tab === "reshare" && !hasFetchedReshares) {
       fetchReshares();
+    } else if (tab === "sparked" && !hasFetchedSparks) {
+      fetchSparks();
     } else if (tab === "archive" && !hasFetchedArchive) {
       fetchArchive();
     }
@@ -342,6 +388,7 @@ function ProfileContent({ data, username, submit }) {
       setImagesList((prev) => applyPostInteraction(prev, post._id, updatedData));
       setVideosList((prev) => applyPostInteraction(prev, post._id, updatedData));
       setResharesList((prev) => applyPostInteraction(prev, post._id, updatedData));
+      setSparksList((prev) => applyPostInteraction(prev, post._id, updatedData));
       setArchiveList((prev) => applyPostInteraction(prev, post._id, updatedData));
 
       // Passive fire-and-forget impression tracking in background
@@ -559,6 +606,7 @@ function ProfileContent({ data, username, submit }) {
             { id: "videos", label: "Videos" },
             { id: "reshare", label: "Reshare" },
             ...(isOwnProfile ? [{ id: "archive", label: "Archived" }] : []),
+            ...(isOwnProfile ? [{ id: "sparked", label: "Sparks" }] : []),
           ].map(({ id, label }) => (
             <button
               key={id}
@@ -585,17 +633,22 @@ function ProfileContent({ data, username, submit }) {
                   ? resharesList
                   : activeTab === "archive"
                   ? archiveList
+                  : activeTab === "sparked"
+                  ? sparksList
                   : []
               }
               isLoading={
                 (activeTab === "reshare" && isResharesLoading) ||
-                (activeTab === "archive" && isArchiveLoading)
+                (activeTab === "archive" && isArchiveLoading) ||
+                (activeTab === "sparked" && isSparksLoading)
               }
               error={
                 activeTab === "reshare"
                   ? resharesError
                   : activeTab === "archive"
                   ? archiveError
+                  : activeTab === "sparked"
+                  ? sparksError
                   : null
               }
               user={user}
@@ -605,6 +658,7 @@ function ProfileContent({ data, username, submit }) {
               onRetry={() => {
                 if (activeTab === "reshare") fetchReshares(true);
                 else if (activeTab === "archive") fetchArchive(true);
+                else if (activeTab === "sparked") fetchSparks(true);
               }}
             />
           </div>

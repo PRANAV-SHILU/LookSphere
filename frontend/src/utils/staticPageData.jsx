@@ -680,6 +680,37 @@ export const ROADMAP_CATEGORIES = [
 
 export const WHATS_NEW_DATA = [
   {
+    id: "oct-24-2026",
+    date: "24 October 2026",
+    isCritical: true,
+    title: "Critical Security Advisory: Node.js Runtime, Brotli RCE Mitigation & CA Hardening",
+    description:
+      "Rapid-response security patches addressing major global advisories: updated Node.js execution runtime to eliminate Brotli decompression remote code execution (RCE), mitigated TLS certificate hostname verification flaws, revoked compromised eMudhra intermediate CAs, and achieved 0 vulnerabilities across all dependencies.",
+    updates: [
+      {
+        tag: "Critical",
+        page: "Backend Infrastructure",
+        title: "Node.js Patched Runtime Upgrade (v22.23.4 / v24.22.1)",
+        description:
+          "Upgraded and pinned the backend service runtime to patched Node.js LTS releases. Directly neutralizes high-severity remote code execution flaws in the Brotli decompression engine (Node2Shell) and resolves TLS hostname validation vulnerabilities.",
+      },
+      {
+        tag: "Critical",
+        page: "Security & TLS",
+        title: "Compromised eMudhra Intermediate CA Revocation",
+        description:
+          "Hardened cloud trust roots and triggered container rebuilds on Render to immediately distrust the compromised eMudhra intermediate certificates, ensuring secure TLS/HTTPS communication with Cloudinary media storage and MongoDB Atlas.",
+      },
+      {
+        tag: "Critical",
+        page: "Dependencies",
+        title: "Full-Stack Zero-Vulnerability Dependency Audit",
+        description:
+          "Conducted an end-to-end vulnerability audit and patch cycle across both Backend and Frontend codebases. Remediated vulnerabilities in compression streams, Multer upload handling, body parsers, Axios adapters, and Vite dev server tooling to achieve 0 npm audit warnings.",
+      },
+    ],
+  },
+  {
     id: "oct-22-2026",
     date: "22 October 2026",
     title: "Post Interactions, User Lists Modal & Link Sharing",

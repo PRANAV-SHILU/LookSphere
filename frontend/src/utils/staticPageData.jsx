@@ -680,12 +680,52 @@ export const ROADMAP_CATEGORIES = [
 
 export const WHATS_NEW_DATA = [
   {
+    id: "nov-1-2026-error-and-network-resilience",
+    date: "1 November 2026",
+    title: "Smarter Error Handling, Offline Support & System Resilience",
+    description:
+      "We've upgraded how LookSphere handles unexpected interruptions. Whether your device goes offline, our servers are unreachable, or the database experiences temporary downtime, you'll always receive clear, honest status messages instead of endless loading or cryptic error codes.",
+    updates: [
+      {
+        tag: "Enhancement",
+        page: "Everywhere",
+        title: "Instant Offline & Online Status Alerts",
+        description:
+          "LookSphere now detects connection changes the exact moment they happen. You'll receive instant alerts when your device goes offline or reconnects, so you always know where things stand.",
+      },
+      {
+        tag: "Enhancement",
+        page: "API Client & Network",
+        title: "Zero-Latency Offline Fast-Failing & Sanitized Error Messages",
+        description:
+          "No more cryptic technical error codes or frozen screens. LookSphere now clearly tells you whether an issue is caused by your internet, an unreachable server, or database maintenance, making it obvious what happened and what to do next.",
+      },
+      {
+        tag: "Enhancement",
+        page: "Your Profile",
+        title: "Seamless Profile Fallback & Auto-Sync",
+        description:
+          "Your profile details load right away using cached information, allowing you to view your profile without interruption even during spotty connections or offline moments.",
+        link: "/profile",
+      },
+      {
+        tag: "Enhancement",
+        page: "Feed, Explore & Creators",
+        title: "Polished Loading & One-Tap Retry",
+        description:
+          "When a page can't load due to network trouble, simply tap 'Try Again' to smoothly reload the content with a clean loading animation.",
+        link: "/explore",
+      },
+    ],
+  },
+  {
     id: "oct-24-2026",
     date: "24 October 2026",
     isCritical: true,
-    title: "Critical Security Advisory: Node.js Runtime, Brotli RCE Mitigation & CA Hardening",
+    title:
+      "Critical Security Advisory: Node.js Runtime, Brotli RCE Mitigation & CA Hardening",
     description:
-      "Rapid-response security patches addressing major global advisories: updated Node.js execution runtime to eliminate Brotli decompression remote code execution (RCE), mitigated TLS certificate hostname verification flaws, revoked compromised eMudhra intermediate CAs, and achieved 0 vulnerabilities across all dependencies.",
+      "You don't need to worry, we are here for you! Rapid-response security patches addressing major global advisories: updated Node.js execution runtime to eliminate Brotli decompression remote code execution (RCE), mitigated TLS certificate hostname verification flaws, revoked compromised eMudhra intermediate CAs, and achieved 0 vulnerabilities across all dependencies.",
     updates: [
       {
         tag: "Critical",
@@ -713,16 +753,16 @@ export const WHATS_NEW_DATA = [
   {
     id: "oct-22-2026",
     date: "22 October 2026",
-    title: "Post Interactions, User Lists Modal & Link Sharing",
+    title: "Post Interactions, User Lists Modal & Direct Link Sharing",
     description:
-      "Engage with content using Spark, Reshare, and Archive, inspect interaction participant lists with interactive modals, enjoy real-time cross-tab synchronization, view your sparked posts in a dedicated Sparks profile tab, and share profiles and posts with dedicated direct links.",
+      "Engage with posts using Sparks, Reshares, and Archives. Tap counts to see who reacted, enjoy instant updates across all your profile tabs, view your sparked posts in a dedicated tab, and easily share direct links to profiles and posts.",
     updates: [
       {
         tag: "Feature",
         page: "Feed & Post Detail",
         title: "Spark Posts",
         description:
-          "Express appreciation and support for creator posts with instant, optimistic sparking. All your sparked posts are automatically collected in a dedicated Sparks tab at the end of your own profile for easy revisiting.",
+          "Show appreciation for posts you love with an instant Spark. All the posts you spark are neatly collected in a private Sparks tab on your profile so you can revisit them anytime.",
         link: "/feed",
       },
       {
@@ -730,7 +770,7 @@ export const WHATS_NEW_DATA = [
         page: "Feed & Post Detail",
         title: "Reshare Posts",
         description:
-          "Amplify standout posts across LookSphere by resharing them. Reshared posts are automatically added to your dedicated Reshares profile tab for your audience to discover.",
+          "Share standout posts with your followers by resharing them. Reshared posts appear directly on your profile's Reshares tab for others to discover.",
         link: "/feed",
       },
       {
@@ -738,15 +778,15 @@ export const WHATS_NEW_DATA = [
         page: "Feed & Post Detail",
         title: "Archive Posts",
         description:
-          "Privately bookmark posts to revisit whenever you want. Archived posts are stored securely under your account and accessible exclusively from the Archived tab on your profile page.",
+          "Privately bookmark posts to revisit whenever you want. Your saved posts are kept secure and can only be seen by you in your profile's Archived tab.",
         link: "/profile",
       },
       {
         tag: "Feature",
         page: "Feed & Post Detail",
-        title: "Spark & Reshare User Lists Modal",
+        title: "See Who Sparked & Reshared",
         description:
-          "Click the down-arrow count badge on any post to inspect the list of users who sparked or reshared it. Powered by portal-based modal overlays, instant client-side memory caching, fast profile navigation buttons, and real-time cache invalidation on self-toggle.",
+          "Tap the number badge or down-arrow on any post to see the full list of people who sparked or reshared it, with quick buttons to visit their profiles.",
         link: "/feed",
       },
       {
@@ -760,9 +800,9 @@ export const WHATS_NEW_DATA = [
       {
         tag: "Feature",
         page: "Profile & Post Detail",
-        title: "Profile & Post Link Sharing & Dedicated Post View",
+        title: "One-Click Profile & Post Sharing",
         description:
-          "Easily share content with dedicated copy link buttons beside profile usernames, one-click post share links across feed and modal footers, and direct standalone post URLs with view count tracking and full-screen modal expansion.",
+          "Easily share content with a handy copy-link button beside usernames, quick post share links in feeds, and dedicated post pages with live view counts.",
         link: "/profile",
       },
     ],
@@ -824,7 +864,7 @@ export const WHATS_NEW_DATA = [
       "Added several new core pages to complete the platform's information architecture and provide better resources for users.",
     updates: [
       {
-        tag: "Feature",
+        tag: "Information",
         page: "Roadmap",
         title: "New Roadmap Page",
         description:
@@ -832,7 +872,7 @@ export const WHATS_NEW_DATA = [
         link: "/roadmap",
       },
       {
-        tag: "Feature",
+        tag: "Information",
         page: "About",
         title: "About Us Page",
         description:
@@ -840,7 +880,7 @@ export const WHATS_NEW_DATA = [
         link: "/about-us",
       },
       {
-        tag: "Feature",
+        tag: "Information",
         page: "FAQ",
         title: "Detailed FAQ Page",
         description:
@@ -848,7 +888,7 @@ export const WHATS_NEW_DATA = [
         link: "/faq",
       },
       {
-        tag: "Feature",
+        tag: "Legal",
         page: "Privacy Policy",
         title: "Privacy Policy",
         description:
@@ -856,7 +896,7 @@ export const WHATS_NEW_DATA = [
         link: "/privacy-policy",
       },
       {
-        tag: "Feature",
+        tag: "Legal",
         page: "Terms & Conditions",
         title: "Terms & Conditions",
         description:
@@ -878,7 +918,7 @@ export const WHATS_NEW_DATA = [
     date: "23 June 2026",
     title: "Performance & UI Fixes",
     description:
-      "A major focus on mobile optimization, resolving GPU rendering glitches, and enhancing the overall touchscreen experience.",
+      "We've got you covered! A major focus on mobile optimization, resolving GPU rendering glitches, and enhancing the overall touchscreen experience.",
     updates: [
       {
         tag: "Bugfix",
@@ -888,14 +928,14 @@ export const WHATS_NEW_DATA = [
           "Resolved severe screen tearing and horizontal line glitches on mid-tier mobile GPUs by adjusting glassmorphism and transparent backgrounds on touch devices.",
       },
       {
-        tag: "Enhancement",
+        tag: "Bugfix",
         page: null,
         title: "Mobile Hover Effects",
         description:
           "Stripped out hover-based interactions on mobile to prevent sticky-state bugs and improve scroll performance.",
       },
       {
-        tag: "Enhancement",
+        tag: "Bugfix",
         page: null,
         title: "Chrome Mobile Blur Fix",
         description:

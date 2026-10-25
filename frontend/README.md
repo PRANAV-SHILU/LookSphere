@@ -56,6 +56,7 @@ The frontend is crafted with React 19 and Vite for a lightning-fast development 
 - **Cross-Tab Synchronization:** Interacting with posts immediately syncs across all media tabs (Images, Videos, Reshares, Archived, Sparks) and modal views without page reloads.
 - **Profile & Post Link Sharing:** Dedicated copy link buttons next to usernames, one-click post share links across feed/modal footers, and standalone post view pages ([`/posts/:id`](https://looksphere.vercel.app/explore)).
 - **Support & Inquiries:** Dedicated Contact Us portal ([`/contact-us`](https://looksphere.vercel.app/contact-us)) with category routing, media attachments (images/video), real-time ticket tracking under My Inquiries ([`/my-inquiries`](https://looksphere.vercel.app/my-inquiries)), and an admin moderation dashboard.
+- **Network Resiliency & Offline Detection:** Instant detection of offline state, zero-latency request short-circuiting, sanitized database driver error handling, cached profile fallback, and dynamic skeleton retry states.
 - **Privacy First:** Your data belongs to you. Advanced security features keep your conversations and content safe.
 
 ## ⚙️ How It Works

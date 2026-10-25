@@ -1,12 +1,13 @@
 import React from "react";
-import { Plus, AlertCircle, Bookmark, Repeat2, Image as ImageIcon, Video as VideoIcon } from "lucide-react";
+import { Plus, AlertCircle, Bookmark, Repeat2, Sparkles, Image as ImageIcon, Video as VideoIcon } from "lucide-react";
 import { getOptimizedMediaUrl, getVideoPosterUrl } from "../../utils/cloudinaryOptimizer";
 
 export const ProfileVideoCard = React.memo(function ProfileVideoCard({
   post,
   onClick,
-  isReshare = false,
-  isSaved = false,
+  isReshared = false,
+  isSparked = false,
+  isArchived = false,
 }) {
   const videoRef = React.useRef(null);
   const [isPlaying, setIsPlaying] = React.useState(false);
@@ -64,7 +65,7 @@ export const ProfileVideoCard = React.memo(function ProfileVideoCard({
 
       {/* Top right badges container */}
       <div className="absolute top-2 right-2 flex items-center gap-1.5 z-10 pointer-events-none">
-        {isReshare && (
+        {isReshared && (
           <div
             className="p-1.5 rounded-md backdrop-blur-md shadow-md text-blue-400"
             style={{ backgroundColor: "rgba(0, 0, 0, 0.55)" }}
@@ -73,11 +74,20 @@ export const ProfileVideoCard = React.memo(function ProfileVideoCard({
             <Repeat2 size={14} />
           </div>
         )}
-        {isSaved && (
+        {isSparked && (
           <div
-            className="p-1.5 rounded-md backdrop-blur-md shadow-md text-amber-400"
+            className="p-1.5 rounded-md backdrop-blur-md shadow-md text-yellow-400"
             style={{ backgroundColor: "rgba(0, 0, 0, 0.55)" }}
-            title="Saved post"
+            title="Sparked post"
+          >
+            <Sparkles size={14} />
+          </div>
+        )}
+        {isArchived && (
+          <div
+            className="p-1.5 rounded-md backdrop-blur-md shadow-md text-emerald-400"
+            style={{ backgroundColor: "rgba(0, 0, 0, 0.55)" }}
+            title="Archived post"
           >
             <Bookmark size={14} />
           </div>
@@ -153,7 +163,7 @@ export function ProfileTabSkeleton() {
 }
 
 export default function ProfileTabGrid({
-  tabType = "images", // "images" | "videos" | "reshare" | "saved"
+  tabType = "images", // "images" | "videos" | "reshare" | "sparked" | "archive"
   items = [],
   isLoading = false,
   error = null,
@@ -197,7 +207,15 @@ export default function ProfileTabGrid({
         ? "You haven't reshared any posts yet. Reshared posts will appear here."
         : `${displayName} hasn't reshared any posts yet.`,
     },
-    saved: {
+    sparked: {
+      uploadType: null,
+      actionText: null,
+      onAction: null,
+      emptyIcon: Sparkles,
+      emptyTitle: "No Sparks Yet",
+      emptyDesc: "You haven't sparked any posts yet. Posts you spark will appear here.",
+    },
+    archive: {
       uploadType: null,
       actionText: null,
       onAction: null,
@@ -268,8 +286,9 @@ export default function ProfileTabGrid({
 
       {items.map((post) => {
         const isVideo = post.mediaType === "Video";
-        const isReshare = tabType === "reshare";
-        const isSaved = tabType === "saved";
+        const isReshared = tabType === "reshare";
+        const isSparked = tabType === "sparked";
+        const isArchived = tabType === "archive";
 
         // If post is a Video, use ProfileVideoCard with hover preview & indicators
         if (isVideo) {
@@ -278,8 +297,9 @@ export default function ProfileTabGrid({
               key={post._id}
               post={post}
               onClick={onPostClick}
-              isReshare={isReshare}
-              isSaved={isSaved}
+              isReshared={isReshared}
+              isSparked={isSparked}
+              isArchived={isArchived}
             />
           );
         }
@@ -302,7 +322,7 @@ export default function ProfileTabGrid({
               className="w-full h-full object-cover hover:opacity-90 group-hover:scale-105 transition-all duration-300"
               draggable={false}
             />
-            {isReshare && (
+            {isReshared && (
               <div
                 className="absolute top-2 right-2 p-1.5 rounded-md backdrop-blur-md shadow-md text-blue-400 pointer-events-none"
                 style={{ backgroundColor: "rgba(0, 0, 0, 0.55)" }}
@@ -311,11 +331,20 @@ export default function ProfileTabGrid({
                 <Repeat2 size={14} />
               </div>
             )}
-            {isSaved && (
+            {isSparked && (
               <div
-                className="absolute top-2 right-2 p-1.5 rounded-md backdrop-blur-md shadow-md text-amber-400 pointer-events-none"
+                className="absolute top-2 right-2 p-1.5 rounded-md backdrop-blur-md shadow-md text-yellow-400 pointer-events-none"
                 style={{ backgroundColor: "rgba(0, 0, 0, 0.55)" }}
-                title="Saved post"
+                title="Sparked post"
+              >
+                <Sparkles size={14} />
+              </div>
+            )}
+            {isArchived && (
+              <div
+                className="absolute top-2 right-2 p-1.5 rounded-md backdrop-blur-md shadow-md text-emerald-400 pointer-events-none"
+                style={{ backgroundColor: "rgba(0, 0, 0, 0.55)" }}
+                title="Archived post"
               >
                 <Bookmark size={14} />
               </div>

@@ -1,5 +1,5 @@
 import { Layers } from "lucide-react";
-import { howItWorks } from "../../utils/staticData";
+import { howItWorks } from "../../utils/HomeStaticData";
 import { CARD_HOVER_SUBTLE, GLASS_SHADOW } from "../../utils/styles";
 import { SectionHeading } from "../../shared-components/SharedHomeComponents";
 

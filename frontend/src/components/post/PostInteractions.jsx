@@ -72,7 +72,7 @@ const PostInteractions = ({ post, onMaximize, onInteraction }) => {
    * Step 2: Optimistic Calculation - compute next counts and flags immediately.
    * Step 3: Local State Update - update PostInteractions button states instantly.
    * Step 4: Parent Synchronization - notify parent handler (syncPostInteraction) to
-   *         synchronize across image, video, reshare, and saved tabs.
+   *         synchronize across image, video, reshare, and archived tabs.
    * Step 5: Cache Invalidation - clear cached user list for this post so reopening
    *         the interactions modal fetches fresh data reflecting this action.
    * Step 6: Asynchronous Network Mutation - fire toggle API in background without blocking UI.

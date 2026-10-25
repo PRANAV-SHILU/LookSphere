@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { navLinks } from "../../utils/staticData";
+import { navLinks } from "../../utils/HomeStaticData";
 import { BTN_LINK, CARD_HOVER_SUBTLE, GLASS_SHADOW } from "../../utils/styles";
 import {
   HeroBackground,

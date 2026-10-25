@@ -1,5 +1,5 @@
 import { Shield, Layers } from "lucide-react";
-import { securityFeatures } from "../../utils/staticData";
+import { securityFeatures } from "../../utils/HomeStaticData";
 import { CARD_HOVER, GLASS_SHADOW } from "../../utils/styles";
 import {
   SectionHeading,
@@ -15,7 +15,7 @@ export default function SecurityPrivacy() {
         subtitle="Your safety is our top priority. Here's how we protect your data at every layer."
       />
 
-      <div className="grid grid-cols-1 mdlg:grid-cols-2 gap-4 xsm:gap-6 lg:gap-8 max-w-[1000px] mx-auto 3xl:max-w-7xl 3xl:gap-10 mt-8 xsm:mt-12 3xl:mt-16 w-full px-2 sm:px-4">
+      <div className="grid grid-cols-1 mdlg:grid-cols-2 gap-4 xsm:gap-6 lg:gap-8 max-w-250 mx-auto 3xl:max-w-7xl 3xl:gap-10 mt-8 xsm:mt-12 3xl:mt-16 w-full px-2 sm:px-4">
         {securityFeatures.map((feature) => {
           const FeatureIcon = feature.icon;
           return (

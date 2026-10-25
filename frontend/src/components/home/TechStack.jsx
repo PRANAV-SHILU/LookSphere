@@ -1,5 +1,5 @@
 import { Code2 } from "lucide-react";
-import { techStack } from "../../utils/staticData";
+import { techStack } from "../../utils/HomeStaticData";
 import { GLASS_SHADOW } from "../../utils/styles";
 import { SectionHeading } from "../../shared-components/SharedHomeComponents";
 

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Rocket, Check } from "lucide-react";
-import { capabilities } from "../../utils/staticData";
+import { capabilities } from "../../utils/HomeStaticData";
 import { GLASS_SHADOW } from "../../utils/styles";
 import { SectionHeading } from "../../shared-components/SharedHomeComponents";
 
@@ -66,7 +66,7 @@ export default function WhatYouCanDo() {
                   {capabilities[activeCapability].description}
                 </p>
               </div>
-              <div className="w-full mdlg:w-auto mdlg:min-w-[240px]">
+              <div className="w-full mdlg:w-auto mdlg:min-w-60">
                 <ul className="flex flex-row flex-wrap justify-center mdlg:flex-col mdlg:justify-start gap-2 xsm:gap-3">
                   {capabilities[activeCapability].features.map(
                     (feature) => (

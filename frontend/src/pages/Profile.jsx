@@ -6,12 +6,14 @@ import {
   useSubmit,
   useNavigation,
   Await,
+  useRevalidator,
 } from "react-router-dom";
 import { toast } from "react-toastify";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import ProfileSkeleton from "../skeletons/ProfileSkeleton";
 import { User, Link as LinkIcon, Check } from "lucide-react";
 import BackButton from "../shared-components/BackButton";
+import DataErrorState from "../shared-components/DataErrorState";
 import UploadMediaModal from "../modals/UploadMediaModal";
 import PostDetailModal from "../modals/PostDetailModal";
 import { trackPostImpression } from "../services/postService";
@@ -124,7 +126,7 @@ const ProfileStats = React.memo(function ProfileStats({
   );
 });
 
-function ProfileContent({ data, username, submit }) {
+function ProfileContent({ data, username, submit, isLoadingPosts = false }) {
   console.log("Profile", data);
   const profileDataObj = data?.data || data || {};
   const { user, images = [], videos = [] } = profileDataObj;
@@ -137,10 +139,14 @@ function ProfileContent({ data, username, submit }) {
   const [hasFetchedReshares, setHasFetchedReshares] = useState(false);
   const [isResharesLoading, setIsResharesLoading] = useState(false);
   const [resharesError, setResharesError] = useState(null);
-  const [savedList, setSavedList] = useState([]);
-  const [hasFetchedSaved, setHasFetchedSaved] = useState(false);
-  const [isSavedLoading, setIsSavedLoading] = useState(false);
-  const [savedError, setSavedError] = useState(null);
+  const [sparksList, setSparksList] = useState([]);
+  const [hasFetchedSparks, setHasFetchedSparks] = useState(false);
+  const [isSparksLoading, setIsSparksLoading] = useState(false);
+  const [sparksError, setSparksError] = useState(null);
+  const [archiveList, setArchiveList] = useState([]);
+  const [hasFetchedArchive, setHasFetchedArchive] = useState(false);
+  const [isArchiveLoading, setIsArchiveLoading] = useState(false);
+  const [archiveError, setArchiveError] = useState(null);
 
   if (images !== prevImages) {
     setPrevImages(images);
@@ -151,11 +157,13 @@ function ProfileContent({ data, username, submit }) {
     imagesCount: imagesList.length,
     videosCount: videosList.length,
     resharesCount: resharesList.length,
-    savedCount: savedList.length,
+    sparksCount: sparksList.length,
+    archiveCount: archiveList.length,
     imagesList,
     videosList,
     resharesList,
-    savedList,
+    sparksList,
+    archiveList,
   });
 
   if (videos !== prevVideos) {
@@ -172,7 +180,7 @@ function ProfileContent({ data, username, submit }) {
    *         - imagesList   (keeps Images tab in sync)
    *         - videosList   (keeps Videos tab in sync)
    *         - resharesList (keeps Reshares tab in sync)
-   *         - savedList    (keeps Saved tab in sync)
+   *         - archiveList  (keeps Archived tab in sync)
    * Step 3: Guarantees consistent status without needing a page refresh or refetch.
    */
   const handleInteraction = (postId, updatedData) => {
@@ -182,7 +190,8 @@ function ProfileContent({ data, username, submit }) {
         setImagesList,
         setVideosList,
         setResharesList,
-        setSavedList,
+        setSparksList,
+        setArchiveList,
       ],
       postId,
       updatedData
@@ -277,26 +286,63 @@ function ProfileContent({ data, username, submit }) {
     }
   };
 
-  const fetchSaved = async (force = false) => {
+  const fetchSparks = async (force = false) => {
     if (!user?._id) return;
-    if (hasFetchedSaved && !force) return;
+    if (hasFetchedSparks && !force) return;
 
-    setIsSavedLoading(true);
-    setSavedError(null);
+    setIsSparksLoading(true);
+    setSparksError(null);
     try {
       const response = await interactionService.getUserInteractions(
         user._id,
-        "archive"
+        "spark"
       );
-      console.log("[Profile] Raw saved (archive) API response:", response);
+      console.log("[Profile] Raw sparks API response:", response);
       const items = response?.data || [];
-      // Flatten populated postId objects to conform to post structure
       const formattedPosts = items
         .map((item) => {
           if (!item.postId) return null;
           return {
             ...item.postId,
-            savedAt: item.createdAt,
+            sparkedAt: item.createdAt,
+            has: {
+              sparked: true,
+              archived: Boolean(item.postId.has?.archived),
+              reshared: Boolean(item.postId.has?.reshared),
+            },
+          };
+        })
+        .filter(Boolean);
+
+      setSparksList(formattedPosts);
+      setHasFetchedSparks(true);
+    } catch (err) {
+      console.error("Failed to fetch sparked posts:", err);
+      setSparksError(err?.message || "Could not load sparked posts");
+    } finally {
+      setIsSparksLoading(false);
+    }
+  };
+
+  const fetchArchive = async (force = false) => {
+    if (!user?._id) return;
+    if (hasFetchedArchive && !force) return;
+
+    setIsArchiveLoading(true);
+    setArchiveError(null);
+    try {
+      const response = await interactionService.getUserInteractions(
+        user._id,
+        "archive"
+      );
+      console.log("[Profile] Raw archive API response:", response);
+      const items = response?.data || [];
+      const formattedPosts = items
+        .map((item) => {
+          if (!item.postId) return null;
+          return {
+            ...item.postId,
+            archivedAt: item.createdAt,
             has: {
               sparked: Boolean(item.postId.has?.sparked),
               reshared: Boolean(item.postId.has?.reshared),
@@ -306,13 +352,13 @@ function ProfileContent({ data, username, submit }) {
         })
         .filter(Boolean);
 
-      setSavedList(formattedPosts);
-      setHasFetchedSaved(true);
+      setArchiveList(formattedPosts);
+      setHasFetchedArchive(true);
     } catch (err) {
-      console.error("Failed to fetch saved posts:", err);
-      setSavedError(err?.message || "Could not load saved posts");
+      console.error("Failed to fetch archived posts:", err);
+      setArchiveError(err?.message || "Could not load archived posts");
     } finally {
-      setIsSavedLoading(false);
+      setIsArchiveLoading(false);
     }
   };
 
@@ -320,8 +366,10 @@ function ProfileContent({ data, username, submit }) {
     setActiveTab(tab);
     if (tab === "reshare" && !hasFetchedReshares) {
       fetchReshares();
-    } else if (tab === "saved" && !hasFetchedSaved) {
-      fetchSaved();
+    } else if (tab === "sparked" && !hasFetchedSparks) {
+      fetchSparks();
+    } else if (tab === "archive" && !hasFetchedArchive) {
+      fetchArchive();
     }
   };
 
@@ -342,7 +390,8 @@ function ProfileContent({ data, username, submit }) {
       setImagesList((prev) => applyPostInteraction(prev, post._id, updatedData));
       setVideosList((prev) => applyPostInteraction(prev, post._id, updatedData));
       setResharesList((prev) => applyPostInteraction(prev, post._id, updatedData));
-      setSavedList((prev) => applyPostInteraction(prev, post._id, updatedData));
+      setSparksList((prev) => applyPostInteraction(prev, post._id, updatedData));
+      setArchiveList((prev) => applyPostInteraction(prev, post._id, updatedData));
 
       // Passive fire-and-forget impression tracking in background
       trackPostImpression(post._id).catch(() => {});
@@ -558,7 +607,8 @@ function ProfileContent({ data, username, submit }) {
             { id: "images", label: "Images" },
             { id: "videos", label: "Videos" },
             { id: "reshare", label: "Reshare" },
-            ...(isOwnProfile ? [{ id: "saved", label: "Archived" }] : []),
+            ...(isOwnProfile ? [{ id: "archive", label: "Archived" }] : []),
+            ...(isOwnProfile ? [{ id: "sparked", label: "Sparks" }] : []),
           ].map(({ id, label }) => (
             <button
               key={id}
@@ -583,19 +633,25 @@ function ProfileContent({ data, username, submit }) {
                   ? videosList
                   : activeTab === "reshare"
                   ? resharesList
-                  : activeTab === "saved"
-                  ? savedList
+                  : activeTab === "archive"
+                  ? archiveList
+                  : activeTab === "sparked"
+                  ? sparksList
                   : []
               }
               isLoading={
+                (isLoadingPosts && (activeTab === "images" || activeTab === "videos")) ||
                 (activeTab === "reshare" && isResharesLoading) ||
-                (activeTab === "saved" && isSavedLoading)
+                (activeTab === "archive" && isArchiveLoading) ||
+                (activeTab === "sparked" && isSparksLoading)
               }
               error={
                 activeTab === "reshare"
                   ? resharesError
-                  : activeTab === "saved"
-                  ? savedError
+                  : activeTab === "archive"
+                  ? archiveError
+                  : activeTab === "sparked"
+                  ? sparksError
                   : null
               }
               user={user}
@@ -604,7 +660,8 @@ function ProfileContent({ data, username, submit }) {
               onTriggerUpload={handleTriggerUpload}
               onRetry={() => {
                 if (activeTab === "reshare") fetchReshares(true);
-                else if (activeTab === "saved") fetchSaved(true);
+                else if (activeTab === "archive") fetchArchive(true);
+                else if (activeTab === "sparked") fetchSparks(true);
               }}
             />
           </div>
@@ -635,20 +692,43 @@ function ProfileContent({ data, username, submit }) {
 export default function Profile() {
   const submit = useSubmit();
   const { username } = useParams();
-  const { profileData } = useLoaderData();
+  const { profileData, cachedUser } = useLoaderData();
+  const revalidator = useRevalidator();
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [username]);
 
+  // Loading fallback: If own profile and cached user is in localStorage, show profile immediately with cached details
+  const fallbackElement = cachedUser ? (
+    <ProfileContent
+      data={{ data: { user: cachedUser, images: [], videos: [] } }}
+      username={username}
+      submit={submit}
+      isLoadingPosts={true}
+    />
+  ) : (
+    <ProfileSkeleton />
+  );
+
   return (
-    <Suspense fallback={<ProfileSkeleton />}>
+    <Suspense fallback={fallbackElement}>
       <Await
         resolve={profileData}
         errorElement={
-          <div className="text-center py-10 mt-10">
-            Error loading profile data.
-          </div>
+          cachedUser ? (
+            <ProfileContent
+              data={{ data: { user: cachedUser, images: [], videos: [] } }}
+              username={username}
+              submit={submit}
+            />
+          ) : (
+            <DataErrorState
+              skeleton={ProfileSkeleton}
+              message="Failed to load profile. Check your network or try again."
+              onRetry={() => revalidator.revalidate()}
+            />
+          )
         }
       >
         {(data) => (

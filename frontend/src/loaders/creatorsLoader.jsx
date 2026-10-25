@@ -8,8 +8,8 @@ export function creatorsLoader({ request }) {
     .then((res) => {
       return res;
     })
-    .catch(() => {
-      throw new Error("Failed to fetch creators. Please try again later.");
+    .catch((err) => {
+      throw new Error(err.message || "Failed to fetch creators. Please try again later.");
     });
 
   return { creatorsData: creatorsPromise };

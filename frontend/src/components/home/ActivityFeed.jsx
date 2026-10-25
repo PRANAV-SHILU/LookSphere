@@ -1,5 +1,5 @@
 import { Zap } from "lucide-react";
-import { activities } from "../../utils/staticData";
+import { activities } from "../../utils/HomeStaticData";
 import { GLASS_SHADOW } from "../../utils/styles";
 import { SectionHeading } from "../../shared-components/SharedHomeComponents";
 

@@ -19,6 +19,7 @@ This document records the major bugs, UI glitches, architectural refactors, and 
 - [3. Architecture, Authentication & State Synchronization](#3-architecture-authentication--state-synchronization)
   - [3.1 Cross-Origin JWT Authentication via Authorization Header](#31-cross-origin-jwt-authentication-via-authorization-header)
   - [3.2 Multi-Tab Profile Interaction State Synchronization](#32-multi-tab-profile-interaction-state-synchronization)
+  - [3.3 Network Resiliency, Instant Offline Detection & Error Sanitization](#33-network-resiliency-instant-offline-detection--error-sanitization)
 
 ---
 
@@ -140,6 +141,25 @@ When a user liked, archived, or reshared a post in one media tab (e.g., Images),
 3. Bound modal interaction callbacks to parent tab state listeners.
 
 **Impact:** Eliminates stale UI states across profile tabs and provides instantaneous interaction feedback.
+
+---
+
+### 3.3 Network Resiliency, Instant Offline Detection & Error Sanitization
+
+**Files:** [`frontend/src/network/apiClient.js`](./frontend/src/network/apiClient.js), [`frontend/src/Layout/AppLayout.jsx`](./frontend/src/Layout/AppLayout.jsx), [`frontend/src/shared-components/DataErrorState.jsx`](./frontend/src/shared-components/DataErrorState.jsx), [`frontend/src/components/ErrorBoundary.jsx`](./frontend/src/components/ErrorBoundary.jsx), [`frontend/src/loaders/profileLoader.jsx`](./frontend/src/loaders/profileLoader.jsx)
+
+Previously, when the network disconnected or the backend stopped, requests would hang for 15-30 seconds waiting for OS socket timeouts, and internal database/driver error strings (e.g., `getaddrinfo ENOTFOUND ac-lguh6ll...` or Mongoose buffering timeouts) leaked directly into toast notifications. Furthermore, error states displayed static text without restoring the initial loading skeleton on retry.
+
+**Fixes:**
+
+1. **Instant Offline Fast-Fail:** Added a pre-request interceptor in `apiClient.js` checking `navigator.onLine`. Offline requests reject instantly (0ms) rather than waiting on socket timeouts.
+2. **Global Real-Time Network Listeners:** Configured `window.addEventListener("offline")` and `window.addEventListener("online")` in `AppLayout.jsx` with immediate toast alerts.
+3. **Database & Driver Error Sanitization:** Sanitized raw MongoDB/driver errors (`ENOTFOUND`, `getaddrinfo`, `buffering timed out`, `MongoNetworkError`) into clean, actionable user messages: *"Server is unable to connect to the database. Check backend connection."*
+4. **Accurate Error Distinction:** Separated user offline (`navigator.onLine === false`) from server outages (`ECONNREFUSED` / server not running) and database timeouts, giving accurate feedback in both toasts and UI states.
+5. **Unified DataErrorState with Skeleton Retry:** Created a reusable `DataErrorState` component that renders distinct `WifiOff` and `AlertTriangle` indicators. When a user clicks "Try Again", it immediately mounts the page's initial loading skeleton while revalidating.
+6. **Cached Profile Fallback:** Updated `profileLoader.jsx` and `Profile.jsx` so authenticated users can view their own cached profile immediately during offline sessions or network drops without breaking into error screens.
+
+**Impact:** Eliminates long request hangs when offline, prevents cryptic technical database strings from confusing users, and gives instant skeleton feedback on retry.
 
 <br>
 <br>

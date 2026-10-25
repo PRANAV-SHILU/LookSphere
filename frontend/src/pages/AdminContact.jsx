@@ -1,10 +1,11 @@
 import { Suspense, useEffect } from "react";
-import { useLoaderData, Await, useSearchParams, useNavigate } from "react-router-dom";
+import { useLoaderData, Await, useSearchParams, useNavigate, useRevalidator } from "react-router-dom";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import AdminSidebar from "../components/admin/AdminSidebar";
 import ContactCard from "../components/admin/ContactCard";
 import { Mail, CheckCheck, Clock } from "lucide-react";
 import PageLoader from "../shared-components/PageLoader";
+import DataErrorState from "../shared-components/DataErrorState";
 
 const TABS = [
   { key: "false", label: "Pending",   icon: <Clock size={15} /> },
@@ -52,6 +53,7 @@ export default function AdminContact() {
   const { contactData } = useLoaderData();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const revalidator = useRevalidator();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -159,9 +161,10 @@ export default function AdminContact() {
           <Await
             resolve={contactData}
             errorElement={
-              <p className="text-center py-10" style={{ color: "var(--text-muted)" }}>
-                Failed to load contact data.
-              </p>
+              <DataErrorState
+                message="Failed to load contact submissions. Check your network or try again."
+                onRetry={() => revalidator.revalidate()}
+              />
             }
           >
             {(data) => <ContactList contacts={data?.contacts || []} isResponded={isResponded} />}

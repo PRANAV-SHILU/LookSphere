@@ -1,5 +1,5 @@
 import { Eye, Video, Image as ImageIcon, User } from "lucide-react";
-import { fakePosts } from "../../utils/staticData";
+import { fakePosts } from "../../utils/HomeStaticData";
 import { GLASS_SHADOW } from "../../utils/styles";
 import { SectionHeading } from "../../shared-components/SharedHomeComponents";
 

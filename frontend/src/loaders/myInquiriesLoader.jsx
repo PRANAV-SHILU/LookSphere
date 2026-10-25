@@ -3,6 +3,13 @@ import { contactService } from "../services/contactService";
 
 const inquiriesCache = {};
 
+/** Wipe the in-memory inquiries cache (call when leaving the page or on logout). */
+export function clearInquiriesCache() {
+  for (const key of Object.keys(inquiriesCache)) {
+    delete inquiriesCache[key];
+  }
+}
+
 export function myInquiriesLoader({ request }) {
   const stored = localStorage.getItem("user");
   const user = stored ? JSON.parse(stored) : null;
@@ -23,5 +30,8 @@ export function myInquiriesLoader({ request }) {
       });
   }
 
-  return { contactData: inquiriesCache[isResponded], isAdmin: user.role === "admin" };
+  return {
+    contactData: inquiriesCache[isResponded],
+    isAdmin: user.role === "admin",
+  };
 }

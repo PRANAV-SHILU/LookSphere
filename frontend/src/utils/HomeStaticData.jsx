@@ -73,8 +73,6 @@ export const navLinks = [
   { to: "/creators", icon: Users, label: "Creators" },
 ];
 
-
-
 export const howItWorks = [
   {
     icon: <Lock className="w-8 h-8" />,

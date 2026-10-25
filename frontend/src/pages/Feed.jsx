@@ -23,6 +23,7 @@ import PostInteractions from "../components/post/PostInteractions";
 import { trackPostImpression } from "../services/postService";
 import PostDetailModal from "../modals/PostDetailModal";
 import { getVideoPosterUrl } from "../utils/cloudinaryOptimizer";
+import DataErrorState from "../shared-components/DataErrorState";
 import { applyPostInteraction } from "../utils/interactionUtils";
 // Sub-component for each feed post to fetch user details asynchronously
 const FeedCard = React.memo(function FeedCard({
@@ -588,7 +589,11 @@ export default function Feed() {
         <Await
           resolve={feedData}
           errorElement={
-            <div className="py-10 text-center">Error loading feed.</div>
+            <DataErrorState
+              skeleton={FeedSkeleton}
+              message="Failed to load your feed. Check your connection or try again."
+              onRetry={() => revalidator.revalidate()}
+            />
           }
         >
           {({ posts }) => (

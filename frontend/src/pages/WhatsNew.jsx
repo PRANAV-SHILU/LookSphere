@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { WHATS_NEW_DATA } from "../utils/whatsNewData";
+import { WHATS_NEW_DATA } from "../utils/staticPageData";
 import { CardGlow } from "../shared-components/SharedHomeComponents";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import BackButton from "../shared-components/BackButton";
-import { Star, Wrench, Sparkles, CheckCircle, ArrowRight, Zap } from "lucide-react";
+import { Star, Wrench, Sparkles, CheckCircle, ArrowRight, Zap, ShieldAlert, BookOpen, Scale } from "lucide-react";
 
 const GLASS_SHADOW = {
   boxShadow:
@@ -13,6 +13,8 @@ const GLASS_SHADOW = {
 
 const getTagIcon = (tag) => {
   switch (tag) {
+    case "Critical":
+      return <ShieldAlert size={16} className="text-rose-400" />;
     case "Feature":
       return <Star size={16} className="text-yellow-400" />;
     case "Bugfix":
@@ -21,6 +23,10 @@ const getTagIcon = (tag) => {
       return <Sparkles size={16} className="text-green-400" />;
     case "Performance":
       return <Zap size={16} className="text-blue-400" />;
+    case "Information":
+      return <BookOpen size={16} className="text-cyan-400" />;
+    case "Legal":
+      return <Scale size={16} className="text-purple-400" />;
     default:
       return <CheckCircle size={16} className="text-blue-400" />;
   }
@@ -28,6 +34,8 @@ const getTagIcon = (tag) => {
 
 const getTagColor = (tag) => {
   switch (tag) {
+    case "Critical":
+      return "bg-rose-500/15 text-rose-400 border-rose-500/30 shadow-[0_0_12px_rgba(244,63,94,0.2)]";
     case "Feature":
       return "bg-yellow-500/10 text-yellow-400 border-yellow-500/20";
     case "Bugfix":
@@ -36,6 +44,10 @@ const getTagColor = (tag) => {
       return "bg-green-500/10 text-green-400 border-green-500/20";
     case "Performance":
       return "bg-blue-500/10 text-blue-400 border-blue-500/20";
+    case "Information":
+      return "bg-cyan-500/10 text-cyan-400 border-cyan-500/20";
+    case "Legal":
+      return "bg-purple-500/10 text-purple-400 border-purple-500/20";
     default:
       return "bg-blue-500/10 text-blue-400 border-blue-500/20";
   }
@@ -72,17 +84,23 @@ export default function WhatsNew() {
         {WHATS_NEW_DATA.map((release) => (
           <div key={release.id} className="relative pl-5 md:pl-12">
             {/* Timeline Dot */}
-            <div className="absolute -left-2.75 top-0 w-5 h-5 rounded-full bg-(--primary-500) border-4 border-(--background) shadow-[0_0_10px_rgba(59,130,246,0.5)] z-10" />
+            <div className={`absolute -left-2.75 top-0 w-5 h-5 rounded-full ${release.isCritical ? "bg-rose-500 shadow-[0_0_14px_rgba(244,63,94,0.7)]" : "bg-(--primary-500) shadow-[0_0_10px_rgba(59,130,246,0.5)]"} border-4 border-(--background) z-10`} />
 
             {/* Release Header */}
             <div className="mb-8">
               <h2 className="text-2xl md:text-3xl font-bold text-(--text-primary) mb-2">
                 {release.title}
               </h2>
-              <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-                <span className="inline-flex justify-center items-center shrink-0 min-w-28.75 text-sm font-semibold text-(--primary-400) bg-(--primary-500)/10 px-3 py-1 rounded-full border border-(--primary-500)/20">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-3 flex-wrap">
+                <span className={`inline-flex justify-center items-center shrink-0 min-w-28.75 text-sm font-semibold ${release.isCritical ? "text-rose-400 bg-rose-500/10 border-rose-500/25" : "text-(--primary-400) bg-(--primary-500)/10 border-(--primary-500)/20"} px-3 py-1 rounded-full border`}>
                   {release.date}
                 </span>
+                {release.isCritical && (
+                  <span className="inline-flex items-center gap-1.5 shrink-0 text-xs font-bold uppercase tracking-wider text-rose-400 bg-rose-500/15 px-3 py-1 rounded-full border border-rose-500/30 shadow-[0_0_10px_rgba(244,63,94,0.2)]">
+                    <ShieldAlert size={13} />
+                    Critical Security Advisory
+                  </span>
+                )}
                 <span className="text-sm text-(--text-muted)">
                   {release.description}
                 </span>

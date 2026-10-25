@@ -23,6 +23,7 @@ import {
   User,
 } from "lucide-react";
 import BackButton from "../shared-components/BackButton";
+import DataErrorState from "../shared-components/DataErrorState";
 import PostDetailModal from "../modals/PostDetailModal";
 import { trackPostImpression } from "../services/postService";
 import ExploreSkeleton from "../skeletons/ExploreSkeleton";
@@ -421,6 +422,7 @@ function ExploreContent({ posts, total }) {
 
 export default function Explore() {
   const { feedData } = useLoaderData();
+  const revalidator = useRevalidator();
   useDocumentMetadata(
     "Explore",
     "Explore trending content, viral videos, and discover new creators on LookSphere. Dive into the best of social media, brought to you by Pranav Shilu.",
@@ -454,7 +456,11 @@ export default function Explore() {
         <Await
           resolve={feedData}
           errorElement={
-            <div className="py-10 text-center">Error loading explore data.</div>
+            <DataErrorState
+              skeleton={ExploreSkeleton}
+              message="Failed to load explore content. Check your network or try again."
+              onRetry={() => revalidator.revalidate()}
+            />
           }
         >
           {({ posts, total }) => <ExploreContent posts={posts} total={total} />}

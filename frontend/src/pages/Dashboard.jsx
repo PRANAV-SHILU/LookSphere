@@ -1,5 +1,5 @@
 import { useState, Suspense } from "react";
-import { useLoaderData, Await } from "react-router-dom";
+import { useLoaderData, Await, useRevalidator } from "react-router-dom";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import { ShieldAlert, BarChart3, Clock, ImageIcon } from "lucide-react";
 import AdminSidebar from "../components/admin/AdminSidebar";
@@ -7,6 +7,7 @@ import MetricsTab from "../components/dashboard/MetricsTab";
 import RecentActivityTab from "../components/dashboard/RecentActivityTab";
 import LatestPostsTab from "../components/dashboard/LatestPostsTab";
 import PageLoader from "../shared-components/PageLoader";
+import DataErrorState from "../shared-components/DataErrorState";
 
 const TABS = [
   { key: "metrics", label: "Metrics", icon: <BarChart3 size={16} /> },
@@ -82,6 +83,7 @@ function DashboardContent({ data }) {
 
 export default function Dashboard() {
   const { dashboardData } = useLoaderData();
+  const revalidator = useRevalidator();
   useDocumentMetadata("Dashboard", "Access your LookSphere admin dashboard to manage posts, track analytics, and oversee platform activity on the social network built by Pranav Shilu.", true);
 
   return (
@@ -93,9 +95,10 @@ export default function Dashboard() {
           <Await
             resolve={dashboardData}
             errorElement={
-              <div className="text-center py-10">
-                Error loading dashboard data.
-              </div>
+              <DataErrorState
+                message="Failed to load dashboard metrics. Check your network or try again."
+                onRetry={() => revalidator.revalidate()}
+              />
             }
           >
             {(data) => <DashboardContent data={data} />}

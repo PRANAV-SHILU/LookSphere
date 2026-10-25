@@ -1,8 +1,9 @@
 import { useState, Suspense, useEffect, useRef } from "react";
-import { useLoaderData, Link, Await, useSearchParams } from "react-router-dom";
+import { useLoaderData, Link, Await, useSearchParams, useRevalidator } from "react-router-dom";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import { User, Eye, ArrowRight, Search, FileText, X } from "lucide-react";
 import BackButton from "../shared-components/BackButton";
+import DataErrorState from "../shared-components/DataErrorState";
 import CreatorsSkeleton from "../skeletons/CreatorsSkeleton";
 
 function CreatorsContent({ creatorsList }) {
@@ -205,6 +206,7 @@ function CreatorsContent({ creatorsList }) {
 
 export default function Creators() {
   const { creatorsData } = useLoaderData();
+  const revalidator = useRevalidator();
   useDocumentMetadata(
     "Creators",
     "Discover top creators, influencers, and trending profiles on LookSphere. Explore amazing content curated on the platform built by Pranav Shilu.",
@@ -234,9 +236,11 @@ export default function Creators() {
         <Await
           resolve={creatorsData}
           errorElement={
-            <div className="py-10 text-center">
-              Error loading creators data.
-            </div>
+            <DataErrorState
+              skeleton={CreatorsSkeleton}
+              message="Failed to load creators list. Check your network connection or try again."
+              onRetry={() => revalidator.revalidate()}
+            />
           }
         >
           {(creatorsList) => <CreatorsContent creatorsList={creatorsList} />}

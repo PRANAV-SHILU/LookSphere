@@ -1,7 +1,8 @@
+import { useEffect } from "react";
 import { Outlet, useLocation, useNavigation } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { ContactFormProvider } from "../context/ContactFormContext";
@@ -11,6 +12,28 @@ export default function AppLayout() {
   const location = useLocation();
   const navigation = useNavigation();
   const isLoading = navigation.state === "loading";
+
+  // Instant offline / online detection
+  useEffect(() => {
+    const handleOffline = () => {
+      toast.error("You are offline. Please check your internet connection.", {
+        toastId: "app-offline",
+      });
+    };
+    const handleOnline = () => {
+      toast.success("Back online! Connection restored.", {
+        toastId: "app-online",
+      });
+    };
+
+    window.addEventListener("offline", handleOffline);
+    window.addEventListener("online", handleOnline);
+
+    return () => {
+      window.removeEventListener("offline", handleOffline);
+      window.removeEventListener("online", handleOnline);
+    };
+  }, []);
 
   const isNoPaddingPage =
     location.pathname === "/feed" ||

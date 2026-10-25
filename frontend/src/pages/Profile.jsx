@@ -6,12 +6,14 @@ import {
   useSubmit,
   useNavigation,
   Await,
+  useRevalidator,
 } from "react-router-dom";
 import { toast } from "react-toastify";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import ProfileSkeleton from "../skeletons/ProfileSkeleton";
 import { User, Link as LinkIcon, Check } from "lucide-react";
 import BackButton from "../shared-components/BackButton";
+import DataErrorState from "../shared-components/DataErrorState";
 import UploadMediaModal from "../modals/UploadMediaModal";
 import PostDetailModal from "../modals/PostDetailModal";
 import { trackPostImpression } from "../services/postService";
@@ -124,7 +126,7 @@ const ProfileStats = React.memo(function ProfileStats({
   );
 });
 
-function ProfileContent({ data, username, submit }) {
+function ProfileContent({ data, username, submit, isLoadingPosts = false }) {
   console.log("Profile", data);
   const profileDataObj = data?.data || data || {};
   const { user, images = [], videos = [] } = profileDataObj;
@@ -638,6 +640,7 @@ function ProfileContent({ data, username, submit }) {
                   : []
               }
               isLoading={
+                (isLoadingPosts && (activeTab === "images" || activeTab === "videos")) ||
                 (activeTab === "reshare" && isResharesLoading) ||
                 (activeTab === "archive" && isArchiveLoading) ||
                 (activeTab === "sparked" && isSparksLoading)
@@ -689,20 +692,43 @@ function ProfileContent({ data, username, submit }) {
 export default function Profile() {
   const submit = useSubmit();
   const { username } = useParams();
-  const { profileData } = useLoaderData();
+  const { profileData, cachedUser } = useLoaderData();
+  const revalidator = useRevalidator();
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [username]);
 
+  // Loading fallback: If own profile and cached user is in localStorage, show profile immediately with cached details
+  const fallbackElement = cachedUser ? (
+    <ProfileContent
+      data={{ data: { user: cachedUser, images: [], videos: [] } }}
+      username={username}
+      submit={submit}
+      isLoadingPosts={true}
+    />
+  ) : (
+    <ProfileSkeleton />
+  );
+
   return (
-    <Suspense fallback={<ProfileSkeleton />}>
+    <Suspense fallback={fallbackElement}>
       <Await
         resolve={profileData}
         errorElement={
-          <div className="text-center py-10 mt-10">
-            Error loading profile data.
-          </div>
+          cachedUser ? (
+            <ProfileContent
+              data={{ data: { user: cachedUser, images: [], videos: [] } }}
+              username={username}
+              submit={submit}
+            />
+          ) : (
+            <DataErrorState
+              skeleton={ProfileSkeleton}
+              message="Failed to load profile. Check your network or try again."
+              onRetry={() => revalidator.revalidate()}
+            />
+          )
         }
       >
         {(data) => (

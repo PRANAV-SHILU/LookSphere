@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, Suspense } from "react";
-import { useLoaderData, Await, Link } from "react-router-dom";
+import { useLoaderData, Await, Link, useRevalidator } from "react-router-dom";
 import {
   User,
   Clock,
@@ -7,6 +7,7 @@ import {
   Info,
 } from "lucide-react";
 import PageLoader from "../shared-components/PageLoader";
+import DataErrorState from "../shared-components/DataErrorState";
 import BackButton from "../shared-components/BackButton";
 import { getVideoPosterUrl } from "../utils/cloudinaryOptimizer";
 import PostDetailModal from "../modals/PostDetailModal";
@@ -17,21 +18,31 @@ import { applyPostInteraction } from "../utils/interactionUtils";
 
 export default function PostDetail() {
   const { post } = useLoaderData();
+  const revalidator = useRevalidator();
 
   return (
-    <div className="max-w-xl mx-auto mt-6 px-0 py-4 md:py-8 pb-24 md:pb-8 relative flex flex-col gap-6 min-h-screen">
-      <div className="flex items-center justify-between">
+    <div className="flex-col mt-6 px-0 py-4 pb-24 gap-6 max-w-xl mx-auto min-h-screen md:py-8 md:pb-8 relative flex">
+      <div className="justify-between flex items-center">
         <BackButton to="/feed" label="Back to Feed" />
       </div>
 
       <Suspense
         fallback={
-          <div className="flex justify-center items-center h-64">
+          <div className="justify-center h-64 flex items-center">
             <PageLoader />
           </div>
         }
       >
-        <Await resolve={post}>
+        <Await
+          resolve={post}
+          errorElement={
+            <DataErrorState
+              skeleton={PageLoader}
+              message="Failed to load post. Check your network and try again."
+              onRetry={() => revalidator.revalidate()}
+            />
+          }
+        >
           {(resolvedPost) => <PostCard post={resolvedPost} />}
         </Await>
       </Suspense>
@@ -190,7 +201,7 @@ function PostCard({ post }) {
 
   return (
     <div
-      className="rounded-2xl border flex flex-col overflow-hidden transition-all duration-300 hover:shadow-lg shadow-md mb-8"
+      className="flex-col mb-8 rounded-2xl border overflow-hidden shadow-md flex transition-all duration-300 hover:shadow-lg"
       style={{
         backgroundColor: "var(--surface-card)",
         borderColor: "var(--border-light)",
@@ -198,16 +209,16 @@ function PostCard({ post }) {
     >
       {/* Header */}
       <div
-        className="p-4 flex items-center justify-between border-b"
+        className="p-4 justify-between border-b flex items-center"
         style={{ borderColor: "var(--border-light)" }}
       >
         {post.userId ? (
           <Link
             to={`/profile/${post.userId.username}`}
-            className="flex items-center gap-3 group"
+            className="gap-3 flex items-center group"
           >
             <div
-              className="w-9 h-9 rounded-full overflow-hidden border flex items-center justify-center bg-zinc-800"
+              className="w-9 h-9 rounded-full overflow-hidden border justify-center bg-zinc-800 flex items-center"
               style={{ borderColor: "var(--border-light)" }}
             >
               {post.userId.profileImage ? (
@@ -232,7 +243,7 @@ function PostCard({ post }) {
             </span>
           </Link>
         ) : (
-          <div className="flex items-center gap-3">
+          <div className="gap-3 flex items-center">
             <div className="w-9 h-9 rounded-full bg-zinc-800" />
             <span className="font-bold text-sm text-zinc-500">
               Unknown User
@@ -241,7 +252,7 @@ function PostCard({ post }) {
         )}
 
         <div
-          className="items-center gap-1.5 text-xs flex"
+          className="gap-1.5 text-xs items-center flex"
           style={{ color: "var(--text-muted)" }}
         >
           <Clock size={12} />
@@ -251,7 +262,7 @@ function PostCard({ post }) {
 
       {/* Media */}
       <div
-        className="relative overflow-hidden flex items-center justify-center w-full"
+        className="overflow-hidden justify-center w-full relative flex items-center"
         style={{ height: "520px", backgroundColor: "var(--bg-tertiary)" }}
       >
         {isVideo ? (
@@ -284,7 +295,7 @@ function PostCard({ post }) {
       </div>
 
       {/* Footer */}
-      <div className="p-4 flex flex-col gap-2.5">
+      <div className="flex-col p-4 gap-2.5 flex">
         <PostInteractions
           key={currentPost?._id}
           post={currentPost}
@@ -293,7 +304,7 @@ function PostCard({ post }) {
         />
 
         {currentPost?.caption && (
-          <div className="flex flex-col">
+          <div className="flex-col flex">
             <p
               className="text-sm leading-relaxed whitespace-pre-wrap"
               style={{ color: "var(--text-secondary)" }}

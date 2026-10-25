@@ -1,8 +1,9 @@
 import { Suspense, useEffect } from "react";
-import { useLoaderData, Await, Link, useSearchParams, useNavigate, useNavigation } from "react-router-dom";
+import { useLoaderData, Await, Link, useSearchParams, useNavigate, useNavigation, useRevalidator } from "react-router-dom";
 import { MessageSquareText, Mail, Clock, CheckCheck, ArrowRight, Loader2 } from "lucide-react";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import BackButton from "../shared-components/BackButton";
+import DataErrorState from "../shared-components/DataErrorState";
 import ContactCard from "../components/admin/ContactCard";
 import { ContactCardSkeleton } from "../skeletons/MyInquiriesSkeleton";
 import { clearInquiriesCache } from "../loaders/myInquiriesLoader.jsx";
@@ -63,6 +64,7 @@ export default function MyInquiries() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const navigation = useNavigation();
+  const revalidator = useRevalidator();
 
   const isResponded = searchParams.get("isResponded") ?? "false";
   const isNavigating = navigation.state === "loading";
@@ -146,9 +148,14 @@ export default function MyInquiries() {
             key={isResponded}
             resolve={contactData}
             errorElement={
-              <p className="text-center text-xs sm:text-sm py-10" style={{ color: "var(--text-muted)" }}>
-                Failed to load your inquiries.
-              </p>
+              <DataErrorState
+                skeleton={LoadingSkeleton}
+                message="Failed to load your inquiries. Check your network or try again."
+                onRetry={() => {
+                  clearInquiriesCache();
+                  revalidator.revalidate();
+                }}
+              />
             }
           >
             {(data) => <InquiryList contacts={data?.contacts || []} isAdmin={isAdmin} />}

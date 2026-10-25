@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
 import { X, Sparkles, Repeat2, Loader2, User as UserIcon } from "lucide-react";
 import { interactionService } from "../services/interactionService";
+import DataErrorState from "../shared-components/DataErrorState";
 import {
   getCachedInteractions,
   setCachedInteractions,
@@ -27,6 +28,32 @@ export default function InteractionsListModal({
   // Users to display: prioritize cache if available, else fetchedUsers
   const users = cachedUsers || fetchedUsers;
 
+  const fetchInteractions = useCallback(() => {
+    if (!postId) return;
+    Promise.resolve().then(() => {
+      setLoading(true);
+      setError(null);
+    });
+
+    return interactionService
+      .getPostInteractions(postId, type)
+      .then((res) => {
+        const interactionItems = res?.data || [];
+        const userList = interactionItems
+          .map((item) => item.userId)
+          .filter(Boolean);
+        setCachedInteractions(postId, type, userList);
+        setFetchedUsers(userList);
+      })
+      .catch((err) => {
+        console.error("Failed to load interactions:", err);
+        setError("Failed to load users. Please check your connection or try again.");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [postId, type]);
+
   // Close on Escape key press
   useEffect(() => {
     if (!isOpen) return;
@@ -47,39 +74,8 @@ export default function InteractionsListModal({
       return;
     }
 
-    let isMounted = true;
-    Promise.resolve().then(() => {
-      if (isMounted) {
-        setLoading(true);
-        setError(null);
-      }
-    });
-
-    interactionService
-      .getPostInteractions(postId, type)
-      .then((res) => {
-        if (!isMounted) return;
-        const interactionItems = res?.data || [];
-        // Extract populated user objects
-        const userList = interactionItems
-          .map((item) => item.userId)
-          .filter(Boolean);
-        setCachedInteractions(postId, type, userList);
-        setFetchedUsers(userList);
-      })
-      .catch((err) => {
-        if (!isMounted) return;
-        console.error("Failed to load interactions:", err);
-        setError("Failed to load users. Please try again.");
-      })
-      .finally(() => {
-        if (isMounted) setLoading(false);
-      });
-
-    return () => {
-      isMounted = false;
-    };
-  }, [isOpen, postId, type]);
+    fetchInteractions();
+  }, [isOpen, postId, type, fetchInteractions]);
 
   if (!isOpen) return null;
 
@@ -138,9 +134,11 @@ export default function InteractionsListModal({
               <span className="text-xs">Loading {type}s...</span>
             </div>
           ) : error ? (
-            <div className="py-8 text-center">
-              <p className="text-xs text-red-400">{error}</p>
-            </div>
+            <DataErrorState
+              message={error}
+              className="py-6 px-2 text-center justify-center flex flex-col items-center"
+              onRetry={fetchInteractions}
+            />
           ) : users.length === 0 ? (
             <div className="flex-col py-10 justify-center text-center flex items-center">
               <div className="mb-3 w-12 h-12 rounded-full bg-(--surface-hover) justify-center flex items-center">

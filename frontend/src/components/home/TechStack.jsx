@@ -5,22 +5,22 @@ import { SectionHeading } from "../../shared-components/SharedHomeComponents";
 
 export default function TechStack() {
   return (
-    <div className="w-full py-10 xsm:py-12 sm:py-16 md:py-20 3xl:py-24 px-3 xsm:px-4 sm:px-8 md:px-12">
+    <div className="py-10 px-3 w-full xsm:py-12 sm:py-16 md:py-20 3xl:py-24 xsm:px-4 sm:px-8 md:px-12">
       <SectionHeading
         icon={Code2}
         title="Built With the Best"
-        subtitle="Powered by a modern, robust technology stack and high-performance algorithms."
+        subtitle="Powered by a modern, hardened technology stack, patched LTS runtimes, and high-performance algorithms."
       />
 
       <div
-        className="flex flex-wrap justify-center gap-2.5 xsm:gap-3 sm:gap-4 max-w-4xl 3xl:max-w-5xl mx-auto"
+        className="flex-wrap gap-2.5 justify-center w-full flex xsm:gap-3"
       >
         {techStack.map((tech) => {
           const TechIcon = tech.icon;
           return (
             <div
               key={tech.name}
-              className="glass rounded-full px-4 sm:px-5 py-2.5 flex items-center gap-2 cursor-default transition-all duration-300 md:hover:-translate-y-1 md:hover:shadow-lg"
+              className="px-4 py-2.5 gap-2 rounded-full glass sm:px-5 flex items-center cursor-default transition-all duration-300 md:hover:-translate-y-1 md:hover:shadow-lg"
               style={GLASS_SHADOW}
             >
               <TechIcon size={18} style={{ color: tech.color }} />

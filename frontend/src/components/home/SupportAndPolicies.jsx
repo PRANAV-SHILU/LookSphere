@@ -8,37 +8,36 @@ import {
 import { supportAndPoliciesData } from "../../utils/HomeStaticData";
 
 export default function SupportAndPolicies() {
-
   return (
-    <div className="w-full pb-10 xsm:pb-12 sm:pb-16 md:py-20 3xl:py-24 pt-0 px-3 xsm:px-4 sm:px-8 md:px-12">
+    <div className="py-10 px-3 w-full xsm:py-12 sm:py-16 md:py-20 3xl:py-24 xsm:px-4 sm:px-8 md:px-12">
       <SectionHeading
         icon={HelpCircle}
         title="Support & Policies"
-        subtitle="Browse our helpful guides, user agreements, and data safety policies."
+        subtitle="Direct support tickets, live inquiry tracking, helpful guides, and data safety policies."
       />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 mdlg:grid-cols-4 gap-4 xsm:gap-6 max-w-7xl 3xl:max-w-[1700px] mx-auto">
+      <div className="grid grid-cols-1 gap-3 w-full mdlg:grid-cols-3">
         {supportAndPoliciesData.map((card) => {
           const IconComponent = card.icon;
           return (
             <Link
               key={card.title}
               to={card.link}
-              className={`liquid-glass p-6 rounded-2xl ${CARD_HOVER} transition-all duration-300 md:hover:-translate-y-1 md:hover:shadow-lg block group relative overflow-hidden`}
+              className={`liquid-glass p-5 rounded-2xl ${CARD_HOVER} transition-all duration-300 md:hover:-translate-y-1 md:hover:shadow-lg block group relative overflow-hidden`}
               style={{ ...GLASS_SHADOW, textDecoration: "none" }}
             >
               <CardGlow />
-              <div className="relative z-10 flex flex-col h-full justify-between">
+              <div className="flex-col z-10 h-full justify-between relative flex">
                 <div>
-                  <div className="flex justify-between items-start mb-4">
+                  <div className="mb-6 justify-between flex items-start">
                     <div
-                      className="w-10 h-10 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3 border border-white/5"
+                      className="w-12 h-12 rounded-2xl justify-center border border-white/5 sm:w-16 sm:h-16 flex items-center transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3"
                       style={{ backgroundColor: `${card.color}15`, color: card.color }}
                     >
-                      <IconComponent className="w-5 h-5" />
+                      <IconComponent className="w-6 h-6 sm:w-8 sm:h-8" />
                     </div>
                     <span 
-                      className="text-[10px] uppercase font-extrabold tracking-wider px-2.5 py-1 rounded-full border transition-all duration-300 group-hover:bg-opacity-20"
+                      className="px-2.5 py-1 text-[10px] font-extrabold rounded-md border uppercase tracking-wider transition-all duration-300 group-hover:bg-opacity-20"
                       style={{ 
                         borderColor: `${card.color}40`, 
                         color: card.color,
@@ -48,19 +47,19 @@ export default function SupportAndPolicies() {
                       {card.badge}
                     </span>
                   </div>
-                  <h3 className="text-base sm:text-lg font-bold mb-2 text-(--text-primary)">
+                  <h3 className="mb-3 text-lg font-bold text-(--text-primary) sm:text-xl">
                     {card.title}
                   </h3>
-                  <p className="text-xs sm:text-sm text-(--text-muted) leading-relaxed mb-4">
+                  <p className="mb-6 text-sm text-(--text-muted) sm:text-base leading-relaxed">
                     {card.description}
                   </p>
                 </div>
                 <div 
-                  className="flex items-center gap-1.5 text-xs font-bold group-hover:translate-x-1 transition-transform"
+                  className="gap-1.5 text-sm font-bold flex items-center group-hover:translate-x-1 transition-transform"
                   style={{ color: "var(--primary-500)" }}
                 >
-                  <span>Read page</span>
-                  <ArrowRight size={14} />
+                  <span>{card.actionText || card.title}</span>
+                  <ArrowRight size={16} />
                 </div>
               </div>
             </Link>

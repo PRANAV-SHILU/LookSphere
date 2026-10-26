@@ -1,7 +1,7 @@
 export function CardGlow() {
   return (
     <div
-      className="card-glow absolute inset-0 opacity-0 group-hover:opacity-[0.06] transition-opacity duration-300 pointer-events-none"
+      className="card-glow opacity-0 absolute inset-0 group-hover:opacity-[0.06] transition-opacity duration-300 pointer-events-none"
       style={{
         background: "linear-gradient(135deg, var(--primary-500), transparent)",
       }}
@@ -12,7 +12,7 @@ export function CardGlow() {
 export function WaveDivider({ flip = false, className = "" }) {
   return (
     <div
-      className={`hidden md:block w-[90%] mdlg:w-full mx-auto overflow-hidden pointer-events-none select-none ${flip ? "rotate-180" : ""} ${className}`}
+      className={`hidden md:block max-w-5xl mx-auto overflow-hidden pointer-events-none select-none ${flip ? "rotate-180" : ""} ${className}`}
       aria-hidden="true"
     >
       <svg
@@ -38,39 +38,39 @@ export function WaveDivider({ flip = false, className = "" }) {
 export function HeroBackground() {
   return (
     <div
-      className="absolute inset-0 overflow-hidden pointer-events-none -z-10 rounded-2xl"
+      className="overflow-hidden rounded-2xl absolute inset-0 pointer-events-none -z-10"
       aria-hidden="true"
     >
-      <div className="hero-orb-1 absolute top-[10%] left-[15%] w-48 sm:w-72 h-48 sm:h-72 rounded-full bg-blue-500/30 dark:bg-blue-500/20 blur-[80px]" />
-      <div className="hero-orb-2 absolute top-[50%] right-[10%] w-56 sm:w-80 h-56 sm:h-80 rounded-full bg-purple-500/25 dark:bg-purple-500/15 blur-[100px]" />
-      <div className="hero-orb-3 absolute bottom-[5%] left-[35%] w-40 sm:w-64 h-40 sm:h-64 rounded-full bg-cyan-400/25 dark:bg-cyan-400/10 blur-[80px]" />
+      <div className="top-[10%] w-48 h-48 rounded-full bg-blue-500/30 hero-orb-1 absolute left-[15%] sm:w-72 sm:h-72 dark:bg-blue-500/20 blur-[80px]" />
+      <div className="top-[50%] w-56 h-56 rounded-full bg-purple-500/25 hero-orb-2 absolute right-[10%] sm:w-80 sm:h-80 dark:bg-purple-500/15 blur-[100px]" />
+      <div className="bottom-[5%] w-40 h-40 rounded-full bg-cyan-400/25 hero-orb-3 absolute left-[35%] sm:w-64 sm:h-64 dark:bg-cyan-400/10 blur-[80px]" />
     </div>
   );
 }
 
 export function SectionHeading({ icon: Icon, title, subtitle, badge }) {
   return (
-    <div className="text-center mb-8 xsm:mb-12 3xl:mb-16">
+    <div className="mb-8 text-center xsm:mb-12 3xl:mb-16">
       {Icon && (
         <div>
           <Icon
-          className="w-8 h-8 xsm:w-10 xsm:h-10 sm:w-12 sm:h-12 3xl:w-14 3xl:h-14 mx-auto mb-4"
+          className="mb-4 w-8 h-8 mx-auto xsm:w-10 xsm:h-10 sm:w-12 sm:h-12 3xl:w-14 3xl:h-14"
             style={{ color: "var(--primary-500)" }}
           />
         </div>
       )}
       {badge && (
         <div 
-          className="inline-block px-3 py-1 mb-4 rounded-full bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 text-xs sm:text-sm font-semibold tracking-wide uppercase shadow-sm border border-blue-200 dark:border-blue-800"
+          className="px-3 py-1 mb-4 rounded-full bg-blue-100 text-blue-600 text-xs font-semibold shadow-sm border border-blue-200 inline-block dark:bg-blue-900/30 dark:text-blue-400 sm:text-sm tracking-wide uppercase dark:border-blue-800"
         >
           {badge}
         </div>
       )}
-      <div className="hero-text text-2xl xsm:text-3xl sm:text-4xl md:text-5xl 3xl:text-6xl 4xl:text-7xl font-bold mb-4">
+      <div className="mb-4 text-2xl font-bold hero-text xsm:text-3xl sm:text-4xl md:text-5xl 3xl:text-6xl 4xl:text-7xl">
         {title}
       </div>
       {subtitle && (
-        <div className="text-sm xsm:text-base sm:text-lg md:text-xl 3xl:text-2xl text-(--text-muted) max-w-3xl 3xl:max-w-4xl mx-auto">
+        <div className="text-sm text-(--text-muted) max-w-3xl mx-auto xsm:text-base sm:text-lg md:text-xl 3xl:text-2xl 3xl:max-w-4xl">
           {subtitle}
         </div>
       )}

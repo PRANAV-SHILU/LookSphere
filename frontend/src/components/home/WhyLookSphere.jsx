@@ -8,24 +8,24 @@ import {
 
 export default function WhyLookSphere() {
   return (
-    <div className="w-full py-10 xsm:py-12 sm:py-16 md:py-20 3xl:py-24 px-3 xsm:px-4 sm:px-8 md:px-12">
+    <div className="py-10 px-3 w-full xsm:py-12 sm:py-16 md:py-20 3xl:py-24 xsm:px-4 sm:px-8 md:px-12">
       <SectionHeading
         icon={Sparkles}
         title="Why LookSphere?"
-        subtitle="Designed for creators, built for everyone. Here's what makes us different."
+        subtitle="Designed for creators, built for everyone, Next-gen post interactions, a dedicated support desk, Here's what makes us different."
       />
 
-        <div className="grid grid-cols-1 mdlg:grid-cols-3 gap-4 xsm:gap-6 sm:gap-8 max-w-6xl 3xl:max-w-7xl mx-auto">
-          {socialFeatures.map((feature) => (
-            <div
+      <div className="grid grid-cols-2 gap-3 w-full">
+        {socialFeatures.map((feature) => (
+          <div
             key={feature.title}
-            className={`liquid-glass p-6 sm:p-8 rounded-2xl ${CARD_HOVER} transition-all duration-300 md:hover:-translate-y-1 md:hover:shadow-lg`}
+            className={`liquid-glass p-5 rounded-2xl ${CARD_HOVER} transition-all duration-300 md:hover:-translate-y-1 md:hover:shadow-lg flex flex-col justify-between`}
             style={GLASS_SHADOW}
           >
             <CardGlow />
             <div className="relative">
               <div
-                className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl mb-6 flex items-center justify-center transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3 border border-white/5"
+                className="mb-6 w-12 h-12 rounded-2xl justify-center border border-white/5 sm:w-16 sm:h-16 flex items-center transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3"
                 style={{ backgroundColor: "var(--surface-input)" }}
               >
                 <div
@@ -35,10 +35,10 @@ export default function WhyLookSphere() {
                   {feature.icon}
                 </div>
               </div>
-              <h3 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4 text-(--text-primary)">
+              <h3 className="mb-3 text-lg font-bold text-(--text-primary) sm:text-xl sm:mb-4">
                 {feature.title}
               </h3>
-              <p className="text-sm sm:text-base text-(--text-muted) leading-relaxed">
+              <p className="text-sm text-(--text-muted) sm:text-base leading-relaxed">
                 {feature.description}
               </p>
             </div>

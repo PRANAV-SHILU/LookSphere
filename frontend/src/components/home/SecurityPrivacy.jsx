@@ -8,47 +8,46 @@ import {
 
 export default function SecurityPrivacy() {
   return (
-    <div className="w-full py-10 xsm:py-12 sm:py-16 md:py-20 3xl:py-24 px-3 xsm:px-4 sm:px-8 md:px-12">
+    <div className="py-10 px-3 w-full xsm:py-12 sm:py-16 md:py-20 3xl:py-24 xsm:px-4 sm:px-8 md:px-12">
       <SectionHeading
         icon={Shield}
         title="Security & Privacy"
-        subtitle="Your safety is our top priority. Here's how we protect your data at every layer."
+        subtitle="Zero-vulnerability audited stack, Your safety is our top priority. Here's how we protect your data at every layer."
       />
 
-      <div className="grid grid-cols-1 mdlg:grid-cols-2 gap-4 xsm:gap-6 lg:gap-8 max-w-250 mx-auto 3xl:max-w-7xl 3xl:gap-10 mt-8 xsm:mt-12 3xl:mt-16 w-full px-2 sm:px-4">
+      <div className="grid grid-cols-1 gap-3 w-full mdlg:grid-cols-3">
         {securityFeatures.map((feature) => {
           const FeatureIcon = feature.icon;
           return (
             <div
               key={feature.name}
-              className={`${CARD_HOVER} glass flex flex-col p-6 rounded-2xl transition-all duration-300 md:hover:-translate-y-1 md:hover:shadow-lg group`}
+              className={`${CARD_HOVER} glass flex flex-col p-5 rounded-2xl transition-all duration-300 md:hover:-translate-y-1 md:hover:shadow-lg group`}
               style={GLASS_SHADOW}
             >
               <CardGlow />
-              <div className="flex items-center gap-3 mb-4">
+              <div className="gap-4 mb-5 flex items-center">
                 <div
-                  className="relative shrink-0 w-11 h-11 flex items-center justify-center rounded-xl transition-all duration-300 group-hover:scale-105 border-2 border-transparent group-hover:border-(--primary-500)"
+                  className="w-12 h-12 justify-center rounded-2xl border-2 border-transparent sm:w-16 sm:h-16 relative shrink-0 flex items-center transition-all duration-300 group-hover:scale-105 group-hover:border-(--primary-500)"
                   style={{ backgroundColor: "var(--surface-input)" }}
                 >
                   <FeatureIcon
-                    size={20}
-                    className="transition-colors duration-300 group-hover:text-(--primary-600)"
+                    className="w-6 h-6 sm:w-8 sm:h-8 transition-colors duration-300 group-hover:text-(--primary-600)"
                     style={{ color: "var(--primary-500)" }}
                   />
                 </div>
                 <div>
-                  <h3 className="relative text-base sm:text-lg font-bold text-(--text-primary) group-hover:text-(--primary-600) transition-colors duration-300">
+                  <h3 className="text-base font-bold text-(--text-primary) relative sm:text-lg group-hover:text-(--primary-600) transition-colors duration-300">
                     {feature.name}
                   </h3>
-                  <span className="relative text-xs font-semibold text-(--primary-500) uppercase tracking-wide">
+                  <span className="text-xs font-semibold text-(--primary-500) relative uppercase tracking-wide">
                     {feature.purpose}
                   </span>
                 </div>
               </div>
-              <p className="relative text-sm text-(--text-muted) mb-4 leading-relaxed flex-1">
+              <p className="flex-1 mb-4 text-sm text-(--text-muted) relative leading-relaxed">
                 {feature.description}
               </p>
-              <div className="relative glass rounded-lg px-3 py-2 text-xs text-(--text-muted) flex items-center gap-2">
+              <div className="px-3 py-2 gap-2 rounded-lg text-xs text-(--text-muted) relative glass flex items-center">
                 <Layers size={12} style={{ color: "var(--primary-500)" }} />
                 {feature.where}
               </div>

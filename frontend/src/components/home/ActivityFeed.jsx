@@ -5,7 +5,7 @@ import { SectionHeading } from "../../shared-components/SharedHomeComponents";
 
 export default function ActivityFeed() {
   return (
-    <div className="w-full py-10 xsm:py-12 sm:py-16 md:py-20 3xl:py-24 px-3 xsm:px-4 sm:px-8 md:px-12">
+    <div className="py-10 px-3 w-full xsm:py-12 sm:py-16 md:py-20 3xl:py-24 xsm:px-4 sm:px-8 md:px-12">
       <SectionHeading
         icon={Zap}
         title="Live Activity"
@@ -13,25 +13,25 @@ export default function ActivityFeed() {
       />
 
       <div
-        className="max-w-md 3xl:max-w-lg mx-auto h-72 overflow-hidden relative rounded-2xl liquid-glass border border-(--border-normal)"
+        className="max-w-lg mx-auto h-88 overflow-hidden rounded-2xl border border-(--border-normal) 3xl:max-w-lg relative liquid-glass"
         style={GLASS_SHADOW}
       >
-        {/* Very Soon Badge */}
-        <div className="absolute top-3 right-3 z-30 px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 text-xs font-bold uppercase tracking-wider border-none md:border md:border-blue-500/20 shadow-sm flex items-center gap-1.5">
-          <span className="w-1.5 h-1.5 rounded-full bg-blue-500 md:animate-pulse" />{" "}
-          Very Soon
+        {/* Live Stream Badge */}
+        <div className="px-2.5 py-1 gap-1.5 top-3 z-30 rounded-full bg-blue-500/10 text-blue-600 text-xs font-bold border-none shadow-sm absolute right-3 dark:text-blue-400 uppercase tracking-wider md:border md:border-blue-500/20 flex items-center">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />{" "}
+          Live Stream (Very Soon)
         </div>
 
         {/* Fade masks */}
         <div
-          className="absolute top-0 left-0 right-0 h-16 z-10 pointer-events-none hidden md:block"
+          className="top-0 h-16 z-10 absolute left-0 right-0 pointer-events-none hidden md:block"
           style={{
             background:
               "linear-gradient(to bottom, var(--bg-primary), transparent)",
           }}
         />
         <div
-          className="absolute bottom-0 left-0 right-0 h-16 z-10 pointer-events-none hidden md:block"
+          className="bottom-0 h-16 z-10 absolute left-0 right-0 pointer-events-none hidden md:block"
           style={{
             background:
               "linear-gradient(to top, var(--bg-primary), transparent)",
@@ -45,10 +45,10 @@ export default function ActivityFeed() {
             return (
               <div
                 key={i}
-                className="glass flex items-center gap-3 rounded-xl px-4 py-3 mb-3 transition-all duration-200"
+                className="gap-3 px-4 py-3 mb-3 rounded-xl glass flex items-center transition-all duration-200"
               >
                 <div
-                  className="shrink-0 w-8 h-8 flex items-center justify-center rounded-lg"
+                  className="w-8 h-8 justify-center rounded-lg shrink-0 flex items-center"
                   style={{ backgroundColor: "var(--surface-input)" }}
                 >
                   <ActIcon size={16} style={{ color: "var(--primary-500)" }} />

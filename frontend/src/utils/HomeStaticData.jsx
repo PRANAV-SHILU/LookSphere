@@ -44,26 +44,43 @@ import {
   RefreshCw,
   Binary,
   Sliders,
+  Repeat2,
+  Wifi,
+  Inbox,
+  Play,
+  Film,
+  Link as LinkIcon,
+  CheckCircle2,
+  LifeBuoy,
+  Settings,
 } from "lucide-react";
 
 export const socialFeatures = [
+  
   {
     icon: <Globe className="w-8 h-8" />,
-    title: "Global Community",
+    title: "Global Discovery & Creators",
     description:
-      "Join a diverse, vibrant community of creators, thinkers, and innovators across the globe.",
+      "Explore curated public feeds, find creators worldwide, track your profile views, and share direct one-click links to posts and profiles.",
   },
+  
   {
-    icon: <Heart className="w-8 h-8" />,
-    title: "Share & Discover",
+    icon: <Sparkles className="w-8 h-8" />,
+    title: "Sparks, Reshares & Archives",
     description:
-      "Share your passions and discover new interests through an intuitive content discovery engine.",
+      "Engage with posts using instant Sparks, broadcast favorites to your profile with Reshares, and organize private bookmarks in your personal Archive.",
   },
   {
     icon: <Shield className="w-8 h-8" />,
     title: "Privacy First",
     description:
-      "Your data belongs to you. Advanced security features keep your conversations and content safe.",
+      "Your data belongs to you. Zero tracking cookies, encrypted credentials, and transparent data policies keep your content and account safe.",
+  },
+  {
+    icon: <MessageSquare className="w-8 h-8" />,
+    title: "Dedicated Support & Inquiries",
+    description:
+      "Submit categorized tickets with photo or video attachments for feedback, bugs, or questions, and track admin responses live on My Inquiries.",
   },
 ];
 
@@ -77,23 +94,23 @@ export const howItWorks = [
   {
     icon: <Lock className="w-8 h-8" />,
     step: "01",
-    title: "Secure Signup",
+    title: "Secure Onboarding",
     description:
-      "Your password is encrypted with 12 salt rounds before hitting our database.",
+      "Create your account in seconds with 12-round bcrypt password hashing and customize your unique profile tagline and bio.",
   },
   {
     icon: <Upload className="w-8 h-8" />,
     step: "02",
-    title: "Upload Media",
+    title: "Publish Rich Media",
     description:
-      "Share images or videos with custom captions and alt-text for accessibility.",
+      "Share high-resolution images or videos with custom captions, accessibility alt-text, and zero-layout-shift rendering.",
   },
   {
-    icon: <Users className="w-8 h-8" />,
+    icon: <Sparkles className="w-8 h-8" />,
     step: "03",
-    title: "Discover & Engage",
+    title: "Spark, Reshare & Engage",
     description:
-      "Explore the Feed, search for specific users, and see your view counts grow.",
+      "Show appreciation with Sparks, reshare standout posts, inspect who reacted in live modals, and track views in real-time.",
   },
 ];
 
@@ -102,43 +119,59 @@ export const capabilities = [
     id: "post",
     label: "Post & Share",
     icon: ImageIcon,
-    title: "Express Yourself",
+    title: "Express Yourself With Media",
     description:
-      "Share your photos, thoughts, and moments with the community. Add captions, alt text for accessibility, and let your creativity shine.",
+      "Share high-resolution photos and videos with smooth playback, custom captions, and accessible alt-text for global audiences.",
     features: [
-      "Upload photos & media",
-      "Write captions & stories",
-      "Add alt text for accessibility",
-      "Reach a global audience",
-      "Real-time post impression counts",
+      "High-definition photo & video uploads",
+      "Scroll-synchronized video autoplay",
+      "Custom captions & accessibility alt text",
+      "Real-time post impression counters",
+    ],
+  },
+  {
+    id: "interactions",
+    label: "Sparks & Reshares",
+    icon: Sparkles,
+    title: "Next-Gen Engagement",
+    description:
+      "Engage with content on a deeper level. Spark posts to show gratitude, reshare standout work to your followers, and save bookmarks in your private archive.",
+    features: [
+      "Instant Sparks with private profile tab",
+      "1-click Reshares directly to your profile",
+      "Private bookmarks in your Archive tab",
+      "'See Who Reacted' live user list modal",
+      "Instant cross-tab interaction synchronization",
     ],
   },
   {
     id: "explore",
-    label: "Explore & Discover",
+    label: "Explore & Creators",
     icon: Search,
-    title: "Never Miss a Thing",
+    title: "Global Discovery Engine",
     description:
-      "Browse a global feed of posts, discover new users, and Explore page for all new posts.",
+      "Discover trending posts, explore new creators worldwide, track your profile views, and share direct links to profiles and posts.",
     features: [
-      "Global post feed",
-      "Smart search & filters",
-      "Discover new creators",
-      "Curated recommendations",
+      "Dynamic global exploration feed",
+      "Filtered Creators directory search",
+      "1-click shareable profile & post URLs",
+      "Unique view counting & insights",
+      "Unseen-first feed prioritization",
     ],
   },
   {
-    id: "connect",
-    label: "Secure Profile",
-    icon: Shield,
-    title: "Data Protected",
+    id: "support",
+    label: "Support & Inquiries",
+    icon: MessageSquare,
+    title: "Direct Support & Ticket Tracking",
     description:
-      "Manage your profile image, custom tagline, and bio. Your session is protected by a 1-year expiration JWT token and strict CORS policies.",
+      "Submit categorized inquiries with image or video attachments and follow admin resolution notes directly on your My Inquiries dashboard.",
     features: [
-      "JWT stateless sessions",
-      "Bcrypt password hashing",
-      "Profile view tracking",
-      "Express Validator inputs",
+      "Dynamic categorized contact form",
+      "Attach screenshot or video attachments",
+      "Dedicated My Inquiries tracking dashboard",
+      "Pending & Responded status filter toggler",
+      "Direct admin resolution notes & replies",
     ],
   },
 ];
@@ -146,15 +179,15 @@ export const capabilities = [
 export const activities = [
   {
     user: "Pranav",
-    action: "shared a new photo",
+    action: "sparked a travel photograph",
     time: "2m ago",
-    icon: ImageIcon,
+    icon: Sparkles,
   },
   {
     user: "Sara",
-    action: "joined LookSphere",
+    action: "reshared an adventure vlog",
     time: "5m ago",
-    icon: UserPlus,
+    icon: Repeat2,
   },
   {
     user: "James",
@@ -164,35 +197,49 @@ export const activities = [
   },
   {
     user: "Alex",
-    action: "added their feedback on contact us page",
+    action: "added their feedback",
     time: "12m ago",
     icon: Search,
+  },  
+  {
+    user: "John",
+    action: "Joined LookSphere",
+    time: "12m ago",
+    icon: UserPlus,
   },
 ];
 
 export const securityFeatures = [
+    {
+    icon: ShieldCheck,
+    name: "Zero-Vulnerability Audited Stack",
+    purpose: "Dependency Integrity",
+    description:
+      "End-to-end vulnerability audit across both Frontend and Backend, ensuring 0 audit vulnerabilities and strict CORS request controls.",
+    where: "Full Stack — packages & API gateway",
+  },
   {
     icon: Lock,
-    name: "Bcrypt",
-    purpose: "Password Hashing",
+    name: "Bcrypt Hashing (12 Rounds)",
+    purpose: "Credential Security",
     description:
-      "All user passwords are hashed with bcrypt using 12 salt rounds before storage. Plain-text passwords are never saved.",
-    where: "Backend — User registration & login",
-  },
+      "All user passwords are hashed using bcrypt with 12 computational salt rounds before being stored. Plaintext passwords are never logged or stored.",
+    where: "Backend — Authentication module",
+  },  
   {
     icon: KeyRound,
     name: "JSON Web Tokens",
-    purpose: "Authentication",
+    purpose: "Stateless Authentication",
     description:
-      "Stateless JWT tokens are issued on login and verified on every protected route to ensure secure, session-free authentication.",
-    where: "Backend — Authentication & Authorization",
+      "Cryptographically signed JWT tokens are issued and validated on protected endpoints, enabling stateless, cookie-free, and tamper-proof sessions.",
+    where: "Full Stack — middlewares & API client",
   },
-  {
+    {
     icon: Shield,
     name: "CORS",
     purpose: "Cross-Origin Protection",
     description:
-      "Strict CORS policies ensure only trusted origins can communicate with the API, preventing cross-site request attacks.",
+      "Strict CORS policies ensure only trusted origins can communicate with the API, preventing cross-site attacks.",
     where: "Backend — Express middleware",
   },
   {
@@ -208,17 +255,10 @@ export const securityFeatures = [
     name: "Yup + React Hook Form",
     purpose: "Client-Side Validation",
     description:
-      "Schema-based form validation ensures user input is validated before it even reaches the server, providing instant feedback.",
-    where: "Frontend — Login, Register & Edit Profile forms",
+      "Schema-based validation ensures input is validated before it reaches the server, providing instant feedback.",
+    where: "Frontend — Everywhere",
   },
-  {
-    icon: Eye,
-    name: "Dotenv",
-    purpose: "Secret Management",
-    description:
-      "All sensitive configuration — API keys, database URIs, JWT secrets — are stored in environment variables, never in source code.",
-    where: "Backend — Server configuration",
-  },
+
 ];
 
 export const techStack = [
@@ -257,57 +297,80 @@ export const techStack = [
   { name: "Single-Active Viewport", color: "#6366F1", icon: Layers },
   { name: "Covered B-Tree Indexes", color: "#34D399", icon: Binary },
   { name: "Micro-Batch Ingestion", color: "#38BDF8", icon: Zap },
+  { name: "Offline Cache & Fallback", color: "#10B981", icon: Wifi },
+  { name: "Zero-Vulnerability Audited", color: "#34D399", icon: ShieldCheck },
 ];
 
 export const fakePosts = [
   {
     id: 1,
-    author: "Alex",
+    author: "Alex Rivers",
     avatarColors: "from-blue-400 to-purple-500",
     mediaColors: "from-blue-500/20 to-purple-500/20",
     mediaType: "Image",
-    impressions: "128",
-    date: "Oct 24, 10:30 AM",
+    impressions: "1,248",
+    sparks: "142",
+    reshares: "28",
+    isSparked: true,
+    isReshared: true,
+    isArchived: true,
+    date: "Just now",
     caption:
-      "Just captured this amazing sunset over the city skyline. The colors are incredible! 🌇✨",
+      "Golden hour overlooking the skyline. LookSphere's new zero-layout-shift feed makes browsing visuals so fluid! 🌇✨",
     rotation: -1,
     hiddenOnMobile: false,
   },
   {
     id: 2,
-    author: "Sarah",
+    author: "Sarah Chen",
     avatarColors: "from-emerald-400 to-cyan-500",
     mediaColors: "from-emerald-500/20 to-cyan-500/20",
     mediaType: "Video",
-    impressions: "2,451",
-    date: "Oct 24, 02:15 PM",
+    impressions: "3,890",
+    sparks: "419",
+    reshares: "85",
+    isSparked: true,
+    isReshared: true,
+    isArchived: false,
+    date: "12m ago",
     caption:
-      "A quick vlog from today's hiking adventure. Nature is simply the best therapy. 🌲🏔️",
+      "Quick cinematic vlog from today's mountain trek. Single-active scroll autoplay works like a charm! 🌲🏔️",
     rotation: 1,
     hiddenOnMobile: false,
   },
   {
     id: 3,
-    author: "Rahul",
+    author: "Rahul Patel",
     avatarColors: "from-orange-400 to-rose-500",
     mediaColors: "from-orange-500/20 to-rose-500/20",
     mediaType: "Video",
-    impressions: "89",
-    date: "Oct 23, 08:45 PM",
+    impressions: "945",
+    sparks: "98",
+    reshares: "14",
+    isSparked: false,
+    isReshared: false,
+    isArchived: false,
+    date: "1h ago",
     caption:
-      "First time trying out this new recipe. It turned out absolutely delicious! 🍳🥗",
+      "Testing the new support desk for a feature suggestion. The admin reply arrived on My Inquiries super fast! ☕💻",
     rotation: -1,
     hiddenOnMobile: true,
   },
   {
     id: 4,
-    author: "Priya",
+    author: "Priya Sharma",
     avatarColors: "from-violet-400 to-fuchsia-500",
     mediaColors: "from-violet-500/20 to-fuchsia-500/20",
     mediaType: "Image",
-    impressions: "512",
-    date: "Oct 23, 11:12 AM",
-    caption: "Coffee breaks are mandatory for survival. Who agrees? ☕💻",
+    impressions: "2,104",
+    sparks: "263",
+    reshares: "51",
+    isSparked: true,
+    isReshared: false,
+    isArchived: true,
+    date: "3h ago",
+    caption:
+      "Tapped the sparks count to see who reacted to my previous post — loving the interactive user list modal! 🎨💖",
     rotation: 1,
     hiddenOnMobile: true,
   },
@@ -315,24 +378,27 @@ export const fakePosts = [
 
 export const releasesAndVisionData = [
   {
-    title: "What's New",
-    description: "Explore the latest features, releases, and platform enhancements we've shipped recently.",
+    title: "What's New in LookSphere",
+    description:
+      "Explore the latest features: Sparks, Reshares, Support & Inquiry Desk, and our Nov 2026 Offline Resilience release.",
     link: "/whats-new",
     icon: Sparkles,
     color: "#f59e0b",
-    badge: "Updates",
+    badge: "Latest Release",
   },
   {
-    title: "Feature Roadmap",
-    description: "Get a sneak peek at upcoming enhancements, design systems, and future release cycles.",
+    title: "Platform Roadmap",
+    description:
+      "Get a live look at completed milestones and upcoming developments like real-time messaging, Spotlights, and Google OAuth.",
     link: "/roadmap",
     icon: Compass,
     color: "#3b82f6",
-    badge: "Upcoming",
+    badge: "Milestones",
   },
   {
-    title: "About Us",
-    description: "Discover our mission, our values, and the story of how LookSphere was created to bridge connections.",
+    title: "About Us & Story",
+    description:
+      "Discover our mission, architecture, and the story of how developer Pranav Shilu built LookSphere from the ground up.",
     link: "/about-us",
     icon: Info,
     color: "#a855f7",
@@ -347,30 +413,57 @@ export const supportAndPoliciesData = [
     link: "/contact-us",
     icon: MessageSquare,
     color: "#06b6d4",
-    badge: "Contact",
+    badge: "Support Desk",
+    actionText: "Click to Contact Us",
+  },
+  {
+    title: "My Inquiries",
+    description:
+      "Track your submitted inquiry tickets and view direct admin replies in real time.",
+    link: "/my-inquiries",
+    icon: Inbox,
+    color: "#8b5cf6",
+    badge: "Ticket Portal",
+    actionText: "Track Inquiries",
   },
   {
     title: "Help & FAQ",
-    description: "Browse our frequently asked questions, security details, and get quick answers.",
+    description:
+      "Browse our comprehensive FAQ for quick answers regarding accounts, security, and privacy.",
     link: "/faq",
     icon: HelpCircle,
     color: "#10b981",
-    badge: "Support",
+    badge: "Knowledge Base",
+    actionText: "Browse FAQs",
   },
   {
     title: "Privacy Policy",
-    description: "Learn how we safeguard your personal data, manage cookies, and respect your privacy rights.",
+    description:
+      "Learn how we protect your information, uphold a strict no-tracking policy, and secure media.",
     link: "/privacy-policy",
     icon: ShieldAlert,
     color: "#f43f5e",
-    badge: "Security",
+    badge: "Data Privacy",
+    actionText: "Read Privacy Policy",
   },
   {
     title: "Terms & Conditions",
-    description: "Understand the terms of service, user guidelines, and rules for using the LookSphere platform.",
+    description:
+      "Review community rules, policies, and legal guidelines governing your use of LookSphere.",
     link: "/terms-and-conditions",
     icon: FileText,
     color: "#6366f1",
-    badge: "Terms",
+    badge: "Terms of Use",
+    actionText: "Read Terms & Conditions",
+  },
+  {
+    title: "Account Settings",
+    description:
+      "Manage credentials, update account email & password, and control your active sessions.",
+    link: "/settings",
+    icon: Settings,
+    color: "#ec4899",
+    badge: "Account Hub",
+    actionText: "Manage Account Settings",
   },
 ];

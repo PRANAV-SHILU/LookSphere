@@ -245,7 +245,7 @@ export default function ContactCard({ contact, isAdmin = true }) {
 
     setSubmitting(true);
     try {
-      await contactService.respondToContact(contact._id, replyText.trim());
+      await contactService.respondToContact(contact?._id, replyText.trim());
       toast.success("Response sent successfully!");
       setShowReplyForm(false);
       setReplyText("");

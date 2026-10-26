@@ -1,5 +1,5 @@
-import { useRouteError, isRouteErrorResponse, NavLink } from "react-router-dom";
-import { WifiOff, AlertTriangle, RefreshCw, Home } from "lucide-react";
+import { useRouteError, isRouteErrorResponse, NavLink, useLocation, useRevalidator } from "react-router-dom";
+import { WifiOff, AlertTriangle, RefreshCw, Home, ShieldAlert, Lock } from "lucide-react";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import Header from "./Header";
 
@@ -9,48 +9,73 @@ export default function ErrorBoundary() {
     "An error occurred on LookSphere. Navigate safely back to the platform developed by Pranav Shilu."
   );
   const error = useRouteError();
+  const location = useLocation();
+  const revalidator = useRevalidator();
 
+  const isAdminPage = location.pathname.startsWith("/admin");
   const isOnline = typeof navigator !== "undefined" ? navigator.onLine : true;
   const rawMsg =
     error?.message ||
     (typeof error === "string" ? error : "") ||
     "";
 
+  const lowerMsg = rawMsg.toLowerCase();
+
   const isNetwork =
     !isOnline ||
-    rawMsg.toLowerCase().includes("network") ||
-    rawMsg.toLowerCase().includes("connection") ||
-    rawMsg.toLowerCase().includes("offline") ||
-    rawMsg.toLowerCase().includes("failed to fetch");
+    lowerMsg.includes("network") ||
+    lowerMsg.includes("connection") ||
+    lowerMsg.includes("offline") ||
+    lowerMsg.includes("failed to fetch");
+
+  const isDbTimeout =
+    lowerMsg.includes("buffering timed out") ||
+    lowerMsg.includes("database") ||
+    lowerMsg.includes("mongodb");
 
   let statusBadge = null;
   let title = "Something went wrong";
   let description = "An unexpected error occurred while loading this page. Please try again or return home.";
+  let isAuth = false;
 
   if (isRouteErrorResponse(error)) {
     statusBadge = `Error ${error.status}`;
     if (error.status === 404) {
-      title = "Page Not Found";
+      title = isAdminPage ? "Admin View Not Found" : "Page Not Found";
       description = "The page you are looking for doesn't exist, has been removed, or moved to another link.";
     } else if (error.status === 401 || error.status === 403) {
-      title = "Access Restricted";
-      description = "You don't have authorization or credentials to view this area.";
+      isAuth = true;
+      title = isAdminPage ? "Admin Access Restricted" : "Access Restricted";
+      description = isAdminPage
+        ? "Administrator credentials are required to view this panel. Please sign in with an admin account."
+        : "You don't have authorization or credentials to view this area.";
     } else if (error.status >= 500) {
-      title = "Internal Server Error";
+      title = isAdminPage ? "Admin Service Unavailable" : "Internal Server Error";
       description = "Our servers encountered an unexpected condition. Please try refreshing in a moment.";
     } else {
       title = error.statusText || "Request Error";
       description = error.data?.message || description;
     }
+  } else if (lowerMsg.includes("admin role required") || lowerMsg.includes("access denied")) {
+    isAuth = true;
+    title = "Admin Access Restricted";
+    description = "Administrator credentials are required to view this panel. Please sign in with an admin account.";
   } else if (isNetwork) {
     title = "Network Disconnected";
     description = "You appear to be offline or having network connectivity issues. Check your connection and try again.";
+  } else if (isDbTimeout) {
+    title = "Database Connection Timeout";
+    description = "Backend is unable to reach the database cluster. Please try again later.";
   } else if (error?.message) {
     description = error.message;
   }
 
   const handleRefresh = () => {
-    window.location.reload();
+    try {
+      revalidator.revalidate();
+    } catch {
+      window.location.reload();
+    }
   };
 
   return (
@@ -60,17 +85,31 @@ export default function ErrorBoundary() {
         <div
           className="w-16 h-16 sm:w-20 sm:h-20 rounded-3xl flex items-center justify-center mb-6 shadow-sm transition-transform duration-300 hover:scale-105"
           style={{
-            background: isNetwork
-              ? "rgba(239, 68, 68, 0.12)"
-              : "rgba(245, 158, 11, 0.12)",
-            color: isNetwork ? "var(--color-danger, #ef4444)" : "var(--color-warning, #f59e0b)",
+            background: isAuth
+              ? "rgba(139, 92, 246, 0.12)"
+              : isNetwork
+                ? "rgba(239, 68, 68, 0.12)"
+                : "rgba(245, 158, 11, 0.12)",
+            color: isAuth
+              ? "#8b5cf6"
+              : isNetwork
+                ? "var(--color-danger, #ef4444)"
+                : "var(--color-warning, #f59e0b)",
             border: `1px solid ${
-              isNetwork ? "rgba(239, 68, 68, 0.25)" : "rgba(245, 158, 11, 0.25)"
+              isAuth
+                ? "rgba(139, 92, 246, 0.25)"
+                : isNetwork
+                  ? "rgba(239, 68, 68, 0.25)"
+                  : "rgba(245, 158, 11, 0.25)"
             }`,
           }}
         >
-          {isNetwork ? (
+          {isAuth ? (
+            <Lock className="w-8 h-8 sm:w-10 sm:h-10" />
+          ) : isNetwork ? (
             <WifiOff className="w-8 h-8 sm:w-10 sm:h-10" />
+          ) : isAdminPage ? (
+            <ShieldAlert className="w-8 h-8 sm:w-10 sm:h-10" />
           ) : (
             <AlertTriangle className="w-8 h-8 sm:w-10 sm:h-10" />
           )}
@@ -116,6 +155,21 @@ export default function ErrorBoundary() {
             <RefreshCw size={16} />
             <span>Try Again</span>
           </button>
+
+          {isAdminPage && (
+            <NavLink
+              to="/admin/dashboard"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-sm transition-all duration-200 no-underline cursor-pointer hover:bg-(--surface-hover) active:scale-95"
+              style={{
+                backgroundColor: "var(--surface-card)",
+                color: "var(--text-primary)",
+                border: "1px solid var(--border-normal)",
+              }}
+            >
+              <ShieldAlert size={16} />
+              <span>Admin Dashboard</span>
+            </NavLink>
+          )}
 
           <NavLink
             to="/"

@@ -83,7 +83,18 @@ export default function AdminContact() {
 
         {/* Stats */}
         <Suspense fallback={<div className="h-37 mb-8 animate-pulse rounded-2xl bg-(--surface-input) border border-(--border-normal)" />}>
-          <Await resolve={contactData}>
+          <Await
+            resolve={contactData}
+            errorElement={
+              <div className="mb-8 md:mb-12">
+                <DataErrorState
+                  compact={true}
+                  message="Real-time statistics unavailable. Check backend connection or retry."
+                  onRetry={() => revalidator.revalidate()}
+                />
+              </div>
+            }
+          >
             {(data) => {
               const stats = data?.stats || { total: 0, pending: 0, responded: 0 };
               

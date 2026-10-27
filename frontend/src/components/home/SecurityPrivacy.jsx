@@ -15,7 +15,7 @@ export default function SecurityPrivacy() {
         subtitle="Zero-vulnerability audited stack, Your safety is our top priority. Here's how we protect your data at every layer."
       />
 
-      <div className="grid grid-cols-1 gap-3 w-full mdlg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-2 w-full lg:gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {securityFeatures.map((feature) => {
           const FeatureIcon = feature.icon;
           return (
@@ -36,10 +36,10 @@ export default function SecurityPrivacy() {
                   />
                 </div>
                 <div>
-                  <h3 className="text-base font-bold text-(--text-primary) relative sm:text-lg group-hover:text-(--primary-600) transition-colors duration-300">
+                  <h3 className="text-base font-bold text-(--text-primary) relative lg:text-lg group-hover:text-(--primary-600) transition-colors duration-300">
                     {feature.name}
                   </h3>
-                  <span className="text-xs font-semibold text-(--primary-500) relative uppercase tracking-wide">
+                  <span className="text-xs font-semibold text-(--primary-500) relative uppercase">
                     {feature.purpose}
                   </span>
                 </div>

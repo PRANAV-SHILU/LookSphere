@@ -12,7 +12,7 @@ export default function HeroSection({ user }) {
     <div className="mt-6 px-3 w-full relative xsm:mt-10 3xl:mt-14 4xl:mt-18 xsm:px-4">
       <HeroBackground />
       <div
-        className={`liquid-glass w-full text-center p-4 xsm:p-6 sm:p-10 md:p-12 3xl:p-16 4xl:p-20 rounded-2xl relative z-10 ${CARD_HOVER_SUBTLE}`}
+        className={`liquid-glass w-full text-center py-4 px-2 xsm:p-6 sm:p-10 md:p-12 3xl:p-16 4xl:p-20 rounded-2xl relative z-10 ${CARD_HOVER_SUBTLE}`}
         style={GLASS_SHADOW}
       >
         <CardGlow />
@@ -34,19 +34,19 @@ export default function HeroSection({ user }) {
           </Link>
 
           <h1
-            className="flex-wrap mb-4 gap-1 text-3xl font-extrabold justify-center text-(--text-primary) xsm:text-5xl sm:text-5xl md:text-6xl lg:text-7xl 3xl:text-8xl 4xl:text-9xl tracking-tight flex"
+            className="flex-wrap mb-4 gap-1 text-4xl font-extrabold justify-center text-(--text-primary) xsm:text-5xl md:text-6xl lg:text-7xl 3xl:text-8xl 4xl:text-9xl tracking-tight flex"
           >
             <span className="hero-text drop-shadow-[0_2px_10px_rgba(59,130,246,0.3)]">
               LookSphere
             </span>
           </h1>
 
-          <div className="mb-6 text-base text-(--text-muted) max-w-2xl mx-auto font-medium xsm:text-lg sm:text-xl md:text-2xl 3xl:text-2xl 4xl:text-3xl 4xl:mt-2 3xl:max-w-3xl xsm:mb-8 leading-relaxed">
+          <div className="mb-4 text-sm text-(--text-muted) max-w-2xl mx-auto font-medium xsm:text-lg sm:text-xl md:text-2xl 3xl:text-2xl 4xl:text-3xl 4xl:mt-2 3xl:max-w-3xl xsm:mb-8 leading-relaxed">
             A modern, secure, and resilient social media platform. Spark posts, reshare creations, track support inquiries live, and experience a lightning-fast feed with zero layout shift.
           </div>
 
           {!user && (
-            <div className="gap-3 mt-2 justify-center flex flex sm:flex-row sm:gap-4 items-center">
+            <div className="gap-3 mt-2 justify-center flex sm:flex-row sm:gap-4 items-center">
               <div>
                 <NavLink to="/register" className={`${BTN_LINK} btn-primary transition-transform active:scale-95 hover:scale-105`}>
                   Get Started Free
@@ -85,7 +85,7 @@ export default function HeroSection({ user }) {
           </div>
           
           <div
-            className="flex-nowrap mt-4 gap-0.5 mx-auto justify-center overflow-hidden tab-container items-center xsm:gap-2"
+            className="flex-nowrap px-1 mt-4 mx-auto justify-center overflow-hidden tab-container items-center xsm:gap-2"
           >
             {[
               { to: "/roadmap", icon: Compass, label: "Roadmap" },
@@ -99,7 +99,7 @@ export default function HeroSection({ user }) {
                   key={link.to}
                   to={link.to}
                   className={({ isActive }) =>
-                    `tab-btn flex items-center gap-1 py-1.5 px-2.5 xsm:py-2 xsm:gap-1 text-[11px] xsm:text-xs sm:px-3 md:px-4 sm:text-base 3xl:text-lg no-underline transition-all duration-200 hover:scale-[1.02] hover:text-blue-400! whitespace-nowrap ${
+                    `tab-btn flex items-center gap-0.5 py-1.5 px-0.5 xsm:py-2 xsm:gap-1 text-[11px] xsm:text-xs sm:px-3 md:px-4 sm:text-base 3xl:text-lg no-underline transition-all duration-200 hover:scale-[1.02] hover:text-blue-400! whitespace-nowrap ${
                       isActive ? "active" : ""
                     }`
                   }

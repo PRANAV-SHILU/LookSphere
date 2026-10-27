@@ -54,7 +54,7 @@ export function SectionHeading({ icon: Icon, title, subtitle, badge }) {
       {Icon && (
         <div>
           <Icon
-          className="mb-4 w-8 h-8 mx-auto xsm:w-10 xsm:h-10 sm:w-12 sm:h-12 3xl:w-14 3xl:h-14"
+          className="mb-2 w-8 h-8 mx-auto xsm:mb-4 sm: xsm:w-10 xsm:h-10 sm:w-12 sm:h-12 3xl:w-14 3xl:h-14"
             style={{ color: "var(--primary-500)" }}
           />
         </div>

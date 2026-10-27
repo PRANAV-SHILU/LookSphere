@@ -13,18 +13,18 @@ export default function TechStack() {
       />
 
       <div
-        className="flex-wrap gap-2.5 justify-center w-full flex xsm:gap-3"
+        className="flex-wrap gap-1.5 justify-center w-full mdlg:gap-3 flex"
       >
         {techStack.map((tech) => {
           const TechIcon = tech.icon;
           return (
             <div
               key={tech.name}
-              className="px-4 py-2.5 gap-2 rounded-full glass sm:px-5 flex items-center cursor-default transition-all duration-300 md:hover:-translate-y-1 md:hover:shadow-lg"
+              className="px-3 py-2.5 gap-1 rounded-full mdlg:px-5 mdlg:gap-2 glass flex items-center cursor-default transition-all duration-300 md:hover:-translate-y-1 md:hover:shadow-lg"
               style={GLASS_SHADOW}
             >
-              <TechIcon size={18} style={{ color: tech.color }} />
-              <span className="text-sm font-medium text-(--text-primary)">
+              <TechIcon className="w-3.5 h-3.5 mdlg:w-4.5 mdlg:h-4.5 shrink-0" style={{ color: tech.color }} />
+              <span className="text-xs font-medium text-(--text-primary) mdlg:text-sm">
                 {tech.name}
               </span>
             </div>

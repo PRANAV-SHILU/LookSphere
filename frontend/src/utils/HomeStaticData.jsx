@@ -336,7 +336,7 @@ export const fakePosts = [
     caption:
       "Quick cinematic vlog from today's mountain trek. Single-active scroll autoplay works like a charm! 🌲🏔️",
     rotation: 1,
-    hiddenOnMobile: false,
+    hiddenOnMobile: true,
   },
   {
     id: 3,
@@ -354,7 +354,7 @@ export const fakePosts = [
     caption:
       "Testing the new support desk for a feature suggestion. The admin reply arrived on My Inquiries super fast! ☕💻",
     rotation: -1,
-    hiddenOnMobile: true,
+    hiddenOnMobile: false,
   },
   {
     id: 4,
@@ -380,7 +380,7 @@ export const releasesAndVisionData = [
   {
     title: "What's New in LookSphere",
     description:
-      "Explore the latest features: Sparks, Reshares, Support & Inquiry Desk, and our Nov 2026 Offline Resilience release.",
+      "Explore the latest features: Sparks, Reshares, Support & Inquiry Desk &  Error handling.",
     link: "/whats-new",
     icon: Sparkles,
     color: "#f59e0b",
@@ -389,7 +389,7 @@ export const releasesAndVisionData = [
   {
     title: "Platform Roadmap",
     description:
-      "Get a live look at completed milestones and upcoming developments like real-time messaging, Spotlights, and Google OAuth.",
+      "Get a live look at completed milestones and upcoming developments like real-time messaging, Spotlights, etc.",
     link: "/roadmap",
     icon: Compass,
     color: "#3b82f6",

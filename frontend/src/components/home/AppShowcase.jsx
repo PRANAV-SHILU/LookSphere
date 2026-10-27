@@ -95,7 +95,7 @@ export default function AppShowcase() {
         </div>
 
         {/* Content Area — Interactive Post Grid */}
-        <div className="grid grid-cols-1 p-3 gap-3 xsm:p-4 sm:p-6 sm:grid-cols-2">
+        <div className="grid grid-cols-1 p-3 gap-1 md:gap-2 lg:gap-3 md:p-6 xsm:p-4 sm:grid-cols-2">
           {postsState.map((post) => (
             <div
               key={post.id}
@@ -111,7 +111,7 @@ export default function AppShowcase() {
                   >
                     <User className="w-4 h-4" />
                   </div>
-                  <div>
+                  <div className="gap-0.5 flex" style={{flexDirection:'column'}}>
                     <span className="text-sm font-semibold text-(--text-primary) block leading-tight">
                       {post.author}
                     </span>
@@ -145,7 +145,7 @@ export default function AppShowcase() {
                       <ImageIcon className="w-5 h-5 text-purple-400" />
                     </div>
                     <span className="px-2 py-0.5 text-xs text-white/90 font-medium rounded bg-black/30 backdrop-blur-xs">
-                      High-Resolution Photo
+                      High-Resolution Image
                     </span>
                   </>
                 )}
@@ -163,7 +163,7 @@ export default function AppShowcase() {
                   {/* Spark Button (Yellow) */}
                   <button
                     onClick={() => toggleSpark(post.id)}
-                    className={`flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer border ${
+                    className={`flex items-center gap-0.5 px-2 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer border ${
                       post.sparked
                         ? "bg-yellow-500/15 text-yellow-400 border-yellow-500/30 shadow-[0_0_8px_rgba(250,204,21,0.25)]"
                         : "bg-transparent text-(--text-muted) hover:text-yellow-400 border-transparent hover:bg-white/5"
@@ -182,7 +182,7 @@ export default function AppShowcase() {
                   {/* Reshare Button (Blue) */}
                   <button
                     onClick={() => toggleReshare(post.id)}
-                    className={`flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer border ${
+                    className={`flex items-center gap-0.5 px-2 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer border ${
                       post.reshared
                         ? "bg-blue-500/15 text-blue-400 border-blue-500/30 shadow-[0_0_8px_rgba(96,165,250,0.25)]"
                         : "bg-transparent text-(--text-muted) hover:text-blue-400 border-transparent hover:bg-white/5"

@@ -24,7 +24,7 @@ export default function HowItWorks() {
                 {index + 1}
               </div>
               <div
-                className="mb-6 w-14 h-14 rounded-xl justify-center border-2 border-white/10 sm:w-16 sm:h-16 flex items-center"
+                className="mb-4 w-14 h-14 rounded-xl justify-center border-2 border-white/10 lg:mb-6 sm:w-16 sm:h-16 flex items-center"
                 style={{
                   backgroundColor: "var(--surface-input)",
                   color: "var(--primary-500)",
@@ -32,7 +32,7 @@ export default function HowItWorks() {
               >
                 {step.icon}
               </div>
-              <h3 className="mb-3 text-lg font-bold text-(--text-primary) sm:text-xl sm:mb-4">
+              <h3 className="mb-2 text-lg font-bold text-(--text-primary) sm:text-xl lg:mb-4">
                 {step.title}
               </h3>
               <p className="text-sm text-(--text-muted) sm:text-base leading-relaxed">

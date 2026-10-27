@@ -15,7 +15,7 @@ export default function WhyLookSphere() {
         subtitle="Designed for creators, built for everyone, Next-gen post interactions, a dedicated support desk, Here's what makes us different."
       />
 
-      <div className="grid grid-cols-2 gap-3 w-full">
+      <div className="grid grid-cols-1 gap-2 w-full lg:gap-3 sm:grid-cols-2">
         {socialFeatures.map((feature) => (
           <div
             key={feature.title}
@@ -25,7 +25,7 @@ export default function WhyLookSphere() {
             <CardGlow />
             <div className="relative">
               <div
-                className="mb-6 w-12 h-12 rounded-2xl justify-center border border-white/5 sm:w-16 sm:h-16 flex items-center transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3"
+                className="mb-3 w-12 h-12 rounded-2xl justify-center border border-white/5 lg:mb-6 sm:w-16 sm:h-16 flex items-center transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3"
                 style={{ backgroundColor: "var(--surface-input)" }}
               >
                 <div
@@ -35,7 +35,7 @@ export default function WhyLookSphere() {
                   {feature.icon}
                 </div>
               </div>
-              <h3 className="mb-3 text-lg font-bold text-(--text-primary) sm:text-xl sm:mb-4">
+              <h3 className="mb-3 text-lg font-bold text-(--text-primary) sm: sm:text-xl lg:mb-4">
                 {feature.title}
               </h3>
               <p className="text-sm text-(--text-muted) sm:text-base leading-relaxed">

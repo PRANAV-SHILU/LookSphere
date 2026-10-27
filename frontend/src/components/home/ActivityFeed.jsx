@@ -39,13 +39,13 @@ export default function ActivityFeed() {
         />
 
         {/* Activity list */}
-        <div className="px-4 pt-4">
+        <div className="px-2 pt-4 xsm:px-4">
           {activities.map((activity, i) => {
             const ActIcon = activity.icon;
             return (
               <div
                 key={i}
-                className="gap-3 px-4 py-3 mb-3 rounded-xl glass flex items-center transition-all duration-200"
+                className="gap-2 px-2 py-3 mb-3 rounded-xl xsm:px-4 xsm:gap-3 glass flex items-center transition-all duration-200"
               >
                 <div
                   className="w-8 h-8 justify-center rounded-lg shrink-0 flex items-center"

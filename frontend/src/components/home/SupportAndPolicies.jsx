@@ -16,7 +16,7 @@ export default function SupportAndPolicies() {
         subtitle="Direct support tickets, live inquiry tracking, helpful guides, and data safety policies."
       />
 
-      <div className="grid grid-cols-1 gap-3 w-full mdlg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-2 w-full lg:gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {supportAndPoliciesData.map((card) => {
           const IconComponent = card.icon;
           return (
@@ -29,7 +29,7 @@ export default function SupportAndPolicies() {
               <CardGlow />
               <div className="flex-col z-10 h-full justify-between relative flex">
                 <div>
-                  <div className="mb-6 justify-between flex items-start">
+                  <div className="mb-3 justify-between sm:mb-6 flex items-start">
                     <div
                       className="w-12 h-12 rounded-2xl justify-center border border-white/5 sm:w-16 sm:h-16 flex items-center transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3"
                       style={{ backgroundColor: `${card.color}15`, color: card.color }}
@@ -47,10 +47,10 @@ export default function SupportAndPolicies() {
                       {card.badge}
                     </span>
                   </div>
-                  <h3 className="mb-3 text-lg font-bold text-(--text-primary) sm:text-xl">
+                  <h3 className="mb-2 text-lg font-bold text-(--text-primary) sm:mb-3 sm:text-xl">
                     {card.title}
                   </h3>
-                  <p className="mb-6 text-sm text-(--text-muted) sm:text-base leading-relaxed">
+                  <p className="mb-4 text-sm text-(--text-muted) sm:mb-6 sm:text-base leading-relaxed">
                     {card.description}
                   </p>
                 </div>

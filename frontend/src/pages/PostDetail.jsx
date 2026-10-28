@@ -6,9 +6,7 @@ import {
   Video,
   Info,
 } from "lucide-react";
-import PageLoader from "../shared-components/PageLoader";
-import DataErrorState from "../shared-components/DataErrorState";
-import BackButton from "../shared-components/BackButton";
+import { PageLoader, BackButton } from "../shared-components/shared-components";
 import { getVideoPosterUrl } from "../utils/cloudinaryOptimizer";
 import PostDetailModal from "../modals/PostDetailModal";
 import PostInteractions from "../components/post/PostInteractions";

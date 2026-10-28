@@ -2,7 +2,7 @@ import { useState, Suspense, useEffect, useRef } from "react";
 import { useLoaderData, Link, Await, useSearchParams, useRevalidator } from "react-router-dom";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import { User, Eye, ArrowRight, Search, FileText, X } from "lucide-react";
-import BackButton from "../shared-components/BackButton";
+import { BackButton } from "../shared-components/shared-components";
 import DataErrorState from "../shared-components/DataErrorState";
 import CreatorsSkeleton from "../skeletons/CreatorsSkeleton";
 

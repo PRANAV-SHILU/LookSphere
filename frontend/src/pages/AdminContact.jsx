@@ -4,7 +4,7 @@ import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import AdminSidebar from "../components/admin/AdminSidebar";
 import ContactCard from "../components/admin/ContactCard";
 import { Mail, CheckCheck, Clock } from "lucide-react";
-import PageLoader from "../shared-components/PageLoader";
+import { PageLoader } from "../shared-components/shared-components";
 import DataErrorState from "../shared-components/DataErrorState";
 
 const TABS = [

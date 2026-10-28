@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useRouteLoaderData, useNavigate, Form, useNavigation } from "react-router-dom";
 import { Mail, Eye, EyeOff, Lock, Check, ArrowRight, Loader2, AtSign, User } from "lucide-react";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
-import BackButton from "../shared-components/BackButton";
+import { BackButton } from "../shared-components/shared-components";
 
 const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
 

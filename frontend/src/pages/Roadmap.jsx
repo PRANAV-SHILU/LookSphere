@@ -3,7 +3,7 @@ import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import { ROADMAP_CATEGORIES, COMPLETED_FEATURES, LAST_UPDATED } from "../utils/staticPageData";
 import { GLASS_SHADOW } from "../utils/styles";
 import { HeroBackground, CardGlow } from "../shared-components/SharedHomeComponents";
-import BackButton from "../shared-components/BackButton";
+import { BackButton } from "../shared-components/shared-components";
 
 export default function Roadmap() {
   useDocumentMetadata("Roadmap", "Explore the development roadmap for LookSphere. See upcoming features and the future vision for the platform being built by developer Pranav Shilu.");

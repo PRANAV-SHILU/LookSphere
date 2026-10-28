@@ -6,7 +6,7 @@ import AdminSidebar from "../components/admin/AdminSidebar";
 import MetricsTab from "../components/dashboard/MetricsTab";
 import RecentActivityTab from "../components/dashboard/RecentActivityTab";
 import LatestPostsTab from "../components/dashboard/LatestPostsTab";
-import PageLoader from "../shared-components/PageLoader";
+import { PageLoader } from "../shared-components/shared-components";
 import DataErrorState from "../shared-components/DataErrorState";
 
 const TABS = [

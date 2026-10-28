@@ -2,7 +2,7 @@ import { Suspense, useEffect } from "react";
 import { useLoaderData, Await, Link, useSearchParams, useNavigate, useNavigation, useRevalidator } from "react-router-dom";
 import { MessageSquareText, Mail, Clock, CheckCheck, ArrowRight, Loader2 } from "lucide-react";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
-import BackButton from "../shared-components/BackButton";
+import { BackButton } from "../shared-components/shared-components";
 import DataErrorState from "../shared-components/DataErrorState";
 import ContactCard from "../components/admin/ContactCard";
 import { ContactCardSkeleton } from "../skeletons/MyInquiriesSkeleton";

@@ -9,9 +9,8 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
-import BackButton from "../shared-components/BackButton";
+import { BackButton, GithubIcon, LinkedinIcon } from "../shared-components/shared-components";
 import { FAQ_CATEGORIES, LAST_UPDATED } from "../utils/faqData";
-import { GithubIcon, LinkedinIcon } from "../shared-components/SvgIcons";
 
 export default function FAQ() {
   useDocumentMetadata("FAQ", "Got questions? Find answers about LookSphere features, account management, and security in our FAQ section, maintained by developer Pranav Shilu.");

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { WHATS_NEW_DATA } from "../utils/staticPageData";
 import { CardGlow } from "../shared-components/SharedHomeComponents";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
-import BackButton from "../shared-components/BackButton";
+import { BackButton } from "../shared-components/shared-components";
 import { Star, Wrench, Sparkles, CheckCircle, ArrowRight, Zap, ShieldAlert, BookOpen, Scale } from "lucide-react";
 
 const GLASS_SHADOW = {

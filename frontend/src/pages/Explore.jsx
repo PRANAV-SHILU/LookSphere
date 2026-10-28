@@ -22,7 +22,7 @@ import {
   X,
   User,
 } from "lucide-react";
-import BackButton from "../shared-components/BackButton";
+import { BackButton } from "../shared-components/shared-components";
 import DataErrorState from "../shared-components/DataErrorState";
 import PostDetailModal from "../modals/PostDetailModal";
 import { trackPostImpression } from "../services/postService";

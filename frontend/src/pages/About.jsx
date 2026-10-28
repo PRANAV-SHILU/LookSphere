@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import { WaveDivider } from "../shared-components/SharedHomeComponents";
-import BackButton from "../shared-components/BackButton";
+import { BackButton } from "../shared-components/shared-components";
 import AboutHero from "../components/about/AboutHero";
 import AboutJourney from "../components/about/AboutJourney";
 import AboutFeatures from "../components/about/AboutFeatures";

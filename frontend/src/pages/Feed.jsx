@@ -17,8 +17,7 @@ import {
   Zap,
   Repeat2,
 } from "lucide-react";
-import BackButton from "../shared-components/BackButton";
-import ScrollToTopButton from "../shared-components/ScrollToTopButton";
+import { BackButton, ScrollToTopButton } from "../shared-components/shared-components";
 import PostInteractions from "../components/post/PostInteractions";
 import { trackPostImpression } from "../services/postService";
 import PostDetailModal from "../modals/PostDetailModal";

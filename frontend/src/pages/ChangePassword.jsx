@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import { useRouteLoaderData, useNavigate, Form, useNavigation } from "react-router-dom";
 import { Lock, Eye, EyeOff, Check, X, ShieldCheck, ArrowRight, Loader2 } from "lucide-react";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
-import BackButton from "../shared-components/BackButton";
+import { BackButton } from "../shared-components/shared-components";
 
 const PASSWORD_RULES = [
   { key: "length", label: "At least 8 characters", test: (p) => p.length >= 8 },

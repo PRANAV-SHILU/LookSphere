@@ -28,7 +28,7 @@ import {
   Info,
 } from "lucide-react";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
-import BackButton from "../shared-components/BackButton";
+import { BackButton } from "../shared-components/shared-components";
 import { ContactFormContext } from "../context/ContactFormContext";
 import { contactSchema } from "../schema/contactSchema";
 import { useState } from "react";

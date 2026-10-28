@@ -13,7 +13,7 @@ import { editProfileSchema } from "../schema/editProfileSchema";
 
 import { User, Camera, Mail, Lock, ArrowRight } from "lucide-react";
 import { toast } from "react-toastify";
-import BackButton from "../shared-components/BackButton";
+import { BackButton } from "../shared-components/shared-components";
 
 export default function EditProfile() {
   const { data } = useLoaderData();

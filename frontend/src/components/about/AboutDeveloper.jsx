@@ -5,7 +5,7 @@ import {
   SectionHeading,
   CardGlow,
 } from "../../shared-components/SharedHomeComponents";
-import { GithubIcon, LinkedinIcon } from "../../shared-components/SvgIcons";
+import { GithubIcon, LinkedinIcon } from "../../shared-components/shared-components";
 import { ABOUT_DEVELOPER } from "../../utils/aboutData";
 
 const SOCIAL_ICONS = {

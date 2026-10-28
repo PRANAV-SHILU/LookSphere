@@ -40,7 +40,7 @@ import ExploreSkeleton from "../skeletons/ExploreSkeleton.jsx";
 import ProfileSkeleton from "../skeletons/ProfileSkeleton.jsx";
 import CreatorsSkeleton from "../skeletons/CreatorsSkeleton.jsx";
 import MyInquiriesSkeleton from "../skeletons/MyInquiriesSkeleton.jsx";
-import PageLoader from "../shared-components/PageLoader.jsx";
+import { PageLoader } from "../shared-components/shared-components.jsx";
 
 import { registerAction } from "../actions/registerAction";
 import { loginAction } from "../actions/loginAction";

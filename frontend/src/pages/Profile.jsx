@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import ProfileSkeleton from "../skeletons/ProfileSkeleton";
 import { User, Link as LinkIcon, Check } from "lucide-react";
-import BackButton from "../shared-components/BackButton";
+import { BackButton } from "../shared-components/shared-components";
 import DataErrorState from "../shared-components/DataErrorState";
 import UploadMediaModal from "../modals/UploadMediaModal";
 import PostDetailModal from "../modals/PostDetailModal";

@@ -1,7 +1,7 @@
 import { useRouteLoaderData } from "react-router-dom";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import { WaveDivider } from "../shared-components/SharedHomeComponents";
-import ScrollToTopButton from "../shared-components/ScrollToTopButton";
+import { ScrollToTopButton } from "../shared-components/shared-components";
 import HeroSection from "../components/home/HeroSection";
 import WhyLookSphere from "../components/home/WhyLookSphere";
 import HowItWorks from "../components/home/HowItWorks";

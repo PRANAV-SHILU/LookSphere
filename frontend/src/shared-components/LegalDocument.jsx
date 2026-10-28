@@ -2,8 +2,7 @@ import { useEffect, useState, useRef, useMemo } from "react";
 import { Mail, MessageSquare, Search, X, ArrowUp, ArrowDown } from "lucide-react";
 import { Link } from "react-router-dom";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
-import BackButton from "./BackButton";
-import { GithubIcon, LinkedinIcon } from "./SvgIcons";
+import { BackButton, GithubIcon, LinkedinIcon } from "./shared-components";
 
 // Icon map for contact links
 const CONTACT_ICONS = {

@@ -1,4 +1,4 @@
-<div align="right">Last Modified: 22-Oct-2026</div>
+<div align="right">Last Modified: 27-Oct-2026</div>
 
 # File Tree: Backend
 
@@ -26,7 +26,6 @@
     ├── 📄 index.js
     ├── 📁 middlewares
     │   ├── 📄 auth.middleware.js
-    │   ├── 📄 role.middleware.js
     │   └── 📄 upload.middleware.js
     ├── 📁 models
     │   ├── 📄 contact.model.js

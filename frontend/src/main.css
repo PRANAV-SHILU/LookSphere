@@ -66,6 +66,7 @@ xl	80rem (1280px)
   --hero-gradient: linear-gradient(135deg, #2563eb, #7c3aed);
   --page-gradient: linear-gradient(180deg, #fdfdfd 0%, #f1f5f9 100%);
   --header-bg: rgba(255, 255, 255, 0.8);
+  --wave-divider-color: #e6e4e48e;
   --scrollbar-track: transparent;
   --scrollbar-thumb: #33f5ff;
   --scrollbar-thumb-hover: #00f2fe;
@@ -111,6 +112,7 @@ html.dark {
   /* Gradients & Special */
   --page-gradient: linear-gradient(180deg, #09090b 0%, #111827 100%);
   --header-bg: rgba(9, 9, 11, 0.8);
+  --wave-divider-color: var(--surface-card);
   --scrollbar-track: #000033;
   --scrollbar-thumb: #33f5ff;
   --scrollbar-thumb-hover: #00f2fe;

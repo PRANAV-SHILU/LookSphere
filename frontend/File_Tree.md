@@ -1,4 +1,4 @@
-<div align="right">Last Modified: 22-Oct-2026</div>
+<div align="right">Last Modified: 27-Oct-2026</div>
 
 # File Tree: Frontend
 
@@ -137,11 +137,10 @@
 │   │   ├── 📄 postService.js
 │   │   └── 📄 userService.js
 │   ├── 📁 shared-components
-│   │   ├── 📄 BackButton.jsx
+│   │   ├── 📄 DataErrorState.jsx
 │   │   ├── 📄 LegalDocument.jsx
-│   │   ├── 📄 PageLoader.jsx
 │   │   ├── 📄 SharedHomeComponents.jsx
-│   │   └── 📄 SvgIcons.jsx
+│   │   └── 📄 shared-components.jsx
 │   ├── 📁 skeletons
 │   │   ├── 📄 CreatorsSkeleton.jsx
 │   │   ├── 📄 ExploreSkeleton.jsx
@@ -149,17 +148,14 @@
 │   │   ├── 📄 MyInquiriesSkeleton.jsx
 │   │   └── 📄 ProfileSkeleton.jsx
 │   └── 📁 utils
+│       ├── 📄 HomeStaticData.jsx
 │       ├── 📄 aboutData.js
 │       ├── 📄 cloudinaryOptimizer.js
 │       ├── 📄 faqData.jsx
 │       ├── 📄 feedRefresher.js
 │       ├── 📄 interactionUtils.js
-│       ├── 📄 privacyPolicyData.js
-│       ├── 📄 roadmapData.js
-│       ├── 📄 staticData.jsx
-│       ├── 📄 styles.js
-│       ├── 📄 termsAndConditionsData.js
-│       └── 📄 whatsNewData.js
+│       ├── 📄 staticPageData.jsx
+│       └── 📄 styles.js
 ├── 📄 vercel.json
 └── 📄 vite.config.js
 ```

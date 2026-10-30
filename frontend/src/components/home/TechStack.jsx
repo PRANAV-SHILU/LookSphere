@@ -5,7 +5,7 @@ import { SectionHeading } from "../../shared-components/SharedHomeComponents";
 
 export default function TechStack() {
   return (
-    <div className="py-10 px-3 w-full xsm:py-12 sm:py-16 md:py-20 3xl:py-24 xsm:px-4 sm:px-8 md:px-12">
+    <div className="py-10 w-full xsm:py-12 sm:py-16 md:py-20 3xl:py-24 xsm:px-4 sm:px-8 md:px-12">
       <SectionHeading
         icon={Code2}
         title="Built With the Best"

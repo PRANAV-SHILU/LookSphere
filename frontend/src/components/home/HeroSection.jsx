@@ -9,7 +9,7 @@ import { Compass, User, Sparkles, ArrowRight, MessageSquare } from "lucide-react
 
 export default function HeroSection({ user }) {
   return (
-    <div className="mt-6 px-3 w-full relative xsm:mt-10 3xl:mt-14 4xl:mt-18 xsm:px-4">
+    <div className="mt-6 w-full relative xsm:mt-10 3xl:mt-14 4xl:mt-18 xsm:px-4">
       <HeroBackground />
       <div
         className={`liquid-glass w-full text-center py-4 px-2 xsm:p-6 sm:p-10 md:p-12 3xl:p-16 4xl:p-20 rounded-2xl relative z-10 ${CARD_HOVER_SUBTLE}`}
@@ -85,7 +85,7 @@ export default function HeroSection({ user }) {
           </div>
           
           <div
-            className="flex-nowrap px-1 mt-4 mx-auto justify-center overflow-hidden tab-container items-center xsm:gap-2"
+            className="flex-nowrap px-1 mt-4 mx-auto justify-center overflow-hidden tab-container items-center"
           >
             {[
               { to: "/roadmap", icon: Compass, label: "Roadmap" },
@@ -99,13 +99,13 @@ export default function HeroSection({ user }) {
                   key={link.to}
                   to={link.to}
                   className={({ isActive }) =>
-                    `tab-btn flex items-center gap-0.5 py-1.5 px-0.5 xsm:py-2 xsm:gap-1 text-[11px] xsm:text-xs sm:px-3 md:px-4 sm:text-base 3xl:text-lg no-underline transition-all duration-200 hover:scale-[1.02] hover:text-blue-400! whitespace-nowrap ${
+                    `tab-btn flex items-center gap-0.5 py-1.5 px-2 xsm:py-2 xsm:gap-1 text-xs sm:px-3 md:px-4 sm:text-base 3xl:text-lg no-underline transition-all duration-200 hover:scale-[1.02] hover:text-blue-400! whitespace-nowrap ${
                       isActive ? "active" : ""
                     }`
                   }
                 >
                   <div>
-                    <Icon className="w-2.5 h-2.5 xsm:w-4.5 xsm:h-4.5" />
+                    <Icon className="h-4.5 w-4.5 hidden xsm:block" />
                   </div>
                   {link.label}
                 </NavLink>

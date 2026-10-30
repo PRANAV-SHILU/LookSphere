@@ -378,6 +378,16 @@ a:hover {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+.profile-tab-gap {
+  gap: 0;
+}
+
+@media (min-width: 30rem) {
+  .profile-tab-gap {
+    gap: 0.25rem;
+  }
+}
+
 /* Add Media Tiles */
 .add-media-tile {
   background-color: var(--surface-input);

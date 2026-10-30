@@ -35,7 +35,7 @@ export default function WhyLookSphere() {
                   {feature.icon}
                 </div>
               </div>
-              <h3 className="mb-3 text-lg font-bold text-(--text-primary) sm: sm:text-xl lg:mb-4">
+              <h3 className="mb-3 text-lg font-bold text-(--text-primary) sm:text-xl lg:mb-4">
                 {feature.title}
               </h3>
               <p className="text-sm text-(--text-muted) sm:text-base leading-relaxed">

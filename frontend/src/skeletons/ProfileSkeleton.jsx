@@ -48,11 +48,11 @@ export default function ProfileSkeleton() {
       <hr className="mt-8 border-(--border-strong)" />
 
       {/* Feed Tabs Toggler */}
-      <section className="tab-container mx-auto px-1 py-0.5 sm:p-2 mt-3 sm:mt-5 mb-6 sm:mb-8 4xl:p-2 4xl:gap-3 4xl:mt-8 4xl:mb-12">
+      <section className="px-1 py-0.5 mt-3 mb-6 mx-auto tab-container sm:p-2 sm:mt-5 sm:mb-8 4xl:p-2 4xl:gap-3 4xl:mt-8 4xl:mb-12">
         {["Images", "Videos", "Reshare"].map((label) => (
           <div
             key={label}
-            className="tab-btn py-0.5 sm:py-1.5 px-3 sm:px-6 text-sm xs:text-base sm:text-xl 4xl:px-10 4xl:py-4 4xl:text-3xl skeleton-box animate-pulse select-none text-transparent pointer-events-none"
+            className="py-0.5 px-3 text-sm text-transparent tab-btn sm:py-1.5 sm:px-6 xsm:text-base sm:text-xl 4xl:px-10 4xl:py-4 4xl:text-3xl skeleton-box animate-pulse select-none pointer-events-none"
           >
             {label}
           </div>

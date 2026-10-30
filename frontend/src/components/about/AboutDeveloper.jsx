@@ -17,23 +17,23 @@ const SOCIAL_ICONS = {
 
 export default function AboutDeveloper() {
   return (
-    <div className="w-full py-10 xsm:py-12 sm:py-16 md:py-20 3xl:py-24 px-3 xsm:px-4 sm:px-8 md:px-12">
+    <div className="py-10 px-2 w-full xsm:py-12 sm:py-16 md:py-20 3xl:py-24 xsm:px-4 sm:px-8 md:px-12">
       <SectionHeading
         icon={User}
         title="Meet the Developer"
         subtitle="The person behind every line of code in LookSphere."
       />
 
-      <div className="max-w-3xl 3xl:max-w-4xl mx-auto">
+      <div className="max-w-3xl mx-auto 3xl:max-w-4xl">
         <div
-          className={`liquid-glass rounded-2xl p-6 xsm:p-8 sm:p-10 ${CARD_HOVER_SUBTLE}`}
+          className={`liquid-glass rounded-2xl py-6 px-4 xsm:p-8 sm:p-10 ${CARD_HOVER_SUBTLE}`}
           style={GLASS_SHADOW}
         >
           <CardGlow />
-          <div className="relative flex flex-col items-center text-center gap-5 xsm:gap-6">
+          <div className="flex-col gap-5 text-center relative flex items-center xsm:gap-6">
             {/* Avatar */}
-            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-linear-to-br from-(--primary-500) to-purple-500 flex items-center justify-center text-white shadow-xl shadow-(--primary-500)/25">
-              <span className="text-2xl sm:text-3xl font-extrabold">
+            <div className="w-20 h-20 rounded-full bg-linear-to-br justify-center text-white shadow-xl shadow-(--primary-500)/25 sm:w-24 sm:h-24 from-(--primary-500) to-purple-500 flex items-center">
+              <span className="text-2xl font-extrabold sm:text-3xl">
                 {ABOUT_DEVELOPER.name
                   .split(" ")
                   .map((n) => n[0])
@@ -43,11 +43,11 @@ export default function AboutDeveloper() {
 
             {/* Name & Role */}
             <div>
-              <h3 className="text-xl sm:text-2xl font-extrabold text-(--text-primary) mb-1">
+              <h3 className="mb-1 text-xl font-extrabold text-(--text-primary) sm:text-2xl">
                 {ABOUT_DEVELOPER.name}
               </h3>
               <span
-                className="text-xs sm:text-sm font-semibold uppercase tracking-wider"
+                className="text-xs font-semibold sm:text-sm uppercase tracking-wider"
                 style={{ color: "var(--primary-500)" }}
               >
                 {ABOUT_DEVELOPER.role}
@@ -55,27 +55,27 @@ export default function AboutDeveloper() {
             </div>
 
             {/* Bio */}
-            <p className="text-sm sm:text-base text-(--text-muted) leading-relaxed max-w-xl">
+            <p className="text-sm text-(--text-muted) max-w-xl sm:text-base leading-relaxed">
               {ABOUT_DEVELOPER.bio}
             </p>
 
             {/* Quote */}
             <div
-              className="glass rounded-xl px-5 py-4 max-w-lg flex items-start gap-3"
+              className="px-5 py-4 gap-3 rounded-xl max-w-lg glass flex items-start"
               style={GLASS_SHADOW}
             >
               <Quote
                 size={20}
-                className="shrink-0 mt-0.5"
+                className="mt-0.5 shrink-0"
                 style={{ color: "var(--primary-500)" }}
               />
-              <p className="text-sm sm:text-base italic text-(--text-secondary) leading-relaxed">
+              <p className="text-sm text-(--text-secondary) sm:text-base italic leading-relaxed">
                 "{ABOUT_DEVELOPER.quote}"
               </p>
             </div>
 
             {/* Social Links */}
-            <div className="flex flex-wrap justify-center gap-3 mt-2">
+            <div className="flex-wrap gap-3 mt-2 justify-center flex">
               {ABOUT_DEVELOPER.socials.map((social) => {
                 const Icon = SOCIAL_ICONS[social.label] || Mail;
                 const isExternal = !social.internal && !social.href.startsWith("mailto:");

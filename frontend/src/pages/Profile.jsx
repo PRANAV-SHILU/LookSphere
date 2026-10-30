@@ -602,7 +602,7 @@ function ProfileContent({ data, username, submit, isLoadingPosts = false }) {
         <hr className="mt-8" style={{ borderColor: "var(--border-normal)" }} />
 
         {/* --- Feed Tabs --- */}
-        <section className="tab-container mx-auto px-1 py-0.5 sm:p-2 mt-3 sm:mt-5 mb-6 sm:mb-8 4xl:p-2 4xl:gap-3 4xl:mt-8 4xl:mb-12">
+        <section className="tab-container profile-tab-gap mx-auto px-1 py-0.5 sm:p-2 mt-3 sm:mt-5 mb-6 sm:mb-8 4xl:p-2 4xl:mt-8 4xl:mb-12">
           {[
             { id: "images", label: "Images" },
             { id: "videos", label: "Videos" },
@@ -614,7 +614,7 @@ function ProfileContent({ data, username, submit, isLoadingPosts = false }) {
               key={id}
               type="button"
               onClick={() => handleTabChange(id)}
-              className={`tab-btn py-0.5 sm:py-1.5 px-3 sm:px-6 text-sm xs:text-base sm:text-xl 4xl:px-10 4xl:py-4 4xl:text-3xl ${activeTab === id ? "active" : ""}`}
+              className={`tab-btn py-0.5 sm:py-1.5 px-2 sm:px-5 text-xs xsm:text-base sm:text-xl 4xl:px-10 4xl:py-4 4xl:text-3xl ${activeTab === id ? "active" : ""}`}
             >
               {label}
             </button>

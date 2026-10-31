@@ -130,6 +130,7 @@ function ProfileContent({ data, username, submit, isLoadingPosts = false }) {
   console.log("Profile", data);
   const profileDataObj = data?.data || data || {};
   const { user, images = [], videos = [] } = profileDataObj;
+  const [imgErr, setImgErr] = useState(false);
 
   const [prevImages, setPrevImages] = useState(images);
   const [imagesList, setImagesList] = useState(images);
@@ -507,19 +508,21 @@ function ProfileContent({ data, username, submit, isLoadingPosts = false }) {
                 backgroundColor: "var(--bg-primary)",
                 borderColor: "var(--border-strong)",
                 borderRadius: "56%",
-                cursor: user.profileImage ? "pointer" : "default",
+                cursor: user.profileImage && !imgErr ? "pointer" : "default",
               }}
               onClick={() =>
                 user.profileImage &&
+                !imgErr &&
                 setSelectedPost({
                   mediaUrl: user.profileImage,
                   mediaType: "Image",
                 })
               }
             >
-              {user.profileImage ? (
+              {user.profileImage && !imgErr ? (
                 <img
                   src={user.profileImage}
+                  onError={() => setImgErr(true)}
                   alt={`Profile image: ${user.username}${user.tagline ? " - " + user.tagline : ""}`}
                   className="w-full"
                   draggable={false}

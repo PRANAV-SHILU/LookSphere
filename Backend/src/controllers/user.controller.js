@@ -5,6 +5,7 @@ import { validationResult } from "express-validator";
 import jwt from "jsonwebtoken";
 
 import { enrichPostsWithInteractions } from "../utils/postHelper.js";
+import { moveToDeletedFolder } from "../utils/cloudinaryUpload.js";
 
 export const getUsers = asyncHandler("getUsers", async (req, res) => {
   const { search } = req.query;
@@ -118,8 +119,17 @@ export const updateProfile = asyncHandler("updateProfile", async (req, res) => {
   if (tagline !== undefined) updateData.tagline = tagline;
   if (bio !== undefined) updateData.bio = bio;
 
-  if (req.cloudinaryUrl) {
-    updateData.profileImage = req.cloudinaryUrl;
+  const newProfileImage = req.cloudinaryUrl || (req.cloudinaryUrls && req.cloudinaryUrls[0]);
+  if (newProfileImage) {
+    updateData.profileImage = newProfileImage;
+
+    // Move older profile image to 'deleted' folder in Cloudinary
+    const currentUser = await User.findById(req.user.userId).select("profileImage");
+    if (currentUser?.profileImage && currentUser.profileImage !== newProfileImage) {
+      await moveToDeletedFolder(currentUser.profileImage);
+
+
+    }
   }
 
   const updatedUser = await User.findOneAndUpdate(

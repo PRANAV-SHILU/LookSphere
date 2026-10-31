@@ -18,7 +18,7 @@ export default function WhatYouCanDo() {
   const currentLink = CAPABILITY_LINKS[currentCap.id];
 
   return (
-    <div className="py-10 px-3 w-full xsm:py-12 sm:py-16 md:py-20 3xl:py-24 xsm:px-4 sm:px-8 md:px-12">
+    <div className="py-10 px-2 w-full xsm:py-12 sm:py-16 md:py-20 3xl:py-24 xsm:px-4 sm:px-8 md:px-12">
       <SectionHeading
         icon={Rocket}
         title="What You Can Do"
@@ -36,9 +36,8 @@ export default function WhatYouCanDo() {
             <button
               key={cap.id}
               onClick={() => setActiveCapability(i)}
-              className={`tab-btn flex items-center justify-center gap-0.5 xsm:gap-1 sm:gap-2 py-1.5 sm:py-2 px-2.5 xsm:px-3 sm:px-5 text-[11px] xsm:text-xs sm:text-base cursor-pointer border-none bg-transparent ${
-                activeCapability === i ? "active" : ""
-              }`}
+              className={`tab-btn flex items-center justify-center gap-0.5 xsm:gap-1 sm:gap-2 py-1.5 sm:py-2 px-2.5 xsm:px-3 sm:px-5 text-[11px] xsm:text-xs sm:text-base cursor-pointer border-none bg-transparent ${activeCapability === i ? "active" : ""
+                }`}
             >
               <TabIcon size={18} /> {cap.label}
             </button>

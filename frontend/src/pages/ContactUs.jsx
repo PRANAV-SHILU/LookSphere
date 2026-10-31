@@ -320,7 +320,7 @@ export default function ContactUs() {
               to="/my-inquiries"
               className="gap-1 font-semibold text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 underline underline-offset-2 transition-colors inline-flex items-center"
             >
-              <span>Track or check here</span>
+              <span>Track here</span>
               <ArrowRight size={13} />
             </Link>
           </div>
@@ -565,7 +565,7 @@ export default function ContactUs() {
               {imagePreviews.length === 0 && !videoPreview && (
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <label
-                    className={`flex flex-col items-center justify-center gap-3 p-6 rounded-2xl border-2 border-dashed border-gray-300 dark:border-gray-600 transition-all text-center group ${isSubmitting ? "cursor-not-allowed opacity-60" : "cursor-pointer hover:bg-blue-500/5 hover:border-blue-500/50"}`}
+                    className={`flex flex-col items-center justify-center p-6 rounded-2xl border-2 border-dashed border-gray-300 dark:border-gray-600 transition-all text-center group ${isSubmitting ? "cursor-not-allowed opacity-60" : "cursor-pointer hover:bg-blue-500/5 hover:border-blue-500/50"}`}
                   >
                     <div
                       className="w-12 h-12 rounded-full justify-center flex items-center group-hover:scale-110 transition-transform duration-300"
@@ -604,7 +604,7 @@ export default function ContactUs() {
                   </label>
 
                   <label
-                    className={`flex flex-col items-center justify-center gap-3 p-6 rounded-2xl border-2 border-dashed border-gray-300 dark:border-gray-600 transition-all text-center group ${isSubmitting ? "cursor-not-allowed opacity-60" : "cursor-pointer hover:bg-purple-500/5 hover:border-purple-500/50"}`}
+                    className={`flex flex-col items-center justify-center p-6 rounded-2xl border-2 border-dashed border-gray-300 dark:border-gray-600 transition-all text-center group ${isSubmitting ? "cursor-not-allowed opacity-60" : "cursor-pointer hover:bg-purple-500/5 hover:border-purple-500/50"}`}
                   >
                     <div
                       className="w-12 h-12 rounded-full justify-center flex items-center group-hover:scale-110 transition-transform duration-300"

@@ -107,7 +107,7 @@ export default function MyInquiries() {
             className="inline-flex items-center gap-1.5 text-xs sm:text-sm px-3.5 py-1.5 rounded-full border transition-all"
             style={{ backgroundColor: "var(--surface-input)", borderColor: "var(--border-normal)", color: "var(--text-secondary)" }}
           >
-            <span>Have any query or question?</span>
+            <span>Have any question?</span>
             <Link
               to="/contact-us"
               className="font-semibold text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 underline underline-offset-2 transition-colors inline-flex items-center gap-1"
@@ -120,18 +120,18 @@ export default function MyInquiries() {
 
         {/* Tabs */}
         <div className="flex justify-center">
-          <div className="tab-container flex w-fit p-1 gap-1.5 mt-2 mb-6 sm:p-[0.35rem] sm:gap-2 sm:mt-2.5 sm:mb-8">
+          <div className="tab-container flex w-fit gap-2 mt-2 mb-6 p-[0.35rem] sm:mt-2.5 sm:mb-8">
             {TABS.map((tab) => {
               const isCurrent = isResponded === tab.key;
               const isTargetLoading = isNavigating && navigatingTo === tab.key;
               return (
                 <button
                   key={tab.key}
-                  className={`tab-btn py-1 px-3 text-xs xsm:text-sm sm:py-[0.22rem] sm:px-6 sm:text-[1.2rem] ${isCurrent ? "active" : ""}`}
+                  className={`tab-btn py-1 px-3 text-sm sm:py-[0.22rem] sm:px-6 sm:text-[1.2rem] ${isCurrent ? "active" : ""}`}
                   onClick={() => navigate(`/my-inquiries?isResponded=${tab.key}`)}
                   style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}
                 >
-                  <span className="hidden xsm:inline-flex">
+                  <span>
                     {isTargetLoading ? <Loader2 size={15} className="animate-spin" /> : tab.icon}
                   </span>
                   {tab.label}

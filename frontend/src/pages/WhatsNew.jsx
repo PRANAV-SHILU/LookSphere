@@ -61,15 +61,15 @@ export default function WhatsNew() {
   }, []);
 
   return (
-    <div className="w-full min-h-screen py-16 md:py-24 animate-in fade-in duration-500 px-4 sm:px-6 lg:px-8 max-w-300 mx-auto">
+    <div className="py-16 px-2 w-full min-h-screen max-w-300 mx-auto xsm:px-4 md:py-24 animate-in fade-in duration-500 sm:px-6 lg:px-8">
       {/* Back Button */}
-      <div className="mb-6 md:mb-10 w-full flex justify-start">
+      <div className="mb-6 w-full justify-start md:mb-10 flex">
         <BackButton />
       </div>
 
       {/* Header Section */}
-      <div className="text-center mb-16 md:mb-24">
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 tracking-tight">
+      <div className="mb-16 text-center md:mb-24">
+        <h1 className="mb-6 text-4xl font-black md:text-5xl lg:text-6xl tracking-tight">
           <span className="text-transparent bg-clip-text bg-linear-to-r from-(--primary-400) to-(--primary-600) drop-shadow-sm">
             What's New
           </span>
@@ -80,7 +80,7 @@ export default function WhatsNew() {
       </div>
 
       {/* Timeline Section */}
-      <div className="relative border-l-2 border-(--border-light) ml-4 md:ml-8 pb-12 space-y-16">
+      <div className="relative border-l-2 border-(--border-light)  md:ml-8 pb-12 space-y-16">
         {WHATS_NEW_DATA.map((release) => (
           <div key={release.id} className="relative pl-5 md:pl-12">
             {/* Timeline Dot */}

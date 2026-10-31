@@ -5,7 +5,7 @@ import { BTN_LINK, GLASS_SHADOW } from "../../utils/styles";
 
 export default function CTASection({ user }) {
   return (
-    <div className="w-full py-10 xsm:py-12 sm:py-16 md:py-20 3xl:py-24 px-3 xsm:px-4 sm:px-8 md:px-12 relative">
+    <div className="py-10 px-2 w-full xsm:py-12 sm:py-16 md:py-20 3xl:py-24 xsm:px-4 sm:px-8 md:px-12 relative">
       <div className="w-full text-center z-10 relative">
         <div
           className="mb-6 w-16 h-16 mx-auto justify-center rounded-2xl bg-(--primary-500) text-white shadow-xl shadow-(--primary-500)/30 sm:w-20 sm:h-20 flex items-center"

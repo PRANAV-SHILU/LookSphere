@@ -16,9 +16,9 @@ export default function About() {
   }, []);
 
   return (
-    <section className="relative z-0 flex flex-col items-center w-full gap-0 mt-2 xsm:mt-4 sm:mt-8 3xl:mt-12 pb-8">
+    <section className="flex-col gap-0 pb-8 mt-8 z-0 w-full relative flex items-center 3xl:mt-12">
       {/* Back Button */}
-      <div className="w-full max-w-4xl 3xl:max-w-5xl 4xl:max-w-6xl mx-auto px-3 xsm:px-4 mb-4">
+      <div className="px-3 mb-4 w-full max-w-4xl mx-auto 3xl:max-w-5xl 4xl:max-w-6xl xsm:px-4">
         <BackButton />
       </div>
 

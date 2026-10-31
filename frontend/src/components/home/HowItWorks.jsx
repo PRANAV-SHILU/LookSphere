@@ -5,7 +5,7 @@ import { SectionHeading } from "../../shared-components/SharedHomeComponents";
 
 export default function HowItWorks() {
   return (
-    <div className="py-10 px-3 w-full xsm:py-12 sm:py-16 md:py-20 3xl:py-24 xsm:px-4 sm:px-8 md:px-12 relative">
+    <div className="py-10 px-2 w-full xsm:py-12 sm:py-16 md:py-20 3xl:py-24 xsm:px-4 sm:px-8 md:px-12 relative">
       <SectionHeading
         icon={Layers}
         title="How It Works"
@@ -17,7 +17,7 @@ export default function HowItWorks() {
           return (
             <div
               key={step.title}
-              className={`glass flex-1 p-5 rounded-2xl relative ${CARD_HOVER_SUBTLE} transition-all duration-300 md:hover:-translate-y-1 md:hover:shadow-lg`}
+              className={`glass flex-1 py-5 px-4 xsm:px-5 rounded-2xl relative ${CARD_HOVER_SUBTLE} transition-all duration-300 md:hover:-translate-y-1 md:hover:shadow-lg`}
               style={GLASS_SHADOW}
             >
               <div className="w-12 h-12 rounded-xl bg-(--primary-500) text-white justify-center font-bold text-xl shadow-lg absolute -top-4 -right-4 flex items-center rotate-12">

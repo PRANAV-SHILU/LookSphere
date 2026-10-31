@@ -34,10 +34,10 @@ export default function AppShowcase() {
       prev.map((p) =>
         p.id === id
           ? {
-              ...p,
-              sparked: !p.sparked,
-              sparksNum: p.sparked ? p.sparksNum - 1 : p.sparksNum + 1,
-            }
+            ...p,
+            sparked: !p.sparked,
+            sparksNum: p.sparked ? p.sparksNum - 1 : p.sparksNum + 1,
+          }
           : p
       )
     );
@@ -48,10 +48,10 @@ export default function AppShowcase() {
       prev.map((p) =>
         p.id === id
           ? {
-              ...p,
-              reshared: !p.reshared,
-              resharesNum: p.reshared ? p.resharesNum - 1 : p.resharesNum + 1,
-            }
+            ...p,
+            reshared: !p.reshared,
+            resharesNum: p.reshared ? p.resharesNum - 1 : p.resharesNum + 1,
+          }
           : p
       )
     );
@@ -64,7 +64,7 @@ export default function AppShowcase() {
   };
 
   return (
-    <div className="py-10 px-3 w-full xsm:py-12 sm:py-16 md:py-20 3xl:py-24 xsm:px-4 sm:px-8 md:px-12">
+    <div className="py-10 px-2 w-full xsm:py-12 sm:py-16 md:py-20 3xl:py-24 xsm:px-4 sm:px-8 md:px-12">
       <SectionHeading
         icon={Eye}
         title="Interactive Feed Showcase"
@@ -99,9 +99,8 @@ export default function AppShowcase() {
           {postsState.map((post) => (
             <div
               key={post.id}
-              className={`glass rounded-xl p-4 flex flex-col gap-3 transition-all duration-300 hover:shadow-xl ${
-                post.hiddenOnMobile ? "hidden sm:flex" : ""
-              }`}
+              className={`glass rounded-xl p-4 flex flex-col gap-3 transition-all duration-300 hover:shadow-xl ${post.hiddenOnMobile ? "hidden sm:flex" : ""
+                }`}
             >
               {/* Author Info */}
               <div className="justify-between flex items-center">
@@ -111,7 +110,7 @@ export default function AppShowcase() {
                   >
                     <User className="w-4 h-4" />
                   </div>
-                  <div className="gap-0.5 flex" style={{flexDirection:'column'}}>
+                  <div className="gap-0.5 flex" style={{ flexDirection: 'column' }}>
                     <span className="text-sm font-semibold text-(--text-primary) block leading-tight">
                       {post.author}
                     </span>
@@ -163,11 +162,10 @@ export default function AppShowcase() {
                   {/* Spark Button (Yellow) */}
                   <button
                     onClick={() => toggleSpark(post.id)}
-                    className={`flex items-center gap-0.5 px-2 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer border ${
-                      post.sparked
+                    className={`flex items-center gap-0.5 px-2 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer border ${post.sparked
                         ? "bg-yellow-500/15 text-yellow-400 border-yellow-500/30 shadow-[0_0_8px_rgba(250,204,21,0.25)]"
                         : "bg-transparent text-(--text-muted) hover:text-yellow-400 border-transparent hover:bg-white/5"
-                    }`}
+                      }`}
                     title="Spark this post"
                   >
                     <Sparkles
@@ -182,11 +180,10 @@ export default function AppShowcase() {
                   {/* Reshare Button (Blue) */}
                   <button
                     onClick={() => toggleReshare(post.id)}
-                    className={`flex items-center gap-0.5 px-2 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer border ${
-                      post.reshared
+                    className={`flex items-center gap-0.5 px-2 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer border ${post.reshared
                         ? "bg-blue-500/15 text-blue-400 border-blue-500/30 shadow-[0_0_8px_rgba(96,165,250,0.25)]"
                         : "bg-transparent text-(--text-muted) hover:text-blue-400 border-transparent hover:bg-white/5"
-                    }`}
+                      }`}
                     title="Reshare this post"
                   >
                     <Repeat2
@@ -207,11 +204,10 @@ export default function AppShowcase() {
                       toast.success("Link copied to clipboard!");
                       setTimeout(() => setCopiedPostId(null), 2500);
                     }}
-                    className={`p-1.5 rounded-lg text-xs transition-colors cursor-pointer border border-transparent ${
-                      copiedPostId === post.id
+                    className={`p-1.5 rounded-lg text-xs transition-colors cursor-pointer border border-transparent ${copiedPostId === post.id
                         ? "text-green-500 bg-green-500/15"
                         : "text-(--text-muted) hover:text-blue-400 hover:bg-white/5"
-                    }`}
+                      }`}
                     title="Copy post link"
                   >
                     {copiedPostId === post.id ? <Check size={14} className="text-green-500 scale-110" /> : <Link2 size={14} />}
@@ -222,11 +218,10 @@ export default function AppShowcase() {
                 <div className="gap-1 flex items-center">
                   <button
                     onClick={() => toggleArchive(post.id)}
-                    className={`p-1.5 rounded-lg text-xs transition-colors cursor-pointer border border-transparent ${
-                      post.archived
+                    className={`p-1.5 rounded-lg text-xs transition-colors cursor-pointer border border-transparent ${post.archived
                         ? "text-emerald-400 bg-emerald-500/15"
                         : "text-(--text-muted) hover:text-emerald-400 hover:bg-white/5"
-                    }`}
+                      }`}
                     title="Archive privately"
                   >
                     <Bookmark

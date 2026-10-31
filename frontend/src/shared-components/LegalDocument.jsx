@@ -281,7 +281,7 @@ export default function LegalDocument({ title, icon: Icon, lastUpdated, intro, s
   }, [searchQuery, activeIdx]);
 
   return (
-    <div ref={docRef} className="px-4 pt-8 pb-20 w-full max-w-6xl mx-auto md:px-8">
+    <div ref={docRef} className="px-2 pt-8 pb-20 w-full max-w-6xl mx-auto xsm:px-4 md:px-8">
       {/* ── Header ── */}
       <div className="mb-8">
         {/* Back + Last Updated row */}
@@ -326,23 +326,23 @@ export default function LegalDocument({ title, icon: Icon, lastUpdated, intro, s
         {/* ── Search Controls ── */}
         <div className="mt-8 gap-2 max-w-2xl flex items-center">
           <div className="flex-1 relative group">
-            <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none text-(--text-muted) group-focus-within:text-(--primary-500) transition-colors" />
+            <Search size={18} className="top-1/2 text-(--text-muted) absolute left-4 -translate-y-1/2 pointer-events-none group-focus-within:text-(--primary-500) transition-colors" />
             <input
               type="text"
               placeholder={`Search within ${title.toLowerCase()}...`}
               value={searchQuery}
               onChange={(e) => { setSearchQuery(e.target.value); setActiveIdx(0); }}
               onKeyDown={(e) => e.key === "Enter" && navigateMatch(e.shiftKey ? -1 : 1)}
-              className="py-3 w-full rounded-2xl border text-sm font-medium pl-11 pr-24 bg-(--surface-input) border-(--border-normal) text-(--text-primary) transition-all focus:outline-none focus:border-(--primary-500) focus:ring-3 focus:ring-(--primary-500)/15"
+              className="py-3 w-full rounded-2xl border text-sm font-medium bg-(--surface-input) border-(--border-normal) text-(--text-primary) pl-11 pr-24 transition-all focus:outline-none focus:border-(--primary-500) focus:ring-3 focus:ring-(--primary-500)/15"
             />
             {searchQuery && (
-              <div className="gap-1.5 absolute right-3 top-1/2 -translate-y-1/2 flex items-center">
+              <div className="gap-1.5 top-1/2 absolute right-3 -translate-y-1/2 flex items-center">
                 <span className="px-1.5 py-0.5 text-xs font-semibold rounded-md text-(--text-muted) tabular-nums">
                   {totalMatches ? `${activeIdx + 1}/${totalMatches}` : "0"}
                 </span>
                 <button
                   onClick={() => { setSearchQuery(""); setActiveIdx(0); }}
-                  className="p-1 text-(--text-muted) hover:text-(--primary-500) cursor-pointer border-none bg-transparent flex"
+                  className="p-1 text-(--text-muted) border-none bg-transparent hover:text-(--primary-500) cursor-pointer flex"
                   aria-label="Clear search"
                 >
                   <X size={16} />
@@ -441,20 +441,20 @@ export default function LegalDocument({ title, icon: Icon, lastUpdated, intro, s
 
       {/* ── Floating Match Navigator (bottom-right on mobile/tablets, top-right on desktop) ── */}
       {Boolean(totalMatches) && (
-        <div className="fixed bottom-6 right-4 sm:right-6 mdlg:bottom-auto mdlg:top-24 mdlg:right-8 z-50 flex items-center gap-1.5 p-1.5 rounded-2xl border bg-(--surface-input) border-(--border-normal) shadow-xl backdrop-blur-md">
-          <span className="px-2 text-xs font-bold tabular-nums text-(--text-muted)">
+        <div className="gap-1.5 p-1.5 bottom-6 z-50 rounded-2xl border bg-(--surface-input) border-(--border-normal) shadow-xl fixed right-4 sm:right-6 mdlg:bottom-auto mdlg:top-24 mdlg:right-8 flex items-center backdrop-blur-md">
+          <span className="px-2 text-xs font-bold text-(--text-muted) tabular-nums">
             {activeIdx + 1}/{totalMatches}
           </span>
           <button
             onClick={() => navigateMatch(-1)}
-            className="p-2 rounded-xl text-(--text-secondary) hover:text-blue-500 hover:bg-(--surface-hover) cursor-pointer border-none bg-transparent transition-colors flex"
+            className="p-2 rounded-xl text-(--text-secondary) border-none bg-transparent hover:text-blue-500 hover:bg-(--surface-hover) cursor-pointer transition-colors flex"
             title="Previous match (Shift+Enter)"
           >
             <ArrowUp size={18} />
           </button>
           <button
             onClick={() => navigateMatch(1)}
-            className="p-2 rounded-xl text-(--text-secondary) hover:text-blue-500 hover:bg-(--surface-hover) cursor-pointer border-none bg-transparent transition-colors flex"
+            className="p-2 rounded-xl text-(--text-secondary) border-none bg-transparent hover:text-blue-500 hover:bg-(--surface-hover) cursor-pointer transition-colors flex"
             title="Next match (Enter)"
           >
             <ArrowDown size={18} />

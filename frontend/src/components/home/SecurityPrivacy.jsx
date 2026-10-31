@@ -8,7 +8,7 @@ import {
 
 export default function SecurityPrivacy() {
   return (
-    <div className="py-10 px-3 w-full xsm:py-12 sm:py-16 md:py-20 3xl:py-24 xsm:px-4 sm:px-8 md:px-12">
+    <div className="py-10 px-2 w-full xsm:py-12 sm:py-16 md:py-20 3xl:py-24 xsm:px-4 sm:px-8 md:px-12">
       <SectionHeading
         icon={Shield}
         title="Security & Privacy"
@@ -21,7 +21,7 @@ export default function SecurityPrivacy() {
           return (
             <div
               key={feature.name}
-              className={`${CARD_HOVER} glass flex flex-col p-5 rounded-2xl transition-all duration-300 md:hover:-translate-y-1 md:hover:shadow-lg group`}
+              className={`${CARD_HOVER} glass flex flex-col py-5 px-4 xsm:px-5 rounded-2xl transition-all duration-300 md:hover:-translate-y-1 md:hover:shadow-lg group`}
               style={GLASS_SHADOW}
             >
               <CardGlow />

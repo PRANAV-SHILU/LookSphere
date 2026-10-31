@@ -8,7 +8,7 @@ import {
 
 export default function WhyLookSphere() {
   return (
-    <div className="py-10 px-3 w-full xsm:py-12 sm:py-16 md:py-20 3xl:py-24 xsm:px-4 sm:px-8 md:px-12">
+    <div className="py-10 px-2 w-full xsm:py-12 sm:py-16 md:py-20 3xl:py-24 xsm:px-4 sm:px-8 md:px-12">
       <SectionHeading
         icon={Sparkles}
         title="Why LookSphere?"
@@ -19,7 +19,7 @@ export default function WhyLookSphere() {
         {socialFeatures.map((feature) => (
           <div
             key={feature.title}
-            className={`liquid-glass p-5 rounded-2xl ${CARD_HOVER} transition-all duration-300 md:hover:-translate-y-1 md:hover:shadow-lg flex flex-col justify-between`}
+            className={`liquid-glass py-5 px-4 xsm:px-5 rounded-2xl ${CARD_HOVER} transition-all duration-300 md:hover:-translate-y-1 md:hover:shadow-lg flex flex-col justify-between`}
             style={GLASS_SHADOW}
           >
             <CardGlow />

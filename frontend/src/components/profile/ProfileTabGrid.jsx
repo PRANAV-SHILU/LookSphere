@@ -1,6 +1,6 @@
 import React from "react";
 import { Plus, AlertCircle, Bookmark, Repeat2, Sparkles, Image as ImageIcon, Video as VideoIcon } from "lucide-react";
-import { getOptimizedMediaUrl, getVideoPosterUrl } from "../../utils/cloudinaryOptimizer";
+import { getOptimizedMediaUrl, getVideoPosterUrl, getOptimizedVideoUrl } from "../../utils/cloudinaryOptimizer";
 
 export const ProfileVideoCard = React.memo(function ProfileVideoCard({
   post,
@@ -41,7 +41,7 @@ export const ProfileVideoCard = React.memo(function ProfileVideoCard({
       {isPlaying ? (
         <video
           ref={videoRef}
-          src={`${post.mediaUrl}#t=1.0`}
+          src={getOptimizedVideoUrl(post.mediaUrl, { maxResolution: 1080 })}
           poster={posterUrl}
           preload="none"
           aria-label={post.altText || post.caption || "Video post - LookSphere"}

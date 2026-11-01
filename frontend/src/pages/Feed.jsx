@@ -21,7 +21,7 @@ import { BackButton, ScrollToTopButton } from "../shared-components/shared-compo
 import PostInteractions from "../components/post/PostInteractions";
 import { trackPostImpression } from "../services/postService";
 import PostDetailModal from "../modals/PostDetailModal";
-import { getVideoPosterUrl } from "../utils/cloudinaryOptimizer";
+import { getVideoPosterUrl, getOptimizedVideoUrl } from "../utils/cloudinaryOptimizer";
 import DataErrorState from "../shared-components/DataErrorState";
 import { applyPostInteraction } from "../utils/interactionUtils";
 // Sub-component for each feed post to fetch user details asynchronously
@@ -207,7 +207,7 @@ const FeedCard = React.memo(function FeedCard({
           isPlaying ? (
             <video
               ref={videoRef}
-              src={post.mediaUrl}
+              src={getOptimizedVideoUrl(post.mediaUrl, { maxResolution: 1080 })}
               aria-label={
                 post.altText || post.caption || "Video post - LookSphere"
               }

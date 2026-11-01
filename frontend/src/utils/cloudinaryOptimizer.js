@@ -3,7 +3,7 @@
  * Safely parses Cloudinary URLs without affecting folder paths like /uploads/videos/
  */
 
-const CLOUDINARY_UPLOAD_REGEX = /^(https?:\/\/res\.cloudinary\.com\/[^\/]+\/(?:image|video|raw)\/upload\/)/i;
+const CLOUDINARY_UPLOAD_REGEX = /^(https?:\/\/res\.cloudinary\.com\/[^/]+\/(?:image|video|raw)\/upload\/)/i;
 
 /**
  * Injects or updates transformation parameters in a Cloudinary URL safely.

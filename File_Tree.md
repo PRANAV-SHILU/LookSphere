@@ -211,6 +211,7 @@
 │   │       ├── 📄 cloudinaryOptimizer.js
 │   │       ├── 📄 faqData.jsx
 │   │       ├── 📄 feedRefresher.js
+│   │       ├── 📄 imageCompressor.js
 │   │       ├── 📄 interactionUtils.js
 │   │       ├── 📄 staticPageData.jsx
 │   │       └── 📄 styles.js

@@ -1,8 +1,11 @@
-<div align="right">Last Modified: 22-Oct-2026</div>
+<div align="right">Last Modified: 01-Nov-2026</div>
 
 # Resolved Issues & Bug Fixes — LookSphere
 
 This document records the major bugs, UI glitches, architectural refactors, and functional issues that have been successfully resolved across the platform.
+
+> [!TIP]
+> **Dedicated Error Handling Guide:** For detailed fault tolerance architecture, offline detection, corrupt media fallbacks, and database exception handling, see the dedicated [Error Handling Architecture Guide](./Error_Handling.md).
 
 ---
 
@@ -19,7 +22,6 @@ This document records the major bugs, UI glitches, architectural refactors, and 
 - [3. Architecture, Authentication & State Synchronization](#3-architecture-authentication--state-synchronization)
   - [3.1 Cross-Origin JWT Authentication via Authorization Header](#31-cross-origin-jwt-authentication-via-authorization-header)
   - [3.2 Multi-Tab Profile Interaction State Synchronization](#32-multi-tab-profile-interaction-state-synchronization)
-  - [3.3 Network Resiliency, Instant Offline Detection & Error Sanitization](#33-network-resiliency-instant-offline-detection--error-sanitization)
 
 ---
 
@@ -91,7 +93,7 @@ Multiple video posts intersecting the viewport would previously attempt to play 
 1. **Parent Video Coordinator:** Implemented an `activeVideoId` state in the parent Feed component combined with `onVideoIntersect` and `onVideoLeave` callbacks.
 2. **Single-Player Lock:** Only the single centered/most recent intersecting post is granted active playback status; previous videos automatically pause and release the DOM decoder.
 
-**Impact:** Prevents audio collisions, conserves mobile GPU/battery resources, and provides a smooth TikTok/Instagram-style scrolling feed.
+**Impact:** Prevents audio collisions, conserves mobile GPU/battery resources, and provides a smooth scrolling feed.
 
 ---
 
@@ -116,7 +118,7 @@ Switching from a thumbnail to an active playing video caused brief visual flashe
 
 **Files:** [`Backend/src/middlewares/auth.middleware.js`](./Backend/src/middlewares/auth.middleware.js), [`frontend/src/network/apiClient.js`](./frontend/src/network/apiClient.js), [`frontend/src/services/authService.js`](./frontend/src/services/authService.js)
 
-Cookie-based authentication suffered from cross-origin blocking when the frontend (e.g., hosted on Vercel) communicated with the backend on another domain (e.g., Render), due to modern browser third-party cookie restrictions and Safari ITP.
+Cookie-based authentication suffered from cross-origin blocking when the frontend communicated with the backend on another domain, due to modern browser third-party cookie restrictions and Safari ITP.
 
 **Fixes:**
 
@@ -142,32 +144,13 @@ When a user liked, archived, or reshared a post in one media tab (e.g., Images),
 
 **Impact:** Eliminates stale UI states across profile tabs and provides instantaneous interaction feedback.
 
----
-
-### 3.3 Network Resiliency, Instant Offline Detection & Error Sanitization
-
-**Files:** [`frontend/src/network/apiClient.js`](./frontend/src/network/apiClient.js), [`frontend/src/Layout/AppLayout.jsx`](./frontend/src/Layout/AppLayout.jsx), [`frontend/src/shared-components/DataErrorState.jsx`](./frontend/src/shared-components/DataErrorState.jsx), [`frontend/src/components/ErrorBoundary.jsx`](./frontend/src/components/ErrorBoundary.jsx), [`frontend/src/loaders/profileLoader.jsx`](./frontend/src/loaders/profileLoader.jsx)
-
-Previously, when the network disconnected or the backend stopped, requests would hang for 15-30 seconds waiting for OS socket timeouts, and internal database/driver error strings (e.g., `getaddrinfo ENOTFOUND ac-lguh6ll...` or Mongoose buffering timeouts) leaked directly into toast notifications. Furthermore, error states displayed static text without restoring the initial loading skeleton on retry.
-
-**Fixes:**
-
-1. **Instant Offline Fast-Fail:** Added a pre-request interceptor in `apiClient.js` checking `navigator.onLine`. Offline requests reject instantly (0ms) rather than waiting on socket timeouts.
-2. **Global Real-Time Network Listeners:** Configured `window.addEventListener("offline")` and `window.addEventListener("online")` in `AppLayout.jsx` with immediate toast alerts.
-3. **Database & Driver Error Sanitization:** Sanitized raw MongoDB/driver errors (`ENOTFOUND`, `getaddrinfo`, `buffering timed out`, `MongoNetworkError`) into clean, actionable user messages: *"Server is unable to connect to the database. Check backend connection."*
-4. **Accurate Error Distinction:** Separated user offline (`navigator.onLine === false`) from server outages (`ECONNREFUSED` / server not running) and database timeouts, giving accurate feedback in both toasts and UI states.
-5. **Unified DataErrorState with Skeleton Retry:** Created a reusable `DataErrorState` component that renders distinct `WifiOff` and `AlertTriangle` indicators. When a user clicks "Try Again", it immediately mounts the page's initial loading skeleton while revalidating.
-6. **Cached Profile Fallback:** Updated `profileLoader.jsx` and `Profile.jsx` so authenticated users can view their own cached profile immediately during offline sessions or network drops without breaking into error screens.
-
-**Impact:** Eliminates long request hangs when offline, prevents cryptic technical database strings from confusing users, and gives instant skeleton feedback on retry.
-
 <br>
 <br>
 
 ---
 
 **📚 LookSphere Documentation Index:**
-- **Core Documentation:** [Main Readme](./Readme.md) | [Algorithms](./Algorithms.md) | [Performance Optimization](./Performance_Optimization.md) | [Roadmap](./Roadmap.md) | [Resolved Issues](./Resolved_Issues.md) | [File Tree](./File_Tree.md) | [Improvements](./improvement.md)
+- **Core Documentation:** [Main Readme](./Readme.md) | [Algorithms](./Algorithms.md) | [Performance Optimization](./Performance_Optimization.md) | [Error Handling](./Error_Handling.md) | [Roadmap](./Roadmap.md) | [Resolved Issues](./Resolved_Issues.md) | [File Tree](./File_Tree.md) | [Improvements](./improvement.md)
 - **Governance & Policies:** [Contributing Guidelines](./CONTRIBUTING.md) | [Code of Conduct](./CODE_OF_CONDUCT.md) | [Security Policy](./SECURITY.md) | [License](./LICENSE.md)
 - **Community & Templates:** [Support Desk](./.github/SUPPORT.md) | [PR Template](./.github/PULL_REQUEST_TEMPLATE.md) | [Bug Report](./.github/ISSUE_TEMPLATE/bug_report.md) | [Feature Request](./.github/ISSUE_TEMPLATE/feature_request.md)
 - **Frontend Architecture:** [Frontend Readme](./frontend/README.md) | [Design System](./frontend/Design.md) | [Frontend File Tree](./frontend/File_Tree.md)

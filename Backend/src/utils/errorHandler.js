@@ -9,7 +9,7 @@ export const setupErrorHandlers = (app) => {
   app.use((err, req, res, next) => {
     console.error("Express Error:", err.message);
     res.status(500).json({
-      error: "Internal server error. Kindly check backend logs or try again later!",
+      error: "Internal server error. Kindly check connection or try again later!",
     });
   });
 

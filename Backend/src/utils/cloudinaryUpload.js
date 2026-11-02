@@ -24,8 +24,12 @@ export async function uploadToCloudinary(file, folder = "uploads", customName = 
   return result;
 }
 
-export async function deleteFromCloudinary(publicId) {
-  return await cloudinary.uploader.destroy(publicId);
+export async function deleteFromCloudinary(publicId, resource_type = "image") {
+  try {
+    return await cloudinary.uploader.destroy(publicId, { resource_type });
+  } catch (err) {
+    console.error("Cloudinary delete failed:", err.message);
+  }
 }
 
 /**

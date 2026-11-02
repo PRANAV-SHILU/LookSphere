@@ -1,8 +1,8 @@
 import User from "../models/users.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import Post from "../models/posts.model.js";
-
 import { enrichPostsWithInteractions } from "../utils/postHelper.js";
+import { deleteFromCloudinary, getPublicIdFromUrl } from "../utils/cloudinaryUpload.js";
 
 export const getPostById = asyncHandler("getPostById", async(req,res)=>{
   const {id} = req.params;
@@ -63,23 +63,31 @@ export const createPost = asyncHandler("createPost", async (req, res) => {
   const userId = req.user.userId;
   const mediaUrl = req.cloudinaryUrl;
 
-  const newPost = await Post.create({
-    userId,
-    mediaUrl,
-    mediaType,
-    altText,
-    caption,
-  });
+  try {
+    const newPost = await Post.create({
+      userId,
+      mediaUrl,
+      mediaType,
+      altText,
+      caption,
+    });
 
-  await User.updateOne(
-    { username: req.user.username },
-    { $inc: { postCount: 1 } },
-  );
+    await User.updateOne(
+      { username: req.user.username },
+      { $inc: { postCount: 1 } },
+    );
 
-  return res.status(201).json({
-    message: "Post created successfully",
-    post: newPost,
-  });
+    return res.status(201).json({
+      message: "Post created successfully",
+      post: newPost,
+    });
+  } catch (dbError) {
+    if (mediaUrl) {
+      const publicId = getPublicIdFromUrl(mediaUrl);
+      if (publicId) await deleteFromCloudinary(publicId, mediaType === "Video" ? "video" : "image");
+    }
+    throw dbError;
+  }
 });
 
 export const increasePostImpression = asyncHandler(

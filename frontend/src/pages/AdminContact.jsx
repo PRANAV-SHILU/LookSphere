@@ -29,7 +29,7 @@ function ContactList({ contacts }) {
   if (!contacts?.length) {
     return (
       <div
-        className="flex flex-col items-center justify-center py-20 rounded-2xl border border-dashed gap-3"
+        className="flex-col py-20 gap-3 justify-center rounded-2xl border border-dashed flex items-center"
         style={{ borderColor: "var(--border-normal)", color: "var(--text-muted)" }}
       >
         <Mail size={40} strokeWidth={1.2} />
@@ -39,7 +39,7 @@ function ContactList({ contacts }) {
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex-col gap-4 flex">
 
       {contacts.map((c) => (
         <ContactCard key={c._id} contact={c} />
@@ -63,14 +63,14 @@ export default function AdminContact() {
   const header = HEADER[isResponded] ?? HEADER["false"];
 
   return (
-    <div className="pb-12 md:pb-16 flex flex-col md:flex-row gap-6 mt-6 w-full max-w-[1600px] mx-auto">
+    <div className="flex-col pb-12 gap-6 mt-6 w-full max-w-[1600px] mx-auto md:pb-16 flex md:flex-row">
       <AdminSidebar />
 
-      <main className="flex-1 min-w-0 bg-(--surface-card) border border-(--border-normal) rounded-2xl p-4 sm:p-6 md:p-8">
+      <main className="flex-1 p-4 min-w-0 bg-(--surface-card) border border-(--border-normal) rounded-2xl sm:p-6 md:p-8">
         {/* Header */}
         <div className="my-6">
           <h1
-            className="text-3xl md:text-4xl font-extrabold mb-2 tracking-tight flex items-center gap-3"
+            className="mb-2 gap-3 text-3xl font-extrabold md:text-4xl tracking-tight flex items-center"
             style={{ color: "var(--text-primary)" }}
           >
             <span style={{ color: "var(--primary-500)" }}>{header.icon}</span>
@@ -82,14 +82,14 @@ export default function AdminContact() {
         </div>
 
         {/* Stats */}
-        <Suspense fallback={<div className="h-37 mb-8 animate-pulse rounded-2xl bg-(--surface-input) border border-(--border-normal)" />}>
+        <Suspense fallback={<div className="mb-8 h-37 rounded-2xl bg-(--surface-input) border border-(--border-normal) animate-pulse" />}>
           <Await
             resolve={contactData}
             errorElement={
               <div className="mb-8 md:mb-12">
                 <DataErrorState
                   compact={true}
-                  message="Real-time statistics unavailable. Check backend connection or retry."
+                  message="Real-time statistics unavailable. Check connection or retry."
                   onRetry={() => revalidator.revalidate()}
                 />
               </div>
@@ -120,28 +120,28 @@ export default function AdminContact() {
               ];
 
               return (
-                <div className="flex flex-wrap gap-3 sm:gap-4 md:gap-6 mb-8 md:mb-12">
+                <div className="flex-wrap gap-3 mb-8 flex sm:gap-4 md:gap-6 md:mb-12">
                   {STAT_CARDS.map((card, i) => (
                     <div
                       key={i}
-                      className="flex-1 min-w-30 sm:min-w-50 p-3 sm:p-4 md:p-6 rounded-xl md:rounded-2xl relative overflow-hidden shadow-lg transition-transform duration-300 hover:-translate-y-1"
+                      className="flex-1 p-3 min-w-30 rounded-xl overflow-hidden shadow-lg sm:min-w-50 sm:p-4 md:p-6 md:rounded-2xl relative transition-transform duration-300 hover:-translate-y-1"
                       style={{ background: card.gradient, color: "#FFFFFF" }}
                     >
-                      <div className="absolute -right-3 -bottom-3 sm:-right-5 sm:-bottom-5 opacity-15 text-white scale-[1.5] sm:scale-[2.5] pointer-events-none">
+                      <div className="opacity-15 text-white absolute -right-3 -bottom-3 sm:-right-5 sm:-bottom-5 scale-[1.5] sm:scale-[2.5] pointer-events-none">
                         {card.icon}
                       </div>
-                      <div className="flex flex-col-reverse sm:flex-row sm:items-center justify-between mb-2 sm:mb-3 md:mb-4 gap-1.5 sm:gap-0">
-                        <span className="text-[10px] sm:text-xs md:text-sm font-semibold uppercase tracking-wider opacity-90 leading-tight truncate">
+                      <div className="flex-col-reverse mb-2 gap-1.5 justify-between flex sm:flex-row sm:items-center sm:mb-3 md:mb-4 sm:gap-0">
+                        <span className="text-[10px] font-semibold opacity-90 sm:text-xs md:text-sm uppercase tracking-wider leading-tight truncate">
                           {card.title}
                         </span>
-                        <div className="p-1 sm:p-1.5 md:p-2 bg-white/20 rounded-md md:rounded-lg backdrop-blur-sm w-fit self-start sm:self-auto">
+                        <div className="p-1 bg-white/20 rounded-md w-fit sm:p-1.5 md:p-2 md:rounded-lg backdrop-blur-sm self-start sm:self-auto">
                           {/* Scale icon down on mobile */}
                           <div className="scale-75 sm:scale-100 origin-top-left sm:origin-center">
                             {card.icon}
                           </div>
                         </div>
                       </div>
-                      <h3 className="text-xl sm:text-3xl md:text-4xl font-extrabold">{card.value}</h3>
+                      <h3 className="text-xl font-extrabold sm:text-3xl md:text-4xl">{card.value}</h3>
                     </div>
                   ))}
                 </div>
@@ -151,8 +151,8 @@ export default function AdminContact() {
         </Suspense>
 
         {/* Tabs */}
-        <div className="flex justify-center">
-          <div className="tab-container flex w-fit p-1 gap-1.5 mt-2 mb-6 sm:p-[0.35rem] sm:gap-2 sm:mt-2.5 sm:mb-8">
+        <div className="justify-center flex">
+          <div className="p-1 gap-1.5 mt-2 mb-6 w-fit tab-container flex sm:p-[0.35rem] sm:gap-2 sm:mt-2.5 sm:mb-8">
             {TABS.map((tab) => (
               <button
                 key={tab.key}

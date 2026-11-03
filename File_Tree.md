@@ -1,4 +1,4 @@
-<div align="right">Last Modified: 27-Oct-2026</div>
+<div align="right">Last Modified: 18-Nov-2006</div>
 
 # File Tree: LookSphere
 
@@ -17,6 +17,7 @@
 ├── 📁 Backend
 │   ├── ⚙️ .env.example
 │   ├── ⚙️ .gitignore
+│   ├── ⚙️ .node-version
 │   ├── 📝 APIs.md
 │   ├── 📝 File_Tree.md
 │   ├── ⚙️ package-lock.json
@@ -61,6 +62,7 @@
 │           └── 📄 user.validator.js
 ├── 📜 CODE_OF_CONDUCT.md
 ├── 🤝 CONTRIBUTING.md
+├── 🛡️ Error_Handling.md
 ├── 📝 File_Tree.md
 ├── 📁 frontend
 │   ├── ⚙️ .env.example
@@ -218,7 +220,6 @@
 │   ├── 📄 vercel.json
 │   └── 📄 vite.config.js
 ├── 💡 improvement.md
-├── 🛡️ Error_Handling.md
 ├── ⚖️ LICENSE.md
 ├── 🚀 Performance_Optimization.md
 ├── 📝 Readme.md

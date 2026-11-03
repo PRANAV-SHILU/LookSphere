@@ -10,7 +10,7 @@ import {
   Rocket,
 } from "lucide-react";
 
-export const LAST_UPDATED = "October 22, 2026";
+export const LAST_UPDATED = "November 18, 2006";
 
 export const FAQ_CATEGORIES = [
   {

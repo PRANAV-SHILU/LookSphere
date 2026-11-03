@@ -84,7 +84,7 @@ Fixes #(issue_number)
 ---
 
 **📚 LookSphere Documentation Index:**
-- **Core Documentation:** [Main Readme](../Readme.md) | [Algorithms](../Algorithms.md) | [Performance Optimization](../Performance_Optimization.md) | [Roadmap](../Roadmap.md) | [Resolved Issues](../Resolved_Issues.md) | [File Tree](../File_Tree.md) | [Improvements](../improvement.md)
+- **Core Documentation:** [Main Readme](../Readme.md) | [Algorithms](../Algorithms.md) | [Performance Optimization](../Performance_Optimization.md) | [Error Handling](../Error_Handling.md) | [Roadmap](../Roadmap.md) | [Resolved Issues](../Resolved_Issues.md) | [File Tree](../File_Tree.md) | [Improvements](../improvement.md)
 - **Governance & Policies:** [Contributing Guidelines](../CONTRIBUTING.md) | [Code of Conduct](../CODE_OF_CONDUCT.md) | [Security Policy](../SECURITY.md) | [License](../LICENSE.md)
 - **Community & Templates:** [Support Desk](./SUPPORT.md) | [PR Template](./PULL_REQUEST_TEMPLATE.md) | [Bug Report](./ISSUE_TEMPLATE/bug_report.md) | [Feature Request](./ISSUE_TEMPLATE/feature_request.md)
 - **Frontend Architecture:** [Frontend Readme](../frontend/README.md) | [Design System](../frontend/Design.md) | [Frontend File Tree](../frontend/File_Tree.md)

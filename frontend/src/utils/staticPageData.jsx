@@ -28,7 +28,7 @@ import {
 // PRIVACY POLICY DATA
 // ============================================================================
 
-export const LAST_UPDATED = "October 22, 2026";
+export const LAST_UPDATED = "November 18, 2006";
 
 export const PRIVACY_INTRO = {
   heading: "Privacy Policy",

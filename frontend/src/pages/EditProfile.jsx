@@ -13,7 +13,8 @@ import { editProfileSchema } from "../schema/editProfileSchema";
 
 import { User, Camera, Mail, Lock, ArrowRight } from "lucide-react";
 import { toast } from "react-toastify";
-import BackButton from "../shared-components/BackButton";
+import { compressImage } from "../utils/imageCompressor";
+import { BackButton } from "../shared-components/shared-components";
 
 export default function EditProfile() {
   const { data } = useLoaderData();
@@ -61,9 +62,13 @@ export default function EditProfile() {
     }
   }, [bioValue]);
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
+  const handleImageChange = async (e) => {
+    let file = e.target.files[0];
     if (!file) return;
+    file = await compressImage(file, { maxWidth: 1080, maxHeight: 1080, quality: 0.90 });
+    const dt = new DataTransfer();
+    dt.items.add(file);
+    e.target.files = dt.files;
     if (file.size > 10 * 1024 * 1024) {
       toast.error("Image must be under 10 MB.");
       e.target.value = "";
@@ -76,11 +81,11 @@ export default function EditProfile() {
     <>
         {isSubmitting && (
           <div
-            className="fixed inset-0 z-50 flex flex-col items-center justify-center backdrop-blur-sm"
+            className="flex-col z-50 justify-center fixed inset-0 flex items-center backdrop-blur-sm"
             style={{ backgroundColor: "rgba(0,0,0,0.55)" }}
           >
             <div
-              className="flex flex-col items-center gap-4 border p-8 max-w-sm w-full mx-4 text-center"
+              className="flex-col gap-4 p-8 mx-4 border max-w-sm w-full text-center flex items-center"
               style={{
                 backgroundColor: "var(--surface-card)",
                 borderColor: "var(--border-normal)",
@@ -98,7 +103,7 @@ export default function EditProfile() {
               />
               <div>
                 <h3
-                  className="text-lg font-bold mb-1"
+                  className="mb-1 text-lg font-bold"
                   style={{ color: "var(--text-primary)" }}
                 >
                   Saving Profile

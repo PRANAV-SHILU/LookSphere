@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { postSchema } from "../schema/postSchema";
 import PostInteractions from "../components/post/PostInteractions";
+import { getOptimizedVideoUrl, getOptimizedMediaUrl } from "../utils/cloudinaryOptimizer";
 
 export default function PostDetailModal({
   isOpen,
@@ -414,7 +415,7 @@ export default function PostDetailModal({
 
               {isVideo ? (
                 <video
-                  src={post.mediaUrl}
+                  src={getOptimizedVideoUrl(post.mediaUrl, { maxResolution: 1080 })}
                   aria-label={
                     post.altText || post.caption || "Video post - LookSphere"
                   }
@@ -430,7 +431,7 @@ export default function PostDetailModal({
                 />
               ) : (
                 <img
-                  src={post.mediaUrl}
+                  src={getOptimizedMediaUrl(post.mediaUrl, { width: 1440 })}
                   alt={editAltText || editCaption || "Post - LookSphere"}
                   className="post-detail-media"
                   draggable={false}

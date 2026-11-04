@@ -1,7 +1,9 @@
+import mongoose from "mongoose";
 import { validationResult } from "express-validator";
 import Contact from "../models/contact.model.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 
-export const submitContactForm = async (req, res) => {
+export const submitContactForm = asyncHandler("submitContactForm", async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res
@@ -44,9 +46,9 @@ export const submitContactForm = async (req, res) => {
     success: true,
     message: "Your message has been sent successfully!",
   });
-};
+});
 
-export const getUserContacts = async (req, res) => {
+export const getUserContacts = asyncHandler("getUserContacts", async (req, res) => {
   const isResponded = req.query.isResponded;
   const isRespondedBool = isResponded === "true" || isResponded === true;
 
@@ -65,9 +67,9 @@ export const getUserContacts = async (req, res) => {
     message: "User contacts fetched successfully!",
     data: { contacts },
   });
-};
+});
 
-export const getAdminContactData = async (req, res, next) => {
+export const getAdminContactData = asyncHandler("getAdminContactData", async (req, res) => {
   const isResponded = req.query.isResponded;
 
   const isRespondedBool = isResponded === "true" || isResponded === true;
@@ -89,14 +91,18 @@ export const getAdminContactData = async (req, res, next) => {
     message: "Contact data fetched successfully!",
     data: {
       contacts: contactData,
-      stats: { total, pending, responded }
+      stats: { total, pending, responded },
     },
   });
-};
+});
 
-export const respondToContact = async (req, res, next) => {
+export const respondToContact = asyncHandler("respondToContact", async (req, res) => {
   const { id } = req.params;
   const { response } = req.body;
+
+  if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ success: false, message: "Invalid contact inquiry ID format." });
+  }
 
   if (!response || typeof response !== "string" || response.trim().length === 0) {
     return res.status(400).json({ success: false, message: "Response is required." });
@@ -108,7 +114,7 @@ export const respondToContact = async (req, res, next) => {
 
   const contact = await Contact.findById(id);
   if (!contact) {
-    return res.status(404).json({ success: false, message: "Contact not found." });
+    return res.status(404).json({ success: false, message: "Contact inquiry not found." });
   }
 
   contact.response = response.trim();
@@ -119,5 +125,5 @@ export const respondToContact = async (req, res, next) => {
     success: true,
     message: "Response sent successfully!",
   });
-};
+});
 

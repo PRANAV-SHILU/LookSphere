@@ -1,4 +1,4 @@
-<div align="right">Last Modified: 22-Oct-2026</div>
+<div align="right">Last Modified: 18-Nov-2006</div>
 
 
 <div align="center">
@@ -68,6 +68,7 @@ Explore the detailed documentation across the project:
 - 🗂️ **[Project File Tree](./File_Tree.md)** - Complete visual map of root, backend, frontend, and configuration files.
 - 🧠 **[Algorithms & Computational Architecture](./Algorithms.md)** - In-depth mathematical models, Big-O complexities, data partitioning, and database query algorithms.
 - 🚀 **[Performance Optimization Guide](./Performance_Optimization.md)** - GPU acceleration, content containment, 520px fixed viewports, and query optimizations.
+- 🛡️ **[Error Handling Architecture](./Error_Handling.md)** - Fault tolerance, instant offline fast-fail, corrupt media fallbacks, and database exception handling.
 - 🔮 **[Platform Roadmap](./Roadmap.md)** - Completed milestones, in-progress tasks, and upcoming feature pipeline.
 - ✅ **[Resolved Issues & Bug Fixes](./Resolved_Issues.md)** - Historical log of major UI glitches, state sync fixes, and architectural fixes.
 - 💡 **[Improvement Notes](./improvement.md)** - Targeted notes on technical refinement, planned improvements, and future ideas.
@@ -137,7 +138,7 @@ Explore the detailed documentation across the project:
 ---
 
 **📚 LookSphere Documentation Index:**
-- **Core Documentation:** [Main Readme](./Readme.md) | [Algorithms](./Algorithms.md) | [Performance Optimization](./Performance_Optimization.md) | [Roadmap](./Roadmap.md) | [Resolved Issues](./Resolved_Issues.md) | [File Tree](./File_Tree.md) | [Improvements](./improvement.md)
+- **Core Documentation:** [Main Readme](./Readme.md) | [Algorithms](./Algorithms.md) | [Performance Optimization](./Performance_Optimization.md) | [Error Handling](./Error_Handling.md) | [Roadmap](./Roadmap.md) | [Resolved Issues](./Resolved_Issues.md) | [File Tree](./File_Tree.md) | [Improvements](./improvement.md)
 - **Governance & Policies:** [Contributing Guidelines](./CONTRIBUTING.md) | [Code of Conduct](./CODE_OF_CONDUCT.md) | [Security Policy](./SECURITY.md) | [License](./LICENSE.md)
 - **Community & Templates:** [Support Desk](./.github/SUPPORT.md) | [PR Template](./.github/PULL_REQUEST_TEMPLATE.md) | [Bug Report](./.github/ISSUE_TEMPLATE/bug_report.md) | [Feature Request](./.github/ISSUE_TEMPLATE/feature_request.md)
 - **Frontend Architecture:** [Frontend Readme](./frontend/README.md) | [Design System](./frontend/Design.md) | [Frontend File Tree](./frontend/File_Tree.md)

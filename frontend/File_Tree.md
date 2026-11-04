@@ -1,4 +1,4 @@
-<div align="right">Last Modified: 22-Oct-2026</div>
+<div align="right">Last Modified: 18-Nov-2006</div>
 
 # File Tree: Frontend
 
@@ -137,11 +137,10 @@
 │   │   ├── 📄 postService.js
 │   │   └── 📄 userService.js
 │   ├── 📁 shared-components
-│   │   ├── 📄 BackButton.jsx
+│   │   ├── 📄 DataErrorState.jsx
 │   │   ├── 📄 LegalDocument.jsx
-│   │   ├── 📄 PageLoader.jsx
 │   │   ├── 📄 SharedHomeComponents.jsx
-│   │   └── 📄 SvgIcons.jsx
+│   │   └── 📄 shared-components.jsx
 │   ├── 📁 skeletons
 │   │   ├── 📄 CreatorsSkeleton.jsx
 │   │   ├── 📄 ExploreSkeleton.jsx
@@ -149,17 +148,15 @@
 │   │   ├── 📄 MyInquiriesSkeleton.jsx
 │   │   └── 📄 ProfileSkeleton.jsx
 │   └── 📁 utils
+│       ├── 📄 HomeStaticData.jsx
 │       ├── 📄 aboutData.js
 │       ├── 📄 cloudinaryOptimizer.js
 │       ├── 📄 faqData.jsx
 │       ├── 📄 feedRefresher.js
+│       ├── 📄 imageCompressor.js
 │       ├── 📄 interactionUtils.js
-│       ├── 📄 privacyPolicyData.js
-│       ├── 📄 roadmapData.js
-│       ├── 📄 staticData.jsx
-│       ├── 📄 styles.js
-│       ├── 📄 termsAndConditionsData.js
-│       └── 📄 whatsNewData.js
+│       ├── 📄 staticPageData.jsx
+│       └── 📄 styles.js
 ├── 📄 vercel.json
 └── 📄 vite.config.js
 ```
@@ -170,7 +167,7 @@
 ---
 
 **📚 LookSphere Documentation Index:**
-- **Core Documentation:** [Main Readme](../Readme.md) | [Algorithms](../Algorithms.md) | [Performance Optimization](../Performance_Optimization.md) | [Roadmap](../Roadmap.md) | [Resolved Issues](../Resolved_Issues.md) | [File Tree](../File_Tree.md) | [Improvements](../improvement.md)
+- **Core Documentation:** [Main Readme](../Readme.md) | [Algorithms](../Algorithms.md) | [Performance Optimization](../Performance_Optimization.md) | [Error Handling](../Error_Handling.md) | [Roadmap](../Roadmap.md) | [Resolved Issues](../Resolved_Issues.md) | [File Tree](../File_Tree.md) | [Improvements](../improvement.md)
 - **Governance & Policies:** [Contributing Guidelines](../CONTRIBUTING.md) | [Code of Conduct](../CODE_OF_CONDUCT.md) | [Security Policy](../SECURITY.md) | [License](../LICENSE.md)
 - **Community & Templates:** [Support Desk](../.github/SUPPORT.md) | [PR Template](../.github/PULL_REQUEST_TEMPLATE.md) | [Bug Report](../.github/ISSUE_TEMPLATE/bug_report.md) | [Feature Request](../.github/ISSUE_TEMPLATE/feature_request.md)
 - **Frontend Architecture:** [Frontend Readme](./README.md) | [Design System](./Design.md) | [Frontend File Tree](./File_Tree.md)

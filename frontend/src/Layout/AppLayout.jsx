@@ -13,7 +13,7 @@ export default function AppLayout() {
   const navigation = useNavigation();
   const isLoading = navigation.state === "loading";
 
-  // Instant offline / online detection
+  // Global connectivity & unhandled rejection listeners
   useEffect(() => {
     const handleOffline = () => {
       toast.error("You are offline. Please check your internet connection.", {
@@ -25,13 +25,18 @@ export default function AppLayout() {
         toastId: "app-online",
       });
     };
+    const handleUnhandledRejection = (event) => {
+      console.warn("Unhandled async rejection:", event.reason?.message || event.reason);
+    };
 
     window.addEventListener("offline", handleOffline);
     window.addEventListener("online", handleOnline);
+    window.addEventListener("unhandledrejection", handleUnhandledRejection);
 
     return () => {
       window.removeEventListener("offline", handleOffline);
       window.removeEventListener("online", handleOnline);
+      window.removeEventListener("unhandledrejection", handleUnhandledRejection);
     };
   }, []);
 
@@ -58,10 +63,6 @@ export default function AppLayout() {
           autoClose={1700}
           limit={1}
           theme="dark"
-          pauseOnHover={false}
-          pauseOnFocusLoss={false}
-          draggable={false}
-          closeOnClick={true}
         />
         <Analytics />
         <SpeedInsights />

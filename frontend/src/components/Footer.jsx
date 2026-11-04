@@ -1,5 +1,5 @@
 import { NavLink, useRouteLoaderData } from "react-router-dom";
-import { GithubIcon, LinkedinIcon } from "../shared-components/SvgIcons";
+import { GithubIcon, LinkedinIcon } from "../shared-components/shared-components";
 import { Mail } from "lucide-react";
 
 export default function Footer() {

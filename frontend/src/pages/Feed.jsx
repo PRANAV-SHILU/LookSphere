@@ -11,18 +11,17 @@ import {
   RotateCw,
   Plus,
   Info,
-  ArrowUp,
   Maximize2,
   Link2,
   Check,
   Zap,
   Repeat2,
 } from "lucide-react";
-import BackButton from "../shared-components/BackButton";
+import { BackButton, ScrollToTopButton } from "../shared-components/shared-components";
 import PostInteractions from "../components/post/PostInteractions";
 import { trackPostImpression } from "../services/postService";
 import PostDetailModal from "../modals/PostDetailModal";
-import { getVideoPosterUrl } from "../utils/cloudinaryOptimizer";
+import { getVideoPosterUrl, getOptimizedVideoUrl } from "../utils/cloudinaryOptimizer";
 import DataErrorState from "../shared-components/DataErrorState";
 import { applyPostInteraction } from "../utils/interactionUtils";
 // Sub-component for each feed post to fetch user details asynchronously
@@ -208,7 +207,7 @@ const FeedCard = React.memo(function FeedCard({
           isPlaying ? (
             <video
               ref={videoRef}
-              src={post.mediaUrl}
+              src={getOptimizedVideoUrl(post.mediaUrl, { maxResolution: 1080 })}
               aria-label={
                 post.altText || post.caption || "Video post - LookSphere"
               }
@@ -520,7 +519,6 @@ export default function Feed() {
 
   const storedUser = localStorage.getItem("user");
   const currentUser = storedUser ? JSON.parse(storedUser) : null;
-  const [showScrollTop, setShowScrollTop] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
   const updateFeedRef = useRef(null);
 
@@ -531,23 +529,7 @@ export default function Feed() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    const handleScroll = () => {
-      if (window.scrollY > 800) {
-        setShowScrollTop(true);
-      } else {
-        setShowScrollTop(false);
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
 
   return (
     <div className="mt-6 px-0 py-4 max-w-xl mx-auto md:py-8">
@@ -611,28 +593,7 @@ export default function Feed() {
         </Await>
       </Suspense>
 
-      {showScrollTop && (
-        <button
-          onClick={scrollToTop}
-          className="opacity-50 justify-center flex items-center cursor-pointer"
-          style={{
-            position: "fixed",
-            bottom: "2.5rem",
-            right: "2.5rem",
-            zIndex: 100,
-            backgroundColor: "var(--primary-500)",
-            color: "#fff",
-            border: "none",
-            borderRadius: "50%",
-            width: "3rem",
-            height: "3rem",
-            boxShadow: "var(--shadow-card)",
-          }}
-          title="Scroll to Top"
-        >
-          <ArrowUp size={20} />
-        </button>
-      )}
+      <ScrollToTopButton />
       <PostDetailModal
         key={selectedPost?._id}
         isOpen={!!selectedPost}

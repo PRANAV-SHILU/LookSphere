@@ -1,11 +1,18 @@
 @import "tailwindcss";
 
 @theme {
-  --breakpoint-xsm: 480px;
-  --breakpoint-mdlg: 900px;
-  --breakpoint-3xl: 1600px;
-  --breakpoint-4xl: 1920px;
+  --breakpoint-xsm: 30rem; /* 480px */
+  --breakpoint-mdlg: 56.25rem; /* 900px */
+  --breakpoint-3xl: 100rem; /* 1600px */
+  --breakpoint-4xl: 120rem; /* 1920px */
 }
+
+/* Breakpoint prefix	Minimum width	CSS
+sm	40rem (640px)
+md	48rem (768px)
+lg	64rem (1024px)
+xl	80rem (1280px)	
+2xl	96rem (1536px) */
 
 :root {
   /* Light Backgrounds */
@@ -59,6 +66,7 @@
   --hero-gradient: linear-gradient(135deg, #2563eb, #7c3aed);
   --page-gradient: linear-gradient(180deg, #fdfdfd 0%, #f1f5f9 100%);
   --header-bg: rgba(255, 255, 255, 0.8);
+  --wave-divider-color: #e6e4e48e;
   --scrollbar-track: transparent;
   --scrollbar-thumb: #33f5ff;
   --scrollbar-thumb-hover: #00f2fe;
@@ -104,6 +112,7 @@ html.dark {
   /* Gradients & Special */
   --page-gradient: linear-gradient(180deg, #09090b 0%, #111827 100%);
   --header-bg: rgba(9, 9, 11, 0.8);
+  --wave-divider-color: var(--surface-card);
   --scrollbar-track: #000033;
   --scrollbar-thumb: #33f5ff;
   --scrollbar-thumb-hover: #00f2fe;
@@ -120,10 +129,16 @@ html.dark {
 
 /* Dropdown item hover — light uses color-mix, dark uses translucent blue */
 .dropdown-item-hover {
-  transition: background-color 0.3s, color 0.3s;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
 }
 .dropdown-item-hover:hover {
-  background-color: color-mix(in oklab, oklch(0.71 0.12 269.87) 30%, transparent);
+  background-color: color-mix(
+    in oklab,
+    oklch(0.71 0.12 269.87) 30%,
+    transparent
+  );
 }
 html.dark .dropdown-item-hover:hover {
   background-color: rgba(30, 58, 138, 0.3);
@@ -361,6 +376,16 @@ a:hover {
   background-color: var(--surface-card);
   color: var(--text-primary);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-tab-gap {
+  gap: 0;
+}
+
+@media (min-width: 30rem) {
+  .profile-tab-gap {
+    gap: 0.25rem;
+  }
 }
 
 /* Add Media Tiles */

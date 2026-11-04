@@ -63,7 +63,7 @@ apiClient.interceptors.response.use(
         lower.includes("mongonetworkerror") ||
         lower.includes("econnrefused")
       ) {
-        message = "Server is unable to connect to the database. Check backend connection.";
+        message = "Server is unable to connect to the database. Check connection or Try Again.";
       } else if (rawBackendMessage) {
         message = rawBackendMessage;
       } else if (status === 401) {
@@ -80,11 +80,7 @@ apiClient.interceptors.response.use(
     } else if (error.code === "ECONNABORTED" || error.message?.includes("timeout")) {
       message = "Connection timed out. Server is taking too long to respond. Check your connection and try again.";
     } else if (error.request) {
-      if (typeof navigator !== "undefined" && !navigator.onLine) {
-        message = "You are offline. Please check your internet connection.";
-      } else {
-        message = "Backend server is unavailable. Please try again.";
-      }
+      message = "Backend server is unavailable. Please try again.";
     } else {
       message = error.message || "An unexpected error occurred.";
     }

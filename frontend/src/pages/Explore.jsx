@@ -22,7 +22,7 @@ import {
   X,
   User,
 } from "lucide-react";
-import BackButton from "../shared-components/BackButton";
+import { BackButton } from "../shared-components/shared-components";
 import DataErrorState from "../shared-components/DataErrorState";
 import PostDetailModal from "../modals/PostDetailModal";
 import { trackPostImpression } from "../services/postService";
@@ -31,6 +31,7 @@ import ExploreSkeleton from "../skeletons/ExploreSkeleton";
 import {
   getOptimizedMediaUrl,
   getVideoPosterUrl,
+  getOptimizedVideoUrl,
 } from "../utils/cloudinaryOptimizer";
 import { syncPostInteraction } from "../utils/interactionUtils";
 
@@ -77,7 +78,7 @@ const ExploreCard = React.memo(function ExploreCard({ post }) {
           {isPlaying ? (
             <video
               ref={videoRef}
-              src={`${post.mediaUrl}#t=1.0`}
+              src={getOptimizedVideoUrl(post.mediaUrl, { maxResolution: 1080 })}
               aria-label={
                 post.altText ||
                 post.caption ||

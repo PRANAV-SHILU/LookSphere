@@ -1,6 +1,7 @@
 import { useRouteLoaderData } from "react-router-dom";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import { WaveDivider } from "../shared-components/SharedHomeComponents";
+import { ScrollToTopButton } from "../shared-components/shared-components";
 import HeroSection from "../components/home/HeroSection";
 import WhyLookSphere from "../components/home/WhyLookSphere";
 import HowItWorks from "../components/home/HowItWorks";
@@ -16,11 +17,11 @@ import CTASection from "../components/home/CTASection";
 
 export default function Home() {
   const user = useRouteLoaderData("root");
-  useDocumentMetadata("Home", "Welcome to LookSphere, a next-gen social media platform by Pranav Shilu. Connect with friends, share media, and discover trending content globally.");
+  useDocumentMetadata("Home", "Welcome to LookSphere, a next-generation social media platform by Pranav Shilu. Spark posts, reshare creations, track support inquiries, and discover and connect with global creators.");
 
   return (
     <>
-      <section className="relative z-0 flex flex-col items-center w-full gap-0 mt-2 xsm:mt-4 sm:mt-8 3xl:mt-12 pb-8">
+      <section className="flex-col gap-0 mt-2 pb-8 z-0 w-full max-w-5xl mx-auto relative flex items-center xsm:mt-4 sm:mt-8 3xl:mt-12">
         <HeroSection user={user} />
 
         <WhyLookSphere />
@@ -40,6 +41,8 @@ export default function Home() {
 
         <CTASection user={user} />
       </section>
+
+      <ScrollToTopButton />
     </>
   );
 }

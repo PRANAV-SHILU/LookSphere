@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import ProfileSkeleton from "../skeletons/ProfileSkeleton";
 import { User, Link as LinkIcon, Check } from "lucide-react";
-import BackButton from "../shared-components/BackButton";
+import { BackButton } from "../shared-components/shared-components";
 import DataErrorState from "../shared-components/DataErrorState";
 import UploadMediaModal from "../modals/UploadMediaModal";
 import PostDetailModal from "../modals/PostDetailModal";
@@ -130,6 +130,7 @@ function ProfileContent({ data, username, submit, isLoadingPosts = false }) {
   console.log("Profile", data);
   const profileDataObj = data?.data || data || {};
   const { user, images = [], videos = [] } = profileDataObj;
+  const [imgErr, setImgErr] = useState(false);
 
   const [prevImages, setPrevImages] = useState(images);
   const [imagesList, setImagesList] = useState(images);
@@ -507,19 +508,21 @@ function ProfileContent({ data, username, submit, isLoadingPosts = false }) {
                 backgroundColor: "var(--bg-primary)",
                 borderColor: "var(--border-strong)",
                 borderRadius: "56%",
-                cursor: user.profileImage ? "pointer" : "default",
+                cursor: user.profileImage && !imgErr ? "pointer" : "default",
               }}
               onClick={() =>
                 user.profileImage &&
+                !imgErr &&
                 setSelectedPost({
                   mediaUrl: user.profileImage,
                   mediaType: "Image",
                 })
               }
             >
-              {user.profileImage ? (
+              {user.profileImage && !imgErr ? (
                 <img
                   src={user.profileImage}
+                  onError={() => setImgErr(true)}
                   alt={`Profile image: ${user.username}${user.tagline ? " - " + user.tagline : ""}`}
                   className="w-full"
                   draggable={false}
@@ -602,7 +605,7 @@ function ProfileContent({ data, username, submit, isLoadingPosts = false }) {
         <hr className="mt-8" style={{ borderColor: "var(--border-normal)" }} />
 
         {/* --- Feed Tabs --- */}
-        <section className="tab-container mx-auto px-1 py-0.5 sm:p-2 mt-3 sm:mt-5 mb-6 sm:mb-8 4xl:p-2 4xl:gap-3 4xl:mt-8 4xl:mb-12">
+        <section className="tab-container profile-tab-gap mx-auto px-1 py-0.5 sm:p-2 mt-3 sm:mt-5 mb-6 sm:mb-8 4xl:p-2 4xl:mt-8 4xl:mb-12">
           {[
             { id: "images", label: "Images" },
             { id: "videos", label: "Videos" },
@@ -614,7 +617,7 @@ function ProfileContent({ data, username, submit, isLoadingPosts = false }) {
               key={id}
               type="button"
               onClick={() => handleTabChange(id)}
-              className={`tab-btn py-0.5 sm:py-1.5 px-3 sm:px-6 text-sm xs:text-base sm:text-xl 4xl:px-10 4xl:py-4 4xl:text-3xl ${activeTab === id ? "active" : ""}`}
+              className={`tab-btn py-0.5 sm:py-1.5 px-2 sm:px-5 text-xs xsm:text-base sm:text-xl 4xl:px-10 4xl:py-4 4xl:text-3xl ${activeTab === id ? "active" : ""}`}
             >
               {label}
             </button>

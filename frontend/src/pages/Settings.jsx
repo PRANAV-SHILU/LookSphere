@@ -17,7 +17,7 @@ import {
   ChevronDown,
 } from "lucide-react";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
-import BackButton from "../shared-components/BackButton";
+import { BackButton } from "../shared-components/shared-components";
 import { toast } from "react-toastify";
 
 const SETTINGS_SECTIONS = [

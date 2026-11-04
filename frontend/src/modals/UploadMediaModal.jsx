@@ -3,6 +3,7 @@ import { X, Plus, Upload } from "lucide-react";
 import { toast } from "react-toastify";
 
 import { postSchema } from "../schema/postSchema";
+import { compressImage } from "../utils/imageCompressor";
 
 export default function UploadMediaModal({
   isOpen,
@@ -33,8 +34,8 @@ export default function UploadMediaModal({
 
   if (!isOpen) return null;
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
+  const handleFileChange = async (e) => {
+    let file = e.target.files[0];
     if (!file) return;
 
     if (mediaType === "Image" && !file.type.startsWith("image/")) {
@@ -47,6 +48,10 @@ export default function UploadMediaModal({
       toast.error("Please select a valid video file.");
       e.target.value = "";
       return;
+    }
+
+    if (mediaType === "Image") {
+      file = await compressImage(file, { maxWidth: 2048, maxHeight: 2048, quality: 0.90 });
     }
 
     const maxSize = mediaType === "Image" ? 10 * 1024 * 1024 : 100 * 1024 * 1024;
@@ -98,11 +103,11 @@ export default function UploadMediaModal({
   return (
     <>
       <div
-        className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-md"
+        className="p-4 z-50 justify-center fixed inset-0 flex items-center backdrop-blur-md"
         style={{ backgroundColor: "rgba(0, 0, 0, 0.65)" }}
       >
         <div
-          className="relative w-full max-w-lg overflow-hidden border flex flex-col max-h-[90vh]"
+          className="flex-col w-full max-w-lg overflow-hidden border max-h-[90vh] relative flex"
           style={{
             backgroundColor: "var(--surface-card)",
             borderColor: "var(--border-normal)",
@@ -112,7 +117,7 @@ export default function UploadMediaModal({
         >
           {/* Header */}
           <div
-            className="flex items-center justify-between px-6 py-4 border-b"
+            className="px-6 py-4 justify-between border-b flex items-center"
             style={{ borderColor: "var(--border-light)" }}
           >
             <h3
@@ -123,7 +128,7 @@ export default function UploadMediaModal({
             </h3>
             <button
               onClick={onClose}
-              className="p-1.5 rounded-full transition-colors border-none cursor-pointer"
+              className="p-1.5 rounded-full border-none transition-colors cursor-pointer"
               style={{
                 color: isCloseHovered ? "var(--text-primary)" : "var(--text-muted)",
                 backgroundColor: isCloseHovered ? "var(--surface-hover)" : "transparent"
@@ -137,7 +142,7 @@ export default function UploadMediaModal({
 
           <form
             onSubmit={handleSubmit}
-            className="flex-1 overflow-y-auto p-6 flex flex-col gap-5"
+            className="flex-1 flex-col p-6 gap-5 overflow-y-auto flex"
           >
             {/* Input Trigger */}
             <input
@@ -153,7 +158,7 @@ export default function UploadMediaModal({
               /* Selection State */
               <div
                 onClick={() => fileInputRef.current?.click()}
-                className="w-full py-12 px-4 border-2 border-dashed flex flex-col items-center justify-center gap-3 cursor-pointer transition-colors duration-200"
+                className="flex-col py-12 px-4 gap-3 w-full border-2 border-dashed justify-center flex items-center cursor-pointer transition-colors duration-200"
                 style={{
                   borderColor: isUploadHovered ? "var(--primary-500)" : "var(--border-strong)",
                   borderRadius: "var(--radius-md)",
@@ -163,7 +168,7 @@ export default function UploadMediaModal({
                 onMouseLeave={() => setIsUploadHovered(false)}
               >
                 <div
-                  className="w-12 h-12 rounded-full flex items-center justify-center shadow-sm"
+                  className="w-12 h-12 rounded-full justify-center shadow-sm flex items-center"
                   style={{ backgroundColor: "var(--bg-primary)" }}
                 >
                   <Upload size={24} style={{ color: "var(--primary-500)" }} />
@@ -172,7 +177,7 @@ export default function UploadMediaModal({
                   <p className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>
                     Click to select {mediaType === "Image" ? "an image" : "a video"}
                   </p>
-                  <p className="text-xs mt-1" style={{ color: "var(--text-muted)" }}>
+                  <p className="mt-1 text-xs" style={{ color: "var(--text-muted)" }}>
                     {mediaType === "Image" ? "Max size: 10 MB" : "Max size: 100 MB"}
                   </p>
                 </div>
@@ -182,7 +187,7 @@ export default function UploadMediaModal({
               <>
                 {/* Preview Panel */}
                 <div
-                  className="w-50 h-50 mx-auto flex items-center justify-center relative group"
+                  className="w-50 h-50 mx-auto justify-center flex items-center relative group"
                   style={{
                     borderRadius: "var(--radius-sm)",
                     border: "1px solid var(--border-light)",
@@ -208,7 +213,7 @@ export default function UploadMediaModal({
                       />
                     ))}
                   {/* Change File button overlay on hover */}
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-200">
+                  <div className="bg-black/40 opacity-0 justify-center absolute inset-0 group-hover:opacity-100 flex items-center transition-opacity duration-200">
                     <button
                       type="button"
                       onClick={() => fileInputRef.current?.click()}
@@ -247,7 +252,7 @@ export default function UploadMediaModal({
                     </p>
                   )}
                   <div
-                    className="flex justify-between mt-1.5 px-0.5 text-xs"
+                    className="mt-1.5 px-0.5 justify-between text-xs flex"
                     style={{ color: "var(--text-muted)" }}
                   >
                     <span>Add context to your post</span>
@@ -281,7 +286,7 @@ export default function UploadMediaModal({
                     </p>
                   )}
                   <div
-                    className="flex justify-between mt-1.5 px-0.5 text-xs"
+                    className="mt-1.5 px-0.5 justify-between text-xs flex"
                     style={{ color: "var(--text-muted)" }}
                   >
                     <span>Helps users with screen readers</span>
@@ -294,7 +299,7 @@ export default function UploadMediaModal({
             )}
 
             {/* Footer Buttons */}
-            <div className="flex gap-3 mt-2">
+            <div className="gap-3 mt-2 flex">
               <button
                 type="button"
                 className="btn btn-secondary w-full"

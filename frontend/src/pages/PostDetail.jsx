@@ -2,7 +2,6 @@ import { useState, useRef, useEffect, Suspense } from "react";
 import { useLoaderData, Await, Link, useRevalidator } from "react-router-dom";
 import {
   User,
-  Clock,
   Video,
   Info,
 } from "lucide-react";
@@ -13,6 +12,7 @@ import PostInteractions from "../components/post/PostInteractions";
 import { trackPostImpression } from "../services/postService";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import { applyPostInteraction } from "../utils/interactionUtils";
+import DataErrorState from "../shared-components/DataErrorState";
 
 export default function PostDetail() {
   const { post } = useLoaderData();
@@ -145,17 +145,6 @@ function PostCard({ post }) {
   }, [currentPost?._id, isOwnPost]);
 
   const isVideo = currentPost?.mediaType === "Video";
-  const postDate = currentPost?.createdAt
-    ? new Date(currentPost.createdAt).toLocaleString(undefined, {
-        month: "short",
-        day: "numeric",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-      })
-    : "";
-
   const [userInteracted, setUserInteracted] = useState(
     () => navigator.userActivation?.hasBeenActive ?? false,
   );
@@ -249,13 +238,6 @@ function PostCard({ post }) {
           </div>
         )}
 
-        <div
-          className="gap-1.5 text-xs items-center flex"
-          style={{ color: "var(--text-muted)" }}
-        >
-          <Clock size={12} />
-          <span>{postDate}</span>
-        </div>
       </div>
 
       {/* Media */}

@@ -5,7 +5,6 @@ import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import FeedSkeleton from "../skeletons/FeedSkeleton";
 import {
   User,
-  Clock,
   Video,
   Image as ImageIcon,
   RotateCw,
@@ -44,17 +43,6 @@ const FeedCard = React.memo(function FeedCard({
   const [isCaptionExpanded, setIsCaptionExpanded] = useState(false);
   const [showViewMore, setShowViewMore] = useState(false);
   const isPlaying = isVideo && activeVideoId === post._id && !isParentModalOpen;
-  const postDate = post.createdAt
-    ? new Date(post.createdAt).toLocaleString(undefined, {
-        month: "short",
-        day: "numeric",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-      })
-    : "";
-
   // Track post view and notify parent about video intersection
   useEffect(() => {
     const isOwnPost =
@@ -189,13 +177,6 @@ const FeedCard = React.memo(function FeedCard({
           </div>
         )}
 
-        <div
-          className="gap-1.5 text-xs items-center hidden sm:flex"
-          style={{ color: "var(--text-muted)" }}
-        >
-          <Clock size={12} />
-          <span>{postDate}</span>
-        </div>
       </div>
 
       {/* Body: Media */}

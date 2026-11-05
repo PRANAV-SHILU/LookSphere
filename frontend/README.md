@@ -66,6 +66,12 @@ The frontend is crafted with React 19 and Vite for a lightning-fast development 
 3. **Discover & Engage:** Explore the Feed ([`/feed`](https://looksphere.vercel.app/feed)), search for creators ([`/creators`](https://looksphere.vercel.app/creators)), spark, reshare, or archive posts, inspect who reacted via interaction list modals, open dedicated post URLs ([`/posts/:id`](https://looksphere.vercel.app/explore)), and see impression counts grow.
 4. **Get Support:** Submit inquiries or feedback directly through the Contact Us desk ([`/contact-us`](https://looksphere.vercel.app/contact-us)). You will receive admin responses directly on your My Inquiries page ([`/my-inquiries`](https://looksphere.vercel.app/my-inquiries)) directly on your portal.
 
+## ⏱️ API Request Timeouts
+
+- `GET` requests use a **20-second client-side timeout**.
+- `POST`, `PATCH`, and other non-`GET` requests have **no default Axios timeout**, so longer operations such as post uploads and contact-form submissions are not interrupted by the frontend after a fixed duration.
+- A request-specific timeout, or a timeout enforced by the browser, server, proxy, or network, can still end any request.
+
 ## 🎯 What You Can Do
 
 - **Post & Share:** Express yourself! Upload photos & media, write captions & stories, add alt text for accessibility, share direct post and profile links, reach a global audience, and see real-time post impression counts.
@@ -111,4 +117,3 @@ The project has a well-organized, scalable architecture. For a detailed breakdow
 <div align="center">
   <b>© 2026 LookSphere. Built by <a href="https://www.linkedin.com/in/pranavshilu/">Pranav Shilu</a>. All rights reserved.</b>
 </div>
-

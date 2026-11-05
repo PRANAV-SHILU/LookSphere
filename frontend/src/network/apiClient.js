@@ -4,7 +4,6 @@ import { setupCachingInterceptor } from "./cacheInterceptor";
 
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
-  timeout: 10000, // 10 second timeout to prevent indefinite hangs
   headers: {
     "Content-Type": "application/json",
   },
@@ -19,6 +18,10 @@ apiClient.interceptors.request.use(
       const err = new Error("Network disconnected. Please check your internet connection.");
       err.isOffline = true;
       return Promise.reject(err);
+    }
+
+    if (config.method?.toLowerCase() === "get" && config.timeout == null) {
+      config.timeout = 20000;
     }
 
     const token = localStorage.getItem("jwtToken");

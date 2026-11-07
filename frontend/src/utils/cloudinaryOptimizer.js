@@ -76,7 +76,7 @@ export function getOptimizedMediaUrl(url, options = {}) {
 
 /**
  * Generates an optimized video poster (thumbnail frame) from a Cloudinary video URL.
- * Grabs the first frame (so_0), sets width, and converts to .jpg.
+ * Grabs a frame at one second (so_1), sets width, and converts to .jpg.
  */
 export function getVideoPosterUrl(url, width = 600) {
   if (!url || !url.includes("cloudinary.com")) return url;
@@ -86,6 +86,6 @@ export function getVideoPosterUrl(url, width = 600) {
 
   return applyTransformations(
     posterUrl,
-    `so_0,w_${width},c_limit,q_auto,f_auto`
+    `so_1,w_${width},c_limit,q_auto,f_auto`
   );
 }

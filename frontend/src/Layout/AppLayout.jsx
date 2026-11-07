@@ -13,6 +13,10 @@ export default function AppLayout() {
   const navigation = useNavigation();
   const isLoading = navigation.state === "loading";
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname, location.search]);
+
   // Global connectivity & unhandled rejection listeners
   useEffect(() => {
     const handleOffline = () => {

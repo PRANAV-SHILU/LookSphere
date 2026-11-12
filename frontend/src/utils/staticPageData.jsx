@@ -682,16 +682,17 @@ export const WHATS_NEW_DATA = [
   {
     id: "nov-1-2026-error-and-network-resilience",
     date: "1 November 2026",
-    title: "Smarter Error Handling, Offline Support & System Resilience",
+    title: "Smarter Error Handling, Faster Uploads, Offline Support & System Resilience",
     description:
-      "We've upgraded how LookSphere handles unexpected interruptions. Whether your device goes offline, our servers are unreachable, or the database experiences temporary downtime, you'll always receive clear, honest status messages instead of endless loading or cryptic error codes.",
+      "We've upgraded how LookSphere handles media and unexpected interruptions. Images are now compressed in your browser before upload across posts, profiles, and contact forms — and whether your device goes offline, our servers are unreachable, or the database experiences temporary downtime, you'll always receive clear, honest status messages instead of endless loading or cryptic error codes.",
     updates: [
       {
-        tag: "Enhancement",
-        page: "Everywhere",
-        title: "Instant Offline & Online Status Alerts",
+        tag: "Performance",
+        page: "Profile & Contact Us",
+        title: "Faster Media Uploads Across All Media",
         description:
-          "LookSphere now detects connection changes the exact moment they happen. You'll receive instant alerts when your device goes offline or reconnects, so you always know where things stand.",
+          "Images are now intelligently compressed directly in your browser before being sent to the server — cutting upload sizes by up to 85% and speeding up uploads by 4–10x. posts, avatars and Contact Us attachments are all compressed with no visible quality difference. Videos are automatically optimized to 1080p Full HD with adaptive codec selection (AV1, HEVC, VP9, or H.264) for blazing-fast playback.",
+        link: "/profile",
       },
       {
         tag: "Enhancement",
@@ -702,7 +703,14 @@ export const WHATS_NEW_DATA = [
       },
       {
         tag: "Enhancement",
-        page: "Your Profile",
+        page: "Everywhere",
+        title: "Instant Offline & Online Status Alerts",
+        description:
+          "LookSphere now detects connection changes the exact moment they happen. You'll receive instant alerts when your device goes offline or reconnects, so you always know where things stand.",
+      },
+      {
+        tag: "Enhancement",
+        page: "Profile",
         title: "Seamless Profile Fallback & Auto-Sync",
         description:
           "Your profile details load right away using cached information, allowing you to view your profile without interruption even during spotty connections or offline moments.",

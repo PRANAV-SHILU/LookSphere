@@ -32,6 +32,7 @@ import { BackButton } from "../shared-components/shared-components";
 import { ContactFormContext } from "../context/ContactFormContext";
 import { contactSchema } from "../schema/contactSchema";
 import { useState } from "react";
+import { compressImage } from "../utils/imageCompressor";
 
 const CATEGORY_OPTIONS = [
   { value: "general", label: "General" },
@@ -83,7 +84,7 @@ export default function ContactUs() {
   const videoInputRef = useRef(null);
 
   // Handle image selection
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
     const files = Array.from(e.target.files || []);
     if (files.length === 0) return;
 
@@ -93,9 +94,14 @@ export default function ContactUs() {
     const filesToAdd = newImageFiles.slice(0, spaceLeft);
 
     if (filesToAdd.length > 0) {
-      setImageFiles((prev) => [...prev, ...filesToAdd]);
+      const compressed = await Promise.all(
+        filesToAdd.map((f) =>
+          compressImage(f, { maxWidth: 2048, maxHeight: 2048, quality: 0.9 })
+        )
+      );
+      setImageFiles((prev) => [...prev, ...compressed]);
 
-      const newPreviews = filesToAdd.map((f) => URL.createObjectURL(f));
+      const newPreviews = compressed.map((f) => URL.createObjectURL(f));
       setImagePreviews((prev) => [...prev, ...newPreviews]);
     }
 
